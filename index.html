@@ -3,31 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SZS Knowledge Base Prototype</title>
+  <title>SZS PE知識庫</title>
 
   <style>
     * {
       box-sizing: border-box;
     }
 
+    :root {
+      --bg: #eef4fb;
+      --bg-soft: #f8fbff;
+      --card: rgba(255, 255, 255, 0.86);
+      --card-solid: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --line: #dbeafe;
+      --primary: #0284c7;
+      --primary-soft: #e0f2fe;
+      --accent: #06b6d4;
+      --shadow: rgba(15, 23, 42, 0.12);
+      --danger: #ef4444;
+    }
+
+    body.dark {
+      --bg: #070b12;
+      --bg-soft: #0b1220;
+      --card: rgba(15, 23, 42, 0.82);
+      --card-solid: #111827;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --line: #1e3a5f;
+      --primary: #22d3ee;
+      --primary-soft: rgba(34, 211, 238, 0.12);
+      --accent: #38bdf8;
+      --shadow: rgba(0, 0, 0, 0.36);
+      --danger: #f87171;
+    }
+
     body {
       margin: 0;
+      min-height: 100vh;
       font-family: Arial, "Microsoft JhengHei", sans-serif;
-      background: #f5f7fb;
-      color: #1f2937;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(14, 165, 233, 0.16), transparent 32%),
+        radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.12), transparent 30%),
+        linear-gradient(135deg, var(--bg), var(--bg-soft));
+      color: var(--text);
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(100, 116, 139, 0.12) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(100, 116, 139, 0.12) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.72), rgba(0,0,0,0.14));
+      z-index: -1;
     }
 
     header {
-      background: #ffffff;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 14px 36px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 14px 34px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+      background: color-mix(in srgb, var(--card-solid) 86%, transparent);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 10px 30px var(--shadow);
     }
 
     .brand {
@@ -37,308 +86,524 @@
     }
 
     .logo {
-      width: 46px;
-      height: 46px;
+      width: 48px;
+      height: 48px;
       object-fit: contain;
-      border-radius: 8px;
-      border: 1px solid #e5e7eb;
       background: white;
-    }
-
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      padding: 4px;
     }
 
     .brand-title {
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 900;
-      color: #0f172a;
+      letter-spacing: 0.5px;
     }
 
     .brand-subtitle {
+      margin-top: 4px;
+      color: var(--primary);
       font-size: 12px;
-      color: #0ea5e9;
-      font-weight: 800;
-      letter-spacing: 1.5px;
+      font-weight: 900;
+      letter-spacing: 2px;
     }
 
     .nav-actions {
       display: flex;
-      gap: 12px;
       align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     button {
       border: none;
+      border-radius: 12px;
+      padding: 10px 15px;
       cursor: pointer;
-      border-radius: 10px;
-      padding: 10px 16px;
-      font-weight: 800;
-      background: #e5e7eb;
-      color: #111827;
+      font-weight: 900;
+      color: var(--text);
+      background: color-mix(in srgb, var(--card-solid) 88%, var(--primary-soft));
+      border: 1px solid var(--line);
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      border-color: var(--primary);
+      box-shadow: 0 10px 22px rgba(14, 165, 233, 0.14);
     }
 
     button.primary {
-      background: #0ea5e9;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
       color: white;
+      border-color: transparent;
     }
 
-    button.outline {
-      background: white;
-      color: #0ea5e9;
-      border: 1px solid #0ea5e9;
+    button.ghost {
+      background: transparent;
+      color: var(--primary);
+      border-color: var(--line);
     }
 
-    button.dark {
-      background: #0f172a;
-      color: white;
+    button.dark-button {
+      min-width: 44px;
+      padding: 10px 12px;
     }
 
     main {
-      padding: 56px 40px 140px;
-      max-width: 1200px;
+      max-width: 1240px;
       margin: 0 auto;
+      padding: 58px 34px 150px;
     }
 
     .hero {
-      text-align: center;
-      margin-bottom: 48px;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 28px;
+      align-items: center;
+      margin-bottom: 42px;
+    }
+
+    .hero-panel {
+      padding: 38px;
+      border-radius: 30px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: 0 24px 70px var(--shadow);
+      backdrop-filter: blur(18px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-panel::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      bottom: -70px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(14, 165, 233, 0.22), transparent 65%);
+      pointer-events: none;
     }
 
     .hero-label {
-      color: #0ea5e9;
+      color: var(--primary);
       font-weight: 900;
       letter-spacing: 3px;
       font-size: 13px;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     h1 {
-      font-size: 48px;
+      font-size: 52px;
+      line-height: 1.08;
       margin: 0 0 18px;
-      color: #0f172a;
+      letter-spacing: -1.5px;
     }
 
     .hero p {
-      max-width: 760px;
-      margin: 0 auto;
-      color: #64748b;
+      color: var(--muted);
       line-height: 1.8;
-      font-size: 18px;
+      font-size: 17px;
+      margin: 0;
+      max-width: 780px;
+    }
+
+    .status-panel {
+      display: grid;
+      gap: 16px;
+    }
+
+    .status-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 18px 48px var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .status-card .label {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 2px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .status-card .value {
+      font-size: 25px;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin: 36px 0 18px;
     }
 
     .section-title {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 20px;
     }
 
     .section-title h2 {
       font-size: 18px;
       margin: 0;
       letter-spacing: 2px;
-      color: #334155;
     }
 
     .badge {
-      background: #e0f2fe;
-      color: #0284c7;
-      padding: 6px 10px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      border: 1px solid var(--line);
+    }
+
+    .section-hint {
+      color: var(--muted);
+      font-size: 14px;
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    .database-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .database-card {
+      min-height: 235px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 18px 45px var(--shadow);
+      backdrop-filter: blur(18px);
+      position: relative;
+      overflow: hidden;
+      transition: 0.2s ease;
+    }
+
+    .database-card::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      bottom: -34px;
+      width: 120px;
+      height: 120px;
+      border: 1px solid color-mix(in srgb, var(--primary) 34%, transparent);
+      border-radius: 28px;
+      transform: rotate(8deg);
+    }
+
+    .database-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+      box-shadow: 0 26px 60px rgba(14, 165, 233, 0.22);
+    }
+
+    .database-card.active {
+      border-color: var(--primary);
+      box-shadow: 0 26px 60px rgba(14, 165, 233, 0.25);
+    }
+
+    .stream-id {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      margin-bottom: 24px;
+    }
+
+    .database-card h3 {
+      font-size: 22px;
+      margin: 0 0 12px;
+    }
+
+    .database-card p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0 0 22px;
+      min-height: 54px;
+    }
+
+    .query-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      font-weight: 900;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+    }
+
+    .document-panel {
+      margin-top: 28px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      box-shadow: 0 22px 60px var(--shadow);
+      overflow: hidden;
+      display: none;
+      backdrop-filter: blur(18px);
+    }
+
+    .document-panel.open {
+      display: block;
+    }
+
+    .document-head {
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .document-head h3 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .document-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .document-list {
+      padding: 8px;
+    }
+
+    .doc-row {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.4fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .doc-row:last-child {
+      border-bottom: none;
+    }
+
+    .doc-title {
+      font-weight: 900;
+    }
+
+    .doc-desc {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 5px;
+      line-height: 1.5;
+    }
+
+    .doc-meta {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .doc-type {
+      display: inline-flex;
+      justify-content: center;
+      padding: 6px 9px;
+      color: var(--primary);
+      background: var(--primary-soft);
+      border: 1px solid var(--line);
       border-radius: 999px;
       font-size: 12px;
       font-weight: 900;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 20px;
-      padding: 28px;
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
-      transition: 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: #0ea5e9;
-      box-shadow: 0 16px 35px rgba(14, 165, 233, 0.16);
-    }
-
-    .stream-id {
-      font-size: 12px;
-      color: #94a3b8;
-      letter-spacing: 3px;
+    .assistant-launcher {
+      position: fixed;
+      right: 28px;
+      bottom: 28px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
       font-weight: 900;
-      margin-bottom: 20px;
-    }
-
-    .card h3 {
-      margin: 0 0 12px;
-      font-size: 22px;
-      color: #0f172a;
-    }
-
-    .card p {
-      margin: 0 0 22px;
-      color: #64748b;
-      line-height: 1.7;
-    }
-
-    .query-link {
-      color: #0ea5e9;
-      font-weight: 900;
-      letter-spacing: 1.5px;
-      font-size: 13px;
+      box-shadow: 0 24px 55px rgba(14, 165, 233, 0.36);
+      cursor: pointer;
+      z-index: 35;
+      border: 4px solid color-mix(in srgb, var(--card-solid) 80%, transparent);
     }
 
     .chat-box {
       position: fixed;
       right: 28px;
-      bottom: 28px;
-      width: 430px;
-      height: 520px;
-      background: white;
-      border: 1px solid #dbeafe;
-      border-radius: 22px;
-      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22);
-      display: flex;
+      bottom: 112px;
+      width: 470px;
+      height: 590px;
+      background: var(--card-solid);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 30px 80px var(--shadow);
+      display: none;
       flex-direction: column;
-      z-index: 20;
+      z-index: 34;
       overflow: hidden;
+    }
+
+    .chat-box.open {
+      display: flex;
     }
 
     .chat-header {
       padding: 18px 20px;
-      border-bottom: 1px solid #e5e7eb;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, var(--primary-soft), transparent),
+        var(--card-solid);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #f8fafc;
     }
 
     .chat-title {
       font-weight: 900;
-      color: #0f172a;
+      font-size: 16px;
     }
 
     .chat-status {
-      font-size: 12px;
-      color: #0ea5e9;
-      font-weight: 900;
-      letter-spacing: 1px;
       margin-top: 4px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1.4px;
     }
 
     .chat-close {
-      color: #94a3b8;
-      font-size: 20px;
+      font-size: 24px;
+      color: var(--muted);
       cursor: pointer;
+      line-height: 1;
+      padding: 6px 8px;
+      border-radius: 10px;
+    }
+
+    .chat-close:hover {
+      background: var(--primary-soft);
+      color: var(--primary);
     }
 
     .chat-body {
       flex: 1;
       padding: 18px;
       overflow-y: auto;
-      background: #ffffff;
+      background: color-mix(in srgb, var(--card-solid) 92%, var(--primary-soft));
     }
 
     .message {
       padding: 12px 14px;
-      border-radius: 14px;
+      border-radius: 15px;
       margin-bottom: 12px;
-      line-height: 1.6;
+      line-height: 1.65;
       font-size: 14px;
+      max-width: 92%;
     }
 
     .message.bot {
-      background: #eff6ff;
-      color: #1e3a8a;
+      background: var(--primary-soft);
+      color: var(--text);
+      border: 1px solid var(--line);
     }
 
     .message.user {
-      background: #0ea5e9;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
       color: white;
-      margin-left: 48px;
+      margin-left: auto;
     }
 
-    .result-card {
-      border-top: 1px solid #e5e7eb;
-      padding: 12px 0;
-      color: #334155;
-      font-size: 14px;
-      line-height: 1.6;
+    .chat-result-card {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card-solid) 82%, var(--primary-soft));
+      border: 1px solid var(--line);
     }
 
     .chat-footer {
       padding: 14px;
-      border-top: 1px solid #e5e7eb;
-      background: #f8fafc;
+      border-top: 1px solid var(--line);
+      background: var(--card-solid);
       display: flex;
       gap: 10px;
     }
 
     .chat-input {
       flex: 1;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid #cbd5e1;
+      padding: 13px;
+      border-radius: 13px;
+      border: 1px solid var(--line);
       outline: none;
+      background: var(--bg-soft);
+      color: var(--text);
       font-size: 14px;
     }
 
-    .send-btn {
-      background: #0ea5e9;
-      color: white;
-      min-width: 74px;
-    }
-
     .note {
-      font-size: 12px;
-      color: #94a3b8;
-      text-align: center;
       padding: 0 14px 12px;
-      background: #f8fafc;
-    }
-
-    footer {
       text-align: center;
-      color: #94a3b8;
-      padding: 32px;
-      font-size: 13px;
+      color: var(--muted);
+      background: var(--card-solid);
+      font-size: 12px;
+      line-height: 1.5;
     }
 
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.45);
+      background: rgba(15, 23, 42, 0.52);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 50;
+      z-index: 60;
       padding: 20px;
+      backdrop-filter: blur(6px);
+    }
+
+    .modal-backdrop.open {
+      display: flex;
     }
 
     .modal {
-      width: 520px;
+      width: 540px;
       max-width: 100%;
-      background: white;
-      border-radius: 22px;
-      box-shadow: 0 30px 80px rgba(15, 23, 42, 0.28);
+      background: var(--card-solid);
+      color: var(--text);
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      box-shadow: 0 36px 90px rgba(0, 0, 0, 0.28);
       overflow: hidden;
     }
 
     .modal-header {
       padding: 22px 24px;
-      border-bottom: 1px solid #e5e7eb;
+      border-bottom: 1px solid var(--line);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -347,19 +612,18 @@
     .modal-header h2 {
       margin: 0;
       font-size: 22px;
-      color: #0f172a;
     }
 
     .modal-close {
       cursor: pointer;
-      font-size: 24px;
-      color: #94a3b8;
+      font-size: 25px;
+      color: var(--muted);
     }
 
     .tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      border-bottom: 1px solid #e5e7eb;
+      border-bottom: 1px solid var(--line);
     }
 
     .tab {
@@ -367,14 +631,14 @@
       text-align: center;
       font-weight: 900;
       cursor: pointer;
-      color: #64748b;
-      background: #f8fafc;
+      color: var(--muted);
+      background: var(--bg-soft);
     }
 
     .tab.active {
-      color: #0ea5e9;
-      background: white;
-      border-bottom: 3px solid #0ea5e9;
+      color: var(--primary);
+      background: var(--card-solid);
+      border-bottom: 3px solid var(--primary);
     }
 
     .form {
@@ -388,16 +652,18 @@
     .field label {
       display: block;
       margin-bottom: 8px;
-      color: #64748b;
+      color: var(--muted);
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .field input {
       width: 100%;
       padding: 13px 14px;
-      border-radius: 12px;
-      border: 1px solid #cbd5e1;
+      border-radius: 13px;
+      border: 1px solid var(--line);
+      background: var(--bg-soft);
+      color: var(--text);
       outline: none;
       font-size: 15px;
     }
@@ -405,42 +671,80 @@
     .form button {
       width: 100%;
       margin-top: 8px;
-      padding: 13px;
+      padding: 14px;
     }
 
     .form-hint {
       margin-top: 14px;
-      color: #94a3b8;
+      color: var(--muted);
       font-size: 13px;
-      line-height: 1.6;
+      line-height: 1.7;
       text-align: center;
     }
 
-    @media (max-width: 900px) {
-      header {
-        padding: 14px 20px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 14px;
-      }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 36px 20px;
+      font-size: 13px;
+    }
 
-      main {
-        padding: 40px 20px 640px;
-      }
-
-      h1 {
-        font-size: 34px;
-      }
-
-      .grid {
+    @media (max-width: 1000px) {
+      .hero {
         grid-template-columns: 1fr;
       }
 
+      .database-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .doc-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px 18px;
+      }
+
+      main {
+        padding: 38px 18px 140px;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      .hero-panel {
+        padding: 26px;
+      }
+
+      .database-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .section-hint {
+        text-align: left;
+      }
+
       .chat-box {
-        left: 20px;
-        right: 20px;
+        left: 16px;
+        right: 16px;
         width: auto;
-        height: 500px;
+        height: 560px;
+      }
+
+      .assistant-launcher {
+        right: 18px;
+        bottom: 18px;
       }
     }
   </style>
@@ -450,109 +754,101 @@
   <header>
     <div class="brand">
       <img src="logo.png" alt="SZS Logo" class="logo" />
-      <div class="brand-text">
+      <div>
         <div class="brand-title" data-zh="SZS PE知識庫" data-en="SZS PE Knowledge Base">SZS PE知識庫</div>
         <div class="brand-subtitle" data-zh="內部資料搜尋系統" data-en="INTERNAL DATABASE SYSTEM">內部資料搜尋系統</div>
       </div>
     </div>
 
     <div class="nav-actions">
-      <button class="outline" onclick="switchLanguage()" id="langBtn">English</button>
+      <button class="ghost" onclick="switchLanguage()" id="langBtn">English</button>
+      <button class="dark-button" onclick="toggleTheme()" id="themeBtn">🌙</button>
       <button onclick="openAuthModal('login')" data-zh="登入" data-en="Login">登入</button>
       <button class="primary" onclick="openAuthModal('register')" data-zh="註冊" data-en="Sign Up">註冊</button>
-      <button class="dark" data-zh="後台管理" data-en="Admin Panel">後台管理</button>
+      <button onclick="openAuthModal('login')" data-zh="後台管理" data-en="Admin Panel">後台管理</button>
     </div>
   </header>
 
   <main>
     <section class="hero">
-      <div class="hero-label">SZS · DATABASE SYSTEM</div>
-      <h1 data-zh="SZS PE知識庫" data-en="SZS PE Knowledge Base">SZS PE知識庫</h1>
-      <p data-zh="請選擇資料庫分類，或使用右下角小幫手搜尋你需要的文件。此版本為原型展示，僅使用假資料，不包含任何機密內容。"
-         data-en="Select a database category, or use the assistant in the lower-right corner to search for documents. This prototype uses sample data only and contains no confidential information.">
-        請選擇資料庫分類，或使用右下角小幫手搜尋你需要的文件。此版本為原型展示，僅使用假資料，不包含任何機密內容。
-      </p>
+      <div class="hero-panel">
+        <div class="hero-label">SZS · PE KNOWLEDGE SYSTEM</div>
+        <h1 data-zh="SZS PE知識庫" data-en="SZS PE Knowledge Base">SZS PE知識庫</h1>
+        <p data-zh="請選擇資料庫分類進行查詢，或使用右下角小幫手搜尋你需要的文件。此版本為非機密原型展示，所有資料皆為測試資料。"
+           data-en="Select a database category or use the assistant in the lower-right corner to search for documents. This is a non-confidential prototype using sample data only.">
+          請選擇資料庫分類進行查詢，或使用右下角小幫手搜尋你需要的文件。此版本為非機密原型展示，所有資料皆為測試資料。
+        </p>
+      </div>
+
+      <div class="status-panel">
+        <div class="status-card">
+          <div class="label" data-zh="目前資料庫分類" data-en="DATABASE STREAMS">目前資料庫分類</div>
+          <div class="value" id="databaseCount">0</div>
+        </div>
+        <div class="status-card">
+          <div class="label" data-zh="測試文件數量" data-en="SAMPLE DOCUMENTS">測試文件數量</div>
+          <div class="value" id="documentCount">0</div>
+        </div>
+        <div class="status-card">
+          <div class="label" data-zh="系統狀態" data-en="SYSTEM STATUS">系統狀態</div>
+          <div class="value">ONLINE</div>
+        </div>
+      </div>
     </section>
 
     <section>
-      <div class="section-title">
-        <h2 data-zh="資料庫分類" data-en="DATA STREAMS">資料庫分類</h2>
-        <span class="badge" data-zh="4 個分類" data-en="4 ACTIVE">4 個分類</span>
+      <div class="section-head">
+        <div class="section-title">
+          <h2 data-zh="資料庫分類" data-en="DATA STREAMS">資料庫分類</h2>
+          <span class="badge" id="activeBadge">ACTIVE</span>
+        </div>
+        <div class="section-hint" data-zh="未來正式版可由後台新增、修改、刪除資料庫分類。" data-en="In the official version, database categories can be added, edited, and deleted from the admin panel.">
+          未來正式版可由後台新增、修改、刪除資料庫分類。
+        </div>
       </div>
 
-      <div class="grid">
-        <div class="card">
-          <div class="stream-id">STREAM · 01</div>
-          <h3 data-zh="A 產品資料庫" data-en="A Product Database">A 產品資料庫</h3>
-          <p data-zh="產品規格、測試資料、工程紀錄與相關文件。"
-             data-en="Product specifications, test data, engineering records, and related documents.">
-            產品規格、測試資料、工程紀錄與相關文件。
-          </p>
-          <div class="query-link" data-zh="查詢 →" data-en="QUERY →">查詢 →</div>
-        </div>
+      <div class="database-grid" id="databaseGrid"></div>
 
-        <div class="card">
-          <div class="stream-id">STREAM · 02</div>
-          <h3 data-zh="非 A 產品資料庫" data-en="Non-A Product Database">非 A 產品資料庫</h3>
-          <p data-zh="跨產品線資料、一般技術文件與多格式資料索引。"
-             data-en="Cross-product data, general technical documents, and multi-format knowledge index.">
-            跨產品線資料、一般技術文件與多格式資料索引。
-          </p>
-          <div class="query-link" data-zh="查詢 →" data-en="QUERY →">查詢 →</div>
+      <div class="document-panel" id="documentPanel">
+        <div class="document-head">
+          <div>
+            <h3 id="selectedDatabaseTitle">資料列表</h3>
+            <p id="selectedDatabaseDesc">請選擇一個資料庫分類。</p>
+          </div>
+          <button class="ghost" onclick="closeDocumentPanel()" data-zh="關閉" data-en="Close">關閉</button>
         </div>
-
-        <div class="card">
-          <div class="stream-id">STREAM · 03</div>
-          <h3 data-zh="新人訓練資料庫" data-en="Newcomer Training">新人訓練資料庫</h3>
-          <p data-zh="新人報到流程、教育訓練教材、部門 SOP 與常見問題。"
-             data-en="Onboarding processes, training materials, department SOPs, and FAQs.">
-            新人報到流程、教育訓練教材、部門 SOP 與常見問題。
-          </p>
-          <div class="query-link" data-zh="查詢 →" data-en="QUERY →">查詢 →</div>
-        </div>
-
-        <div class="card">
-          <div class="stream-id">STREAM · 04</div>
-          <h3 data-zh="一般研發資料庫" data-en="General R&D Database">一般研發資料庫</h3>
-          <p data-zh="研發測試報告、技術參考資料、檢查表與內部知識文件。"
-             data-en="R&D test reports, technical references, checklists, and internal knowledge documents.">
-            研發測試報告、技術參考資料、檢查表與內部知識文件。
-          </p>
-          <div class="query-link" data-zh="查詢 →" data-en="QUERY →">查詢 →</div>
-        </div>
+        <div class="document-list" id="documentList"></div>
       </div>
     </section>
   </main>
 
-  <div class="chat-box">
+  <div class="assistant-launcher" onclick="toggleAssistant()">?</div>
+
+  <div class="chat-box" id="chatBox">
     <div class="chat-header">
       <div>
         <div class="chat-title" data-zh="SZS人工智慧小幫手" data-en="SZS AI Assistant">SZS人工智慧小幫手</div>
         <div class="chat-status">● RIZEN · ONLINE</div>
       </div>
-      <div class="chat-close">×</div>
+      <div class="chat-close" onclick="closeAssistant()">×</div>
     </div>
 
     <div class="chat-body" id="chatBody">
-      <div class="message bot" data-zh="您好。請選擇一張資料卡片，或直接輸入您想找的文件。"
-           data-en="Hello. Select a database card, or type the document you are looking for.">
-        您好。請選擇一張資料卡片，或直接輸入您想找的文件。
+      <div class="message bot" data-zh="您好。請選擇資料庫分類，或直接輸入您想找的文件。"
+           data-en="Hello. Select a database category or type the document you are looking for.">
+        您好。請選擇資料庫分類，或直接輸入您想找的文件。
       </div>
     </div>
 
     <div class="chat-footer">
       <input class="chat-input" id="chatInput" placeholder="請輸入您的問題..." onkeydown="handleEnter(event)" />
-      <button class="send-btn" onclick="sendMessage()" data-zh="傳送" data-en="Send">傳送</button>
+      <button class="primary" onclick="sendMessage()" data-zh="傳送" data-en="Send">傳送</button>
     </div>
 
-    <div class="note" data-zh="AI 回覆可能不完整，正式版會連接公司內部資料庫。" data-en="AI responses may be incomplete. The official version will connect to the internal company database.">
-      AI 回覆可能不完整，正式版會連接公司內部資料庫。
+    <div class="note" data-zh="原型版使用假資料；正式版會連接公司 Server、資料庫與權限系統。" data-en="This prototype uses sample data. The official version will connect to the company server, database, and permission system.">
+      原型版使用假資料；正式版會連接公司 Server、資料庫與權限系統。
     </div>
   </div>
-
-  <footer>
-    SZS Knowledge Base Prototype · Sample Data Only · No Confidential Information
-  </footer>
 
   <div class="modal-backdrop" id="authModal">
     <div class="modal">
@@ -569,15 +865,16 @@
       <div class="form" id="loginForm">
         <div class="field">
           <label data-zh="公司編號" data-en="Company ID">公司編號</label>
-          <input id="loginId" placeholder="" />
+          <input id="loginId" />
         </div>
         <div class="field">
           <label data-zh="密碼" data-en="Password">密碼</label>
           <input id="loginPassword" type="password" />
         </div>
         <button class="primary" onclick="fakeLogin()" data-zh="登入" data-en="Login">登入</button>
-        <div class="form-hint" data-zh="原型版：輸入任意公司編號與密碼即可模擬登入。" data-en="Prototype: Enter any company ID and password to simulate login.">
-          原型版：輸入任意公司編號與密碼即可模擬登入。
+        <div class="form-hint" data-zh="原型版：輸入任意公司編號與密碼即可模擬登入。正式版會串接公司 Server。"
+             data-en="Prototype: Enter any company ID and password to simulate login. The official version will connect to the company server.">
+          原型版：輸入任意公司編號與密碼即可模擬登入。正式版會串接公司 Server。
         </div>
       </div>
 
@@ -595,51 +892,304 @@
           <input type="password" />
         </div>
         <button class="primary" onclick="fakeRegister()" data-zh="註冊" data-en="Sign Up">註冊</button>
-        <div class="form-hint" data-zh="原型版：註冊資料不會真的送出，正式版會串接公司 Server。" data-en="Prototype: Registration data will not be submitted. The official version will connect to the company server.">
-          原型版：註冊資料不會真的送出，正式版會串接公司 Server。
+        <div class="form-hint" data-zh="原型版：註冊資料不會真的送出，正式版會由公司 Server 處理。"
+             data-en="Prototype: Registration data will not be submitted. The official version will be handled by the company server.">
+          原型版：註冊資料不會真的送出，正式版會由公司 Server 處理。
         </div>
       </div>
     </div>
   </div>
 
+  <footer>
+    SZS PE Knowledge Base Prototype · Sample Data Only · No Confidential Information
+  </footer>
+
   <script>
     let currentLang = "zh";
     let isLoggedIn = false;
+    let selectedDatabaseId = null;
 
-    const sampleDocuments = [
+    const databases = [
       {
-        zh: "A100 產品規格書",
-        en: "A100 Product Specification",
-        categoryZh: "A 產品資料庫",
-        categoryEn: "A Product Database",
-        keywords: "A100 specification 規格書 產品"
+        id: "01",
+        titleZh: "A 產品資料庫",
+        titleEn: "A Product Database",
+        descriptionZh: "產品規格、測試資料、工程紀錄與相關文件。",
+        descriptionEn: "Product specifications, test data, engineering records, and related documents."
       },
       {
-        zh: "B200 維修手冊",
-        en: "B200 Maintenance Manual",
-        categoryZh: "非 A 產品資料庫",
-        categoryEn: "Non-A Product Database",
-        keywords: "B200 maintenance manual 維修 手冊"
+        id: "02",
+        titleZh: "非 A 產品資料庫",
+        titleEn: "Non-A Product Database",
+        descriptionZh: "跨產品線資料、一般技術文件與多格式資料索引。",
+        descriptionEn: "Cross-product data, general technical documents, and multi-format knowledge index."
       },
       {
-        zh: "新人訓練指南",
-        en: "Newcomer Training Guide",
-        categoryZh: "新人訓練資料庫",
-        categoryEn: "Newcomer Training",
-        keywords: "training newcomer onboarding 新人 訓練"
+        id: "03",
+        titleZh: "新人訓練資料庫",
+        titleEn: "Newcomer Training",
+        descriptionZh: "新人報到流程、教育訓練教材、部門 SOP 與常見問題。",
+        descriptionEn: "Onboarding processes, training materials, department SOPs, and FAQs."
       },
       {
-        zh: "一般研發測試報告",
-        en: "General R&D Test Report",
-        categoryZh: "一般研發資料庫",
-        categoryEn: "General R&D Database",
-        keywords: "R&D test report 測試 報告 研發"
+        id: "04",
+        titleZh: "一般研發資料庫",
+        titleEn: "General R&D Database",
+        descriptionZh: "研發測試報告、技術參考資料、檢查表與內部知識文件。",
+        descriptionEn: "R&D test reports, technical references, checklists, and internal knowledge documents."
+      },
+      {
+        id: "05",
+        titleZh: "製程資料庫",
+        titleEn: "Process Database",
+        descriptionZh: "製程參數、作業紀錄、改善資料與製造相關文件。",
+        descriptionEn: "Process parameters, operation records, improvement data, and manufacturing documents."
+      },
+      {
+        id: "06",
+        titleZh: "品質資料庫",
+        titleEn: "Quality Database",
+        descriptionZh: "品質檢查表、異常紀錄、稽核資料與改善追蹤。",
+        descriptionEn: "Quality checklists, issue records, audit data, and improvement tracking."
       }
     ];
 
+    const documents = [
+      {
+        databaseId: "01",
+        titleZh: "A100 產品規格書",
+        titleEn: "A100 Product Specification",
+        descriptionZh: "A100 測試用產品規格文件。",
+        descriptionEn: "Sample product specification document for A100.",
+        type: "PDF",
+        updatedAt: "2026-05-01",
+        keywords: "A100 specification 規格書 產品"
+      },
+      {
+        databaseId: "01",
+        titleZh: "A100 測試報告",
+        titleEn: "A100 Test Report",
+        descriptionZh: "A100 測試資料與結果摘要。",
+        descriptionEn: "Sample test data and result summary for A100.",
+        type: "PDF",
+        updatedAt: "2026-05-03",
+        keywords: "A100 test report 測試 報告"
+      },
+      {
+        databaseId: "01",
+        titleZh: "A 產品安全檢查表",
+        titleEn: "A Product Safety Checklist",
+        descriptionZh: "產品安全檢查項目範例。",
+        descriptionEn: "Sample product safety checklist.",
+        type: "XLSX",
+        updatedAt: "2026-05-05",
+        keywords: "safety checklist 安全 檢查表"
+      },
+      {
+        databaseId: "02",
+        titleZh: "B200 維修手冊",
+        titleEn: "B200 Maintenance Manual",
+        descriptionZh: "B200 維修流程與注意事項範例。",
+        descriptionEn: "Sample maintenance process and notes for B200.",
+        type: "PDF",
+        updatedAt: "2026-04-21",
+        keywords: "B200 maintenance manual 維修 手冊"
+      },
+      {
+        databaseId: "02",
+        titleZh: "跨產品資料索引",
+        titleEn: "Cross Product Data Index",
+        descriptionZh: "非 A 類產品資料索引範例。",
+        descriptionEn: "Sample index for non-A product data.",
+        type: "DOCX",
+        updatedAt: "2026-04-28",
+        keywords: "index non-a product 索引 非A"
+      },
+      {
+        databaseId: "03",
+        titleZh: "新人訓練指南",
+        titleEn: "Newcomer Training Guide",
+        descriptionZh: "新人報到與部門訓練流程範例。",
+        descriptionEn: "Sample onboarding and department training process.",
+        type: "PDF",
+        updatedAt: "2026-03-15",
+        keywords: "training newcomer onboarding 新人 訓練"
+      },
+      {
+        databaseId: "03",
+        titleZh: "部門 SOP 範例",
+        titleEn: "Department SOP Sample",
+        descriptionZh: "部門標準作業流程範例文件。",
+        descriptionEn: "Sample standard operating procedure document.",
+        type: "DOCX",
+        updatedAt: "2026-03-20",
+        keywords: "SOP department 部門 標準 作業"
+      },
+      {
+        databaseId: "04",
+        titleZh: "一般研發測試報告",
+        titleEn: "General R&D Test Report",
+        descriptionZh: "一般研發測試資料範例。",
+        descriptionEn: "Sample general R&D test data.",
+        type: "PDF",
+        updatedAt: "2026-02-18",
+        keywords: "R&D test report 測試 報告 研發"
+      },
+      {
+        databaseId: "04",
+        titleZh: "技術參考資料",
+        titleEn: "Technical Reference",
+        descriptionZh: "通用技術參考文件範例。",
+        descriptionEn: "Sample general technical reference document.",
+        type: "PDF",
+        updatedAt: "2026-02-22",
+        keywords: "technical reference 技術 參考"
+      },
+      {
+        databaseId: "05",
+        titleZh: "製程參數範例表",
+        titleEn: "Process Parameter Sample Sheet",
+        descriptionZh: "測試用製程參數表。",
+        descriptionEn: "Sample process parameter sheet.",
+        type: "XLSX",
+        updatedAt: "2026-01-30",
+        keywords: "process parameter 製程 參數"
+      },
+      {
+        databaseId: "05",
+        titleZh: "製程改善紀錄",
+        titleEn: "Process Improvement Record",
+        descriptionZh: "製程改善追蹤範例。",
+        descriptionEn: "Sample process improvement tracking record.",
+        type: "DOCX",
+        updatedAt: "2026-02-02",
+        keywords: "process improvement 製程 改善"
+      },
+      {
+        databaseId: "06",
+        titleZh: "品質異常紀錄",
+        titleEn: "Quality Issue Record",
+        descriptionZh: "品質異常與改善追蹤範例。",
+        descriptionEn: "Sample quality issue and improvement tracking.",
+        type: "PDF",
+        updatedAt: "2026-02-10",
+        keywords: "quality issue 品質 異常"
+      },
+      {
+        databaseId: "06",
+        titleZh: "品質稽核清單",
+        titleEn: "Quality Audit Checklist",
+        descriptionZh: "品質稽核檢查表範例。",
+        descriptionEn: "Sample quality audit checklist.",
+        type: "XLSX",
+        updatedAt: "2026-02-12",
+        keywords: "quality audit checklist 品質 稽核 檢查"
+      }
+    ];
+
+    function t(zh, en) {
+      return currentLang === "zh" ? zh : en;
+    }
+
+    function init() {
+      renderDatabases();
+      updateCounts();
+      updateLanguageText();
+      document.getElementById("chatBox").classList.remove("open");
+    }
+
+    function updateCounts() {
+      document.getElementById("databaseCount").textContent = databases.length;
+      document.getElementById("documentCount").textContent = documents.length;
+      document.getElementById("activeBadge").textContent = currentLang === "zh"
+        ? `${databases.length} 個分類`
+        : `${databases.length} ACTIVE`;
+    }
+
+    function renderDatabases() {
+      const grid = document.getElementById("databaseGrid");
+      grid.innerHTML = databases.map((db) => {
+        const activeClass = selectedDatabaseId === db.id ? "active" : "";
+        return `
+          <div class="database-card ${activeClass}" onclick="selectDatabase('${db.id}')">
+            <div class="stream-id">STREAM · ${db.id}</div>
+            <h3>${t(db.titleZh, db.titleEn)}</h3>
+            <p>${t(db.descriptionZh, db.descriptionEn)}</p>
+            <div class="query-link">${t("查詢 →", "QUERY →")}</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function selectDatabase(id) {
+      selectedDatabaseId = id;
+      const db = databases.find(item => item.id === id);
+      const relatedDocs = documents.filter(doc => doc.databaseId === id);
+
+      renderDatabases();
+
+      document.getElementById("documentPanel").classList.add("open");
+      document.getElementById("selectedDatabaseTitle").textContent = t(db.titleZh, db.titleEn);
+      document.getElementById("selectedDatabaseDesc").textContent = t(db.descriptionZh, db.descriptionEn);
+
+      const list = document.getElementById("documentList");
+
+      if (relatedDocs.length === 0) {
+        list.innerHTML = `<div class="doc-row">${t("目前此分類沒有資料。", "No documents in this category yet.")}</div>`;
+      } else {
+        list.innerHTML = relatedDocs.map(doc => `
+          <div class="doc-row">
+            <div>
+              <div class="doc-title">${t(doc.titleZh, doc.titleEn)}</div>
+              <div class="doc-desc">${t(doc.descriptionZh, doc.descriptionEn)}</div>
+            </div>
+            <div class="doc-meta">
+              ${t("更新日期", "Updated")}: ${doc.updatedAt}<br>
+              ${t("分類", "Category")}: ${t(db.titleZh, db.titleEn)}
+            </div>
+            <div><span class="doc-type">${doc.type}</span></div>
+            <div>
+              <button class="primary" onclick="viewFile()">${t("查看檔案", "View File")}</button>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      addBotMessage(t(
+        `已切換到「${db.titleZh}」。您可以在下方查看文件列表，或直接輸入要找的文件。`,
+        `Switched to "${db.titleEn}". You can view the document list below or type what you are looking for.`
+      ));
+
+      document.getElementById("documentPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function closeDocumentPanel() {
+      selectedDatabaseId = null;
+      document.getElementById("documentPanel").classList.remove("open");
+      renderDatabases();
+    }
+
+    function viewFile() {
+      alert(t(
+        "這是原型版，尚未連接正式檔案。正式版會從公司 Server 或內部檔案系統開啟文件。",
+        "This is a prototype and is not connected to real files yet. The official version will open files from the company server or internal file system."
+      ));
+    }
+
     function switchLanguage() {
       currentLang = currentLang === "zh" ? "en" : "zh";
+      updateLanguageText();
+      renderDatabases();
+      updateCounts();
 
+      if (selectedDatabaseId) {
+        const currentId = selectedDatabaseId;
+        selectedDatabaseId = null;
+        selectDatabase(currentId);
+      }
+    }
+
+    function updateLanguageText() {
       document.querySelectorAll("[data-zh]").forEach((element) => {
         element.textContent = element.dataset[currentLang];
       });
@@ -648,13 +1198,27 @@
       document.getElementById("chatInput").placeholder = currentLang === "zh" ? "請輸入您的問題..." : "Enter your question...";
     }
 
+    function toggleTheme() {
+      document.body.classList.toggle("dark");
+      const isDark = document.body.classList.contains("dark");
+      document.getElementById("themeBtn").textContent = isDark ? "☀️" : "🌙";
+    }
+
+    function toggleAssistant() {
+      document.getElementById("chatBox").classList.toggle("open");
+    }
+
+    function closeAssistant() {
+      document.getElementById("chatBox").classList.remove("open");
+    }
+
     function openAuthModal(tab) {
-      document.getElementById("authModal").style.display = "flex";
+      document.getElementById("authModal").classList.add("open");
       switchAuthTab(tab || "login");
     }
 
     function closeAuthModal() {
-      document.getElementById("authModal").style.display = "none";
+      document.getElementById("authModal").classList.remove("open");
     }
 
     function switchAuthTab(tab) {
@@ -679,11 +1243,18 @@
     function fakeLogin() {
       isLoggedIn = true;
       closeAuthModal();
-      addBotMessage(currentLang === "zh" ? "登入成功。現在可以使用小幫手搜尋文件。" : "Login successful. You can now use the assistant to search documents.");
+      document.getElementById("chatBox").classList.add("open");
+      addBotMessage(t(
+        "登入成功。現在可以使用小幫手搜尋文件。",
+        "Login successful. You can now use the assistant to search documents."
+      ));
     }
 
     function fakeRegister() {
-      alert(currentLang === "zh" ? "原型版註冊完成。正式版會連接公司 Server。" : "Prototype registration complete. The official version will connect to the company server.");
+      alert(t(
+        "原型版註冊完成。正式版會連接公司 Server。",
+        "Prototype registration complete. The official version will connect to the company server."
+      ));
       switchAuthTab("login");
     }
 
@@ -700,8 +1271,12 @@
       if (!keyword) return;
 
       if (!isLoggedIn) {
+        document.getElementById("chatBox").classList.add("open");
         openAuthModal("login");
-        addBotMessage(currentLang === "zh" ? "請先登入或註冊，才能使用文件搜尋功能。" : "Please log in or sign up before using document search.");
+        addBotMessage(t(
+          "請先登入或註冊，才能使用文件搜尋功能。",
+          "Please log in or sign up before using document search."
+        ));
         return;
       }
 
@@ -709,29 +1284,41 @@
       input.value = "";
 
       const lowerKeyword = keyword.toLowerCase();
-      const results = sampleDocuments.filter((doc) => {
+
+      let scopeDocs = documents;
+      if (selectedDatabaseId) {
+        scopeDocs = documents.filter(doc => doc.databaseId === selectedDatabaseId);
+      }
+
+      const results = scopeDocs.filter((doc) => {
         return (
-          doc.zh.toLowerCase().includes(lowerKeyword) ||
-          doc.en.toLowerCase().includes(lowerKeyword) ||
+          doc.titleZh.toLowerCase().includes(lowerKeyword) ||
+          doc.titleEn.toLowerCase().includes(lowerKeyword) ||
+          doc.descriptionZh.toLowerCase().includes(lowerKeyword) ||
+          doc.descriptionEn.toLowerCase().includes(lowerKeyword) ||
           doc.keywords.toLowerCase().includes(lowerKeyword)
         );
       });
 
       if (results.length === 0) {
-        addBotMessage(currentLang === "zh" ? "目前沒有找到相關文件。" : "No related documents found.");
+        addBotMessage(t(
+          "目前沒有找到相關文件。您可以嘗試輸入：規格書、測試報告、新人訓練、品質、製程。",
+          "No related documents found. Try keywords such as specification, test report, training, quality, or process."
+        ));
         return;
       }
 
-      let html = currentLang === "zh" ? "我找到以下相關文件：" : "I found the following related documents:";
+      let html = t("我找到以下相關文件：", "I found the following related documents:");
+
       results.forEach((doc) => {
-        const title = currentLang === "zh" ? doc.zh : doc.en;
-        const category = currentLang === "zh" ? doc.categoryZh : doc.categoryEn;
+        const db = databases.find(item => item.id === doc.databaseId);
         html += `
-          <div class="result-card">
-            <strong>${title}</strong><br>
-            <span>${category}</span><br>
-            <button style="margin-top:8px;padding:7px 10px;font-size:12px;" onclick="alert('${currentLang === "zh" ? "這是原型版，尚未連接正式檔案。" : "This is a prototype and is not connected to real files yet."}')">
-              ${currentLang === "zh" ? "查看檔案" : "View File"}
+          <div class="chat-result-card">
+            <strong>${t(doc.titleZh, doc.titleEn)}</strong><br>
+            <span>${t("分類", "Category")}: ${t(db.titleZh, db.titleEn)}</span><br>
+            <span>${t("更新日期", "Updated")}: ${doc.updatedAt}</span><br>
+            <button style="margin-top:10px;padding:8px 10px;font-size:12px;" onclick="viewFile()">
+              ${t("查看檔案", "View File")}
             </button>
           </div>
         `;
@@ -757,6 +1344,8 @@
       chatBody.appendChild(div);
       chatBody.scrollTop = chatBody.scrollHeight;
     }
+
+    init();
   </script>
 </body>
 </html>
