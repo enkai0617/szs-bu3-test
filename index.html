@@ -18,32 +18,50 @@
     }
 
     header {
-      background: white;
+      background: #ffffff;
       border-bottom: 1px solid #e5e7eb;
-      padding: 18px 40px;
+      padding: 14px 36px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: sticky;
       top: 0;
       z-index: 10;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
     }
 
     .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo {
+      width: 46px;
+      height: 46px;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+      background: white;
+    }
+
+    .brand-text {
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
 
     .brand-title {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
+      font-size: 18px;
+      font-weight: 900;
+      color: #0f172a;
     }
 
     .brand-subtitle {
-      font-size: 13px;
-      color: #64748b;
+      font-size: 12px;
+      color: #0ea5e9;
+      font-weight: 800;
+      letter-spacing: 1.5px;
     }
 
     .nav-actions {
@@ -57,7 +75,7 @@
       cursor: pointer;
       border-radius: 10px;
       padding: 10px 16px;
-      font-weight: 700;
+      font-weight: 800;
       background: #e5e7eb;
       color: #111827;
     }
@@ -73,8 +91,13 @@
       border: 1px solid #0ea5e9;
     }
 
+    button.dark {
+      background: #0f172a;
+      color: white;
+    }
+
     main {
-      padding: 56px 40px 120px;
+      padding: 56px 40px 140px;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -86,7 +109,7 @@
 
     .hero-label {
       color: #0ea5e9;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: 3px;
       font-size: 13px;
       margin-bottom: 16px;
@@ -99,7 +122,7 @@
     }
 
     .hero p {
-      max-width: 720px;
+      max-width: 760px;
       margin: 0 auto;
       color: #64748b;
       line-height: 1.8;
@@ -126,7 +149,7 @@
       padding: 6px 10px;
       border-radius: 999px;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .grid {
@@ -154,7 +177,7 @@
       font-size: 12px;
       color: #94a3b8;
       letter-spacing: 3px;
-      font-weight: 800;
+      font-weight: 900;
       margin-bottom: 20px;
     }
 
@@ -172,67 +195,118 @@
 
     .query-link {
       color: #0ea5e9;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: 1.5px;
       font-size: 13px;
-    }
-
-    .chat-button {
-      position: fixed;
-      right: 28px;
-      bottom: 28px;
-      width: 68px;
-      height: 68px;
-      border-radius: 50%;
-      background: #0ea5e9;
-      color: white;
-      font-size: 26px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 18px 35px rgba(14, 165, 233, 0.35);
-      z-index: 20;
     }
 
     .chat-box {
       position: fixed;
       right: 28px;
-      bottom: 110px;
-      width: 340px;
+      bottom: 28px;
+      width: 430px;
+      height: 520px;
       background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 18px;
-      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18);
-      padding: 18px;
+      border: 1px solid #dbeafe;
+      border-radius: 22px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22);
+      display: flex;
+      flex-direction: column;
       z-index: 20;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
     }
 
     .chat-title {
-      font-weight: 800;
+      font-weight: 900;
       color: #0f172a;
-      margin-bottom: 8px;
     }
 
-    .chat-text {
-      color: #64748b;
+    .chat-status {
+      font-size: 12px;
+      color: #0ea5e9;
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    .chat-close {
+      color: #94a3b8;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .chat-body {
+      flex: 1;
+      padding: 18px;
+      overflow-y: auto;
+      background: #ffffff;
+    }
+
+    .message {
+      padding: 12px 14px;
+      border-radius: 14px;
+      margin-bottom: 12px;
       line-height: 1.6;
       font-size: 14px;
-      margin-bottom: 14px;
+    }
+
+    .message.bot {
+      background: #eff6ff;
+      color: #1e3a8a;
+    }
+
+    .message.user {
+      background: #0ea5e9;
+      color: white;
+      margin-left: 48px;
+    }
+
+    .result-card {
+      border-top: 1px solid #e5e7eb;
+      padding: 12px 0;
+      color: #334155;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .chat-footer {
+      padding: 14px;
+      border-top: 1px solid #e5e7eb;
+      background: #f8fafc;
+      display: flex;
+      gap: 10px;
     }
 
     .chat-input {
-      width: 100%;
+      flex: 1;
       padding: 12px;
-      border-radius: 10px;
+      border-radius: 12px;
       border: 1px solid #cbd5e1;
       outline: none;
+      font-size: 14px;
     }
 
-    .search-results {
-      margin-top: 12px;
-      font-size: 14px;
-      color: #334155;
-      line-height: 1.6;
+    .send-btn {
+      background: #0ea5e9;
+      color: white;
+      min-width: 74px;
+    }
+
+    .note {
+      font-size: 12px;
+      color: #94a3b8;
+      text-align: center;
+      padding: 0 14px 12px;
+      background: #f8fafc;
     }
 
     footer {
@@ -242,16 +316,116 @@
       font-size: 13px;
     }
 
-    @media (max-width: 800px) {
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      padding: 20px;
+    }
+
+    .modal {
+      width: 520px;
+      max-width: 100%;
+      background: white;
+      border-radius: 22px;
+      box-shadow: 0 30px 80px rgba(15, 23, 42, 0.28);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 22px 24px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 22px;
+      color: #0f172a;
+    }
+
+    .modal-close {
+      cursor: pointer;
+      font-size: 24px;
+      color: #94a3b8;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .tab {
+      padding: 16px;
+      text-align: center;
+      font-weight: 900;
+      cursor: pointer;
+      color: #64748b;
+      background: #f8fafc;
+    }
+
+    .tab.active {
+      color: #0ea5e9;
+      background: white;
+      border-bottom: 3px solid #0ea5e9;
+    }
+
+    .form {
+      padding: 24px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      color: #64748b;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .form button {
+      width: 100%;
+      margin-top: 8px;
+      padding: 13px;
+    }
+
+    .form-hint {
+      margin-top: 14px;
+      color: #94a3b8;
+      font-size: 13px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
       header {
-        padding: 16px 20px;
+        padding: 14px 20px;
         flex-direction: column;
-        gap: 14px;
         align-items: flex-start;
+        gap: 14px;
       }
 
       main {
-        padding: 40px 20px 120px;
+        padding: 40px 20px 640px;
       }
 
       h1 {
@@ -266,6 +440,7 @@
         left: 20px;
         right: 20px;
         width: auto;
+        height: 500px;
       }
     }
   </style>
@@ -274,23 +449,25 @@
 <body>
   <header>
     <div class="brand">
-      <div class="brand-title" data-zh="SZS 知識資料庫" data-en="SZS Knowledge Base">SZS 知識資料庫</div>
-      <div class="brand-subtitle" data-zh="非機密原型版 · Internal Database Prototype" data-en="Non-confidential Prototype · Internal Database">
-        非機密原型版 · Internal Database Prototype
+      <img src="logo.png" alt="SZS Logo" class="logo" />
+      <div class="brand-text">
+        <div class="brand-title" data-zh="SZS PE知識庫" data-en="SZS PE Knowledge Base">SZS PE知識庫</div>
+        <div class="brand-subtitle" data-zh="內部資料搜尋系統" data-en="INTERNAL DATABASE SYSTEM">內部資料搜尋系統</div>
       </div>
     </div>
 
     <div class="nav-actions">
       <button class="outline" onclick="switchLanguage()" id="langBtn">English</button>
-      <button data-zh="登入" data-en="Login">登入</button>
-      <button class="primary" data-zh="後台管理" data-en="Admin Panel">後台管理</button>
+      <button onclick="openAuthModal('login')" data-zh="登入" data-en="Login">登入</button>
+      <button class="primary" onclick="openAuthModal('register')" data-zh="註冊" data-en="Sign Up">註冊</button>
+      <button class="dark" data-zh="後台管理" data-en="Admin Panel">後台管理</button>
     </div>
   </header>
 
   <main>
     <section class="hero">
       <div class="hero-label">SZS · DATABASE SYSTEM</div>
-      <h1 data-zh="公司內部知識資料庫" data-en="Internal Knowledge Database">公司內部知識資料庫</h1>
+      <h1 data-zh="SZS PE知識庫" data-en="SZS PE Knowledge Base">SZS PE知識庫</h1>
       <p data-zh="請選擇資料庫分類，或使用右下角小幫手搜尋你需要的文件。此版本為原型展示，僅使用假資料，不包含任何機密內容。"
          data-en="Select a database category, or use the assistant in the lower-right corner to search for documents. This prototype uses sample data only and contains no confidential information.">
         請選擇資料庫分類，或使用右下角小幫手搜尋你需要的文件。此版本為原型展示，僅使用假資料，不包含任何機密內容。
@@ -348,23 +525,86 @@
   </main>
 
   <div class="chat-box">
-    <div class="chat-title" data-zh="小幫手 · 線上" data-en="Assistant · Online">小幫手 · 線上</div>
-    <div class="chat-text" data-zh="請輸入你想找的文件，例如：A100 規格書、新人訓練、測試報告。"
-         data-en="Tell me what file you are looking for, such as A100 specification, newcomer training, or test report.">
-      請輸入你想找的文件，例如：A100 規格書、新人訓練、測試報告。
+    <div class="chat-header">
+      <div>
+        <div class="chat-title" data-zh="SZS人工智慧小幫手" data-en="SZS AI Assistant">SZS人工智慧小幫手</div>
+        <div class="chat-status">● RIZEN · ONLINE</div>
+      </div>
+      <div class="chat-close">×</div>
     </div>
-    <input class="chat-input" id="searchInput" placeholder="輸入關鍵字..." oninput="searchDocuments()" />
-    <div class="search-results" id="searchResults"></div>
-  </div>
 
-  <div class="chat-button">?</div>
+    <div class="chat-body" id="chatBody">
+      <div class="message bot" data-zh="您好。請選擇一張資料卡片，或直接輸入您想找的文件。"
+           data-en="Hello. Select a database card, or type the document you are looking for.">
+        您好。請選擇一張資料卡片，或直接輸入您想找的文件。
+      </div>
+    </div>
+
+    <div class="chat-footer">
+      <input class="chat-input" id="chatInput" placeholder="請輸入您的問題..." onkeydown="handleEnter(event)" />
+      <button class="send-btn" onclick="sendMessage()" data-zh="傳送" data-en="Send">傳送</button>
+    </div>
+
+    <div class="note" data-zh="AI 回覆可能不完整，正式版會連接公司內部資料庫。" data-en="AI responses may be incomplete. The official version will connect to the internal company database.">
+      AI 回覆可能不完整，正式版會連接公司內部資料庫。
+    </div>
+  </div>
 
   <footer>
     SZS Knowledge Base Prototype · Sample Data Only · No Confidential Information
   </footer>
 
+  <div class="modal-backdrop" id="authModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 data-zh="認證" data-en="Authentication">認證</h2>
+        <div class="modal-close" onclick="closeAuthModal()">×</div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" id="loginTab" onclick="switchAuthTab('login')" data-zh="登入" data-en="Login">登入</div>
+        <div class="tab" id="registerTab" onclick="switchAuthTab('register')" data-zh="註冊" data-en="Sign Up">註冊</div>
+      </div>
+
+      <div class="form" id="loginForm">
+        <div class="field">
+          <label data-zh="公司編號" data-en="Company ID">公司編號</label>
+          <input id="loginId" placeholder="" />
+        </div>
+        <div class="field">
+          <label data-zh="密碼" data-en="Password">密碼</label>
+          <input id="loginPassword" type="password" />
+        </div>
+        <button class="primary" onclick="fakeLogin()" data-zh="登入" data-en="Login">登入</button>
+        <div class="form-hint" data-zh="原型版：輸入任意公司編號與密碼即可模擬登入。" data-en="Prototype: Enter any company ID and password to simulate login.">
+          原型版：輸入任意公司編號與密碼即可模擬登入。
+        </div>
+      </div>
+
+      <div class="form" id="registerForm" style="display:none;">
+        <div class="field">
+          <label data-zh="公司編號" data-en="Company ID">公司編號</label>
+          <input />
+        </div>
+        <div class="field">
+          <label data-zh="電子信箱" data-en="Email">電子信箱</label>
+          <input type="email" />
+        </div>
+        <div class="field">
+          <label data-zh="密碼" data-en="Password">密碼</label>
+          <input type="password" />
+        </div>
+        <button class="primary" onclick="fakeRegister()" data-zh="註冊" data-en="Sign Up">註冊</button>
+        <div class="form-hint" data-zh="原型版：註冊資料不會真的送出，正式版會串接公司 Server。" data-en="Prototype: Registration data will not be submitted. The official version will connect to the company server.">
+          原型版：註冊資料不會真的送出，正式版會串接公司 Server。
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     let currentLang = "zh";
+    let isLoggedIn = false;
 
     const sampleDocuments = [
       {
@@ -405,41 +645,89 @@
       });
 
       document.getElementById("langBtn").textContent = currentLang === "zh" ? "English" : "中文";
-      document.getElementById("searchInput").placeholder = currentLang === "zh" ? "輸入關鍵字..." : "Enter keywords...";
-
-      searchDocuments();
+      document.getElementById("chatInput").placeholder = currentLang === "zh" ? "請輸入您的問題..." : "Enter your question...";
     }
 
-    function searchDocuments() {
-      const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
-      const resultBox = document.getElementById("searchResults");
+    function openAuthModal(tab) {
+      document.getElementById("authModal").style.display = "flex";
+      switchAuthTab(tab || "login");
+    }
 
-      if (!keyword) {
-        resultBox.innerHTML = "";
+    function closeAuthModal() {
+      document.getElementById("authModal").style.display = "none";
+    }
+
+    function switchAuthTab(tab) {
+      const loginTab = document.getElementById("loginTab");
+      const registerTab = document.getElementById("registerTab");
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
+
+      if (tab === "login") {
+        loginTab.classList.add("active");
+        registerTab.classList.remove("active");
+        loginForm.style.display = "block";
+        registerForm.style.display = "none";
+      } else {
+        registerTab.classList.add("active");
+        loginTab.classList.remove("active");
+        registerForm.style.display = "block";
+        loginForm.style.display = "none";
+      }
+    }
+
+    function fakeLogin() {
+      isLoggedIn = true;
+      closeAuthModal();
+      addBotMessage(currentLang === "zh" ? "登入成功。現在可以使用小幫手搜尋文件。" : "Login successful. You can now use the assistant to search documents.");
+    }
+
+    function fakeRegister() {
+      alert(currentLang === "zh" ? "原型版註冊完成。正式版會連接公司 Server。" : "Prototype registration complete. The official version will connect to the company server.");
+      switchAuthTab("login");
+    }
+
+    function handleEnter(event) {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    }
+
+    function sendMessage() {
+      const input = document.getElementById("chatInput");
+      const keyword = input.value.trim();
+
+      if (!keyword) return;
+
+      if (!isLoggedIn) {
+        openAuthModal("login");
+        addBotMessage(currentLang === "zh" ? "請先登入或註冊，才能使用文件搜尋功能。" : "Please log in or sign up before using document search.");
         return;
       }
 
+      addUserMessage(keyword);
+      input.value = "";
+
+      const lowerKeyword = keyword.toLowerCase();
       const results = sampleDocuments.filter((doc) => {
         return (
-          doc.zh.toLowerCase().includes(keyword) ||
-          doc.en.toLowerCase().includes(keyword) ||
-          doc.keywords.toLowerCase().includes(keyword)
+          doc.zh.toLowerCase().includes(lowerKeyword) ||
+          doc.en.toLowerCase().includes(lowerKeyword) ||
+          doc.keywords.toLowerCase().includes(lowerKeyword)
         );
       });
 
       if (results.length === 0) {
-        resultBox.innerHTML = currentLang === "zh"
-          ? "目前沒有找到相關文件。"
-          : "No related documents found.";
+        addBotMessage(currentLang === "zh" ? "目前沒有找到相關文件。" : "No related documents found.");
         return;
       }
 
-      resultBox.innerHTML = results.map((doc) => {
+      let html = currentLang === "zh" ? "我找到以下相關文件：" : "I found the following related documents:";
+      results.forEach((doc) => {
         const title = currentLang === "zh" ? doc.zh : doc.en;
         const category = currentLang === "zh" ? doc.categoryZh : doc.categoryEn;
-
-        return `
-          <div style="padding:10px 0;border-top:1px solid #e5e7eb;">
+        html += `
+          <div class="result-card">
             <strong>${title}</strong><br>
             <span>${category}</span><br>
             <button style="margin-top:8px;padding:7px 10px;font-size:12px;" onclick="alert('${currentLang === "zh" ? "這是原型版，尚未連接正式檔案。" : "This is a prototype and is not connected to real files yet."}')">
@@ -447,7 +735,27 @@
             </button>
           </div>
         `;
-      }).join("");
+      });
+
+      addBotMessage(html);
+    }
+
+    function addUserMessage(text) {
+      const chatBody = document.getElementById("chatBody");
+      const div = document.createElement("div");
+      div.className = "message user";
+      div.textContent = text;
+      chatBody.appendChild(div);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function addBotMessage(html) {
+      const chatBody = document.getElementById("chatBody");
+      const div = document.createElement("div");
+      div.className = "message bot";
+      div.innerHTML = html;
+      chatBody.appendChild(div);
+      chatBody.scrollTop = chatBody.scrollHeight;
     }
   </script>
 </body>
