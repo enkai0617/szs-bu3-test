@@ -388,9 +388,9 @@
     </div>
   </header>
 
-  <div class="warning-banner" data-zh="原型提醒：此版本資料只會暫存在目前瀏覽器 localStorage，請勿放入公司機密、真實帳密、客戶資料或正式文件。預設最高管理者帳號：工號 00000000 / 密碼 00000000。"
-       data-en="Prototype reminder: Data is stored only in this browser localStorage. Do not enter confidential data or real passwords. Default owner account: Employee ID 00000000 / Password 00000000.">
-    原型提醒：此版本資料只會暫存在目前瀏覽器 localStorage，請勿放入公司機密、真實帳密、客戶資料或正式文件。預設最高管理者帳號：工號 00000000 / 密碼 00000000。
+  <div class="warning-banner" data-zh="原型提醒：此版本資料只會暫存在目前瀏覽器 localStorage，請勿放入公司機密、真實帳密、客戶資料或正式文件。預設最高管理者帳號：工號 1 / 密碼 1。"
+       data-en="Prototype reminder: Data is stored only in this browser localStorage. Do not enter confidential data or real passwords. Default owner account: Employee ID 1 / Password 1.">
+    原型提醒：此版本資料只會暫存在目前瀏覽器 localStorage，請勿放入公司機密、真實帳密、客戶資料或正式文件。預設最高管理者帳號：工號 1 / 密碼 1。
   </div>
 
   <main id="homePage" class="page active">
@@ -551,9 +551,9 @@
     <section id="adminUsersSection" class="admin-section">
       <div class="admin-box">
         <h2 data-zh="會員權限管理" data-en="Member Permission Manager">會員權限管理</h2>
-        <p style="color:var(--muted);line-height:1.7;" data-zh="只有 Owner 可以調整會員角色。系統預設帳號 00000000 為 Owner，AB 開頭部門註冊者預設為 Manager，其他註冊者預設為 User。"
-           data-en="Only the Owner can change member roles. The default account 00000000 is Owner. Departments starting with AB are Managers by default; all others are Users.">
-          只有 Owner 可以調整會員角色。系統預設帳號 00000000 為 Owner，AB 開頭部門註冊者預設為 Manager，其他註冊者預設為 User。
+        <p style="color:var(--muted);line-height:1.7;" data-zh="只有 Owner 可以調整會員角色。系統預設帳號 1 為 Owner，AB 開頭部門註冊者預設為 Manager，其他註冊者預設為 User。"
+           data-en="Only the Owner can change member roles. The default account 1 is Owner. Departments starting with AB are Managers by default; all others are Users.">
+          只有 Owner 可以調整會員角色。系統預設帳號 1 為 Owner，AB 開頭部門註冊者預設為 Manager，其他註冊者預設為 User。
         </p>
         <div id="adminUserList"></div>
       </div>
@@ -605,9 +605,9 @@
           <input id="loginPassword" type="password" />
         </div>
         <button class="primary" onclick="login()" data-zh="登入" data-en="Login">登入</button>
-        <div class="form-hint" data-zh="預設最高管理者：工號 00000000 / 密碼 00000000。"
-             data-en="Default owner: Employee ID 00000000 / Password 00000000.">
-          預設最高管理者：工號 00000000 / 密碼 00000000。
+        <div class="form-hint" data-zh="預設最高管理者：工號 1 / 密碼 1。"
+             data-en="Default owner: Employee ID 1 / Password 1.">
+          預設最高管理者：工號 1 / 密碼 1。
         </div>
       </div>
       <div class="form" id="registerForm" style="display:none;">
@@ -653,11 +653,11 @@
     let currentUser = null;
 
     const OWNER_ACCOUNT = {
-      companyId: "00000000",
+      companyId: "1",
       department: "SZS",
       name: "SZS",
       email: "SZS@szs.com.tw",
-      password: "00000000",
+      password: "1",
       role: "owner"
     };
 
