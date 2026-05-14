@@ -1721,11 +1721,23 @@
 
         { intent: "technology", words: ["專業技術", "技術", "研發", "製程", "檢驗"] },
 
-        { intent: "company_profile", words: ["company profile", "公司基本資料", "公司資料"] },
-        { intent: "material_info", words: ["material information", "重大訊息", "重大訊息公告"] },
+        { intent: "company_profile_contact", words: ["公司聯絡", "公司地址", "電話", "傳真", "email", "e-mail", "發言人", "代理發言人"] },
+        { intent: "company_profile", words: ["company profile", "公司基本資料", "公司資料", "基本資料", "股票代號", "設立日期", "上市日期"] },
+
+        { intent: "material_info_mops", words: ["公開資訊觀測站", "mops", "重大訊息查詢", "重大訊息在哪"] },
+        { intent: "material_info", words: ["material information", "重大訊息", "重大訊息公告", "重大公告"] },
+
+        { intent: "investor_seminars_events", words: ["法說會有哪些", "法人說明會有哪些", "企業日", "投資論壇", "海外路演", "roadshow", "investor forum", "corporate day"] },
         { intent: "investor_seminars", words: ["investor seminars", "法人說明會", "法說會", "投資論壇", "企業日", "路演"] },
-        { intent: "financial_info", words: ["financial information", "財務資訊", "財報", "營收"] },
-        { intent: "shareholder_services", words: ["shareholders services", "shareholder", "股東服務", "股東服務專區"] },
+
+        { intent: "financial_monthly_revenue", words: ["每月營收", "月營收", "monthly revenue", "營業收入"] },
+        { intent: "financial_statement", words: ["財務報告", "財報", "年報", "financial report", "annual report"] },
+        { intent: "financial_info", words: ["financial information", "財務資訊", "財務", "營收"] },
+
+        { intent: "shareholder_meeting", words: ["股東會", "股東常會", "股東會議事錄", "股東會年報", "annual shareholders"] },
+        { intent: "shareholder_dividend", words: ["股利", "股利分派", "除權息", "dividend"] },
+        { intent: "shareholder_services", words: ["shareholders services", "shareholder", "股東服務", "股東服務專區", "股務"] },
+
         { intent: "investor", words: ["投資人", "投資人專區", "股東", "法人", "財務"] },
 
         { intent: "sustainability_performance", words: ["關鍵績效", "永續績效"] },
@@ -2281,29 +2293,139 @@
           `SZS intellectual property management covers patents, trade secrets, and trademarks. Measures include patent search systems, patent application and reward rules, confidentiality clauses, supplier NDAs, information security training, trade secret management rules, and privacy/confidentiality procedures.`
         ),
 
+        investor: t(
+          `<strong>投資人專區</strong><br>
+          依 SZS 官網「投資人專區」，主要內容包含：公司基本資料、重大訊息公告、法人說明會、財務資訊、股東服務專區。這個區塊主要提供投資人、股東與外部利害關係人查詢公司基本資料、公開揭露資訊、法說活動、財務資料與股東服務。<br><br>
+          <strong>主要分類：</strong><br>
+          1. 公司基本資料：公司地址、電話、發言人、代理發言人、股票代號、設立日期、上市日期等。<br>
+          2. 重大訊息公告：連結公開資訊觀測站查詢重大訊息。<br>
+          3. 法人說明會：揭露公司受邀投資論壇、企業日、海外路演等活動資訊。<br>
+          4. 財務資訊：每月營收、財務報告與年報。<br>
+          5. 股東服務專區：股東會、股利分派、除權息等股東相關資訊。`,
+          `<strong>Investor Relations</strong><br>
+          According to the SZS website, the Investor Relations section includes Company Profile, Material Information, Investor Seminars, Financial Information, and Shareholder Services.`
+        ),
+
         company_profile: t(
-          `公司基本資料是 SZS 投資人專區中的項目，用於提供公司基本資訊，方便投資人與外部利害關係人了解公司概況。`,
-          `Company Profile is an Investor Relations item that provides basic company information for investors and stakeholders.`
+          `<strong>公司基本資料</strong><br>
+          依 SZS 官網投資人專區，公司基本資料頁提供以下公開資訊：<br><br>
+          <strong>公司識別：</strong><br>
+          1. 公司名稱：新日興股份有限公司。<br>
+          2. 英文名稱：SZS Co., Ltd.。<br>
+          3. 股票代號：3376。<br>
+          4. 產業別：電子零組件業。<br>
+          5. 設立日期：西元 1984 年 09 月 07 日。<br>
+          6. 上市日期：西元 2007 年 12 月 31 日。<br><br>
+          <strong>公司聯絡資訊：</strong><br>
+          1. 董事長：周維忠。<br>
+          2. 總經理：陳如祥。<br>
+          3. 發言人：王淑如。<br>
+          4. 代理發言人：林美惠。<br>
+          5. 電話：02-85221168。<br>
+          6. 傳真：02-85215508。<br>
+          7. E-mail：investor@szs.com.tw。<br>
+          8. 公司地址：新北市新莊區五權一路 13 號 7 樓之 1。<br><br>
+          <strong>公司與工廠：</strong><br>
+          1. 新日興股份有限公司。<br>
+          2. 新日興股份有限公司樹潭廠。<br>
+          3. 新日興股份有限公司五股廠。`,
+          `<strong>Company Profile</strong><br>
+          The SZS Company Profile page provides public information such as company name, stock code 3376, industry category, establishment date, listing date, chairman, general manager, spokesperson, acting spokesperson, telephone, fax, email, address, and factory information.`
+        ),
+
+        company_profile_contact: t(
+          `<strong>SZS 公司聯絡資訊：</strong><br>
+          1. 電話：02-85221168。<br>
+          2. 傳真：02-85215508。<br>
+          3. E-mail：investor@szs.com.tw。<br>
+          4. 地址：新北市新莊區五權一路 13 號 7 樓之 1。<br>
+          5. 發言人：王淑如。<br>
+          6. 代理發言人：林美惠。`,
+          `<strong>SZS contact information:</strong><br>
+          Telephone: 02-85221168; Fax: 02-85215508; Email: investor@szs.com.tw; Address: 7F-1, No. 13, Wuquan 1st Rd., Xinzhuang Dist., New Taipei City; Spokesperson: Wang Shu-Ju; Acting spokesperson: Lin Mei-Hui.`
         ),
 
         material_info: t(
-          `重大訊息公告是 SZS 投資人專區中的項目，用於揭露公司重要公告與重大資訊。`,
-          `Material Information is an Investor Relations item used for important company announcements and disclosures.`
+          `<strong>重大訊息公告</strong><br>
+          依 SZS 官網投資人專區，重大訊息公告頁主要提供公司重大訊息查詢入口，連結至臺灣證券交易所公開資訊觀測站（MOPS）。<br><br>
+          <strong>用途：</strong><br>
+          1. 查詢公司依法公開揭露之重大訊息。<br>
+          2. 提供投資人與股東了解公司重要公告。<br>
+          3. 作為外部利害關係人查詢正式公告的入口。<br><br>
+          最新重大訊息應以公開資訊觀測站即時資料為準。`,
+          `<strong>Material Information</strong><br>
+          The SZS website provides a Material Information section that links to the Taiwan Stock Exchange Market Observation Post System (MOPS), allowing investors and shareholders to check officially disclosed material information.`
+        ),
+
+        material_info_mops: t(
+          `重大訊息公告可透過 SZS 官網投資人專區連到公開資訊觀測站（MOPS）查詢。這是查詢公司正式重大訊息公告的主要入口，最新資料應以公開資訊觀測站即時揭露內容為準。`,
+          `Material information can be checked through the Market Observation Post System (MOPS) linked from the SZS Investor Relations section. Latest information should follow the official MOPS disclosure.`
         ),
 
         investor_seminars: t(
-          `法人說明會是 SZS 投資人專區中的項目，用於揭露公司受邀參加投資論壇、企業日、海外路演等活動，就公司營運概況進行說明。官網列表可看到 BofA Securities、Nomura、元富證券、富邦證券、國泰證券、花旗證券等相關活動紀錄。`,
-          `Investor Seminars is an Investor Relations item listing investor forums, corporate days, overseas roadshows, and similar events where SZS explains its business overview. The website lists activities involving BofA Securities, Nomura, MasterLink Securities, Fubon Securities, Cathay Securities, Citi, and others.`
+          `<strong>法人說明會</strong><br>
+          依 SZS 官網投資人專區，法人說明會頁用於揭露公司受邀參加投資論壇、企業日、海外路演等活動，並就公司營運概況進行說明。<br><br>
+          <strong>頁面用途：</strong><br>
+          1. 提供公司參與法人說明會、投資論壇、企業日、路演等資訊。<br>
+          2. 說明公司對投資法人或投資人的營運概況簡報活動。<br>
+          3. 供投資人查詢過往法說會活動紀錄。<br><br>
+          <strong>官網可見活動類型與機構範例：</strong><br>
+          官網列表可見 BofA Securities、Nomura、元富證券、富邦證券、國泰證券、花旗證券、永豐證券、元大證券、玉山證券等邀請活動；活動形式包含投資論壇、台灣企業日、海外路演、線上論壇與企業參訪等。`,
+          `<strong>Investor Seminars</strong><br>
+          The SZS Investor Seminars page discloses investor forums, corporate days, overseas roadshows, online forums, and similar events where the company explains its business overview to institutional investors and investors.`
+        ),
+
+        investor_seminars_events: t(
+          `<strong>法人說明會活動類型：</strong><br>
+          官網可見活動包含：受邀參加投資論壇、台灣企業日、海外路演、線上論壇、企業參訪等。列表中可見 BofA Securities、Nomura、元富證券、富邦證券、國泰證券、花旗證券、永豐證券、元大證券、玉山證券等相關活動紀錄。`,
+          `<strong>Investor seminar event types:</strong><br>
+          Investor forums, Taiwan corporate days, overseas roadshows, online forums, and company visits. The website lists events involving BofA Securities, Nomura, MasterLink Securities, Fubon Securities, Cathay Securities, Citi, SinoPac, Yuanta, and E.SUN Securities.`
         ),
 
         financial_info: t(
-          `財務資訊是 SZS 投資人專區中的項目，用於提供財務相關資訊，方便投資人查詢公司財務揭露內容。`,
-          `Financial Information is an Investor Relations item for financial disclosures and related information.`
+          `<strong>財務資訊</strong><br>
+          依 SZS 官網投資人專區，財務資訊主要包含：每月營收、財務報告、年報。這個區塊用於提供投資人查詢公司營收、財務報告與年度報告等公開財務資料。<br><br>
+          <strong>分類：</strong><br>
+          1. 每月營收：查詢公司月營收相關資訊。<br>
+          2. 財務報告：查詢公司財務報告。<br>
+          3. 年報：查詢公司年度報告。<br><br>
+          最新財務資料仍應以公司公告與主管機關公開資訊為準。`,
+          `<strong>Financial Information</strong><br>
+          According to the SZS Investor Relations section, financial information includes Monthly Revenue, Financial Reports, and Annual Reports.`
+        ),
+
+        financial_monthly_revenue: t(
+          `每月營收是 SZS 投資人專區財務資訊中的項目，用於查詢公司月營收相關資訊。最新月營收資料應以公司公告與公開資訊觀測站揭露內容為準。`,
+          `Monthly Revenue is a Financial Information item in the SZS Investor Relations section. Latest monthly revenue should follow official company disclosures and MOPS information.`
+        ),
+
+        financial_statement: t(
+          `財務報告與年報是 SZS 投資人專區財務資訊中的項目，用於提供投資人查詢公司財務報告與年度報告。最新資料應以公司公告與主管機關公開資訊為準。`,
+          `Financial Reports and Annual Reports are Financial Information items in the SZS Investor Relations section. Latest information should follow official company and regulatory disclosures.`
         ),
 
         shareholder_services: t(
-          `股東服務專區是 SZS 投資人專區中的項目，用於提供股東相關服務資訊。`,
-          `Shareholder Services is an Investor Relations item for shareholder-related services.`
+          `<strong>股東服務專區</strong><br>
+          依 SZS 官網投資人專區，股東服務專區主要提供股東會與股利相關資訊。<br><br>
+          <strong>主要分類：</strong><br>
+          1. 股東會：包含股東會相關資料。<br>
+          2. 股東會議事錄：提供股東會議事錄查詢。<br>
+          3. 股東會年報：提供股東會與年報相關資料。<br>
+          4. 股利分派：提供公司股利分派相關資訊。<br>
+          5. 除權息：提供除權息相關資訊。<br><br>
+          這個區塊主要服務股東查詢會議、股利與權益相關資訊。`,
+          `<strong>Shareholder Services</strong><br>
+          According to the SZS Investor Relations section, Shareholder Services includes shareholders meeting, meeting minutes, annual reports, dividend distribution, and ex-dividend/ex-rights information.`
+        ),
+
+        shareholder_meeting: t(
+          `股東會相關資訊在 SZS 投資人專區的股東服務專區中，包含股東會、股東會議事錄與股東會年報等項目，用於提供股東查詢會議與年報相關資料。`,
+          `Shareholders meeting information is included in Shareholder Services, covering shareholders meeting, meeting minutes, and annual reports.`
+        ),
+
+        shareholder_dividend: t(
+          `股利分派與除權息是 SZS 股東服務專區中的項目，用於提供股東查詢公司股利與除權息相關資訊。最新資料應以公司公告與公開資訊為準。`,
+          `Dividend Distribution and Ex-dividend/Ex-rights are Shareholder Services items for checking dividend and ex-rights related information. Latest information should follow official disclosures.`
         ),
 
         sustainability: t(
