@@ -1516,70 +1516,53 @@
     function getSzsIntent(text) {
       const q = String(text || "").toLowerCase();
 
-      if (
-        q.includes("社群") || q.includes("facebook") || q.includes("fb") ||
-        q.includes("linkedin") || q.includes("104") || q.includes("部落格") ||
-        q.includes("blog") || q.includes("網站") || q.includes("官網") || q.includes("連結")
-      ) {
-        return "links";
-      }
+      const rules = [
+        { intent: "nb_hinges", words: ["nb hinge", "notebook", "筆電", "筆記型", "筆記型電腦", "nb樞紐", "notebook pc"] },
+        { intent: "lcd_hinges", words: ["lcd", "monitor", "液晶", "顯示器", "lcd monitor"] },
+        { intent: "audio_hinges", words: ["audio", "穿戴", "耳機", "配件", "audio hinges"] },
+        { intent: "tablet_hinges", words: ["tablet", "平板", "tablet hinges"] },
+        { intent: "hinges", words: ["hinge", "hinges", "樞紐", "樞軸", "轉軸", "連結軸", "樞紐製件"] },
+        { intent: "mim", words: ["mim", "金屬射出", "metal injection", "metal injection molding"] },
+        { intent: "springs", words: ["spring", "springs", "彈簧", "彈簧製件"] },
+        { intent: "stamping", words: ["stamping", "沖壓", "沖壓製件"] },
+        { intent: "lathe", words: ["lathe", "車銑", "車製", "車銑製件", "cnc"] },
+        { intent: "ai_server", words: ["ai server", "liquid cooling", "液冷", "伺服器", "ai伺服器"] },
+        { intent: "products", words: ["產品", "產品專區", "主要產品", "產品有哪些", "做哪些產品"] },
 
-      if (
-        q.includes("認證") || q.includes("證書") || q.includes("專利") ||
-        q.includes("iso") || q.includes("品質保證") || q.includes("quality") ||
-        q.includes("certification") || q.includes("patent")
-      ) {
-        return "certifications";
-      }
+        { intent: "rd_vision", words: ["r&d vision", "研發願景", "rd vision"] },
+        { intent: "manufacture_process", words: ["manufacture process", "設備製程", "製造流程", "製程設備"] },
+        { intent: "quality_equipment", words: ["quality inspection", "品質檢驗", "檢驗設備", "品質檢驗設備"] },
+        { intent: "certifications", words: ["certification", "certifications", "認證", "證書", "iso", "品質保證"] },
+        { intent: "patents", words: ["patent", "patents", "專利", "專業認證", "patents and certifications"] },
+        { intent: "technology", words: ["專業技術", "技術", "研發", "製程", "檢驗"] },
 
-      if (
-        q.includes("技術") || q.includes("研發") || q.includes("設備") ||
-        q.includes("製程") || q.includes("檢驗") || q.includes("r&d") ||
-        q.includes("manufacture") || q.includes("process") || q.includes("inspection")
-      ) {
-        return "technology";
-      }
+        { intent: "company_profile", words: ["company profile", "公司基本資料", "公司資料"] },
+        { intent: "material_info", words: ["material information", "重大訊息", "重大訊息公告"] },
+        { intent: "investor_seminars", words: ["investor seminars", "法人說明會", "法說會", "投資論壇", "企業日", "路演"] },
+        { intent: "financial_info", words: ["financial information", "財務資訊", "財報", "營收"] },
+        { intent: "shareholder_services", words: ["shareholders services", "shareholder", "股東服務", "股東服務專區"] },
+        { intent: "investor", words: ["投資人", "投資人專區", "股東", "法人", "財務"] },
 
-      if (
-        q.includes("產品") || q.includes("樞紐") || q.includes("hinge") ||
-        q.includes("mim") || q.includes("金屬射出") || q.includes("彈簧") ||
-        q.includes("沖壓") || q.includes("車銑") || q.includes("lathe") ||
-        q.includes("stamping") || q.includes("spring") || q.includes("ai server") ||
-        q.includes("液冷")
-      ) {
-        return "products";
-      }
+        { intent: "sustainability_performance", words: ["關鍵績效", "永續績效"] },
+        { intent: "sustainability_vision", words: ["永續願景"] },
+        { intent: "environment", words: ["環境永續", "環境", "能源", "氣候", "水資源", "廢棄物"] },
+        { intent: "governance", words: ["公司治理", "治理"] },
+        { intent: "supply_chain", words: ["供應鏈", "供應鏈管理"] },
+        { intent: "stakeholders", words: ["利害關係人", "重大性", "重大議題"] },
+        { intent: "workplace", words: ["友善職場", "職場", "員工照顧"] },
+        { intent: "social_participation", words: ["社會參與", "公益"] },
+        { intent: "sustainability_reports", words: ["報告書", "永續報告書", "報告書下載"] },
+        { intent: "sustainability", words: ["企業永續", "永續", "esg"] },
 
-      if (
-        q.includes("永續") || q.includes("esg") || q.includes("環境") ||
-        q.includes("公司治理") || q.includes("供應鏈") || q.includes("利害關係人") ||
-        q.includes("友善職場") || q.includes("社會參與")
-      ) {
-        return "sustainability";
-      }
+        { intent: "jobs", words: ["人才招募", "招募", "職缺", "加入我們", "工作", "104", "job", "jobs"] },
+        { intent: "news", words: ["最新消息", "新聞", "活動資訊", "social media", "blog", "部落格"] },
+        { intent: "links", words: ["社群", "facebook", "fb", "linkedin", "網站", "官網", "連結", "聯絡", "email"] },
 
-      if (
-        q.includes("投資") || q.includes("股東") || q.includes("財務") ||
-        q.includes("法人") || q.includes("重大訊息") || q.includes("investor")
-      ) {
-        return "investor";
-      }
+        { intent: "company", words: ["介紹szs", "szs公司", "szs 公司", "szs 是", "szs是", "新日興", "公司介紹", "介紹公司", "about szs", "公司是做什麼", "做什麼的"] }
+      ];
 
-      if (
-        q.includes("招募") || q.includes("職缺") || q.includes("人才") ||
-        q.includes("加入") || q.includes("工作") || q.includes("104") ||
-        q.includes("job")
-      ) {
-        return "jobs";
-      }
-
-      if (
-        q.includes("介紹szs") || q.includes("szs公司") || q.includes("szs 公司") ||
-        q.includes("szs 是") || q.includes("szs是") || q.includes("新日興") ||
-        q.includes("公司介紹") || q.includes("介紹公司") || q.includes("about szs") ||
-        q.includes("公司是做什麼") || q.includes("做什麼的")
-      ) {
-        return "company";
+      for (const rule of rules) {
+        if (rule.words.some(word => q.includes(word))) return rule.intent;
       }
 
       return "";
@@ -1591,44 +1574,154 @@
           `新日興股份有限公司（SZS Co., Ltd.）是一家具備數十年 OEM/ODM 經驗的精密零組件製造公司。依官網公開資訊，公司結合研發技術能力與垂直整合製程，配合客戶需求生產各類科技產品使用的樞軸與相關零組件，應用範圍包含 3C 產品、通訊產品與多種產業領域。<br><br>
           公司於 1990 年代初期配合資訊業筆記型電腦發展，開發 HINGE 轉軸，並累積多種專利結構組件產品。這個 SZS PE 知識庫目前是內部原型系統，目標是協助 PE 部門整理產品資料、SOP、測試報告、訓練文件與研發資料。`,
           `SZS Co., Ltd. is a precision component manufacturer with decades of OEM/ODM experience. According to the public company website, SZS combines R&D capability with vertically integrated manufacturing processes to produce hinges and related components for technology products, serving applications across 3C products, communication products, and other industries.<br><br>
-          In the early 1990s, SZS developed hinge products alongside the rise of notebook computers and accumulated many patented structural components. This SZS PE Knowledge Base is currently an internal prototype for organizing product data, SOPs, test reports, training materials, and R&D documents.`
+          In the early 1990s, SZS developed hinge products alongside the rise of notebook computers and accumulated many patented structural components. This PE Knowledge Base is an internal prototype for organizing product data, SOPs, test reports, training materials, and R&D documents.`
         ),
 
         products: t(
-          `依 SZS 官網產品專區，主要產品包含：筆記型電腦樞紐（NB Hinges）、液晶顯示器樞紐（LCD Monitor Hinges）、穿戴及配件類樞紐（Audio Hinges）、平板類樞紐（Tablet Hinges）、金屬射出成形 MIM、車銑製件、沖壓製件、彈簧製件，以及 AI Server & Liquid Cooling 相關產品。`,
-          `According to the SZS product section, major products include NB hinges, LCD monitor hinges, audio/wearable accessory hinges, tablet hinges, metal injection molding (MIM), lathe parts, stamping parts, springs, and AI Server & Liquid Cooling related products.`
+          `依 SZS 官網「產品專區」，主要分類包含：Hinges 樞紐製件、MIM 金屬射出成型、Springs 彈簧製件、Stamping 沖壓製件、Lathe 車銑製件，以及 AI Server & Liquid Cooling。官網也提到產品多為針對各機型特別開發，並服務全球國際大廠。`,
+          `According to the SZS Products section, major categories include Hinges, MIM metal injection molding, Springs, Stamping, Lathe parts, and AI Server & Liquid Cooling. The website states that products are often developed specifically for different models and supplied to global customers.`
+        ),
+
+        hinges: t(
+          `Hinges 樞紐製件是 SZS 產品專區中的重要分類。依官網說明，新日興自 1990 年成立研發部門設計 Notebook PC 使用樞軸後，建置組立生產線，專業生產電子類、電器類、電腦資訊類、通信類、照相機與儀器類等產品之連結軸。`,
+          `Hinges are a key SZS product category. According to the website, after establishing an R&D department in 1990 to design hinges for Notebook PCs, SZS built assembly production lines and specialized in connection shafts for electronics, electrical products, computers, communications, cameras, instruments, and related products.`
+        ),
+
+        nb_hinges: t(
+          `NB Hinges 是筆記型電腦樞紐相關產品，屬於 SZS 樞紐製件應用之一。依官網產品介紹，SZS 早期即配合 Notebook PC 發展投入樞軸設計與專利申請。`,
+          `NB Hinges are notebook computer hinge products and one of SZS’s hinge applications. The website states that SZS began hinge design and patent applications alongside early Notebook PC development.`
+        ),
+
+        lcd_hinges: t(
+          `LCD Monitor Hinges 是液晶顯示器樞紐相關產品，屬於 SZS 樞紐製件應用之一，用於顯示器結構連結與角度調整等機構需求。`,
+          `LCD Monitor Hinges are hinge products for LCD monitors, used for structural connection and angle adjustment requirements.`
+        ),
+
+        audio_hinges: t(
+          `Audio Hinges 是穿戴及配件類樞紐相關產品，屬於 SZS 樞紐製件在消費性電子與配件領域的應用。`,
+          `Audio Hinges are hinge products for wearable and accessory-related applications in consumer electronics and accessories.`
+        ),
+
+        tablet_hinges: t(
+          `Tablet Hinges 是平板類樞紐相關產品，屬於 SZS 樞紐製件在平板裝置與相關機構件上的應用。`,
+          `Tablet Hinges are hinge products for tablet devices and related mechanisms.`
+        ),
+
+        mim: t(
+          `MIM 金屬射出成型是 SZS 產品專區分類之一。依官網說明，金屬射出成型結合粉末冶金與射出成型技術，可用於製造精密、複雜且尺寸穩定的金屬零組件。`,
+          `MIM, or metal injection molding, is one of SZS’s product categories. The website describes MIM as a technology combining powder metallurgy and injection molding for precision metal components.`
+        ),
+
+        springs: t(
+          `Springs 彈簧製件是 SZS 產品分類之一。依官網說明，公司提供國內外客戶各式精密彈簧，是台灣彈簧專業 OEM / ODM 廠商，產品種類超過 4000 餘種，應用於電子 3C、醫療器材與機械設備等用途。`,
+          `Springs are one of SZS’s product categories. The website states that SZS provides precision springs for domestic and international customers, with over 4,000 product types used in 3C electronics, medical devices, machinery, and other applications.`
+        ),
+
+        stamping: t(
+          `Stamping 沖壓製件是 SZS 產品專區分類之一，屬於精密金屬零組件製造相關製程，可搭配模具設計與量產需求提供零件製作。`,
+          `Stamping is one of SZS’s product categories and relates to precision metal component manufacturing using stamping processes and tooling.`
+        ),
+
+        lathe: t(
+          `Lathe 車銑製件是 SZS 產品分類之一。依官網說明，公司自 2001 年開始陸續引進百餘台多功能 CNC 車床機，可承製生產直徑 3mm 到 32mm 的車製件。`,
+          `Lathe parts are one of SZS’s product categories. The website states that SZS introduced over one hundred multifunction CNC lathes since 2001 and can produce lathe parts from 3mm to 32mm in diameter.`
+        ),
+
+        ai_server: t(
+          `AI Server & Liquid Cooling 是 SZS 官網產品專區中的分類之一，代表公司產品應用也延伸到 AI 伺服器與液冷相關零組件領域。`,
+          `AI Server & Liquid Cooling is listed as a product category on the SZS website, indicating applications in AI server and liquid-cooling related components.`
         ),
 
         technology: t(
-          `依 SZS 官網「專業技術與認證」分類，技術相關區塊包含：研發願景（R&D Vision）、設備製程（Manufacture Process）、品質檢驗設備（Quality Inspection Equipment）、認證（Certifications）、專業認證（Patents and Certifications）。官網也提到，技術團隊專精於研發設計，涵蓋機構連結、精密模具、連續模組設計與精密彈簧等能力。`,
-          `According to the SZS “Professional Technology and Certifications” section, related areas include R&D Vision, Manufacture Process, Quality Inspection Equipment, Certifications, and Patents and Certifications. The website also describes R&D design capabilities in structural connection, precision molds, continuous module design, and precision springs.`
+          `依 SZS 官網「專業技術與認證」分類，技術相關區塊包含：研發願景、設備製程、品質檢驗設備、認證與專業認證。官網也提到技術團隊專精於研發設計，涵蓋機構連結、精密模具、連續模組設計與精密彈簧等能力。`,
+          `According to the SZS “Professional Technology and Certifications” section, related areas include R&D Vision, Manufacture Process, Quality Inspection Equipment, Certifications, and Patents and Certifications.`
+        ),
+
+        rd_vision: t(
+          `研發願景是 SZS「專業技術與認證」區的一個項目，用來說明公司研發方向與技術能力。官網提到研發團隊專精於研發設計，包含結構連結、精密模具、連續模組設計與精密彈簧等。`,
+          `R&D Vision is part of the SZS Professional Technology and Certifications section and describes the company’s R&D direction and technical capabilities.`
+        ),
+
+        manufacture_process: t(
+          `設備製程是 SZS「專業技術與認證」區的一個項目，主要與公司製造設備、製程能力與垂直整合生產有關。`,
+          `Manufacture Process is part of the SZS Professional Technology and Certifications section and relates to manufacturing equipment, process capability, and vertically integrated production.`
+        ),
+
+        quality_equipment: t(
+          `品質檢驗設備是 SZS「專業技術與認證」區的一個項目，代表公司在品質檢驗、量測與製程品質控管方面的設備與能力。`,
+          `Quality Inspection Equipment is part of the SZS Professional Technology and Certifications section and represents quality inspection, measurement, and process quality control capabilities.`
         ),
 
         certifications: t(
-          `依 SZS 官網公開資訊，公司在「專業技術與認證」區有「認證」與「專業認證」分類；官網也提到研發團隊多年創新累積，已獲得 1286 件全球專利認證，並持續推動 ISO 9001 品質政策與 ISO 14001 環境保護政策。`,
-          `According to the public SZS website, the “Professional Technology and Certifications” section includes Certifications and Patents and Certifications. The website also states that the R&D team has obtained 1,286 global patent certifications and continues to promote ISO 9001 quality policy and ISO 14001 environmental protection policy.`
+          `依 SZS 官網公開資訊，公司在「專業技術與認證」區設有「認證」分類；官網也提到持續推動 ISO 9001 品質政策與 ISO 14001 環境保護政策。`,
+          `According to the public SZS website, the Professional Technology and Certifications section includes Certifications. The website also mentions ISO 9001 quality policy and ISO 14001 environmental protection policy.`
         ),
 
-        links: t(
-          `SZS 官網有提供多個公開資訊入口：公司簡介、最新消息、產品專區、專業技術與認證、投資人專區、企業永續專區與人才招募。社群與外部連結方面，官網選單中可看到 Facebook 社群平台、Blog 部落格，以及 104 職缺列表入口。<br><br>
-          官網網址：https://www.szs-group.com/`,
-          `The SZS public website provides sections such as Company Introduction, News, Products, Professional Technology and Certifications, Investor Relations, Sustainability, and Careers. The menu also includes Facebook social media, Blog, and 104 job openings links.<br><br>
-          Official website: https://www.szs-group.com/`
-        ),
-
-        sustainability: t(
-          `依 SZS 官網「企業永續專區」，相關內容包含：關鍵績效、永續願景、環境永續、公司治理、供應鏈管理、利害關係人、友善職場與社會參與。`,
-          `According to the SZS Sustainability section, topics include key performance, sustainability vision, environmental sustainability, corporate governance, supply chain management, stakeholders, friendly workplace, and social participation.`
+        patents: t(
+          `依 SZS 官網公開資訊，「專業認證」與 Patents and Certifications 是專業技術與認證區中的項目；官網也提到研發團隊多年創新累積，已獲得 1286 件全球專利認證。`,
+          `According to the SZS website, Patents and Certifications is part of the Professional Technology and Certifications section. The website also states that the R&D team has obtained 1,286 global patent certifications.`
         ),
 
         investor: t(
-          `依 SZS 官網「投資人專區」，相關內容包含：公司基本資料、重大訊息公告、法人說明會、財務資訊與股東服務專區。`,
-          `According to the SZS Investor Relations section, topics include company profile, material information, investor seminars, financial information, and shareholder services.`
+          `依 SZS 官網「投資人專區」，相關分類包含：公司基本資料、重大訊息公告、法人說明會、財務資訊與股東服務專區。`,
+          `According to the SZS Investor Relations section, categories include Company Profile, Material Information, Investor Seminars, Financial Information, and Shareholder Services.`
         ),
 
+        company_profile: t(
+          `公司基本資料是 SZS 投資人專區中的項目，用於提供公司基本資訊，方便投資人與外部利害關係人了解公司概況。`,
+          `Company Profile is an Investor Relations item that provides basic company information for investors and stakeholders.`
+        ),
+
+        material_info: t(
+          `重大訊息公告是 SZS 投資人專區中的項目，用於揭露公司重要公告與重大資訊。`,
+          `Material Information is an Investor Relations item used for important company announcements and disclosures.`
+        ),
+
+        investor_seminars: t(
+          `法人說明會是 SZS 投資人專區中的項目，用於揭露公司受邀參加投資論壇、企業日、海外路演等活動，就公司營運概況進行說明。官網列表可看到 BofA Securities、Nomura、元富證券、富邦證券、國泰證券、花旗證券等相關活動紀錄。`,
+          `Investor Seminars is an Investor Relations item listing investor forums, corporate days, overseas roadshows, and similar events where SZS explains its business overview. The website lists activities involving BofA Securities, Nomura, MasterLink Securities, Fubon Securities, Cathay Securities, Citi, and others.`
+        ),
+
+        financial_info: t(
+          `財務資訊是 SZS 投資人專區中的項目，用於提供財務相關資訊，方便投資人查詢公司財務揭露內容。`,
+          `Financial Information is an Investor Relations item for financial disclosures and related information.`
+        ),
+
+        shareholder_services: t(
+          `股東服務專區是 SZS 投資人專區中的項目，用於提供股東相關服務資訊。`,
+          `Shareholder Services is an Investor Relations item for shareholder-related services.`
+        ),
+
+        sustainability: t(
+          `依 SZS 官網「企業永續專區」，相關內容包含：關鍵績效、永續願景、環境永續、公司治理、供應鏈管理、利害關係人、友善職場、社會參與與報告書下載。`,
+          `According to the SZS Sustainability section, topics include key performance, sustainability vision, environmental sustainability, corporate governance, supply chain management, stakeholders, friendly workplace, social participation, and report downloads.`
+        ),
+
+        sustainability_performance: t(`關鍵績效是 SZS 企業永續專區中的項目，用於呈現公司永續相關績效重點。`, `Key Performance is a Sustainability section item for presenting sustainability-related performance highlights.`),
+        sustainability_vision: t(`永續願景是 SZS 企業永續專區中的項目，用於說明公司永續發展方向。`, `Sustainability Vision is a Sustainability section item describing the company’s sustainability direction.`),
+        environment: t(`環境永續是 SZS 企業永續專區中的項目，涵蓋能源、氣候、水資源、廢棄物與環境管理等議題。`, `Environmental Sustainability covers topics such as energy, climate, water resources, waste, and environmental management.`),
+        governance: t(`公司治理是 SZS 企業永續專區中的項目，與治理制度、誠信經營與營運管理相關。`, `Corporate Governance relates to governance systems, integrity management, and business operations.`),
+        supply_chain: t(`供應鏈管理是 SZS 企業永續專區中的項目，與供應商、承攬商及供應鏈管理議題相關。`, `Supply Chain Management relates to supplier, contractor, and supply chain topics.`),
+        stakeholders: t(`利害關係人是 SZS 企業永續專區中的項目，官網也有重大議題關注度調查，用來蒐集利害關係人的意見。`, `Stakeholders is a Sustainability section item; the website also includes material topic surveys to collect stakeholder feedback.`),
+        workplace: t(`友善職場是 SZS 企業永續專區中的項目，與員工照顧、職場環境與人才相關議題有關。`, `Friendly Workplace relates to employee care, workplace environment, and talent topics.`),
+        social_participation: t(`社會參與是 SZS 企業永續專區中的項目，與公司參與社會、社區或公益相關活動有關。`, `Social Participation relates to social, community, and public-interest activities.`),
+        sustainability_reports: t(`報告書下載是 SZS 企業永續專區中的項目，用於提供企業永續報告書等公開資料下載。`, `Report Downloads provides sustainability reports and related public documents.`),
+
         jobs: t(
-          `依 SZS 官網「人才招募」區，網站提供「加入我們」與 104 職缺列表入口，可用來查看公司職缺與招募資訊。`,
+          `依 SZS 官網「人才招募」區，網站提供「加入我們」與「104 職缺列表」入口，可用來查看公司招募資訊與職缺。`,
           `According to the SZS Careers section, the website provides “Join Us” and 104 job openings links for recruitment information.`
+        ),
+
+        news: t(
+          `依 SZS 官網，最新消息區包含 News、活動資訊、社群媒體與 Blog 等公開資訊入口。`,
+          `According to the SZS website, the News section includes news, activity information, social media, and blog entries.`
+        ),
+
+        links: t(
+          `SZS 官網公開資訊入口包含：公司簡介、最新消息、產品專區、專業技術與認證、投資人專區、企業永續專區與人才招募。外部連結與社群入口包含 Facebook、Blog 與 104 職缺列表。<br><br>
+          官網網址：https://www.szs-group.com/`,
+          `The SZS public website includes Company Introduction, News, Products, Professional Technology and Certifications, Investor Relations, Sustainability, and Careers. External/social links include Facebook, Blog, and 104 job openings.<br><br>
+          Official website: https://www.szs-group.com/`
         )
       };
 
