@@ -1775,11 +1775,28 @@
 
         { intent: "sustainability", words: ["企業永續", "永續", "esg"] },
 
-        { intent: "jobs", words: ["人才招募", "招募", "職缺", "加入我們", "工作", "104", "job", "jobs"] },
-        { intent: "news", words: ["最新消息", "新聞", "活動資訊", "social media", "blog", "部落格"] },
-        { intent: "links", words: ["社群", "facebook", "fb", "linkedin", "網站", "官網", "連結", "聯絡", "email"] },
+        { intent: "jobs_openings", words: ["職缺列表", "104職缺", "job openings", "104"] },
+        { intent: "jobs_application", words: ["應徵", "履歷", "招募表單", "加入我們", "人才招募表單"] },
+        { intent: "jobs", words: ["人才招募", "招募", "職缺", "工作", "job", "jobs"] },
 
-        { intent: "company", words: ["介紹szs", "szs公司", "szs 公司", "szs 是", "szs是", "新日興", "公司介紹", "介紹公司", "about szs", "公司是做什麼", "做什麼的"] }
+        { intent: "news_feeds", words: ["新聞消息", "news feeds", "新聞"] },
+        { intent: "news_information", words: ["活動訊息", "活動資訊", "information"] },
+        { intent: "blog_hinges", words: ["微化hinge", "coil", "blog樞紐", "部落格樞紐", "開發專案"] },
+        { intent: "blog", words: ["blog", "部落格"] },
+        { intent: "news", words: ["最新消息", "social media", "社群平台"] },
+
+        { intent: "history", words: ["沿革", "沿革大事記", "歷史", "history"] },
+        { intent: "vision", words: ["理念與願景", "新日興文化", "經營哲學", "發展願景", "vision", "philosophy"] },
+        { intent: "team", words: ["經營團隊", "組織", "經營團隊與組織", "董事長", "總經理", "team", "organization"] },
+        { intent: "locations_taiwan", words: ["台灣據點", "台灣地區", "台灣總部", "三俊廠", "新樹廠"] },
+        { intent: "locations_china", words: ["中國據點", "中國地區", "蘇州", "福清"] },
+        { intent: "locations_vietnam", words: ["越南據點", "越南地區", "北江"] },
+        { intent: "locations", words: ["全球據點", "全球經營據點", "經營據點", "據點", "location", "locations"] },
+        { intent: "about", words: ["關於新日興", "about szs", "公司簡介", "介紹公司"] },
+
+        { intent: "links", words: ["社群", "facebook", "fb", "linkedin", "網站", "官網", "連結", "聯絡", "email", "線上諮詢", "隱私權"] },
+
+        { intent: "company", words: ["介紹szs", "szs公司", "szs 公司", "szs 是", "szs是", "新日興", "公司是做什麼", "做什麼的"] }
       ];
 
       for (const rule of rules) {
@@ -2677,20 +2694,190 @@
         ),
 
         jobs: t(
-          `依 SZS 官網「人才招募」區，網站提供「加入我們」與「104 職缺列表」入口，可用來查看公司招募資訊與職缺。`,
-          `According to the SZS Careers section, the website provides “Join Us” and 104 job openings links for recruitment information.`
+          `<strong>人才招募</strong><br>
+          依 SZS 官網「人才招募」區，新日興目前正積極擴廠提升產能，為滿足企業成長所需人才，誠摯邀請有志之士加入團隊，共創事業高峰。官網人才招募區包含「加入我們」與「104 職缺列表」兩個主要入口。<br><br>
+          <strong>官網招募表單內容：</strong><br>
+          1. 基本資料：姓名、應徵職務、英文姓名、手機、專長、興趣、招募管道、是否曾任職於新日興、通訊地、戶籍地等。<br>
+          2. 學歷：學校名稱、科系、就讀期間、畢／肄、備註等。<br>
+          3. 工作經歷與其他履歷相關資料。<br><br>
+          <strong>職缺類型範例：</strong><br>
+          官網職務選項包含行政／管理、財務／管理、海外、研發、運籌、品保、技術／製造、資訊、業務／行銷、EHS、環安等類別；也可透過 104 職缺列表查詢最新開缺。`,
+          `<strong>Careers</strong><br>
+          According to the SZS Careers section, SZS is expanding capacity and invites talent to join the team. The Careers area includes “Join Us” and “104 Job Openings.”`
+        ),
+
+        jobs_application: t(
+          `<strong>加入我們 / 應徵表單</strong><br>
+          官網人才招募頁提供線上應徵表單。表單包含基本資料、應徵職務、手機、專長、興趣、招募管道、是否曾任職於新日興、通訊地、戶籍地、學歷與工作經歷等欄位。`,
+          `<strong>Join Us / Application Form</strong><br>
+          The SZS Careers page provides an application form including personal information, desired position, phone, expertise, interests, recruitment channel, prior employment with SZS, address, education, and work experience.`
+        ),
+
+        jobs_openings: t(
+          `<strong>職缺列表</strong><br>
+          SZS 官網人才招募區提供「104 職缺列表」入口，可查詢最新職缺。官網頁面可見職缺類型涵蓋行政管理、財務、海外、研發、運籌、品保、技術製造、資訊、業務行銷、環安與 EHS 等類別。最新開缺內容應以 104 職缺頁面為準。`,
+          `<strong>Job Openings</strong><br>
+          The SZS Careers section links to 104 job openings. Job categories include administration, finance, overseas roles, R&D, logistics, quality assurance, manufacturing/technical roles, IT, sales/marketing, EHS, and environmental/safety roles.`
         ),
 
         news: t(
-          `依 SZS 官網，最新消息區包含 News、活動資訊、社群媒體與 Blog 等公開資訊入口。`,
-          `According to the SZS website, the News section includes news, activity information, social media, and blog entries.`
+          `<strong>最新消息</strong><br>
+          依 SZS 官網「最新消息」區，主要入口包含：新聞消息、活動訊息、社群平台與 Blog 部落格。這個區塊用於對外呈現公司新聞、活動、公益、永續、產學合作、媒體資訊與產品技術部落格內容。`,
+          `<strong>News</strong><br>
+          According to the SZS website, the News section includes News Feeds, Information, Social Media, and Blog.`
+        ),
+
+        news_feeds: t(
+          `<strong>新聞消息</strong><br>
+          官網新聞消息頁列出公司對外新聞與媒體相關內容，例如公益活動、產學合作、企業永續、供應鏈減碳、企業永續獎、產業新聞等。官網可見新聞範例包含：新日興擔任蒲公英基金會傳愛大使、捐贈機械手臂助輔大等三校培育智慧製造人才、傑出台商獎、職業健康與安全指標評比、供應鏈淨零宣示等。`,
+          `<strong>News Feeds</strong><br>
+          The SZS News Feeds page lists external news and media content such as charity activities, industry-academia cooperation, sustainability, supply chain carbon reduction, sustainability awards, and industry news.`
+        ),
+
+        news_information: t(
+          `<strong>活動訊息</strong><br>
+          活動訊息是 SZS 官網最新消息區的項目之一，用於公告或整理公司活動相關資訊。若要查最新活動，應以官網最新消息頁面為準。`,
+          `<strong>Information</strong><br>
+          Information is a News section item for company activity information. Latest activity information should follow the official website.`
+        ),
+
+        blog: t(
+          `<strong>Blog 部落格</strong><br>
+          依 SZS 官網部落格區，分類包含：樞紐製件、金屬射出成型（MIM）、彈簧製件、沖壓製件、車銑製件、水冷散熱產品製件。部落格主要用於刊登產品技術、開發專案或應用相關文章。`,
+          `<strong>Blog</strong><br>
+          The SZS Blog section includes categories such as Hinges, MIM, Springs, Stamping, Lathes, and liquid cooling products.`
+        ),
+
+        blog_hinges: t(
+          `<strong>部落格：樞紐製件範例</strong><br>
+          官網部落格「樞紐製件」分類可見開發專案文章，例如「微化 HINGE (Coil)」。內容提到消費性產品持續追求輕薄，一般消費市場 Hinge 引擎尺寸定型已久，SZS 研發團隊從精密零件要項控制與磨潤條件組成下提升 Hinge 扭力；換言之，在同扭力下可縮小 Hinge 引擎外徑。`,
+          `<strong>Blog: Hinges example</strong><br>
+          The Blog Hinges category includes a development project on miniaturized HINGE (Coil), describing improvements in hinge torque and reduced hinge engine outer diameter under the same torque.`
+        ),
+
+        about: t(
+          `<strong>關於新日興</strong><br>
+          依 SZS 官網「關於新日興」頁，新日興創立於 1965 年，主要製造銷售產品包含電腦零組件、彈簧件、沖製件、組立件、MIM 金屬射出及各項精密加工等，銷售足跡遍佈國際，目前為全球筆電軸承主要供應商。<br><br>
+          <strong>全球最大樞紐及精密零件製造商：</strong><br>
+          官網提到，為持續強化核心競爭優勢，研發團隊多年創新經營，至目前為止已獲得 1,408 件全球專利證書。新日興在品質、環境管理及職業安全衛生系統持續改善，取得 ISO 9001、ISO 14001、ISO 45001 與 IATF 16949 認證，並榮獲國內外大廠評定為特優協力廠且穩定合作。<br><br>
+          <strong>研發與製造：</strong><br>
+          公司成立研發中心從事產品與技術研發創新，並採購高精密生產設備，致力於高精密金屬製品生產製造，使公司在機構設計研發與金屬製品製造領域保有領先同業的競爭優勢。<br><br>
+          <strong>營運規模：</strong><br>
+          官網提到近五年營業額成長快速，兩岸三地員工約 3,600 人，於台灣、新加坡、中國昆山、蘇州、福建、東莞等地均有生產基地及辦事處，並於 2020 年營業額達百億元。`,
+          `<strong>About SZS</strong><br>
+          SZS was founded in 1965 and manufactures computer components, springs, stamping parts, assembly parts, MIM parts, and precision machining products. The website states that SZS is a major global notebook hinge supplier and has obtained 1,408 global patents, with ISO 9001, ISO 14001, ISO 45001, and IATF 16949 certifications.`
+        ),
+
+        history: t(
+          `<strong>沿革大事記</strong><br>
+          依 SZS 官網沿革大事記，新日興的發展歷程包含：<br><br>
+          1. 1965 年：呂氏兄弟於新北市三重創設新興彈簧廠。<br>
+          2. 1968 年：與日本理研發條工業株式會社技術合作共同投資，改名新日興彈簧機械工業股份有限公司。<br>
+          3. 1973 年：於新北市樹林區擴廠。<br>
+          4. 1981 年：增建廠房並增設精密連續送模具製造及沖件製品。<br>
+          5. 1986 年：增購高精密模具生產設備、沖床設備，並引進 Digital 迷你電腦，使公司邁入電腦化經營管理體制。<br>
+          6. 1990 年：成立研發部門，設計 Notebook PC 使用樞紐並申請第一件國際專利，建置組立生產線。<br>
+          7. 1991 年：引進 3D AutoCAD 電腦輔助設計系統。<br>
+          8. 1993 年：榮獲台灣松下電器 SQS 100 本年度唯一特優 AA 協力工廠認定。<br>
+          9. 1995 年：取得 ISO 9002 品質保證認證。<br>
+          10. 1997 年：改名為新日興股份有限公司。<br>
+          11. 1999 年：成為台灣筆記型電腦樞紐零件最大供應廠。`,
+          `<strong>History</strong><br>
+          SZS began as Xinxing Spring Factory in 1965, entered a technical cooperation with Japan’s Riken Spring in 1968, expanded plants in the 1970s and 1980s, entered computerized management in 1986, established an R&D department for notebook hinges in 1990, introduced 3D AutoCAD in 1991, received ISO 9002 certification in 1995, changed its name to SZS Co., Ltd. in 1997, and became Taiwan’s largest notebook hinge supplier in 1999.`
+        ),
+
+        vision: t(
+          `<strong>理念與願景</strong><br>
+          依 SZS 官網「理念與願景」頁，新日興秉持「誠信、創新、專業、圓融」的經營哲學，與員工一起面對挑戰，創造經營成果，並以知足感恩的心情面對未來。<br><br>
+          <strong>發展願景重點：</strong><br>
+          1. 重視產品組裝、品質控管及各項相關配套管理。<br>
+          2. 面對外部環境挑戰，公司依靠過往累積的製造經驗、團隊努力、股東支持、員工與供應商夥伴付出，突破營運瓶頸。<br>
+          3. 官網頁面也提到 109 年筆記型電腦樞軸出貨約 74,448 仟 pcs，LCD 樞軸出貨達 16,872 仟 pcs。<br>
+          4. 109 年度主要營收比重中 NB Hinge 約 26%、LCD Hinge 約 21%、MIM 產品約 15%。<br>
+          5. 109 年合併營收約 152 億 3 仟 3 百萬元，較前一年增加約 29%。`,
+          `<strong>Philosophy and Vision</strong><br>
+          SZS follows the management philosophy of integrity, innovation, professionalism, and harmony. The vision page emphasizes product assembly, quality control, management support, manufacturing experience, team effort, shareholder support, and supplier partnership.`
+        ),
+
+        team: t(
+          `<strong>經營團隊與組織</strong><br>
+          依 SZS 官網「經營團隊與組織」頁，官網列出董事長與總經理資訊，以及各主要部門所營業務。<br><br>
+          <strong>董事長與總經理：</strong><br>
+          1. 董事長：呂勝男，松山商職、彈簧公會創會理事長。<br>
+          2. 總經理：阮朝宗，台灣工業技術學院工業管理系、國立政治大學企業家經營管理研究班、亞東證券分公司經理。<br><br>
+          <strong>主要部門與業務：</strong><br>
+          1. 經營管理委員會：營運目標、經營策略規劃、組織業務協調、專案管理。<br>
+          2. 技術管理委員會：開發集團製造及研發新技術，並推展與管理技術力。<br>
+          3. 企業社會責任委員會：CSR 制度建立、活動與教育訓練。<br>
+          4. 第一事業體：以 Hinge 為主軸，負責產品事業規劃、研發、銷售、製程規劃與製造。<br>
+          5. 第二事業體：LCD TV & Monitor Hinge 與 MIM 事業規劃、研發、銷售、製程規劃與製造。<br>
+          6. 集團總管理體：制度規劃、資源整合、財務、會計、管理、人資、廠務環安、法務、資訊、品保、運籌等。`,
+          `<strong>Management Team and Organization</strong><br>
+          The SZS website lists the chairman, general manager, and major organizational units including management committee, technical management committee, CSR committee, business units, and group administration functions.`
+        ),
+
+        locations: t(
+          `<strong>全球經營據點</strong><br>
+          依 SZS 官網「全球經營據點」頁，據點分為台灣地區、中國地區與越南地區。<br><br>
+          <strong>台灣地區：</strong><br>
+          1. 新日興股份有限公司（台灣總部）：新北市樹林區俊英街 174 號，電話 886-2-2681-3316，傳真 886-2-2681-0670。<br>
+          2. 三俊廠：新北市樹林區三俊街 69 號，電話 886-2-2681-3316，傳真 886-2-2681-0670。<br>
+          3. 新樹廠：新北市新莊區新樹路 529 號，電話 886-2-2681-3316，傳真 886-2-2681-0670。<br><br>
+          <strong>中國地區：</strong><br>
+          1. 欣日興精密電子（蘇州）有限公司：中國江蘇省蘇州市甪直鎮經濟開發區鴻運路 1 號，電話 86-512-6502-6668，傳真 86-512-6502-6698。<br>
+          2. 泓興精密電子（福清）有限公司：中國福建省福清市融僑經濟開發區光電科技園區西環北路斯泰克工業園 5 號樓 1F/2F，電話 86-591-8536-2511，傳真 86-591-8536-8259。<br><br>
+          <strong>越南地區：</strong><br>
+          新日興（北江）有限公司：越南北寧省春錦社和富工業區 CN-04 號地塊的一部分，電話 84-204-3588966。`,
+          `<strong>Global Business Locations</strong><br>
+          The SZS website lists locations in Taiwan, China, and Vietnam, including Taiwan headquarters, Sanjun plant, Xinshu plant, Suzhou, Fuqing, and Bac Giang/Vietnam.`
+        ),
+
+        locations_taiwan: t(
+          `<strong>台灣地區據點：</strong><br>
+          1. 新日興股份有限公司（台灣總部）：新北市樹林區俊英街 174 號。<br>
+          2. 三俊廠：新北市樹林區三俊街 69 號。<br>
+          3. 新樹廠：新北市新莊區新樹路 529 號。<br>
+          電話皆列為 886-2-2681-3316，傳真 886-2-2681-0670。`,
+          `<strong>Taiwan locations:</strong><br>
+          Taiwan headquarters, Sanjun plant, and Xinshu plant in New Taipei City.`
+        ),
+
+        locations_china: t(
+          `<strong>中國地區據點：</strong><br>
+          1. 欣日興精密電子（蘇州）有限公司：中國江蘇省蘇州市甪直鎮經濟開發區鴻運路 1 號，電話 86-512-6502-6668，傳真 86-512-6502-6698。<br>
+          2. 泓興精密電子（福清）有限公司：中國福建省福清市融僑經濟開發區光電科技園區西環北路斯泰克工業園 5 號樓 1F/2F，電話 86-591-8536-2511，傳真 86-591-8536-8259。`,
+          `<strong>China locations:</strong><br>
+          Suzhou and Fuqing locations are listed on the SZS website.`
+        ),
+
+        locations_vietnam: t(
+          `<strong>越南地區據點：</strong><br>
+          新日興（北江）有限公司：越南北寧省春錦社和富工業區 CN-04 號地塊的一部分，電話 84-204-3588966。`,
+          `<strong>Vietnam location:</strong><br>
+          SZS Bac Giang / Vietnam location is listed in Bac Ninh Province with telephone 84-204-3588966.`
         ),
 
         links: t(
-          `SZS 官網公開資訊入口包含：公司簡介、最新消息、產品專區、專業技術與認證、投資人專區、企業永續專區與人才招募。外部連結與社群入口包含 Facebook、Blog 與 104 職缺列表。<br><br>
+          `<strong>SZS 官網公開入口與連結</strong><br>
+          官網主要入口包含：公司簡介、最新消息、產品專區、專業技術與認證、投資人專區、企業永續專區、人才招募。<br><br>
+          <strong>最新消息入口：</strong><br>
+          新聞消息、活動訊息、社群平台、Blog 部落格。<br><br>
+          <strong>人才招募入口：</strong><br>
+          加入我們、104 職缺列表。<br><br>
+          <strong>其他：</strong><br>
+          官網頁尾也有線上諮詢、隱私權政策與 Follow Us 社群連結。<br><br>
           官網網址：https://www.szs-group.com/`,
-          `The SZS public website includes Company Introduction, News, Products, Professional Technology and Certifications, Investor Relations, Sustainability, and Careers. External/social links include Facebook, Blog, and 104 job openings.<br><br>
-          Official website: https://www.szs-group.com/`
+          `<strong>SZS website links</strong><br>
+          Main sections include Company Introduction, News, Products, Professional Technology and Certifications, Investor Relations, Sustainability, and Careers. The website also includes News Feeds, Information, Social Media, Blog, Join Us, 104 Job Openings, online consultation, privacy policy, and Follow Us links.`
+        ),
+
+        company: t(
+          `<strong>SZS / 新日興公司介紹</strong><br>
+          新日興股份有限公司創立於 1965 年，主要製造銷售電腦零組件、彈簧件、沖製件、組立件、MIM 金屬射出及各項精密加工等產品，銷售足跡遍佈國際，目前為全球筆電軸承主要供應商。<br><br>
+          公司累積數十年 OEM / ODM 經驗，具備研發設計、機構連結、精密模具、連續模組設計、精密彈簧、MIM、沖壓、車銑、彈簧與組立等能力。官網提到公司取得 1,408 件全球專利證書，並取得 ISO 9001、ISO 14001、ISO 45001 與 IATF 16949 認證。<br><br>
+          產品與服務包含樞紐製件、沖壓製件、彈簧製件、金屬射出成型、車銑製件與其他產品設備零組件開發及配件產品。`,
+          `<strong>SZS / Company Introduction</strong><br>
+          SZS Co., Ltd. was founded in 1965 and manufactures computer components, springs, stamping parts, assembly parts, MIM products, and precision machined products. The website states that SZS is a major global notebook hinge supplier, has 1,408 global patents, and holds ISO 9001, ISO 14001, ISO 45001, and IATF 16949 certifications.`
         )
       };
 
