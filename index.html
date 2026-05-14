@@ -411,6 +411,80 @@
     }
 
 
+
+    .assistant-full-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .assistant-full-panel {
+      height: 72vh;
+      min-height: 620px;
+      background: var(--panel-solid);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: 0 24px 70px var(--shadow);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .assistant-full-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(135deg, var(--soft), transparent), var(--panel-solid);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .assistant-full-body {
+      flex: 1;
+      padding: 22px;
+      overflow-y: auto;
+      background: color-mix(in srgb, var(--panel-solid) 92%, var(--soft));
+    }
+
+    .assistant-full-footer {
+      padding: 16px;
+      border-top: 1px solid var(--line);
+      background: var(--panel-solid);
+      display: flex;
+      gap: 12px;
+    }
+
+    .assistant-side-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 20px 55px var(--shadow);
+      padding: 22px;
+      backdrop-filter: blur(18px);
+    }
+
+    .assistant-side-card h3 {
+      margin: 0 0 12px;
+      font-size: 20px;
+    }
+
+    .assistant-side-card p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .quick-question {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      text-align: left;
+    }
+
+
     footer { text-align: center; color: var(--muted); padding: 36px 20px; font-size: 13px; }
 
     @media (max-width: 1000px) {
@@ -432,6 +506,8 @@
       .two-col { grid-template-columns: 1fr; }
       .chat-box { left: 16px; right: 16px; width: auto; height: 560px; }
       .assistant-launcher { right: 18px; bottom: 18px; }
+      .assistant-full-layout { grid-template-columns: 1fr; }
+      .assistant-full-panel { height: 70vh; min-height: 520px; }
     }
   </style>
 </head>
@@ -642,6 +718,56 @@
     </div>
   </div>
 
+
+  <main id="assistantPage" class="page">
+    <section class="detail-top">
+      <div class="detail-title-area">
+        <div class="detail-label">RIZEN · FULL ASSISTANT</div>
+        <h1 data-zh="SZS人工智慧小幫手" data-en="SZS AI Assistant">SZS人工智慧小幫手</h1>
+        <p data-zh="這裡是全頁模式，適合比較長的查詢、整理與新人閱讀。右下角小幫手仍然保留，切換頁面時會自動收合。"
+           data-en="This full-page mode is useful for longer searches, summaries, and onboarding reading. The floating assistant remains available and will close automatically when changing pages.">
+          這裡是全頁模式，適合比較長的查詢、整理與新人閱讀。右下角小幫手仍然保留，切換頁面時會自動收合。
+        </p>
+      </div>
+      <div class="detail-actions">
+        <button onclick="showHome()" data-zh="← 返回首頁" data-en="← Back Home">← 返回首頁</button>
+      </div>
+    </section>
+
+    <section class="assistant-full-layout">
+      <div class="assistant-full-panel">
+        <div class="assistant-full-header">
+          <div>
+            <div class="chat-title" data-zh="SZS人工智慧小幫手" data-en="SZS AI Assistant">SZS人工智慧小幫手</div>
+            <div class="chat-status">● RIZEN · FULL PAGE</div>
+          </div>
+          <span class="badge" data-zh="全頁模式" data-en="Full Page Mode">全頁模式</span>
+        </div>
+        <div class="assistant-full-body" id="fullChatBody">
+          <div class="message bot" data-zh="嗨，我是 SZS 小幫手。你可以問我公司官網資訊、產品、認證、投資人資訊，也可以搜尋目前知識庫文件。"
+               data-en="Hi, I am the SZS assistant. You can ask about company website information, products, certifications, investor information, or search the current knowledge base.">
+            嗨，我是 SZS 小幫手。你可以問我公司官網資訊、產品、認證、投資人資訊，也可以搜尋目前知識庫文件。
+          </div>
+        </div>
+        <div class="assistant-full-footer">
+          <input class="chat-input" id="fullChatInput" placeholder="請輸入您的問題..." onkeydown="handleFullEnter(event)" />
+          <button class="primary" onclick="sendFullMessage()" data-zh="傳送" data-en="Send">傳送</button>
+        </div>
+      </div>
+
+      <aside class="assistant-side-card">
+        <h3 data-zh="你可以這樣問" data-en="Try asking">你可以這樣問</h3>
+        <p data-zh="以下是幾個常見問題，點一下可以直接帶入小幫手。" data-en="Here are some common questions. Click one to send it to the assistant.">以下是幾個常見問題，點一下可以直接帶入小幫手。</p>
+        <button class="quick-question" onclick="askQuickQuestion('樞紐製件是什麼')">樞紐製件是什麼</button>
+        <button class="quick-question" onclick="askQuickQuestion('SZS 有哪些產品')">SZS 有哪些產品</button>
+        <button class="quick-question" onclick="askQuickQuestion('法人說明會是什麼')">法人說明會是什麼</button>
+        <button class="quick-question" onclick="askQuickQuestion('SZS 有哪些認證')">SZS 有哪些認證</button>
+        <button class="quick-question" onclick="askQuickQuestion('SZS 有哪些社群網站')">SZS 有哪些社群網站</button>
+      </aside>
+    </section>
+  </main>
+
+
   <div class="assistant-launcher" onclick="toggleAssistant()">?</div>
 
   <div class="chat-box" id="chatBox">
@@ -650,7 +776,10 @@
         <div class="chat-title" data-zh="SZS人工智慧小幫手" data-en="SZS AI Assistant">SZS人工智慧小幫手</div>
         <div class="chat-status">● RIZEN · ONLINE</div>
       </div>
-      <div class="chat-close" onclick="closeAssistant()">×</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="small" onclick="openAssistantPage()" data-zh="全頁模式" data-en="Full Page">全頁模式</button>
+        <div class="chat-close" onclick="closeAssistant()">×</div>
+      </div>
     </div>
     <div class="chat-body" id="chatBody">
       <div class="message bot" data-zh="嗨，我是 SZS 小幫手。你可以直接告訴我想找什麼文件，例如：產品規格書、測試報告、SOP。"
@@ -857,6 +986,7 @@
     }
 
     function showPage(pageId) {
+      closeAssistant();
       document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
       document.getElementById(pageId).classList.add("active");
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1304,6 +1434,30 @@
       addBotMessage(t("你已經登出囉。", "You have been logged out."));
     }
 
+
+    function openAssistantPage() {
+      closeAssistant();
+      showPage("assistantPage");
+      setTimeout(() => {
+        const input = document.getElementById("fullChatInput");
+        if (input) input.focus();
+      }, 120);
+    }
+
+    function handleFullEnter(event) {
+      if (event.key === "Enter") sendFullMessage();
+    }
+
+    function sendFullMessage() {
+      sendMessageFromInput("fullChatInput");
+    }
+
+    function askQuickQuestion(question) {
+      const input = document.getElementById("fullChatInput");
+      if (input) input.value = question;
+      sendFullMessage();
+    }
+
     function toggleAssistant() { document.getElementById("chatBox").classList.toggle("open"); }
     function openAssistant() { document.getElementById("chatBox").classList.add("open"); }
     function closeAssistant() { document.getElementById("chatBox").classList.remove("open"); }
@@ -1583,7 +1737,7 @@
         ),
 
         hinges: t(
-          `Hinges 樞紐製件是 SZS 產品專區中的重要分類。依官網說明，新日興自 1990 年成立研發部門設計 Notebook PC 使用樞軸後，建置組立生產線，專業生產電子類、電器類、電腦資訊類、通信類、照相機與儀器類等產品之連結軸。`,
+          `Hinges 樞紐製件是 SZS 產品專區中的重要分類。依官網說明，新日興自 1990 年成立研發部門設計 Notebook PC 使用樞軸後，建置組立生產線，專業生產電子類、電器類、電腦資訊類、通信類、照相機與儀器類等產品之連結軸。新人可以把它理解為：讓兩個零件能開合、旋轉或定位的關鍵機構件。`,
           `Hinges are a key SZS product category. According to the website, after establishing an R&D department in 1990 to design hinges for Notebook PCs, SZS built assembly production lines and specialized in connection shafts for electronics, electrical products, computers, communications, cameras, instruments, and related products.`
         ),
 
@@ -1618,12 +1772,12 @@
         ),
 
         stamping: t(
-          `Stamping 沖壓製件是 SZS 產品專區分類之一，屬於精密金屬零組件製造相關製程，可搭配模具設計與量產需求提供零件製作。`,
+          `Stamping 沖壓製件是 SZS 產品專區分類之一，屬於精密金屬零組件製造相關製程。依官網內容，沖壓部門具備高度機械化與自動化生產能力，結合精密模具、熱處理、電鍍等相關製程，可依客戶需求提供精密沖壓零件。適合新人理解為：把金屬材料透過模具與沖壓設備加工成指定形狀與尺寸的零組件。`,
           `Stamping is one of SZS’s product categories and relates to precision metal component manufacturing using stamping processes and tooling.`
         ),
 
         lathe: t(
-          `Lathe 車銑製件是 SZS 產品分類之一。依官網說明，公司自 2001 年開始陸續引進百餘台多功能 CNC 車床機，可承製生產直徑 3mm 到 32mm 的車製件。`,
+          `Lathe 車銑製件是 SZS 產品分類之一。依官網說明，公司自 2001 年開始陸續引進百餘台多功能 CNC 車床機，可承製直徑 3mm 到 32mm 的車製件。新人可以把它理解為：透過 CNC 車床加工金屬材料，製作精密圓柱形、軸類或小型金屬零件。`,
           `Lathe parts are one of SZS’s product categories. The website states that SZS introduced over one hundred multifunction CNC lathes since 2001 and can produce lathe parts from 3mm to 32mm in diameter.`
         ),
 
@@ -1730,7 +1884,11 @@
 
 
     function sendMessage() {
-      const input = document.getElementById("chatInput");
+      sendMessageFromInput("chatInput");
+    }
+
+    function sendMessageFromInput(inputId) {
+      const input = document.getElementById(inputId);
       const keyword = input.value.trim();
       if (!keyword) return;
 
@@ -1757,11 +1915,11 @@
       const results = scopeDocs.filter(doc => documentMatchesQuery(doc, keyword));
 
       if (results.length === 0) {
-        addBotMessage(t("我目前沒有找到很接近的文件，你可以換個關鍵字試試，例如：規格書、測試報告、新人訓練、品質、製程。", "I could not find a close match yet. Try another keyword, such as specification, test report, training, quality, or process."));
+        addBotMessage(t("我目前沒有找到很接近的文件，你可以換個說法或關鍵字試試，例如：有產品規格書嗎、測試報告、新人訓練、品質、製程。", "I could not find a close match yet. Try another phrase or keyword, such as product specification, test report, training, quality, or process."));
         return;
       }
 
-      let html = t("我找到以下相關文件：", "I found a few documents that might be related. Please check if these are what you need:");
+      let html = t("我幫你找到幾份可能相關的文件，先看看是不是你要的：", "I found a few documents that might be related. Please check if these are what you need:");
       results.forEach(doc => {
         const db = databases.find(item => item.id === doc.databaseId);
         html += `<div class="chat-result-card"><strong>${t(doc.titleZh, doc.titleEn)}</strong><br><span>${t("分類", "Category")}: ${db ? t(db.titleZh, db.titleEn) : doc.databaseId}</span><br><span>${t("更新日期", "Updated")}: ${doc.updatedAt}</span><br><button style="margin-top:10px;padding:8px 10px;font-size:12px;" onclick="viewFile()">${t("查看檔案", "View File")}</button></div>`;
@@ -1769,59 +1927,30 @@
       addBotMessage(html);
     }
 
-    function addUserMessage(text) {
-      const chatBody = document.getElementById("chatBody");
+    function appendMessageToBody(bodyId, className, content, isHtml) {
+      const chatBody = document.getElementById(bodyId);
+      if (!chatBody) return;
+
       const div = document.createElement("div");
-      div.className = "message user";
-      div.textContent = text;
+      div.className = className;
+
+      if (isHtml) div.innerHTML = content;
+      else div.textContent = content;
+
       chatBody.appendChild(div);
       chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function addUserMessage(text) {
+      appendMessageToBody("chatBody", "message user", text, false);
+      appendMessageToBody("fullChatBody", "message user", text, false);
     }
 
     function addBotMessage(html) {
-      const chatBody = document.getElementById("chatBody");
-      const div = document.createElement("div");
-      div.className = "message bot";
-      div.innerHTML = html;
-      chatBody.appendChild(div);
-      chatBody.scrollTop = chatBody.scrollHeight;
+      appendMessageToBody("chatBody", "message bot", html, true);
+      appendMessageToBody("fullChatBody", "message bot", html, true);
     }
 
-
-    function setupEnterToNextField() {
-      const selector = "input, select, textarea, button";
-      const containers = [
-        document.getElementById("authModal"),
-        document.getElementById("adminPage")
-      ].filter(Boolean);
-
-      containers.forEach(container => {
-        container.addEventListener("keydown", function(event) {
-          if (event.key !== "Enter") return;
-
-          const target = event.target;
-          const tagName = target.tagName.toLowerCase();
-
-          // In textarea, Shift + Enter keeps normal line break behavior.
-          if (tagName === "textarea" && event.shiftKey) return;
-
-          // Prevent accidental form submission / button click.
-          event.preventDefault();
-
-          const fields = Array.from(container.querySelectorAll(selector))
-            .filter(el => !el.disabled && el.offsetParent !== null);
-
-          const index = fields.indexOf(target);
-          if (index >= 0 && index < fields.length - 1) {
-            fields[index + 1].focus();
-          } else if (index === fields.length - 1) {
-            target.blur();
-          }
-        });
-      });
-    }
-
-    setupEnterToNextField();
     init();
   </script>
 </body>
