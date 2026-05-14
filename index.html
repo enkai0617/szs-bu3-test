@@ -1701,11 +1701,24 @@
         { intent: "ai_server", words: ["ai server", "liquid cooling", "液冷", "伺服器", "ai伺服器", "ai 伺服器"] },
         { intent: "products", words: ["產品", "產品專區", "主要產品", "產品有哪些", "做哪些產品"] },
 
+        { intent: "rd_vision_application", words: ["研發願景應用", "研發應用", "rd vision application"] },
+        { intent: "rd_vision_strength", words: ["研發願景優勢", "研發優勢", "研發實力", "rd vision strength"] },
         { intent: "rd_vision", words: ["r&d vision", "研發願景", "rd vision"] },
+
+        { intent: "manufacture_process_equipment", words: ["設備製程設備", "設備製程有哪些", "製程設備有哪些", "manufacture process equipment"] },
+        { intent: "manufacture_process_advantage", words: ["設備製程優勢", "製程優勢", "manufacture process advantage"] },
         { intent: "manufacture_process", words: ["manufacture process", "設備製程", "製造流程", "製程設備"] },
+
+        { intent: "quality_equipment_list", words: ["品質檢驗設備有哪些", "檢驗設備有哪些", "量測設備有哪些", "quality equipment list"] },
+        { intent: "quality_equipment_advantage", words: ["品質檢驗設備優勢", "檢驗設備優勢", "quality inspection advantage"] },
         { intent: "quality_equipment", words: ["quality inspection", "品質檢驗", "檢驗設備", "品質檢驗設備"] },
+
+        { intent: "certifications_policy", words: ["品質政策", "環境政策", "iso 9001", "iso9001", "iso 14001", "iso14001"] },
         { intent: "certifications", words: ["certification", "certifications", "認證", "證書", "iso", "品質保證"] },
+
+        { intent: "patents_ip", words: ["智慧財產", "營業秘密", "智財", "ip management", "專利管理"] },
         { intent: "patents", words: ["patent", "patents", "專利", "專業認證", "patents and certifications"] },
+
         { intent: "technology", words: ["專業技術", "技術", "研發", "製程", "檢驗"] },
 
         { intent: "company_profile", words: ["company profile", "公司基本資料", "公司資料"] },
@@ -2114,38 +2127,158 @@
         ),
 
         technology: t(
-          `依 SZS 官網「專業技術與認證」分類，技術相關區塊包含：研發願景、設備製程、品質檢驗設備、認證與專業認證。官網也提到技術團隊專精於研發設計，涵蓋機構連結、精密模具、連續模組設計與精密彈簧等能力。`,
-          `According to the SZS “Professional Technology and Certifications” section, related areas include R&D Vision, Manufacture Process, Quality Inspection Equipment, Certifications, and Patents and Certifications.`
+          `<strong>專業技術與認證</strong><br>
+          依 SZS 官網「專業技術與認證」分類，主要包含五個項目：研發願景、設備製程、品質檢驗設備、認證、專業認證。整體重點是以數十年 OEM / ODM 經驗、堅強研發設計能力、垂直上下整合製程、先進設備、品質檢驗與智慧財產管理，支援各式科技產品樞軸與相關零組件的設計與製造。<br><br>
+          <strong>分類：</strong><br>
+          1. 研發願景：研發能力、技術背景、產品設計與應用。<br>
+          2. 設備製程：先進設備、現場管理、產能調整、保養追蹤。<br>
+          3. 品質檢驗設備：X-CT、3D 光學輪廓儀、三次元量測儀等檢測設備。<br>
+          4. 認證：ISO 9001 品質政策與 ISO 14001 環境保護政策。<br>
+          5. 專業認證：智慧財產、專利、營業秘密、商標與保密管理制度。`,
+          `<strong>Professional Technology and Certifications</strong><br>
+          According to the SZS website, this section includes R&D Vision, Manufacture Process, Quality Inspection Equipment, Certifications, and Patents and Certifications.`
         ),
 
         rd_vision: t(
-          `研發願景是 SZS「專業技術與認證」區的一個項目，用來說明公司研發方向與技術能力。官網提到研發團隊專精於研發設計，包含結構連結、精密模具、連續模組設計與精密彈簧等。`,
-          `R&D Vision is part of the SZS Professional Technology and Certifications section and describes the company’s R&D direction and technical capabilities.`
+          `<strong>研發願景</strong><br>
+          依 SZS 官網內容，新日興累積數十年的專業 OEM / ODM 經驗，憑藉堅強研發技術能力與垂直上下整合的生產製程，配合客戶需求，及時生產各種科技用樞軸及相關零組件。產品廣泛應用於 3C 產品、通訊產品以及各行各業。<br><br>
+          <strong>研發實力：</strong><br>
+          1. 所有相關零件的設計與製造，每年皆超過數仟種以上產品，展現頂尖研發實力。<br>
+          2. 技術團隊專精於研發設計領域。<br>
+          3. 對各種機型主從結構連結、精密模具、連續模組設計及精密彈簧等，具有堅強技術背景與創新能力。<br>
+          4. 擁有與國外廠商並駕齊驅的技術研發能力及靈活產製過程。<br><br>
+          <strong>應用產品：</strong><br>
+          各類筆記型電腦樞紐、LCD 螢幕、TV、Audio、foldable phone、電腦、電子、光學及家電產品零組配件等。`,
+          `<strong>R&D Vision</strong><br>
+          SZS has decades of OEM/ODM experience, strong R&D capability, and vertically integrated production processes. Products are widely used in 3C products, communications, and many industries. The company designs and manufactures thousands of related parts each year, with expertise in structural connections, precision molds, continuous module design, and precision springs.`
+        ),
+
+        rd_vision_application: t(
+          `研發願景所提到的應用包含各類筆記型電腦樞紐、LCD 螢幕、TV、Audio、foldable phone、電腦、電子、光學及家電產品零組配件等，並廣泛應用於 3C、通訊及各行業。`,
+          `Applications mentioned in R&D Vision include notebook hinges, LCD monitors, TVs, audio, foldable phones, computer, electronics, optical, and home appliance components.`
+        ),
+
+        rd_vision_strength: t(
+          `研發願景的核心優勢是數十年 OEM / ODM 經驗、堅強研發技術能力、垂直上下整合製程、每年數仟種以上產品設計與製造能力，以及在結構連結、精密模具、連續模組設計與精密彈簧等領域的技術背景。`,
+          `R&D strengths include decades of OEM/ODM experience, strong R&D capability, vertically integrated processes, thousands of product designs annually, and expertise in structural connections, precision molds, continuous module design, and precision springs.`
         ),
 
         manufacture_process: t(
-          `設備製程是 SZS「專業技術與認證」區的一個項目，主要與公司製造設備、製程能力與垂直整合生產有關。`,
-          `Manufacture Process is part of the SZS Professional Technology and Certifications section and relates to manufacturing equipment, process capability, and vertically integrated production.`
+          `<strong>設備製程</strong><br>
+          依 SZS 官網內容，製造現場的管理技術是決定品質、交期與成本的最直接因素。新日興廠內管理團隊具有專業現場管理經驗，持續改善效率以滿足顧客需求；所使用之生產機器皆為全球各界先進機種，領先國內同業，將產製效率提升至最佳狀態，並在精準計算控制下生產。<br><br>
+          <strong>製程管理重點：</strong><br>
+          1. 當新技術形成時，設備一併升級。<br>
+          2. 可隨時配合客戶需求改變產能，節省客戶端時間與成本。<br>
+          3. 以電腦為基礎，加上流暢設備製程規劃。<br>
+          4. 每台生產機台皆有精密定期檢查與保養追蹤。<br>
+          5. 透過嚴格訓練的工程師操作，提升生產值。<br><br>
+          <strong>主要設備項目：</strong><br>
+          1. 內外徑研磨機。<br>
+          2. 車床。<br>
+          3. 帶鋸床。<br>
+          4. 雙頭切斷機。<br>
+          5. 鑽頭研磨機。<br>
+          6. 六軸機械手臂。<br>
+          7. CNC 自動車床。<br>
+          8. CNC 攻牙機。<br>
+          9. 無心研磨機。<br>
+          10. 無人搬運車。<br>
+          11. 自動攻牙機。<br>
+          12. 鋁合金及塑膠射出成型機。<br>
+          13. 雷射機。<br>
+          14. 鐳射溶接機。`,
+          `<strong>Manufacture Process</strong><br>
+          According to the SZS website, on-site manufacturing management directly affects quality, delivery, and cost. SZS uses advanced production machines, upgrades equipment when new technologies form, adjusts capacity according to customer needs, and maintains precise inspection and maintenance tracking for production machines.`
+        ),
+
+        manufacture_process_equipment: t(
+          `<strong>設備製程主要設備：</strong><br>
+          內外徑研磨機、車床、帶鋸床、雙頭切斷機、鑽頭研磨機、六軸機械手臂、CNC 自動車床、CNC 攻牙機、無心研磨機、無人搬運車、自動攻牙機、鋁合金及塑膠射出成型機、雷射機、鐳射溶接機。`,
+          `<strong>Manufacture process equipment:</strong><br>
+          Internal/external grinding machines, lathes, band saws, double-head cutting machines, drill grinders, six-axis robots, CNC automatic lathes, CNC tapping machines, centerless grinders, AGVs, automatic tapping machines, aluminum alloy and plastic injection molding machines, laser machines, and laser welding machines.`
+        ),
+
+        manufacture_process_advantage: t(
+          `設備製程的優勢在於：先進設備、專業現場管理、持續效率改善、可配合客戶需求調整產能、設備隨新技術同步升級、機台定期檢查保養，以及嚴格訓練工程師操作。這些因素共同影響品質、交期與成本。`,
+          `Manufacture process advantages include advanced equipment, professional site management, continuous efficiency improvement, capacity adjustment based on customer needs, equipment upgrades alongside new technologies, regular maintenance tracking, and trained engineers.`
         ),
 
         quality_equipment: t(
-          `品質檢驗設備是 SZS「專業技術與認證」區的一個項目，代表公司在品質檢驗、量測與製程品質控管方面的設備與能力。`,
-          `Quality Inspection Equipment is part of the SZS Professional Technology and Certifications section and represents quality inspection, measurement, and process quality control capabilities.`
+          `<strong>品質檢驗設備</strong><br>
+          依 SZS 官網內容，品質檢驗設備頁強調「豐富的管理技術與領先的製程技術」。製造現場管理技術是決定品質、交期與成本的直接因素；新日興以先進設備、專業現場管理、持續改善效率、精密定期檢查與保養追蹤，以及嚴格訓練工程師操作，提升品質與產製效率。<br><br>
+          <strong>主要檢驗設備：</strong><br>
+          1. 德國 Werth X-CT 多測頭式三次元量測儀。<br>
+          2. 3D 光學輪廓儀。<br>
+          3. 三次元量測儀。<br>
+          4. 真圓度機。<br>
+          5. 粗度輪廓儀。<br>
+          6. 壽命測試機。<br>
+          7. 高精度光學量測系統。<br><br>
+          <strong>管理與品質重點：</strong><br>
+          當新技術形成時，設備一併升級；產能可配合客戶需求調整；任何生產機台皆有精密定期檢查與保養追蹤，以電腦為基礎並搭配設備製程規劃，將生產值與品質提升到更高水準。`,
+          `<strong>Quality Inspection Equipment</strong><br>
+          The SZS website emphasizes management technology and advanced process technology. Key equipment includes Werth X-CT multi-sensor CMM, 3D optical profiler, CMM, roundness tester, roughness/profile instrument, life test machine, and high-precision optical measurement system.`
+        ),
+
+        quality_equipment_list: t(
+          `<strong>品質檢驗設備清單：</strong><br>
+          德國 Werth X-CT 多測頭式三次元量測儀、3D 光學輪廓儀、三次元量測儀、真圓度機、粗度輪廓儀、壽命測試機、高精度光學量測系統。`,
+          `<strong>Quality inspection equipment list:</strong><br>
+          Werth X-CT multi-sensor CMM, 3D optical profiler, CMM, roundness tester, roughness/profile instrument, life test machine, and high-precision optical measurement system.`
+        ),
+
+        quality_equipment_advantage: t(
+          `品質檢驗設備的優勢在於可透過先進量測與測試設備支援品質確認，搭配專業現場管理、定期檢查保養、工程師操作與製程規劃，有助於提升品質、交期與成本控制能力。`,
+          `Quality inspection advantages include advanced measurement and test equipment, professional site management, regular maintenance, trained engineers, and process planning to support quality, delivery, and cost control.`
         ),
 
         certifications: t(
-          `依 SZS 官網公開資訊，公司在「專業技術與認證」區設有「認證」分類；官網也提到持續推動 ISO 9001 品質政策與 ISO 14001 環境保護政策。`,
-          `According to the public SZS website, the Professional Technology and Certifications section includes Certifications. The website also mentions ISO 9001 quality policy and ISO 14001 environmental protection policy.`
+          `<strong>認證</strong><br>
+          依 SZS 官網公開資訊，「認證」屬於專業技術與認證區的一部分。官網同時揭示公司品質與環境政策方向：持續推動 ISO 9001 品質政策與 ISO 14001 環境保護政策。<br><br>
+          <strong>ISO 9001 品質政策：</strong><br>
+          滿足客戶需求，永續經營發展；全員品保，環環相扣；問題改善，不斷進步。<br><br>
+          <strong>ISO 14001 環境保護政策：</strong><br>
+          遵守環保法令，邁向綠色企業；節約資源能源，垃圾減量回收；致力污染防治，追求持續改善。<br><br>
+          <strong>理解方式：</strong><br>
+          認證不只是證書本身，也代表公司透過制度化管理，持續強化品質、環境與營運管理要求。`,
+          `<strong>Certifications</strong><br>
+          According to the SZS website, certifications are part of the Professional Technology and Certifications section. The website also states ISO 9001 quality policy and ISO 14001 environmental protection policy.`
+        ),
+
+        certifications_policy: t(
+          `<strong>ISO 9001 品質政策：</strong><br>
+          1. 滿足客戶需求，永續經營發展。<br>
+          2. 全員品保，環環相扣。<br>
+          3. 問題改善，不斷進步。<br><br>
+          <strong>ISO 14001 環境保護政策：</strong><br>
+          1. 遵守環保法令，邁向綠色企業。<br>
+          2. 節約資源能源，垃圾減量回收。<br>
+          3. 致力污染防治，追求持續改善。`,
+          `<strong>ISO 9001 Quality Policy:</strong><br>
+          Meet customer needs, pursue sustainable development, all-member quality assurance, and continuous improvement.<br><br>
+          <strong>ISO 14001 Environmental Policy:</strong><br>
+          Comply with environmental laws, save resources and energy, reduce and recycle waste, prevent pollution, and pursue continuous improvement.`
         ),
 
         patents: t(
-          `依 SZS 官網公開資訊，「專業認證」與 Patents and Certifications 是專業技術與認證區中的項目；官網也提到研發團隊多年創新累積，已獲得 1286 件全球專利認證。`,
-          `According to the SZS website, Patents and Certifications is part of the Professional Technology and Certifications section. The website also states that the R&D team has obtained 1,286 global patent certifications.`
+          `<strong>專業認證 / Patents and Certifications</strong><br>
+          依 SZS 官網內容，公司制定與營運策略連結的智慧財產管理計畫，透過建置智慧財產管理系統、智財資源提供與維護、持續改善機制等措施，推動本土化開發智慧財產，並透過分享智財成果善盡企業社會責任。<br><br>
+          <strong>智慧財產重點：</strong><br>
+          1. 專利權是公司研發能量的具體展示。<br>
+          2. 營業秘密是公司競爭力的關鍵。<br>
+          3. 商標是企業、產品與服務的顯著標誌。<br>
+          4. 公司致力於新技術與新產品研發，積極布局發明與新型專利以形成技術優勢。<br><br>
+          <strong>專利制度：</strong><br>
+          公司建置專利檢索系統，以利專利檢索與分析作業，並制定「專利申請及獎勵辦法」，規範專利申請流程、維護與獎勵金發放，以保障公司權益並獎勵研發同仁。<br><br>
+          <strong>營業秘密保護：</strong><br>
+          包含新進同仁合約保密條款、協力廠商保密合約與模具保管協議、不定期資訊安全與營業秘密教育訓練、營業機密管理辦法、隱私與保密作業程序書，以及員工改善營運提案獎勵作業辦法。`,
+          `<strong>Patents and Certifications</strong><br>
+          SZS has an intellectual property management plan linked to business strategy, including IP management systems, patent search systems, patent application and reward rules, trade secret protection, confidentiality agreements, information security training, and privacy/confidentiality procedures.`
         ),
 
-        investor: t(
-          `依 SZS 官網「投資人專區」，相關分類包含：公司基本資料、重大訊息公告、法人說明會、財務資訊與股東服務專區。`,
-          `According to the SZS Investor Relations section, categories include Company Profile, Material Information, Investor Seminars, Financial Information, and Shareholder Services.`
+        patents_ip: t(
+          `SZS 的智慧財產管理重點包含專利權、營業秘密與商標。公司建置專利檢索系統，制定專利申請及獎勵辦法；營業秘密保護則透過保密條款、協力廠商保密合約、資訊安全宣導與教育訓練、營業機密管理辦法、隱私與保密作業程序書等制度執行。`,
+          `SZS intellectual property management covers patents, trade secrets, and trademarks. Measures include patent search systems, patent application and reward rules, confidentiality clauses, supplier NDAs, information security training, trade secret management rules, and privacy/confidentiality procedures.`
         ),
 
         company_profile: t(
