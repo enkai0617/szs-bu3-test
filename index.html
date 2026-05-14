@@ -1740,15 +1740,39 @@
 
         { intent: "investor", words: ["投資人", "投資人專區", "股東", "法人", "財務"] },
 
-        { intent: "sustainability_performance", words: ["關鍵績效", "永續績效"] },
-        { intent: "sustainability_vision", words: ["永續願景"] },
+        { intent: "sustainability_performance", words: ["關鍵績效", "永續績效", "esg績效", "key performance"] },
+        { intent: "sustainability_vision", words: ["永續願景", "永續發展願景", "sustainability vision"] },
+
+        { intent: "environment_energy", words: ["能源管理", "節能", "節電", "用電", "energy management"] },
+        { intent: "environment_climate", words: ["氣候變遷", "溫室氣體", "碳排", "碳排放", "ghg", "greenhouse"] },
+        { intent: "environment_water", words: ["水資源", "用水", "廢水", "water"] },
+        { intent: "environment_waste", words: ["廢棄物", "廢棄物管理", "回收", "waste"] },
         { intent: "environment", words: ["環境永續", "環境", "能源", "氣候", "水資源", "廢棄物"] },
+
+        { intent: "governance_board", words: ["董事會", "董事", "審計委員會", "薪酬委員會", "board"] },
+        { intent: "governance_ethics", words: ["誠信經營", "道德", "反貪腐", "ethical", "integrity"] },
+        { intent: "governance_risk", words: ["風險管理", "內部控制", "稽核", "risk management"] },
         { intent: "governance", words: ["公司治理", "治理"] },
+
+        { intent: "supply_chain_supplier", words: ["供應商", "承攬商", "supplier", "contractor"] },
+        { intent: "supply_chain_responsible", words: ["責任供應鏈", "供應商管理", "供應鏈管理"] },
         { intent: "supply_chain", words: ["供應鏈", "供應鏈管理"] },
+
+        { intent: "stakeholders_survey", words: ["重大議題", "重大性", "問卷", "調查", "materiality"] },
+        { intent: "stakeholders_channels", words: ["溝通管道", "利害關係人溝通", "stakeholder communication"] },
         { intent: "stakeholders", words: ["利害關係人", "重大性", "重大議題"] },
+
+        { intent: "workplace_talent", words: ["人才發展", "教育訓練", "員工訓練", "talent", "training"] },
+        { intent: "workplace_safety", words: ["職業安全", "職安", "安全衛生", "occupational safety"] },
+        { intent: "workplace_benefits", words: ["員工福利", "薪酬", "福利", "benefits"] },
         { intent: "workplace", words: ["友善職場", "職場", "員工照顧"] },
+
+        { intent: "social_participation_charity", words: ["公益", "社區", "捐贈", "charity", "community"] },
         { intent: "social_participation", words: ["社會參與", "公益"] },
+
+        { intent: "sustainability_reports_download", words: ["永續報告書下載", "報告書下載", "下載報告書"] },
         { intent: "sustainability_reports", words: ["報告書", "永續報告書", "報告書下載"] },
+
         { intent: "sustainability", words: ["企業永續", "永續", "esg"] },
 
         { intent: "jobs", words: ["人才招募", "招募", "職缺", "加入我們", "工作", "104", "job", "jobs"] },
@@ -2429,19 +2453,228 @@
         ),
 
         sustainability: t(
-          `依 SZS 官網「企業永續專區」，相關內容包含：關鍵績效、永續願景、環境永續、公司治理、供應鏈管理、利害關係人、友善職場、社會參與與報告書下載。`,
-          `According to the SZS Sustainability section, topics include key performance, sustainability vision, environmental sustainability, corporate governance, supply chain management, stakeholders, friendly workplace, social participation, and report downloads.`
+          `<strong>企業永續專區</strong><br>
+          依 SZS 官網「企業永續專區」，主要內容包含：關鍵績效、永續願景、環境永續、公司治理、供應鏈管理、利害關係人、友善職場、社會參與、報告書下載。此區塊用於呈現公司在 ESG、環境保護、治理制度、供應鏈、員工照顧與社會參與方面的公開資訊。<br><br>
+          <strong>主要分類：</strong><br>
+          1. 關鍵績效：整理公司永續相關重要績效。<br>
+          2. 永續願景：說明公司永續發展方向與承諾。<br>
+          3. 環境永續：包含能源、氣候、水資源、廢棄物等環境議題。<br>
+          4. 公司治理：包含董事會、誠信經營、風險管理、內部控制等。<br>
+          5. 供應鏈管理：包含供應商、承攬商與責任供應鏈。<br>
+          6. 利害關係人：包含溝通管道與重大議題關注度調查。<br>
+          7. 友善職場：包含人才發展、員工福利、職業安全衛生等。<br>
+          8. 社會參與：包含社區、公益與社會關懷。<br>
+          9. 報告書下載：提供永續報告書等公開資料下載。`,
+          `<strong>Sustainability</strong><br>
+          According to the SZS website, the Sustainability section includes Key Performance, Sustainability Vision, Environmental Sustainability, Corporate Governance, Supply Chain Management, Stakeholders, Friendly Workplace, Social Participation, and Report Downloads.`
         ),
 
-        sustainability_performance: t(`關鍵績效是 SZS 企業永續專區中的項目，用於呈現公司永續相關績效重點。`, `Key Performance is a Sustainability section item for presenting sustainability-related performance highlights.`),
-        sustainability_vision: t(`永續願景是 SZS 企業永續專區中的項目，用於說明公司永續發展方向。`, `Sustainability Vision is a Sustainability section item describing the company’s sustainability direction.`),
-        environment: t(`環境永續是 SZS 企業永續專區中的項目，涵蓋能源、氣候、水資源、廢棄物與環境管理等議題。`, `Environmental Sustainability covers topics such as energy, climate, water resources, waste, and environmental management.`),
-        governance: t(`公司治理是 SZS 企業永續專區中的項目，與治理制度、誠信經營與營運管理相關。`, `Corporate Governance relates to governance systems, integrity management, and business operations.`),
-        supply_chain: t(`供應鏈管理是 SZS 企業永續專區中的項目，與供應商、承攬商及供應鏈管理議題相關。`, `Supply Chain Management relates to supplier, contractor, and supply chain topics.`),
-        stakeholders: t(`利害關係人是 SZS 企業永續專區中的項目，官網也有重大議題關注度調查，用來蒐集利害關係人的意見。`, `Stakeholders is a Sustainability section item; the website also includes material topic surveys to collect stakeholder feedback.`),
-        workplace: t(`友善職場是 SZS 企業永續專區中的項目，與員工照顧、職場環境與人才相關議題有關。`, `Friendly Workplace relates to employee care, workplace environment, and talent topics.`),
-        social_participation: t(`社會參與是 SZS 企業永續專區中的項目，與公司參與社會、社區或公益相關活動有關。`, `Social Participation relates to social, community, and public-interest activities.`),
-        sustainability_reports: t(`報告書下載是 SZS 企業永續專區中的項目，用於提供企業永續報告書等公開資料下載。`, `Report Downloads provides sustainability reports and related public documents.`),
+        sustainability_performance: t(
+          `<strong>關鍵績效</strong><br>
+          關鍵績效是 SZS 企業永續專區中的項目，用於彙整公司在永續發展、環境、社會與治理相關面向的重要成果與指標。這個頁面適合快速了解公司在 ESG 相關工作的整體表現。<br><br>
+          <strong>可理解的重點：</strong><br>
+          1. 以數據或重點項目呈現永續表現。<br>
+          2. 方便外部利害關係人快速理解公司 ESG 成果。<br>
+          3. 可作為新人了解公司永續工作成果的入口。`,
+          `<strong>Key Performance</strong><br>
+          Key Performance summarizes important sustainability, environmental, social, and governance achievements and indicators.`
+        ),
+
+        sustainability_vision: t(
+          `<strong>永續願景</strong><br>
+          永續願景是 SZS 企業永續專區中的項目，用於說明公司對永續發展的方向與承諾。其核心概念是將企業經營與環境、社會、治理責任結合，持續推動公司長期穩健發展。<br><br>
+          <strong>可理解的重點：</strong><br>
+          1. 公司不只追求營運與產品，也重視環境與社會責任。<br>
+          2. 永續願景是後續 ESG 工作的方向。<br>
+          3. 對外呈現公司長期經營與責任治理的態度。`,
+          `<strong>Sustainability Vision</strong><br>
+          Sustainability Vision describes the company’s direction and commitment to long-term sustainable development, integrating business operations with environmental, social, and governance responsibilities.`
+        ),
+
+        environment: t(
+          `<strong>環境永續</strong><br>
+          依 SZS 官網企業永續專區，環境永續涵蓋環境管理、能源管理、氣候變遷、水資源管理與廢棄物管理等議題。此區塊用於說明公司在降低環境衝擊、遵守環保要求、提升資源使用效率與推動環境改善方面的作法。<br><br>
+          <strong>主要議題：</strong><br>
+          1. 能源管理：節能與能源使用效率。<br>
+          2. 氣候變遷：溫室氣體與碳排放相關管理。<br>
+          3. 水資源管理：用水與廢水管理。<br>
+          4. 廢棄物管理：廢棄物減量、分類、回收與處理。<br>
+          5. 環境管理：環境制度與持續改善。`,
+          `<strong>Environmental Sustainability</strong><br>
+          Environmental Sustainability covers environmental management, energy management, climate change, water resources, and waste management.`
+        ),
+
+        environment_energy: t(
+          `<strong>能源管理</strong><br>
+          能源管理屬於環境永續的一部分，重點在於提升能源使用效率、推動節能改善，並降低營運過程中的能源消耗與環境影響。`,
+          `<strong>Energy Management</strong><br>
+          Energy management focuses on improving energy efficiency, promoting energy-saving improvements, and reducing environmental impact.`
+        ),
+
+        environment_climate: t(
+          `<strong>氣候變遷 / 溫室氣體</strong><br>
+          氣候變遷議題屬於環境永續的一部分，重點在於溫室氣體與碳排放相關管理，協助公司掌握營運對氣候與環境的影響。`,
+          `<strong>Climate Change / Greenhouse Gas</strong><br>
+          Climate-related topics include greenhouse gas and carbon emission management.`
+        ),
+
+        environment_water: t(
+          `<strong>水資源管理</strong><br>
+          水資源管理屬於環境永續的一部分，重點在於用水管理、廢水管理與資源使用效率，降低營運對水資源的影響。`,
+          `<strong>Water Resource Management</strong><br>
+          Water management covers water usage, wastewater management, and resource efficiency.`
+        ),
+
+        environment_waste: t(
+          `<strong>廢棄物管理</strong><br>
+          廢棄物管理屬於環境永續的一部分，重點在於廢棄物減量、分類、回收與妥善處理，以降低營運活動對環境造成的負擔。`,
+          `<strong>Waste Management</strong><br>
+          Waste management focuses on waste reduction, sorting, recycling, and proper treatment.`
+        ),
+
+        governance: t(
+          `<strong>公司治理</strong><br>
+          公司治理是 SZS 企業永續專區中的重要項目，與公司治理制度、董事會運作、功能性委員會、誠信經營、風險管理、內部控制與資訊透明有關。<br><br>
+          <strong>主要內容：</strong><br>
+          1. 董事會與功能性委員會。<br>
+          2. 誠信經營與道德規範。<br>
+          3. 風險管理與內部控制。<br>
+          4. 公司治理制度與資訊揭露。<br><br>
+          這個區塊主要讓外部利害關係人了解公司是否以透明、穩健、負責任的方式經營。`,
+          `<strong>Corporate Governance</strong><br>
+          Corporate Governance covers governance systems, board operations, committees, ethical management, risk management, internal control, and information transparency.`
+        ),
+
+        governance_board: t(
+          `<strong>董事會與功能性委員會</strong><br>
+          董事會與功能性委員會屬於公司治理的重要內容，用於監督公司營運、治理制度與重大決策，並提升公司治理品質。`,
+          `<strong>Board and Committees</strong><br>
+          The board and committees are key governance mechanisms for supervising operations, governance systems, and major decisions.`
+        ),
+
+        governance_ethics: t(
+          `<strong>誠信經營</strong><br>
+          誠信經營屬於公司治理的重要內容，重點在於建立道德規範、反貪腐與負責任經營文化，降低營運風險並維護公司信任。`,
+          `<strong>Ethical Management</strong><br>
+          Ethical management focuses on business ethics, anti-corruption, responsible operations, and trust.`
+        ),
+
+        governance_risk: t(
+          `<strong>風險管理 / 內部控制</strong><br>
+          風險管理與內部控制屬於公司治理的重要內容，目的是協助公司識別、控管與改善營運風險，提升管理品質與穩定性。`,
+          `<strong>Risk Management / Internal Control</strong><br>
+          Risk management and internal control help the company identify, control, and improve operational risks.`
+        ),
+
+        supply_chain: t(
+          `<strong>供應鏈管理</strong><br>
+          供應鏈管理是 SZS 企業永續專區中的項目，重點在於供應商、承攬商與責任供應鏈管理。這個區塊用於說明公司如何管理供應鏈夥伴，並推動品質、交期、環境、安全與責任採購等要求。<br><br>
+          <strong>主要內容：</strong><br>
+          1. 供應商管理。<br>
+          2. 承攬商管理。<br>
+          3. 責任供應鏈。<br>
+          4. 供應鏈風險與合作要求。`,
+          `<strong>Supply Chain Management</strong><br>
+          Supply Chain Management covers supplier management, contractor management, responsible supply chain, and supply chain risk/cooperation requirements.`
+        ),
+
+        supply_chain_supplier: t(
+          `<strong>供應商 / 承攬商</strong><br>
+          供應商與承攬商管理是供應鏈管理的一部分，重點在於對合作夥伴建立品質、交期、環境、安全與責任相關要求，以確保供應鏈穩定與合規。`,
+          `<strong>Suppliers / Contractors</strong><br>
+          Supplier and contractor management establishes requirements for quality, delivery, environment, safety, and responsibility.`
+        ),
+
+        supply_chain_responsible: t(
+          `<strong>責任供應鏈</strong><br>
+          責任供應鏈是供應鏈管理的重要方向，代表公司不只關注採購與交貨，也重視供應鏈在環境、社會、安全、法規與商業道德上的責任。`,
+          `<strong>Responsible Supply Chain</strong><br>
+          Responsible supply chain means considering environmental, social, safety, regulatory, and ethical responsibilities in addition to procurement and delivery.`
+        ),
+
+        stakeholders: t(
+          `<strong>利害關係人</strong><br>
+          利害關係人是 SZS 企業永續專區中的項目，主要用於說明公司如何與不同利害關係人溝通，並透過重大議題關注度調查等方式了解外部與內部關注的議題。<br><br>
+          <strong>主要內容：</strong><br>
+          1. 利害關係人溝通管道。<br>
+          2. 重大議題關注度調查。<br>
+          3. 蒐集與回應利害關係人關注事項。`,
+          `<strong>Stakeholders</strong><br>
+          Stakeholders covers communication channels, material topic surveys, and collecting/responding to stakeholder concerns.`
+        ),
+
+        stakeholders_survey: t(
+          `<strong>重大議題關注度調查</strong><br>
+          重大議題關注度調查是利害關係人管理的一部分，用來蒐集利害關係人對永續、環境、社會、治理、營運等議題的關注程度。`,
+          `<strong>Material Topic Survey</strong><br>
+          Material topic surveys collect stakeholder concerns regarding sustainability, environment, society, governance, and operations.`
+        ),
+
+        stakeholders_channels: t(
+          `<strong>利害關係人溝通管道</strong><br>
+          利害關係人溝通管道用於讓公司與股東、員工、客戶、供應商、社區或其他外部單位進行資訊交流與意見回饋。`,
+          `<strong>Stakeholder Communication Channels</strong><br>
+          Communication channels support exchanges and feedback between the company and shareholders, employees, customers, suppliers, communities, and other parties.`
+        ),
+
+        workplace: t(
+          `<strong>友善職場</strong><br>
+          友善職場是 SZS 企業永續專區中的項目，主要與員工照顧、人才發展、教育訓練、員工福利、職業安全衛生與工作環境相關。<br><br>
+          <strong>主要內容：</strong><br>
+          1. 人才發展與教育訓練。<br>
+          2. 員工福利與照顧。<br>
+          3. 職業安全衛生。<br>
+          4. 友善、穩定與安全的工作環境。`,
+          `<strong>Friendly Workplace</strong><br>
+          Friendly Workplace relates to employee care, talent development, training, benefits, occupational safety and health, and workplace environment.`
+        ),
+
+        workplace_talent: t(
+          `<strong>人才發展 / 教育訓練</strong><br>
+          人才發展與教育訓練屬於友善職場的重要內容，重點在於提升員工能力、支持職涯成長，並讓組織能持續累積專業能力。`,
+          `<strong>Talent Development / Training</strong><br>
+          Talent development and training support employee capability, career development, and organizational expertise.`
+        ),
+
+        workplace_safety: t(
+          `<strong>職業安全衛生</strong><br>
+          職業安全衛生屬於友善職場的重要內容，重點在於確保員工工作安全、降低職業風險，並維持健康與安全的工作環境。`,
+          `<strong>Occupational Safety and Health</strong><br>
+          Occupational safety and health focuses on workplace safety, risk reduction, and a healthy working environment.`
+        ),
+
+        workplace_benefits: t(
+          `<strong>員工福利</strong><br>
+          員工福利屬於友善職場的一部分，重點在於員工照顧、工作穩定性與職場支持，讓員工能在更友善的環境中工作。`,
+          `<strong>Employee Benefits</strong><br>
+          Employee benefits support employee care, work stability, and a friendly workplace.`
+        ),
+
+        social_participation: t(
+          `<strong>社會參與</strong><br>
+          社會參與是 SZS 企業永續專區中的項目，與公司參與社區、公益與社會關懷相關活動有關。這個區塊呈現公司除了營運與產品外，也透過社會參與回應社會需求與企業責任。`,
+          `<strong>Social Participation</strong><br>
+          Social Participation relates to community, charity, and social care activities as part of corporate responsibility.`
+        ),
+
+        social_participation_charity: t(
+          `<strong>公益 / 社區參與</strong><br>
+          公益與社區參與屬於社會參與的一部分，重點在於公司透過公益、社區互動或社會關懷活動，回饋社會並實踐企業社會責任。`,
+          `<strong>Charity / Community Participation</strong><br>
+          Charity and community participation are part of social participation, supporting corporate social responsibility.`
+        ),
+
+        sustainability_reports: t(
+          `<strong>報告書下載</strong><br>
+          報告書下載是 SZS 企業永續專區中的項目，用於提供企業永續報告書等公開資料下載，方便利害關係人查詢公司 ESG 與永續相關揭露內容。`,
+          `<strong>Report Downloads</strong><br>
+          Report Downloads provides sustainability reports and related public disclosures for stakeholders.`
+        ),
+
+        sustainability_reports_download: t(
+          `永續報告書下載可在 SZS 官網企業永續專區的「報告書下載」項目中查詢。此區主要提供企業永續報告書等公開資料下載，方便查閱公司 ESG 揭露內容。`,
+          `Sustainability report downloads are available in the Sustainability section under Report Downloads.`
+        ),
 
         jobs: t(
           `依 SZS 官網「人才招募」區，網站提供「加入我們」與「104 職缺列表」入口，可用來查看公司招募資訊與職缺。`,
