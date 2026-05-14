@@ -343,6 +343,74 @@
     .form button { width: 100%; margin-top: 8px; padding: 14px; }
     .form-hint { margin-top: 14px; color: var(--muted); font-size: 13px; line-height: 1.7; text-align: center; }
 
+
+    .toast-container {
+      position: fixed;
+      top: 86px;
+      right: 28px;
+      z-index: 120;
+      display: grid;
+      gap: 10px;
+      max-width: 360px;
+    }
+
+    .toast {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: var(--panel-solid);
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 45px var(--shadow);
+      color: var(--text);
+      font-weight: 900;
+      line-height: 1.5;
+      animation: toastIn 0.22s ease;
+    }
+
+    .toast.success {
+      border-color: rgba(22, 163, 74, 0.35);
+      background: color-mix(in srgb, var(--panel-solid) 88%, rgba(22, 163, 74, 0.16));
+    }
+
+    .toast.error {
+      border-color: rgba(239, 68, 68, 0.35);
+      background: color-mix(in srgb, var(--panel-solid) 88%, rgba(239, 68, 68, 0.12));
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .confirm-card {
+      width: 420px;
+      max-width: 100%;
+      background: var(--panel-solid);
+      color: var(--text);
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      box-shadow: 0 36px 90px rgba(0, 0, 0, 0.28);
+      padding: 24px;
+    }
+
+    .confirm-card h2 {
+      margin: 0 0 10px;
+      font-size: 24px;
+    }
+
+    .confirm-card p {
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .confirm-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+
     footer { text-align: center; color: var(--muted); padding: 36px 20px; font-size: 13px; }
 
     @media (max-width: 1000px) {
@@ -559,6 +627,20 @@
       </div>
     </section>
   </main>
+
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <div class="modal-backdrop" id="logoutConfirmModal">
+    <div class="confirm-card">
+      <h2 data-zh="確認登出" data-en="Confirm Logout">確認登出</h2>
+      <p data-zh="確定要登出目前帳號嗎？" data-en="Are you sure you want to log out of this account?">確定要登出目前帳號嗎？</p>
+      <div class="confirm-actions">
+        <button onclick="closeLogoutConfirm()" data-zh="取消" data-en="Cancel">取消</button>
+        <button class="primary" onclick="confirmLogout()" data-zh="確定登出" data-en="Log Out">確定登出</button>
+      </div>
+    </div>
+  </div>
 
   <div class="assistant-launcher" onclick="toggleAssistant()">?</div>
 
@@ -1184,6 +1266,44 @@
       document.getElementById("themeBtn").textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
     }
 
+
+    function showToast(message, type = "success") {
+      const container = document.getElementById("toastContainer");
+      if (!container) return;
+
+      const toast = document.createElement("div");
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(-8px)";
+        toast.style.transition = "0.2s ease";
+        setTimeout(() => toast.remove(), 220);
+      }, 2400);
+    }
+
+    function openLogoutConfirm() {
+      document.getElementById("logoutConfirmModal").classList.add("open");
+    }
+
+    function closeLogoutConfirm() {
+      document.getElementById("logoutConfirmModal").classList.remove("open");
+    }
+
+    function confirmLogout() {
+      closeLogoutConfirm();
+
+      currentUser = null;
+      localStorage.removeItem("szs_current_user");
+      updateAuthUI();
+      showHome();
+
+      showToast(t("登出成功。", "Logout successful."));
+      addBotMessage(t("你已經登出囉。", "You have been logged out."));
+    }
+
     function toggleAssistant() { document.getElementById("chatBox").classList.toggle("open"); }
     function openAssistant() { document.getElementById("chatBox").classList.add("open"); }
     function closeAssistant() { document.getElementById("chatBox").classList.remove("open"); }
@@ -1315,7 +1435,7 @@
       updateAuthUI();
       openAssistant();
 
-      alert(t("登入成功。", "Login successful."));
+      showToast(t("登入成功。", "Login successful."));
 
       addBotMessage(t(
         `歡迎回來，${user.name}。你的目前權限是 ${getRoleLabel(user.role)}，可以開始查資料囉。`,
@@ -1324,16 +1444,7 @@
     }
 
     function logout() {
-      const ok = confirm(t("確定要登出嗎？", "Are you sure you want to log out?"));
-      if (!ok) return;
-
-      currentUser = null;
-      localStorage.removeItem("szs_current_user");
-      updateAuthUI();
-      showHome();
-
-      alert(t("登出成功。", "Logout successful."));
-      addBotMessage(t("你已經登出囉。", "You have been logged out."));
+      openLogoutConfirm();
     }
 
     function updateAuthUI() {
