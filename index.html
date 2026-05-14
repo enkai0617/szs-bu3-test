@@ -1513,30 +1513,128 @@
       return tokens.some(token => searchableText.includes(token));
     }
 
-    function shouldAnswerCompanyIntro(text) {
+    function getSzsIntent(text) {
       const q = String(text || "").toLowerCase();
-      return (
-        q.includes("介紹szs") ||
-        q.includes("szs公司") ||
-        q.includes("szs 是") ||
-        q.includes("szs是") ||
-        q.includes("新日興") ||
-        q.includes("公司介紹") ||
-        q.includes("介紹公司") ||
-        q.includes("about szs")
-      );
+
+      if (
+        q.includes("社群") || q.includes("facebook") || q.includes("fb") ||
+        q.includes("linkedin") || q.includes("104") || q.includes("部落格") ||
+        q.includes("blog") || q.includes("網站") || q.includes("官網") || q.includes("連結")
+      ) {
+        return "links";
+      }
+
+      if (
+        q.includes("認證") || q.includes("證書") || q.includes("專利") ||
+        q.includes("iso") || q.includes("品質保證") || q.includes("quality") ||
+        q.includes("certification") || q.includes("patent")
+      ) {
+        return "certifications";
+      }
+
+      if (
+        q.includes("技術") || q.includes("研發") || q.includes("設備") ||
+        q.includes("製程") || q.includes("檢驗") || q.includes("r&d") ||
+        q.includes("manufacture") || q.includes("process") || q.includes("inspection")
+      ) {
+        return "technology";
+      }
+
+      if (
+        q.includes("產品") || q.includes("樞紐") || q.includes("hinge") ||
+        q.includes("mim") || q.includes("金屬射出") || q.includes("彈簧") ||
+        q.includes("沖壓") || q.includes("車銑") || q.includes("lathe") ||
+        q.includes("stamping") || q.includes("spring") || q.includes("ai server") ||
+        q.includes("液冷")
+      ) {
+        return "products";
+      }
+
+      if (
+        q.includes("永續") || q.includes("esg") || q.includes("環境") ||
+        q.includes("公司治理") || q.includes("供應鏈") || q.includes("利害關係人") ||
+        q.includes("友善職場") || q.includes("社會參與")
+      ) {
+        return "sustainability";
+      }
+
+      if (
+        q.includes("投資") || q.includes("股東") || q.includes("財務") ||
+        q.includes("法人") || q.includes("重大訊息") || q.includes("investor")
+      ) {
+        return "investor";
+      }
+
+      if (
+        q.includes("招募") || q.includes("職缺") || q.includes("人才") ||
+        q.includes("加入") || q.includes("工作") || q.includes("104") ||
+        q.includes("job")
+      ) {
+        return "jobs";
+      }
+
+      if (
+        q.includes("介紹szs") || q.includes("szs公司") || q.includes("szs 公司") ||
+        q.includes("szs 是") || q.includes("szs是") || q.includes("新日興") ||
+        q.includes("公司介紹") || q.includes("介紹公司") || q.includes("about szs") ||
+        q.includes("公司是做什麼") || q.includes("做什麼的")
+      ) {
+        return "company";
+      }
+
+      return "";
     }
 
-    function getCompanyIntroAnswer() {
-      return t(
-        `新日興股份有限公司（SZS Co., Ltd.）是一家具備多年 OEM/ODM 經驗的精密零組件製造公司，主要結合研發技術能力與垂直整合製程，生產科技產品所需的樞軸與相關零組件。產品應用範圍包含 3C 產品、通訊產品與多種產業領域。<br><br>
-        依公司公開網站資訊，SZS 的產品包含筆記型電腦樞紐、液晶顯示器樞紐、穿戴與配件類樞紐、平板類樞紐、金屬射出成形 MIM、車銑製件、沖壓製件與彈簧製件等。公司也重視研發設計、精密模具、連續模組設計與精密彈簧相關技術。<br><br>
-        這個 SZS PE 知識庫目前是內部原型系統，目標是協助 PE 部門整理產品資料、SOP、測試報告、訓練文件與研發資料，讓員工能更快查詢與使用內部知識。`,
-        `SZS Co., Ltd. is a precision component manufacturer with many years of OEM/ODM experience. Based on the company website, SZS combines R&D capabilities with vertically integrated manufacturing processes to produce hinges and related components for technology products, with applications across 3C products, communication products, and various industries.<br><br>
-        The public website lists products such as notebook hinges, LCD monitor hinges, hinges for wearable/accessory products, tablet hinges, metal injection molding (MIM), lathe parts, stamping parts, and springs. SZS also emphasizes R&D design, precision molds, continuous module design, and precision spring technologies.<br><br>
-        This SZS PE Knowledge Base is currently an internal prototype intended to help the PE department organize product data, SOPs, test reports, training materials, and R&D documents so employees can search and use internal knowledge more efficiently.`
-      );
+    function getSzsPublicInfoAnswer(intent) {
+      const answers = {
+        company: t(
+          `新日興股份有限公司（SZS Co., Ltd.）是一家具備數十年 OEM/ODM 經驗的精密零組件製造公司。依官網公開資訊，公司結合研發技術能力與垂直整合製程，配合客戶需求生產各類科技產品使用的樞軸與相關零組件，應用範圍包含 3C 產品、通訊產品與多種產業領域。<br><br>
+          公司於 1990 年代初期配合資訊業筆記型電腦發展，開發 HINGE 轉軸，並累積多種專利結構組件產品。這個 SZS PE 知識庫目前是內部原型系統，目標是協助 PE 部門整理產品資料、SOP、測試報告、訓練文件與研發資料。`,
+          `SZS Co., Ltd. is a precision component manufacturer with decades of OEM/ODM experience. According to the public company website, SZS combines R&D capability with vertically integrated manufacturing processes to produce hinges and related components for technology products, serving applications across 3C products, communication products, and other industries.<br><br>
+          In the early 1990s, SZS developed hinge products alongside the rise of notebook computers and accumulated many patented structural components. This SZS PE Knowledge Base is currently an internal prototype for organizing product data, SOPs, test reports, training materials, and R&D documents.`
+        ),
+
+        products: t(
+          `依 SZS 官網產品專區，主要產品包含：筆記型電腦樞紐（NB Hinges）、液晶顯示器樞紐（LCD Monitor Hinges）、穿戴及配件類樞紐（Audio Hinges）、平板類樞紐（Tablet Hinges）、金屬射出成形 MIM、車銑製件、沖壓製件、彈簧製件，以及 AI Server & Liquid Cooling 相關產品。`,
+          `According to the SZS product section, major products include NB hinges, LCD monitor hinges, audio/wearable accessory hinges, tablet hinges, metal injection molding (MIM), lathe parts, stamping parts, springs, and AI Server & Liquid Cooling related products.`
+        ),
+
+        technology: t(
+          `依 SZS 官網「專業技術與認證」分類，技術相關區塊包含：研發願景（R&D Vision）、設備製程（Manufacture Process）、品質檢驗設備（Quality Inspection Equipment）、認證（Certifications）、專業認證（Patents and Certifications）。官網也提到，技術團隊專精於研發設計，涵蓋機構連結、精密模具、連續模組設計與精密彈簧等能力。`,
+          `According to the SZS “Professional Technology and Certifications” section, related areas include R&D Vision, Manufacture Process, Quality Inspection Equipment, Certifications, and Patents and Certifications. The website also describes R&D design capabilities in structural connection, precision molds, continuous module design, and precision springs.`
+        ),
+
+        certifications: t(
+          `依 SZS 官網公開資訊，公司在「專業技術與認證」區有「認證」與「專業認證」分類；官網也提到研發團隊多年創新累積，已獲得 1286 件全球專利認證，並持續推動 ISO 9001 品質政策與 ISO 14001 環境保護政策。`,
+          `According to the public SZS website, the “Professional Technology and Certifications” section includes Certifications and Patents and Certifications. The website also states that the R&D team has obtained 1,286 global patent certifications and continues to promote ISO 9001 quality policy and ISO 14001 environmental protection policy.`
+        ),
+
+        links: t(
+          `SZS 官網有提供多個公開資訊入口：公司簡介、最新消息、產品專區、專業技術與認證、投資人專區、企業永續專區與人才招募。社群與外部連結方面，官網選單中可看到 Facebook 社群平台、Blog 部落格，以及 104 職缺列表入口。<br><br>
+          官網網址：https://www.szs-group.com/`,
+          `The SZS public website provides sections such as Company Introduction, News, Products, Professional Technology and Certifications, Investor Relations, Sustainability, and Careers. The menu also includes Facebook social media, Blog, and 104 job openings links.<br><br>
+          Official website: https://www.szs-group.com/`
+        ),
+
+        sustainability: t(
+          `依 SZS 官網「企業永續專區」，相關內容包含：關鍵績效、永續願景、環境永續、公司治理、供應鏈管理、利害關係人、友善職場與社會參與。`,
+          `According to the SZS Sustainability section, topics include key performance, sustainability vision, environmental sustainability, corporate governance, supply chain management, stakeholders, friendly workplace, and social participation.`
+        ),
+
+        investor: t(
+          `依 SZS 官網「投資人專區」，相關內容包含：公司基本資料、重大訊息公告、法人說明會、財務資訊與股東服務專區。`,
+          `According to the SZS Investor Relations section, topics include company profile, material information, investor seminars, financial information, and shareholder services.`
+        ),
+
+        jobs: t(
+          `依 SZS 官網「人才招募」區，網站提供「加入我們」與 104 職缺列表入口，可用來查看公司職缺與招募資訊。`,
+          `According to the SZS Careers section, the website provides “Join Us” and 104 job openings links for recruitment information.`
+        )
+      };
+
+      return answers[intent] || "";
     }
+
 
     function sendMessage() {
       const input = document.getElementById("chatInput");
@@ -1553,8 +1651,9 @@
       addUserMessage(keyword);
       input.value = "";
 
-      if (shouldAnswerCompanyIntro(keyword)) {
-        addBotMessage(getCompanyIntroAnswer());
+      const szsIntent = getSzsIntent(keyword);
+      if (szsIntent) {
+        addBotMessage(getSzsPublicInfoAnswer(szsIntent));
         return;
       }
 
