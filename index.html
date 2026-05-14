@@ -801,11 +801,7 @@
       const db = databases.find(item => item.id === selectedDatabaseId);
       let list = getDocumentsByDatabase(selectedDatabaseId);
       if (keyword) {
-        list = list.filter(doc =>
-          doc.titleZh.toLowerCase().includes(keyword) || doc.titleEn.toLowerCase().includes(keyword) ||
-          doc.descriptionZh.toLowerCase().includes(keyword) || doc.descriptionEn.toLowerCase().includes(keyword) ||
-          doc.keywords.toLowerCase().includes(keyword)
-        );
+        list = list.filter(doc => documentMatchesQuery(doc, keyword));
       }
       document.getElementById("detailCount").textContent = currentLang === "zh" ? `${list.length} 份文件` : `${list.length} documents`;
       const container = document.getElementById("detailDocumentList");
@@ -1319,6 +1315,8 @@
       updateAuthUI();
       openAssistant();
 
+      alert(t("登入成功。", "Login successful."));
+
       addBotMessage(t(
         `歡迎回來，${user.name}。你的目前權限是 ${getRoleLabel(user.role)}，可以開始查資料囉。`,
         `Welcome back, ${user.name}. Your current role is ${getRoleLabel(user.role)}, and you can start searching now.`
@@ -1326,10 +1324,15 @@
     }
 
     function logout() {
+      const ok = confirm(t("確定要登出嗎？", "Are you sure you want to log out?"));
+      if (!ok) return;
+
       currentUser = null;
       localStorage.removeItem("szs_current_user");
       updateAuthUI();
       showHome();
+
+      alert(t("登出成功。", "Logout successful."));
       addBotMessage(t("你已經登出囉。", "You have been logged out."));
     }
 
@@ -1355,6 +1358,75 @@
 
     function handleEnter(event) { if (event.key === "Enter") sendMessage(); }
 
+
+    function normalizeSearchQuery(text) {
+      return String(text || "")
+        .toLowerCase()
+        .replace(/[？?。!！,，.、]/g, " ")
+        .replace(/我想要找/g, " ")
+        .replace(/我想找/g, " ")
+        .replace(/我要找/g, " ")
+        .replace(/幫我找/g, " ")
+        .replace(/請問/g, " ")
+        .replace(/有沒有/g, " ")
+        .replace(/有/g, " ")
+        .replace(/嗎/g, " ")
+        .replace(/呢/g, " ")
+        .replace(/請/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function documentMatchesQuery(doc, query) {
+      const normalizedQuery = normalizeSearchQuery(query);
+      if (!normalizedQuery) return true;
+
+      const searchableText = [
+        doc.titleZh,
+        doc.titleEn,
+        doc.descriptionZh,
+        doc.descriptionEn,
+        doc.keywords,
+        doc.type
+      ].join(" ").toLowerCase();
+
+      if (searchableText.includes(normalizedQuery)) return true;
+
+      const tokens = normalizedQuery
+        .split(/\s+/)
+        .map(token => token.trim())
+        .filter(token => token.length >= 2);
+
+      if (tokens.length === 0) return searchableText.includes(normalizedQuery);
+
+      return tokens.some(token => searchableText.includes(token));
+    }
+
+    function shouldAnswerCompanyIntro(text) {
+      const q = String(text || "").toLowerCase();
+      return (
+        q.includes("介紹szs") ||
+        q.includes("szs公司") ||
+        q.includes("szs 是") ||
+        q.includes("szs是") ||
+        q.includes("新日興") ||
+        q.includes("公司介紹") ||
+        q.includes("介紹公司") ||
+        q.includes("about szs")
+      );
+    }
+
+    function getCompanyIntroAnswer() {
+      return t(
+        `新日興股份有限公司（SZS Co., Ltd.）是一家具備多年 OEM/ODM 經驗的精密零組件製造公司，主要結合研發技術能力與垂直整合製程，生產科技產品所需的樞軸與相關零組件。產品應用範圍包含 3C 產品、通訊產品與多種產業領域。<br><br>
+        依公司公開網站資訊，SZS 的產品包含筆記型電腦樞紐、液晶顯示器樞紐、穿戴與配件類樞紐、平板類樞紐、金屬射出成形 MIM、車銑製件、沖壓製件與彈簧製件等。公司也重視研發設計、精密模具、連續模組設計與精密彈簧相關技術。<br><br>
+        這個 SZS PE 知識庫目前是內部原型系統，目標是協助 PE 部門整理產品資料、SOP、測試報告、訓練文件與研發資料，讓員工能更快查詢與使用內部知識。`,
+        `SZS Co., Ltd. is a precision component manufacturer with many years of OEM/ODM experience. Based on the company website, SZS combines R&D capabilities with vertically integrated manufacturing processes to produce hinges and related components for technology products, with applications across 3C products, communication products, and various industries.<br><br>
+        The public website lists products such as notebook hinges, LCD monitor hinges, hinges for wearable/accessory products, tablet hinges, metal injection molding (MIM), lathe parts, stamping parts, and springs. SZS also emphasizes R&D design, precision molds, continuous module design, and precision spring technologies.<br><br>
+        This SZS PE Knowledge Base is currently an internal prototype intended to help the PE department organize product data, SOPs, test reports, training materials, and R&D documents so employees can search and use internal knowledge more efficiently.`
+      );
+    }
+
     function sendMessage() {
       const input = document.getElementById("chatInput");
       const keyword = input.value.trim();
@@ -1370,15 +1442,16 @@
       addUserMessage(keyword);
       input.value = "";
 
+      if (shouldAnswerCompanyIntro(keyword)) {
+        addBotMessage(getCompanyIntroAnswer());
+        return;
+      }
+
       const lowerKeyword = keyword.toLowerCase();
       let scopeDocs = documents;
       if (selectedDatabaseId) scopeDocs = documents.filter(doc => doc.databaseId === selectedDatabaseId);
 
-      const results = scopeDocs.filter(doc =>
-        doc.titleZh.toLowerCase().includes(lowerKeyword) || doc.titleEn.toLowerCase().includes(lowerKeyword) ||
-        doc.descriptionZh.toLowerCase().includes(lowerKeyword) || doc.descriptionEn.toLowerCase().includes(lowerKeyword) ||
-        doc.keywords.toLowerCase().includes(lowerKeyword)
-      );
+      const results = scopeDocs.filter(doc => documentMatchesQuery(doc, keyword));
 
       if (results.length === 0) {
         addBotMessage(t("我目前沒有找到很接近的文件，你可以換個關鍵字試試，例如：規格書、測試報告、新人訓練、品質、製程。", "I could not find a close match yet. Try another keyword, such as specification, test report, training, quality, or process."));
