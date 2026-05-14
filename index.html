@@ -388,9 +388,9 @@
     </div>
   </header>
 
-  <div class="warning-banner" data-zh="原型提醒：此版本資料只會暫存在目前瀏覽器 localStorage，請勿放入公司機密、真實帳密、客戶資料或正式文件。預設最高管理者帳號：工號 1 / 密碼 1。"
-       data-en="Prototype reminder: Data is stored only in this browser localStorage. Do not enter confidential data or real passwords. Default owner account: Employee ID 1 / Password 1.">
-    原型提醒：此版本資料只會暫存在目前瀏覽器 localStorage，請勿放入公司機密、真實帳密、客戶資料或正式文件。預設最高管理者帳號：工號 1 / 密碼 1。
+  <div class="warning-banner" data-zh="原型提醒：此版本資料只會暫存在目前瀏覽器 localStorage，請勿放入公司機密、真實帳密、客戶資料或正式文件。"
+       data-en="Prototype reminder: Data is stored only in this browser localStorage. Do not enter confidential data or real passwords. ">
+    原型提醒：此版本資料只會暫存在目前瀏覽器 localStorage，請勿放入公司機密、真實帳密、客戶資料或正式文件。
   </div>
 
   <main id="homePage" class="page active">
@@ -551,9 +551,9 @@
     <section id="adminUsersSection" class="admin-section">
       <div class="admin-box">
         <h2 data-zh="會員權限管理" data-en="Member Permission Manager">會員權限管理</h2>
-        <p style="color:var(--muted);line-height:1.7;" data-zh="只有 Owner 可以調整會員角色。系統預設帳號 1 為 Owner，AB 開頭部門註冊者預設為 Manager，其他註冊者預設為 User。"
-           data-en="Only the Owner can change member roles. The default account 1 is Owner. Departments starting with AB are Managers by default; all others are Users.">
-          只有 Owner 可以調整會員角色。系統預設帳號 1 為 Owner，AB 開頭部門註冊者預設為 Manager，其他註冊者預設為 User。
+        <p style="color:var(--muted);line-height:1.7;" data-zh="只有 Owner 可以調整會員角色。AB 開頭部門註冊者預設為 Manager，其他註冊者預設為 User。"
+           data-en="Only the Owner can change member roles. Departments starting with AB are Managers by default; all others are Users.">
+          只有 Owner 可以調整會員角色。AB 開頭部門註冊者預設為 Manager，其他註冊者預設為 User。
         </p>
         <div id="adminUserList"></div>
       </div>
@@ -605,9 +605,9 @@
           <input id="loginPassword" type="password" />
         </div>
         <button class="primary" onclick="login()" data-zh="登入" data-en="Login">登入</button>
-        <div class="form-hint" data-zh="預設最高管理者：工號 1 / 密碼 1。"
-             data-en="Default owner: Employee ID 1 / Password 1.">
-          預設最高管理者：工號 1 / 密碼 1。
+        <div class="form-hint" data-zh="請輸入你的工號與密碼登入。"
+             data-en="Please enter your employee ID and password to log in.">
+          請輸入你的工號與密碼登入。
         </div>
       </div>
       <div class="form" id="registerForm" style="display:none;">
@@ -801,7 +801,11 @@
       const db = databases.find(item => item.id === selectedDatabaseId);
       let list = getDocumentsByDatabase(selectedDatabaseId);
       if (keyword) {
-        list = list.filter(doc => documentMatchesQuery(doc, keyword));
+        list = list.filter(doc =>
+          doc.titleZh.toLowerCase().includes(keyword) || doc.titleEn.toLowerCase().includes(keyword) ||
+          doc.descriptionZh.toLowerCase().includes(keyword) || doc.descriptionEn.toLowerCase().includes(keyword) ||
+          doc.keywords.toLowerCase().includes(keyword)
+        );
       }
       document.getElementById("detailCount").textContent = currentLang === "zh" ? `${list.length} 份文件` : `${list.length} documents`;
       const container = document.getElementById("detailDocumentList");
@@ -1351,50 +1355,6 @@
 
     function handleEnter(event) { if (event.key === "Enter") sendMessage(); }
 
-
-    function normalizeSearchQuery(text) {
-      return String(text || "")
-        .toLowerCase()
-        .replace(/[？?。!！,，.、]/g, " ")
-        .replace(/我想要找/g, " ")
-        .replace(/我想找/g, " ")
-        .replace(/我要找/g, " ")
-        .replace(/幫我找/g, " ")
-        .replace(/請問/g, " ")
-        .replace(/有沒有/g, " ")
-        .replace(/有/g, " ")
-        .replace(/嗎/g, " ")
-        .replace(/呢/g, " ")
-        .replace(/請/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-    }
-
-    function documentMatchesQuery(doc, query) {
-      const normalizedQuery = normalizeSearchQuery(query);
-      if (!normalizedQuery) return true;
-
-      const searchableText = [
-        doc.titleZh,
-        doc.titleEn,
-        doc.descriptionZh,
-        doc.descriptionEn,
-        doc.keywords,
-        doc.type
-      ].join(" ").toLowerCase();
-
-      if (searchableText.includes(normalizedQuery)) return true;
-
-      const tokens = normalizedQuery
-        .split(/\s+/)
-        .map(token => token.trim())
-        .filter(token => token.length >= 2);
-
-      if (tokens.length === 0) return searchableText.includes(normalizedQuery);
-
-      return tokens.some(token => searchableText.includes(token));
-    }
-
     function sendMessage() {
       const input = document.getElementById("chatInput");
       const keyword = input.value.trim();
@@ -1414,10 +1374,14 @@
       let scopeDocs = documents;
       if (selectedDatabaseId) scopeDocs = documents.filter(doc => doc.databaseId === selectedDatabaseId);
 
-      const results = scopeDocs.filter(doc => documentMatchesQuery(doc, keyword));
+      const results = scopeDocs.filter(doc =>
+        doc.titleZh.toLowerCase().includes(lowerKeyword) || doc.titleEn.toLowerCase().includes(lowerKeyword) ||
+        doc.descriptionZh.toLowerCase().includes(lowerKeyword) || doc.descriptionEn.toLowerCase().includes(lowerKeyword) ||
+        doc.keywords.toLowerCase().includes(lowerKeyword)
+      );
 
       if (results.length === 0) {
-        addBotMessage(t("我目前沒有找到很接近的文件，你可以換個說法或關鍵字試試，例如：有產品規格書嗎、測試報告、新人訓練、品質、製程。", "I could not find a close match yet. Try another phrase or keyword, such as product specification, test report, training, quality, or process."));
+        addBotMessage(t("我目前沒有找到很接近的文件，你可以換個關鍵字試試，例如：規格書、測試報告、新人訓練、品質、製程。", "I could not find a close match yet. Try another keyword, such as specification, test report, training, quality, or process."));
         return;
       }
 
