@@ -468,7 +468,10 @@
           <div class="form-grid">
             <div>
               <label data-zh="所屬資料庫" data-en="Database">所屬資料庫</label>
-              <select id="adminDatabase"></select>
+              <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;">
+                <select id="adminDatabase"></select>
+                <button type="button" onclick="quickEditSelectedDatabase()" data-zh="修改目前資料庫" data-en="Edit Current Database">修改目前資料庫</button>
+              </div>
             </div>
             <div class="two-col">
               <div>
@@ -851,6 +854,17 @@
       document.getElementById("adminDocTab").classList.toggle("active", tab === "documents");
       document.getElementById("adminDbTab").classList.toggle("active", tab === "databases");
       document.getElementById("adminUserTab").classList.toggle("active", tab === "users");
+    }
+
+    function quickEditSelectedDatabase() {
+      const select = document.getElementById("adminDatabase");
+      if (!select || !select.value) {
+        alert(t("請先選擇要修改的資料庫。", "Please select a database to edit first."));
+        return;
+      }
+
+      switchAdminTab("databases");
+      editDatabaseCategory(select.value);
     }
 
     function renderAdminDatabaseOptions() {
