@@ -251,6 +251,20 @@
     textarea { min-height: 90px; resize: vertical; }
     label { display: block; color: var(--muted); font-size: 14px; font-weight: 900; margin-bottom: 8px; }
 
+    .error-message {
+      color: var(--danger);
+      font-size: 13px;
+      font-weight: 800;
+      margin-top: 7px;
+      min-height: 18px;
+      line-height: 1.4;
+    }
+
+    input.invalid, select.invalid, textarea.invalid {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.10);
+    }
+
     .doc-table, .admin-box {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -497,7 +511,8 @@
     <section id="adminDatabasesSection" class="admin-section">
       <div class="admin-layout">
         <div class="admin-box">
-          <h2 data-zh="新增資料庫分類" data-en="Add Database Category">新增資料庫分類</h2>
+          <h2 id="dbFormTitle" data-zh="新增資料庫分類" data-en="Add Database Category">新增資料庫分類</h2>
+          <input id="editingDatabaseId" type="hidden" />
           <div class="form-grid">
             <div class="two-col">
               <div>
@@ -517,7 +532,8 @@
               <label data-zh="英文說明" data-en="English Description">英文說明</label>
               <textarea id="dbDescEn" placeholder="Enter category description"></textarea>
             </div>
-            <button class="primary" onclick="addDatabaseCategory()" data-zh="新增資料庫分類" data-en="Add Database Category">新增資料庫分類</button>
+            <button id="dbSaveButton" class="primary" onclick="addDatabaseCategory()" data-zh="新增資料庫分類" data-en="Add Database Category">新增資料庫分類</button>
+            <button id="dbCancelButton" style="display:none;" onclick="cancelDatabaseEdit()" data-zh="取消修改" data-en="Cancel Edit">取消修改</button>
           </div>
         </div>
         <div class="admin-box">
@@ -593,22 +609,27 @@
         <div class="field">
           <label data-zh="工號" data-en="Employee ID">工號</label>
           <input id="registerId" placeholder="例如：1011470" />
+          <div class="error-message" id="registerIdError"></div>
         </div>
         <div class="field">
           <label data-zh="部門" data-en="Department">部門</label>
           <input id="registerDepartment" placeholder="例如：RDPE-BU3" />
+          <div class="error-message" id="registerDepartmentError"></div>
         </div>
         <div class="field">
           <label data-zh="姓名" data-en="Name">姓名</label>
           <input id="registerName" />
+          <div class="error-message" id="registerNameError"></div>
         </div>
         <div class="field">
           <label data-zh="公司信箱" data-en="Company Email">公司信箱</label>
           <input id="registerEmail" type="email" placeholder="name@szs.com.tw" />
+          <div class="error-message" id="registerEmailError"></div>
         </div>
         <div class="field">
           <label data-zh="密碼" data-en="Password">密碼</label>
           <input id="registerPassword" type="password" />
+          <div class="error-message" id="registerPasswordError"></div>
         </div>
         <button class="primary" onclick="register()" data-zh="註冊" data-en="Sign Up">註冊</button>
         <div class="form-hint" data-zh="註冊規則：工號 5～10 位數字、信箱必須是 @szs.com.tw；AB 開頭部門預設為 Manager，其餘為 User。"
@@ -841,16 +862,112 @@
       return String(maxId + 1).padStart(2, "0");
     }
 
+    function resetDatabaseForm() {
+      const editingInput = document.getElementById("editingDatabaseId");
+      if (editingInput) editingInput.value = "";
+      document.getElementById("dbTitleZh").value = "";
+      document.getElementById("dbTitleEn").value = "";
+      document.getElementById("dbDescZh").value = "";
+      document.getElementById("dbDescEn").value = "";
+
+      const title = document.getElementById("dbFormTitle");
+      const saveButton = document.getElementById("dbSaveButton");
+      const cancelButton = document.getElementById("dbCancelButton");
+
+      if (title) {
+        title.textContent = t("新增資料庫分類", "Add Database Category");
+        title.dataset.zh = "新增資料庫分類";
+        title.dataset.en = "Add Database Category";
+      }
+
+      if (saveButton) {
+        saveButton.textContent = t("新增資料庫分類", "Add Database Category");
+        saveButton.dataset.zh = "新增資料庫分類";
+        saveButton.dataset.en = "Add Database Category";
+      }
+
+      if (cancelButton) cancelButton.style.display = "none";
+    }
+
+    function cancelDatabaseEdit() {
+      resetDatabaseForm();
+    }
+
+    function editDatabaseCategory(id) {
+      if (!canManageData()) { alert(t("權限不足。", "Permission denied.")); return; }
+      const db = databases.find(item => item.id === id);
+      if (!db) return;
+
+      document.getElementById("editingDatabaseId").value = id;
+      document.getElementById("dbTitleZh").value = db.titleZh;
+      document.getElementById("dbTitleEn").value = db.titleEn;
+      document.getElementById("dbDescZh").value = db.descriptionZh;
+      document.getElementById("dbDescEn").value = db.descriptionEn;
+
+      const title = document.getElementById("dbFormTitle");
+      const saveButton = document.getElementById("dbSaveButton");
+      const cancelButton = document.getElementById("dbCancelButton");
+
+      if (title) {
+        title.textContent = t("修改資料庫分類", "Edit Database Category");
+        title.dataset.zh = "修改資料庫分類";
+        title.dataset.en = "Edit Database Category";
+      }
+
+      if (saveButton) {
+        saveButton.textContent = t("儲存修改", "Save Changes");
+        saveButton.dataset.zh = "儲存修改";
+        saveButton.dataset.en = "Save Changes";
+      }
+
+      if (cancelButton) cancelButton.style.display = "inline-block";
+
+      document.getElementById("dbTitleZh").focus();
+    }
+
     function addDatabaseCategory() {
       if (!canManageData()) { alert(t("權限不足。", "Permission denied.")); return; }
+
+      const editingId = document.getElementById("editingDatabaseId").value;
       const titleZh = document.getElementById("dbTitleZh").value.trim();
       const titleEn = document.getElementById("dbTitleEn").value.trim();
       const descriptionZh = document.getElementById("dbDescZh").value.trim();
       const descriptionEn = document.getElementById("dbDescEn").value.trim();
+
       if (!titleZh || !titleEn) {
         alert(t("請至少輸入中文與英文資料庫名稱。", "Please enter both Chinese and English database names."));
         return;
       }
+
+      if (editingId) {
+        databases = databases.map(db => {
+          if (db.id !== editingId) return db;
+          return {
+            ...db,
+            titleZh,
+            titleEn,
+            descriptionZh: descriptionZh || "測試資料庫分類說明。",
+            descriptionEn: descriptionEn || "Sample database category description."
+          };
+        });
+
+        saveDatabases();
+        resetDatabaseForm();
+        renderDatabases();
+        renderAdminDatabaseOptions();
+        renderAdminDatabases();
+
+        if (selectedDatabaseId === editingId) {
+          const db = databases.find(item => item.id === editingId);
+          document.getElementById("detailTitle").textContent = t(db.titleZh, db.titleEn);
+          document.getElementById("detailDescription").textContent = t(db.descriptionZh, db.descriptionEn);
+          renderDetailDocuments();
+        }
+
+        alert(t("資料庫分類已更新。", "Database category updated."));
+        return;
+      }
+
       databases.push({
         id: getNextDatabaseId(),
         titleZh,
@@ -859,11 +976,9 @@
         descriptionEn: descriptionEn || "Sample database category description.",
         isDefault: false
       });
+
       saveDatabases();
-      document.getElementById("dbTitleZh").value = "";
-      document.getElementById("dbTitleEn").value = "";
-      document.getElementById("dbDescZh").value = "";
-      document.getElementById("dbDescEn").value = "";
+      resetDatabaseForm();
       renderDatabases();
       renderAdminDatabaseOptions();
       renderAdminDatabases();
@@ -875,14 +990,15 @@
       if (!box) return;
       box.innerHTML = databases.map(db => {
         const count = getDocumentsByDatabase(db.id).length;
-        const deleteButton = db.isDefault ? "" : `<button class="danger" onclick="deleteDatabaseCategory('${db.id}')">${t("刪除", "Delete")}</button>`;
+        const editButton = `<button class="small" onclick="editDatabaseCategory('${db.id}')">${t("修改", "Edit")}</button>`;
+        const deleteButton = db.isDefault ? "" : `<button class="small danger" onclick="deleteDatabaseCategory('${db.id}')">${t("刪除", "Delete")}</button>`;
         return `
           <div class="doc-row" style="grid-template-columns:1fr auto;">
             <div>
               <div class="doc-title">${db.id} · ${t(db.titleZh, db.titleEn)}</div>
               <div class="doc-desc">${t(db.descriptionZh, db.descriptionEn)} · ${count} ${t("份文件", "docs")}</div>
             </div>
-            ${deleteButton}
+            <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">${editButton}${deleteButton}</div>
           </div>`;
       }).join("");
     }
@@ -1067,26 +1183,64 @@
       document.getElementById("registerTab").classList.toggle("active", tab === "register");
       document.getElementById("loginForm").style.display = tab === "login" ? "block" : "none";
       document.getElementById("registerForm").style.display = tab === "register" ? "block" : "none";
+      if (tab === "register") clearRegisterErrors();
+    }
+
+    function clearRegisterErrors() {
+      ["registerId", "registerDepartment", "registerName", "registerEmail", "registerPassword"].forEach(id => {
+        const input = document.getElementById(id);
+        const error = document.getElementById(id + "Error");
+        if (input) input.classList.remove("invalid");
+        if (error) error.textContent = "";
+      });
+    }
+
+    function setRegisterError(fieldId, message) {
+      const input = document.getElementById(fieldId);
+      const error = document.getElementById(fieldId + "Error");
+      if (input) input.classList.add("invalid");
+      if (error) error.textContent = message;
     }
 
     function validateRegistration(companyId, department, name, email, password) {
-      if (!companyId || !department || !name || !email || !password) {
-        return t("請完整填寫註冊資料。", "Please complete all registration fields.");
+      clearRegisterErrors();
+      let isValid = true;
+
+      if (!companyId) {
+        setRegisterError("registerId", t("請輸入工號。", "Please enter employee ID."));
+        isValid = false;
+      } else if (!/^\d{5,10}$/.test(companyId)) {
+        setRegisterError("registerId", t("工號格式錯誤：請輸入 5～10 位數字。", "Invalid employee ID: Please enter 5-10 digits."));
+        isValid = false;
       }
 
-      if (!/^\d{5,10}$/.test(companyId)) {
-        return t("工號格式錯誤：請輸入 5～10 位數字。", "Invalid employee ID: Please enter 5-10 digits.");
+      if (!department) {
+        setRegisterError("registerDepartment", t("請輸入部門。", "Please enter department."));
+        isValid = false;
+      } else if (!/^[A-Z0-9-]{2,20}$/.test(department)) {
+        setRegisterError("registerDepartment", t("部門格式錯誤：只能使用大寫英文、數字與 -，例如 RDPE-BU3。", "Invalid department: Use uppercase letters, numbers, and hyphen only, e.g. RDPE-BU3."));
+        isValid = false;
       }
 
-      if (!/^[A-Z0-9-]{2,20}$/.test(department)) {
-        return t("部門格式錯誤：只能使用大寫英文、數字與 -，例如 RDPE-BU3。", "Invalid department: Use uppercase letters, numbers, and hyphen only, e.g. RDPE-BU3.");
+      if (!name) {
+        setRegisterError("registerName", t("請輸入姓名。", "Please enter name."));
+        isValid = false;
       }
 
-      if (!email.toLowerCase().endsWith("@szs.com.tw")) {
-        return t("信箱格式錯誤：只能使用 @szs.com.tw 公司信箱。", "Invalid email: Only @szs.com.tw company email is allowed.");
+      if (!email) {
+        setRegisterError("registerEmail", t("請輸入公司信箱。", "Please enter company email."));
+        isValid = false;
+      } else if (!email.toLowerCase().endsWith("@szs.com.tw")) {
+        setRegisterError("registerEmail", t("信箱格式錯誤：只能使用 @szs.com.tw 公司信箱。", "Invalid email: Only @szs.com.tw company email is allowed."));
+        isValid = false;
       }
 
-      return "";
+      if (!password) {
+        setRegisterError("registerPassword", t("請輸入密碼。", "Please enter password."));
+        isValid = false;
+      }
+
+      return isValid;
     }
 
     function register() {
@@ -1096,18 +1250,18 @@
       const email = document.getElementById("registerEmail").value.trim();
       const password = document.getElementById("registerPassword").value;
 
-      const error = validateRegistration(companyId, department, name, email, password);
-      if (error) { alert(error); return; }
+      const isValid = validateRegistration(companyId, department, name, email, password);
+      if (!isValid) return;
 
       const users = loadUsers().map(normalizeUser);
 
       if (users.some(user => user.companyId === companyId)) {
-        alert(t("此工號已註冊。", "This employee ID has already been registered."));
+        setRegisterError("registerId", t("此工號已註冊。", "This employee ID has already been registered."));
         return;
       }
 
       if (users.some(user => String(user.email).toLowerCase() === email.toLowerCase())) {
-        alert(t("此公司信箱已註冊。", "This company email has already been registered."));
+        setRegisterError("registerEmail", t("此公司信箱已註冊。", "This company email has already been registered."));
         return;
       }
 
