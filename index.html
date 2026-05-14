@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SZS Knowledge Base Prototype</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft JhengHei", sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 18px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .brand-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-subtitle {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-weight: 700;
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    button.primary {
+      background: #0ea5e9;
+      color: white;
+    }
+
+    button.outline {
+      background: white;
+      color: #0ea5e9;
+      border: 1px solid #0ea5e9;
+    }
+
+    main {
+      padding: 56px 40px 120px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .hero-label {
+      color: #0ea5e9;
+      font-weight: 800;
+      letter-spacing: 3px;
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin: 0 0 18px;
+      color: #0f172a;
+    }
+
+    .hero p {
+      max-width: 720px;
+      margin: 0 auto;
+      color: #64748b;
+      line-height: 1.8;
+      font-size: 18px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-title h2 {
+      font-size: 18px;
+      margin: 0;
+      letter-spacing: 2px;
+      color: #334155;
+    }
+
+    .badge {
+      background: #e0f2fe;
+      color: #0284c7;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+      transition: 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: #0ea5e9;
+      box-shadow: 0 16px 35px rgba(14, 165, 233, 0.16);
+    }
+
+    .stream-id {
+      font-size: 12px;
+      color: #94a3b8;
+      letter-spacing: 3px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 22px;
+      color: #0f172a;
+    }
+
+    .card p {
+      margin: 0 0 22px;
+      color: #64748b;
+      line-height: 1.7;
+    }
+
+    .query-link {
+      color: #0ea5e9;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      font-size: 13px;
+    }
+
+    .chat-button {
+      position: fixed;
+      right: 28px;
+      bottom: 28px;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #0ea5e9;
+      color: white;
+      font-size: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 18px 35px rgba(14, 165, 233, 0.35);
+      z-index: 20;
+    }
+
+    .chat-box {
+      position: fixed;
+      right: 28px;
+      bottom: 110px;
+      width: 340px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18);
+      padding: 18px;
+      z-index: 20;
+    }
+
+    .chat-title {
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+
+    .chat-text {
+      color: #64748b;
+      line-height: 1.6;
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .chat-input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      outline: none;
+    }
+
+    .search-results {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      color: #94a3b8;
+      padding: 32px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 800px) {
+      header {
+        padding: 16px 20px;
+        flex-direction: column;
+        gap: 14px;
+        align-items: flex-start;
+      }
+
+      main {
+        padding: 40px 20px 120px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .chat-box {
+        left: 20px;
+        right: 20px;
+        width: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="brand">
+      <div class="brand-title" data-zh="SZS 知識資料庫" data-en="SZS Knowledge Base">SZS 知識資料庫</div>
+      <div class="brand-subtitle" data-zh="非機密原型版 · Internal Database Prototype" data-en="Non-confidential Prototype · Internal Database">
+        非機密原型版 · Internal Database Prototype
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="outline" onclick="switchLanguage()" id="langBtn">English</button>
+      <button data-zh="登入" data-en="Login">登入</button>
+      <button class="primary" data-zh="後台管理" data-en="Admin Panel">後台管理</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-label">SZS · DATABASE SYSTEM</div>
+      <h1 data-zh="公司內部知識資料庫" data-en="Internal Knowledge Database">公司內部知識資料庫</h1>
+      <p data-zh="請選擇資料庫分類，或使用右下角小幫手搜尋你需要的文件。此版本為原型展示，僅使用假資料，不包含任何機密內容。"
+         data-en="Select a database category, or use the assistant in the lower-right corner to search for documents. This prototype uses sample data only and contains no confidential information.">
+        請選擇資料庫分類，或使用右下角小幫手搜尋你需要的文件。此版本為原型展示，僅使用假資料，不包含任何機密內容。
+      </p>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2 data-zh="資料庫分類" data-en="DATA STREAMS">資料庫分類</h2>
+        <span class="badge" data-zh="4 個分類" data-en="4 ACTIVE">4 個分類</span>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="stream-id">STREAM · 01</div>
+          <h3 data-zh="A 產品資料庫" data-en="A Product Database">A 產品資料庫</h3>
+          <p data-zh="產品規格、測試資料、工程紀錄與相關文件。"
+             data-en="Product specifications, test data, engineering records, and related documents.">
+            產品規格、測試資料、工程紀錄與相關文件。
+          </p>
+          <div class="query-link" data-zh="查詢 →" data-en="QUERY →">查詢 →</div>
+        </div>
+
+        <div class="card">
+          <div class="stream-id">STREAM · 02</div>
+          <h3 data-zh="非 A 產品資料庫" data-en="Non-A Product Database">非 A 產品資料庫</h3>
+          <p data-zh="跨產品線資料、一般技術文件與多格式資料索引。"
+             data-en="Cross-product data, general technical documents, and multi-format knowledge index.">
+            跨產品線資料、一般技術文件與多格式資料索引。
+          </p>
+          <div class="query-link" data-zh="查詢 →" data-en="QUERY →">查詢 →</div>
+        </div>
+
+        <div class="card">
+          <div class="stream-id">STREAM · 03</div>
+          <h3 data-zh="新人訓練資料庫" data-en="Newcomer Training">新人訓練資料庫</h3>
+          <p data-zh="新人報到流程、教育訓練教材、部門 SOP 與常見問題。"
+             data-en="Onboarding processes, training materials, department SOPs, and FAQs.">
+            新人報到流程、教育訓練教材、部門 SOP 與常見問題。
+          </p>
+          <div class="query-link" data-zh="查詢 →" data-en="QUERY →">查詢 →</div>
+        </div>
+
+        <div class="card">
+          <div class="stream-id">STREAM · 04</div>
+          <h3 data-zh="一般研發資料庫" data-en="General R&D Database">一般研發資料庫</h3>
+          <p data-zh="研發測試報告、技術參考資料、檢查表與內部知識文件。"
+             data-en="R&D test reports, technical references, checklists, and internal knowledge documents.">
+            研發測試報告、技術參考資料、檢查表與內部知識文件。
+          </p>
+          <div class="query-link" data-zh="查詢 →" data-en="QUERY →">查詢 →</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="chat-box">
+    <div class="chat-title" data-zh="小幫手 · 線上" data-en="Assistant · Online">小幫手 · 線上</div>
+    <div class="chat-text" data-zh="請輸入你想找的文件，例如：A100 規格書、新人訓練、測試報告。"
+         data-en="Tell me what file you are looking for, such as A100 specification, newcomer training, or test report.">
+      請輸入你想找的文件，例如：A100 規格書、新人訓練、測試報告。
+    </div>
+    <input class="chat-input" id="searchInput" placeholder="輸入關鍵字..." oninput="searchDocuments()" />
+    <div class="search-results" id="searchResults"></div>
+  </div>
+
+  <div class="chat-button">?</div>
+
+  <footer>
+    SZS Knowledge Base Prototype · Sample Data Only · No Confidential Information
+  </footer>
+
+  <script>
+    let currentLang = "zh";
+
+    const sampleDocuments = [
+      {
+        zh: "A100 產品規格書",
+        en: "A100 Product Specification",
+        categoryZh: "A 產品資料庫",
+        categoryEn: "A Product Database",
+        keywords: "A100 specification 規格書 產品"
+      },
+      {
+        zh: "B200 維修手冊",
+        en: "B200 Maintenance Manual",
+        categoryZh: "非 A 產品資料庫",
+        categoryEn: "Non-A Product Database",
+        keywords: "B200 maintenance manual 維修 手冊"
+      },
+      {
+        zh: "新人訓練指南",
+        en: "Newcomer Training Guide",
+        categoryZh: "新人訓練資料庫",
+        categoryEn: "Newcomer Training",
+        keywords: "training newcomer onboarding 新人 訓練"
+      },
+      {
+        zh: "一般研發測試報告",
+        en: "General R&D Test Report",
+        categoryZh: "一般研發資料庫",
+        categoryEn: "General R&D Database",
+        keywords: "R&D test report 測試 報告 研發"
+      }
+    ];
+
+    function switchLanguage() {
+      currentLang = currentLang === "zh" ? "en" : "zh";
+
+      document.querySelectorAll("[data-zh]").forEach((element) => {
+        element.textContent = element.dataset[currentLang];
+      });
+
+      document.getElementById("langBtn").textContent = currentLang === "zh" ? "English" : "中文";
+      document.getElementById("searchInput").placeholder = currentLang === "zh" ? "輸入關鍵字..." : "Enter keywords...";
+
+      searchDocuments();
+    }
+
+    function searchDocuments() {
+      const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+      const resultBox = document.getElementById("searchResults");
+
+      if (!keyword) {
+        resultBox.innerHTML = "";
+        return;
+      }
+
+      const results = sampleDocuments.filter((doc) => {
+        return (
+          doc.zh.toLowerCase().includes(keyword) ||
+          doc.en.toLowerCase().includes(keyword) ||
+          doc.keywords.toLowerCase().includes(keyword)
+        );
+      });
+
+      if (results.length === 0) {
+        resultBox.innerHTML = currentLang === "zh"
+          ? "目前沒有找到相關文件。"
+          : "No related documents found.";
+        return;
+      }
+
+      resultBox.innerHTML = results.map((doc) => {
+        const title = currentLang === "zh" ? doc.zh : doc.en;
+        const category = currentLang === "zh" ? doc.categoryZh : doc.categoryEn;
+
+        return `
+          <div style="padding:10px 0;border-top:1px solid #e5e7eb;">
+            <strong>${title}</strong><br>
+            <span>${category}</span><br>
+            <button style="margin-top:8px;padding:7px 10px;font-size:12px;" onclick="alert('${currentLang === "zh" ? "這是原型版，尚未連接正式檔案。" : "This is a prototype and is not connected to real files yet."}')">
+              ${currentLang === "zh" ? "查看檔案" : "View File"}
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
+  </script>
+</body>
+</html>
