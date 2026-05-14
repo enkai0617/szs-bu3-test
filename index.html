@@ -1675,12 +1675,30 @@
         { intent: "lcd_hinges", words: ["lcd", "monitor", "液晶", "顯示器", "lcd monitor"] },
         { intent: "audio_hinges", words: ["audio", "穿戴", "耳機", "配件", "audio hinges"] },
         { intent: "tablet_hinges", words: ["tablet", "平板", "tablet hinges"] },
+        { intent: "hinges_application", words: ["樞紐製件的應用", "樞紐的應用", "hinges應用", "hinge application"] },
+        { intent: "hinges_advantage", words: ["樞紐製件的優勢", "樞紐的優勢", "hinges優勢", "hinge advantage"] },
+        { intent: "hinges_features", words: ["樞紐製件的特點", "樞紐的特點", "hinges特點", "hinge feature", "hinge features"] },
         { intent: "hinges", words: ["hinge", "hinges", "樞紐", "樞軸", "轉軸", "連結軸", "樞紐製件"] },
-        { intent: "mim", words: ["mim", "金屬射出", "metal injection", "metal injection molding"] },
+        { intent: "mim_advantages", words: ["mim技術優點", "mim 優點", "金屬射出成型優點", "金屬射出成型的優點", "mim advantage", "mim advantages"] },
+        { intent: "mim_applications", words: ["mim應用", "mim 應用", "金屬射出成型應用", "金屬射出成型的應用", "mim application", "mim applications"] },
+        { intent: "mim_examples", words: ["mim產品範例", "mim 範例", "金屬射出成型範例", "金屬射出成型產品", "mim examples"] },
+        { intent: "mim_process", words: ["mim製程", "mim 製程", "金屬射出成型製程", "mim production", "mim process"] },
+        { intent: "mim", words: ["mim", "金屬射出", "金屬射出成型", "metal injection", "metal injection molding"] },
+        { intent: "springs_application", words: ["彈簧製件的應用", "彈簧應用", "springs應用", "spring application"] },
+        { intent: "springs_advantage", words: ["彈簧製件的優勢", "彈簧優勢", "springs優勢", "spring advantage"] },
+        { intent: "springs_custom", words: ["彈簧客製化", "彈簧規格", "彈簧種類", "springs custom"] },
         { intent: "springs", words: ["spring", "springs", "彈簧", "彈簧製件"] },
-        { intent: "stamping", words: ["stamping", "沖壓", "沖壓製件"] },
+        { intent: "stamping_application", words: ["沖壓製件的應用", "沖壓的應用", "沖壓應用", "stamping應用", "stamping application"] },
+        { intent: "stamping_advantage", words: ["沖壓製件的優勢", "沖壓的優勢", "沖壓優勢", "stamping優勢", "stamping advantage"] },
+        { intent: "stamping_features", words: ["沖壓製件的特點", "沖壓的特點", "沖壓特點", "stamping特點", "stampings特點", "stamping features"] },
+        { intent: "stamping_bracket", words: ["沖壓承架", "沖壓支架", "主承架", "車用零件", "clip", "leaf", "墊片", "沖壓墊片", "沖壓樞紐", "盤彈"] },
+        { intent: "stamping", words: ["stamping", "stampings", "沖壓", "沖壓製件"] },
+        { intent: "lathe_application", words: ["車銑製件的應用", "車銑應用", "lathe application"] },
+        { intent: "lathe_advantage", words: ["車銑製件的優勢", "車銑優勢", "lathe advantage"] },
         { intent: "lathe", words: ["lathe", "車銑", "車製", "車銑製件", "cnc"] },
-        { intent: "ai_server", words: ["ai server", "liquid cooling", "液冷", "伺服器", "ai伺服器"] },
+        { intent: "ai_server_application", words: ["ai server應用", "ai伺服器應用", "液冷應用", "liquid cooling application"] },
+        { intent: "ai_server_advantage", words: ["ai server優勢", "ai伺服器優勢", "液冷優勢", "zero leak", "零洩漏"] },
+        { intent: "ai_server", words: ["ai server", "liquid cooling", "液冷", "伺服器", "ai伺服器", "ai 伺服器"] },
         { intent: "products", words: ["產品", "產品專區", "主要產品", "產品有哪些", "做哪些產品"] },
 
         { intent: "rd_vision", words: ["r&d vision", "研發願景", "rd vision"] },
@@ -1737,8 +1755,50 @@
         ),
 
         hinges: t(
-          `Hinges 樞紐製件是 SZS 產品專區中的重要分類。依官網說明，新日興自 1990 年成立研發部門設計 Notebook PC 使用樞軸後，建置組立生產線，專業生產電子類、電器類、電腦資訊類、通信類、照相機與儀器類等產品之連結軸。新人可以把它理解為：讓兩個零件能開合、旋轉或定位的關鍵機構件。`,
-          `Hinges are a key SZS product category. According to the website, after establishing an R&D department in 1990 to design hinges for Notebook PCs, SZS built assembly production lines and specialized in connection shafts for electronics, electrical products, computers, communications, cameras, instruments, and related products.`
+          `Hinges 樞紐製件是 SZS 產品專區中的重要分類。依官網說明，新日興自 1990 年成立研發部門設計 Notebook PC 使用樞軸後，建置組立生產線，專業生產電子類、電器類、電腦資訊類、通信類、照相機與儀器類等產品之連結軸。<br><br>
+          <strong>應用：</strong><br>
+          樞紐製件主要用在需要開合、旋轉、定位或承受轉動力矩的產品，例如筆記型電腦、液晶顯示器、平板裝置、穿戴與配件類產品，以及其他電子、電器、通訊、照相機與儀器類設備。<br><br>
+          <strong>優勢：</strong><br>
+          樞紐製件能提供穩定的轉動手感、角度定位與支撐能力，讓產品在開合或旋轉時保持順暢、穩定與耐用。<br><br>
+          <strong>特點：</strong><br>
+          1. 具備開合、旋轉與定位功能，是機構設計中的關鍵零組件。<br>
+          2. 可依不同產品尺寸、重量、角度與扭力需求進行客製化設計。<br>
+          3. 可搭配精密模具、組立製程與量產能力，提供穩定品質與一致性。<br>
+          4. 適用於多種消費性電子與工業產品，是連結外觀設計與機構功能的重要部件。<br><br>
+          新人可以把它理解為：讓兩個零件能開合、旋轉或定位的關鍵機構件。`,
+          `Hinges are a key SZS product category. According to the website, after establishing an R&D department in 1990 to design hinges for Notebook PCs, SZS built assembly production lines and specialized in connection shafts for electronics, electrical products, computers, communications, cameras, instruments, and related products.<br><br>
+          <strong>Applications:</strong><br>
+          Hinges are mainly used in products that require opening, closing, rotation, positioning, or torque support, such as notebook computers, LCD monitors, tablets, wearable/accessory products, electronics, communications, cameras, and instruments.<br><br>
+          <strong>Advantages:</strong><br>
+          Hinges provide stable rotation feel, angle positioning, and support, allowing products to open, close, or rotate smoothly and reliably.<br><br>
+          <strong>Features:</strong><br>
+          1. Provide opening, closing, rotating, and positioning functions.<br>
+          2. Can be customized according to product size, weight, angle, and torque requirements.<br>
+          3. Can be supported by precision tooling, assembly processes, and mass production capability.<br>
+          4. Suitable for many consumer electronics and industrial products.`
+        ),
+
+        hinges_application: t(
+          `樞紐製件的應用主要是用在需要開合、旋轉、定位或承受轉動力矩的產品，例如筆記型電腦、液晶顯示器、平板裝置、穿戴與配件類產品，以及電子、電器、通訊、照相機與儀器類設備。`,
+          `Hinge applications include products that require opening, closing, rotation, positioning, or torque support, such as notebook computers, LCD monitors, tablets, wearable/accessory products, electronics, communications, cameras, and instruments.`
+        ),
+
+        hinges_advantage: t(
+          `樞紐製件的優勢在於能提供穩定的轉動手感、角度定位與支撐能力，讓產品在開合或旋轉時保持順暢、穩定與耐用。對新人來說，可以把它理解為影響產品手感、可靠度與機構穩定性的關鍵零件。`,
+          `The advantage of hinges is that they provide stable rotation feel, angle positioning, and support, helping products open, close, or rotate smoothly and reliably.`
+        ),
+
+        hinges_features: t(
+          `<strong>樞紐製件的特點：</strong><br>
+          1. 具備開合、旋轉與定位功能，是機構設計中的關鍵零組件。<br>
+          2. 可依不同產品尺寸、重量、角度與扭力需求進行客製化設計。<br>
+          3. 可搭配精密模具、組立製程與量產能力，提供穩定品質與一致性。<br>
+          4. 適用於筆記型電腦、顯示器、平板、穿戴配件、電子、電器、通訊與儀器類產品。`,
+          `<strong>Hinge features:</strong><br>
+          1. Provide opening, closing, rotating, and positioning functions.<br>
+          2. Can be customized based on size, weight, angle, and torque requirements.<br>
+          3. Can be supported by precision tooling, assembly processes, and mass production capability.<br>
+          4. Suitable for notebook computers, monitors, tablets, wearable accessories, electronics, communications, and instruments.`
         ),
 
         nb_hinges: t(
@@ -1762,28 +1822,295 @@
         ),
 
         mim: t(
-          `MIM 金屬射出成型是 SZS 產品專區分類之一。依官網說明，金屬射出成型結合粉末冶金與射出成型技術，可用於製造精密、複雜且尺寸穩定的金屬零組件。`,
-          `MIM, or metal injection molding, is one of SZS’s product categories. The website describes MIM as a technology combining powder metallurgy and injection molding for precision metal components.`
+          `<strong>金屬射出成型（MIM, Metal Injection Molding）</strong><br>
+          MIM 是結合粉末冶金與射出成型的金屬零件製造技術。它兼具塑膠射出成型的外型設計彈性，以及粉末冶金的金屬強度，適合製作輕薄短小、結構複雜、高精密度與高強度需求的 3C 與精密金屬零組件。<br><br>
+
+          <strong>與其他製程相比：</strong><br>
+          1. 與粉末冶金相比：更適合複雜產品形狀與更高強度需求。<br>
+          2. 與壓鑄成型相比：材料選擇更多元，且可達到更高強度要求。<br>
+          3. 與精密鑄造相比：可製作更薄、更精緻的產品。<br>
+          4. 與車削製程相比：在大量生產時具備低成本優勢。<br><br>
+
+          <strong>願景：</strong><br>
+          追求創新技術，使自然資源能被更有效善用，並製造出高精密且具美感的工藝產品。<br><br>
+
+          <strong>MIM 技術優點：</strong><br>
+          1. 三維空間複雜成型：提供設計研發人員更大的設計自由度。<br>
+          2. 降低組裝成本、提升產品功能：可將多個組裝件整合為單一零件，降低組裝與人工成本，並提升產品強度與可靠度。<br>
+          3. 產品特性強、精密度高：MIM 零件可達 95%～99.5% 緻密度，公差可優於 +/- 0.3%。<br>
+          4. 大量生產：可透過一模多穴方式達成有效率量產。<br>
+          5. 表面細緻：使用粒徑小於 20μm 的粉末，可達到表面精細度小於 Ra5。<br>
+          6. 材料選擇彈性：幾乎所有能製成細粉的材料皆可使用於 MIM 製程。<br><br>
+
+          <strong>應用領域：</strong><br>
+          筆記型電腦、通訊、穿戴裝置、手工具機與氣動工具機、高爾夫球零配件、智慧門鎖、汽車零件、戶外類產品、醫療器械等。<br><br>
+
+          <strong>官網產品範例：</strong><br>
+          1. 筆記型電腦：樞紐，材質 17-4PH，製程 MIM + 熱處理。<br>
+          2. 筆記型電腦：卡卡托，材質 SUS316，製程 MIM + PVD + 烤漆。<br>
+          3. 筆記型電腦：凹凸輪，材質 Fe2Ni，製程 MIM + 熱處理 + 鍍鎳。<br>
+          4. 通訊：充電針頭，材質 SUS316，製程 MIM + 電鍍。<br>
+          5. 通訊：按鍵，材質 SUS316，製程 MIM + 噴砂 + PVD + CNC + 雷雕 + 膠合。<br>
+          6. 通訊：手機腳架，材質 Fe2Ni，製程 MIM + 熱處理 + 拋光 + PVD + 電鍍。<br>
+          7. 穿戴裝置：智慧錶框／錶扣，材質 SUS316L，製程 MIM + CNC + 拋光 + 噴砂。<br>
+          8. 穿戴裝置：耳機外殼，材質 SUS304，製程 MIM + 拋光／拉髮絲 + 電鍍 + PVD + 雷雕。<br>
+          9. 手工具機與氣動工具機：夾鉗、棘爪、軸桿，材質 4605，製程 MIM。<br>
+          10. 高爾夫球零配件：配重塊，材質鎢鎳銅合金，製程 MIM。<br>
+          11. 智慧門鎖：齒輪、錐齒輪，材質 17-4PH，製程 MIM。<br>
+          12. 汽車零件：傳動軸、動力總成零件、渦輪零件，材質 SUS316L，製程 MIM。<br>
+          13. 戶外類產品：鎖桿、安全扣把，材質 4605，製程 MIM。<br>
+          14. 醫療器械：內視鏡鑷子、骨科器械、牙科器械，材質 440C、SUS316L，製程 MIM。<br><br>
+
+          <strong>MIM Production：</strong><br>
+          金屬射出成型結合射出成型與金屬粉末冶金技術，具備塑膠射出成形的外型靈活度與粉末冶金的高強度，因此更適合輕薄短小與高強度需求的 3C 零組件，並在產業應用與需求上日益重要。`,
+          `<strong>MIM, Metal Injection Molding</strong><br>
+          MIM combines powder metallurgy and injection molding. It provides the shape flexibility of plastic injection molding and the strength of powder metallurgy, making it suitable for small, thin, complex, high-precision, and high-strength 3C and precision metal components.<br><br>
+
+          <strong>Compared with other processes:</strong><br>
+          1. Compared with powder metallurgy: suitable for more complex shapes and higher strength requirements.<br>
+          2. Compared with die casting: more material choices and higher strength requirements.<br>
+          3. Compared with investment casting: suitable for thinner and more delicate products.<br>
+          4. Compared with machining: has low-cost advantages in mass production.<br><br>
+
+          <strong>Advantages:</strong><br>
+          1. Complex three-dimensional molding and greater design freedom.<br>
+          2. Reduced assembly cost and improved product function by integrating multiple parts into one component.<br>
+          3. High part density of 95%–99.5%, with tolerance better than +/- 0.3%.<br>
+          4. Efficient mass production through multi-cavity molds.<br>
+          5. Fine surface finish using powders smaller than 20μm, reaching surface fineness below Ra5.<br>
+          6. Flexible material choices; almost any material that can be made into fine powder can be used.<br><br>
+
+          <strong>Applications:</strong><br>
+          Notebook computers, communications, wearable devices, hand and pneumatic tools, golf accessories, smart locks, automotive parts, outdoor products, medical instruments, and more.<br><br>
+
+          <strong>Examples:</strong><br>
+          Hinges, SIM trays, cams, charging pins, buttons, phone kickstands, smartwatch frames/buckles, earphone housings, clamps, pawls, shafts, counterweights, gears, bevel gears, transmission shafts, powertrain parts, turbine parts, lock rods, safety buckles, endoscopic forceps, orthopedic instruments, and dental instruments.`
+        ),
+
+        mim_advantages: t(
+          `<strong>MIM 技術優點：</strong><br>
+          1. 三維空間複雜成型：提供設計研發人員更大的設計自由度。<br>
+          2. 降低組裝成本、提升產品功能：可將多個組裝件合併設計成單一零件，降低組裝與人工成本，並提升強度與可靠度。<br>
+          3. 產品特性強、精密度高：MIM 零件可達 95%～99.5% 緻密度，公差可優於 +/- 0.3%。<br>
+          4. 大量生產：可透過一模多穴方式達成有效率量產。<br>
+          5. 表面細緻：使用粒徑小於 20μm 的粉末，可達表面精細度小於 Ra5。<br>
+          6. 材料選擇彈性：幾乎所有能製成細粉的材料皆可使用於 MIM 製程。`,
+          `<strong>MIM advantages:</strong><br>
+          1. Complex 3D molding and high design freedom.<br>
+          2. Lower assembly cost and improved product functionality.<br>
+          3. High density of 95%–99.5% and tolerance better than +/- 0.3%.<br>
+          4. Efficient mass production through multi-cavity molds.<br>
+          5. Fine surface finish using powders smaller than 20μm, reaching below Ra5.<br>
+          6. Flexible material selection.`
+        ),
+
+        mim_applications: t(
+          `<strong>MIM 應用領域：</strong><br>
+          筆記型電腦、通訊、穿戴裝置、手工具機與氣動工具機、高爾夫球零配件、智慧門鎖、汽車零件、戶外類產品、醫療器械等。這些應用多半需要小型化、精密化、複雜形狀、高強度或大量生產能力。`,
+          `<strong>MIM applications:</strong><br>
+          Notebook computers, communications, wearable devices, hand and pneumatic tools, golf accessories, smart locks, automotive parts, outdoor products, and medical instruments.`
+        ),
+
+        mim_examples: t(
+          `<strong>MIM 官網產品範例：</strong><br>
+          1. 樞紐：17-4PH，MIM + 熱處理，應用於筆記型電腦。<br>
+          2. 卡卡托：SUS316，MIM + PVD + 烤漆，應用於筆記型電腦。<br>
+          3. 凹凸輪：Fe2Ni，MIM + 熱處理 + 鍍鎳，應用於筆記型電腦。<br>
+          4. 充電針頭：SUS316，MIM + 電鍍，應用於通訊。<br>
+          5. 按鍵：SUS316，MIM + 噴砂 + PVD + CNC + 雷雕 + 膠合，應用於通訊。<br>
+          6. 手機腳架：Fe2Ni，MIM + 熱處理 + 拋光 + PVD + 電鍍，應用於通訊。<br>
+          7. 智慧錶框／錶扣：SUS316L，MIM + CNC + 拋光 + 噴砂，應用於穿戴裝置。<br>
+          8. 耳機外殼：SUS304，MIM + 拋光／拉髮絲 + 電鍍 + PVD + 雷雕，應用於穿戴裝置。<br>
+          9. 夾鉗、棘爪、軸桿：4605，MIM，應用於手工具機與氣動工具機。<br>
+          10. 配重塊：鎢鎳銅合金，MIM，應用於高爾夫球頭配重塊。<br>
+          11. 齒輪、錐齒輪：17-4PH，MIM，應用於智慧門鎖。<br>
+          12. 傳動軸、動力總成零件、渦輪零件：SUS316L，MIM，應用於汽車零件。<br>
+          13. 鎖桿、安全扣把：4605，MIM，應用於戶外類產品。<br>
+          14. 內視鏡鑷子、骨科器械、牙科器械：440C、SUS316L，MIM，應用於醫療器械。`,
+          `<strong>MIM examples:</strong><br>
+          Hinges, SIM trays, cams, charging pins, buttons, phone kickstands, smartwatch frames/buckles, earphone housings, clamps, pawls, shafts, counterweights, gears, bevel gears, transmission shafts, powertrain parts, turbine parts, lock rods, safety buckles, endoscopic forceps, orthopedic instruments, and dental instruments.`
+        ),
+
+        mim_process: t(
+          `<strong>MIM Production：</strong><br>
+          金屬射出成型結合射出成型與金屬粉末冶金技術，具備塑膠射出成形的外型靈活度與粉末冶金的高強度，更適合輕薄短小與高強度需求的 3C 零組件，並在產業應用與需求上日益重要。`,
+          `<strong>MIM Production:</strong><br>
+          MIM combines injection molding and metal powder metallurgy, offering the shape flexibility of plastic injection molding and the high strength of powder metallurgy. It is suitable for small, thin, high-strength 3C components and is increasingly important in industrial applications.`
         ),
 
         springs: t(
-          `Springs 彈簧製件是 SZS 產品分類之一。依官網說明，公司提供國內外客戶各式精密彈簧，是台灣彈簧專業 OEM / ODM 廠商，產品種類超過 4000 餘種，應用於電子 3C、醫療器材與機械設備等用途。`,
-          `Springs are one of SZS’s product categories. The website states that SZS provides precision springs for domestic and international customers, with over 4,000 product types used in 3C electronics, medical devices, machinery, and other applications.`
+          `<strong>Springs 彈簧製件</strong><br>
+          依 SZS 官網內容，新日興彈簧部門設計並製造國內外客戶各式精密彈簧，是台灣彈簧專業 OEM / ODM 廠商；產品種類超過 4000 餘種，應用於電子 3C 產品、醫療器材、機械設備等用途。<br><br>
+
+          <strong>供應商與材料：</strong><br>
+          官網列出主要配合供應商包含日本 Sumitomo（日本住友）、日本 Nippon Seisen（日本精線）、日本 Suzuki（日本鈴木）。公司使用高品質彈簧鋼材料，以確保彈簧耐久性與可靠性。<br><br>
+
+          <strong>廠內設備與產能：</strong><br>
+          廠內具備歐、日等國精密自動彈簧成型機近百台，並建置全廠自動化生產系統，月產能可達 100,000,000 個以上，以滿足客戶產能需求。<br><br>
+
+          <strong>垂直整合製程：</strong><br>
+          新日興垂直上下整合，製程採一貫化作業，廠內擁有熱處理爐、電鍍等設備。彈簧從成型、熱處理、表面處理、組立到出貨均在廠內完成，樣品製作與檢驗也能全程自主掌控，確保品質與客戶信賴。<br><br>
+
+          <strong>應用領域：</strong><br>
+          1. 汽機車：可用於座椅調節系統、中控鎖系統、後視鏡調節與折疊功能、車窗升降機構等。<br>
+          2. 電子零件：透過嚴格品質把控，使彈簧與電子零組件良好結合，提升穩定性與可靠性。<br>
+          3. 其他應用：電子 3C、醫療器材、機械設備等。<br><br>
+
+          <strong>產品優勢：</strong><br>
+          1. 高品質材料與精湛製造工藝。<br>
+          2. 現代化製造工藝與先進檢測設備，確保產品一致性與高品質。<br>
+          3. 高度客製化，可依客戶需求與應用場景設計特定形狀與規格的彈簧。<br>
+          4. 在汽機車與電子零件領域應用廣泛且多樣，能提供良好產品性能與服務。`,
+          `<strong>Springs</strong><br>
+          According to the SZS website, the spring department designs and manufactures precision springs for domestic and international customers. SZS is a professional OEM/ODM spring manufacturer in Taiwan, with over 4,000 product types used in 3C electronics, medical devices, machinery, and other applications.<br><br>
+          The website lists major suppliers including Sumitomo, Nippon Seisen, and Suzuki from Japan. SZS has nearly one hundred precision automatic spring forming machines from Europe and Japan, an automated production system, and monthly capacity exceeding 100,000,000 pieces.<br><br>
+          SZS uses vertically integrated processes including forming, heat treatment, surface treatment, assembly, and shipment, all completed in-house. Applications include automotive components such as seat adjustment systems, central locks, rearview mirrors, and window lifters, as well as electronic components.`
+        ),
+
+        springs_application: t(
+          `<strong>彈簧製件的應用：</strong><br>
+          SZS 彈簧產品廣泛應用於汽機車與電子零件領域。汽車方面包含座椅調節系統、中控鎖系統、後視鏡調節與折疊功能、車窗升降機構等；電子零件方面則透過嚴格品質把控，使彈簧與電子零組件穩定結合，確保產品性能、穩定性與可靠性。此外也應用於電子 3C、醫療器材與機械設備等用途。`,
+          `<strong>Spring applications:</strong><br>
+          SZS springs are widely used in automotive and electronic components, including seat adjustment systems, central locks, rearview mirror adjustment/folding, window lifters, 3C electronics, medical devices, and machinery.`
+        ),
+
+        springs_advantage: t(
+          `<strong>彈簧製件的優勢：</strong><br>
+          1. 高品質彈簧鋼材料，提升耐久性與可靠性。<br>
+          2. 現代化製造工藝與先進檢測設備，確保一致性與高品質。<br>
+          3. 垂直整合與一貫化作業，從成型、熱處理、表面處理、組立到出貨皆可在廠內完成。<br>
+          4. 近百台精密自動彈簧成型機與自動化系統，月產能可達 100,000,000 個以上。<br>
+          5. 高度客製化，可依客戶需求設計特定形狀與規格。`,
+          `<strong>Spring advantages:</strong><br>
+          High-quality spring steel, modern manufacturing processes, advanced inspection equipment, vertically integrated in-house processes, high monthly capacity, and strong customization capability.`
+        ),
+
+        springs_custom: t(
+          `SZS 彈簧產品具有高度客製化特點，能依客戶需求與應用場景設計並製造特定形狀與規格的彈簧，以確保最佳性能與適應性。官網也提到產品種類超過 4000 餘種，可應用於電子 3C、醫療器材、機械設備等用途。`,
+          `SZS springs are highly customizable. They can be designed and manufactured in specific shapes and specifications based on customer requirements and application scenarios. The website states that SZS offers over 4,000 product types.`
         ),
 
         stamping: t(
-          `Stamping 沖壓製件是 SZS 產品專區分類之一，屬於精密金屬零組件製造相關製程。依官網內容，沖壓部門具備高度機械化與自動化生產能力，結合精密模具、熱處理、電鍍等相關製程，可依客戶需求提供精密沖壓零件。適合新人理解為：把金屬材料透過模具與沖壓設備加工成指定形狀與尺寸的零組件。`,
-          `Stamping is one of SZS’s product categories and relates to precision metal component manufacturing using stamping processes and tooling.`
+          `<strong>Stamping 沖壓製件</strong><br>
+          依 SZS 官網內容，新日興沖壓部門的最大特色是高度機械化與自動化生產。為避免微錯誤、達到快速量產與品質一致的目標，沖件製品同樣累積 40 年以上 OEM / ODM 代工經驗。公司引進精準多功能分段式與連續式沖壓成型設備，配合專業訓練技術人員與高精密度模具，以嚴謹製造為工作理念，製造高品質五金沖件。<br><br>
+
+          <strong>製造能力：</strong><br>
+          1. 自 1981 年起累積數十年研發技術。<br>
+          2. 具備超過 50 種多樣式、多功能模具製件能力，提供客戶多樣選擇與比較。<br>
+          3. 可承製鋼板厚度 0.02mm–3.00mm。<br>
+          4. 40 噸位至 400 噸位之沖壓件皆可生產。<br>
+          5. 目前每年可開發沖製成型量超過 1000 件。<br><br>
+
+          <strong>垂直整合製程：</strong><br>
+          廠內擁有熱處理爐、電鍍等設備，從沖壓成型、熱處理、表面處理、組立到出貨均在廠內完成，樣品製作與檢驗全流程自主掌控。<br><br>
+
+          <strong>產品與應用：</strong><br>
+          1. 沖壓產品支架／承架：用於汽車、家電、機械設備等產品的支撐與固定，確保穩定性與安全性。<br>
+          2. 車用零件：如車身板件、汽車結構件、座椅零件、車門鎖具、空調系統零件等，具高精度、強度、多樣性與效率。<br>
+          3. Clip / Leaf：帶有夾持或彈性功能的金屬片或組件，應用於機械、電子、家具等領域。<br>
+          4. 沖壓盤彈：盤狀彈簧組件，提供壓縮、撓曲或扭轉等彈性功能，應用於機械、汽車、家電、電子、工具、醫療設備等。<br>
+          5. 沖壓樞紐：可用於筆電、手機、連接門、蓋子、摺疊結構、鉸鏈、機械臂等部件。<br>
+          6. 沖壓墊片：薄而平坦的圓形或方形金屬零件，用於間隙填充、防止漏洩、減震或調整間距，可依需求製作不同形狀、尺寸與厚度。`,
+          `<strong>Stamping</strong><br>
+          According to the SZS website, the stamping department features highly mechanized and automated production. SZS has over 40 years of OEM/ODM experience in stamping products, precision multi-function segmented and continuous stamping equipment, trained technicians, and high-precision molds.<br><br>
+          SZS can process steel sheets from 0.02mm to 3.00mm and produce stamping parts from 40-ton to 400-ton levels. The company has heat treatment and electroplating equipment in-house and completes stamping, heat treatment, surface treatment, assembly, and shipment internally.<br><br>
+          Products and applications include brackets, automotive parts, clips, leaf components, disc springs, stamped hinges, and washers for automotive, home appliance, machinery, electronics, tools, medical equipment, and related industries.`
+        ),
+
+        stamping_application: t(
+          `<strong>沖壓製件的應用：</strong><br>
+          沖壓製件應用於汽車製造、電子製造、建築、家電、機械設備、工具、醫療設備等領域。官網提到沖壓產品支架／承架可作為汽車、家電、機械設備等產品的支撐組件；車用零件可包含車身板件、汽車結構件、座椅零件、車門鎖具、空調系統零件等；沖壓盤彈則用於承受壓力、提供阻尼、調節力量等功能。`,
+          `<strong>Stamping applications:</strong><br>
+          Stamping parts are used in automotive manufacturing, electronics, construction, home appliances, machinery, tools, medical equipment, and more. Products include brackets, automotive parts, clips, leaf components, disc springs, stamped hinges, and washers.`
+        ),
+
+        stamping_advantage: t(
+          `<strong>沖壓製件的優勢：</strong><br>
+          1. 高度機械化與自動化生產，可快速量產並維持品質一致。<br>
+          2. 40 年以上 OEM / ODM 代工經驗。<br>
+          3. 精準多功能分段式與連續式沖壓成型設備。<br>
+          4. 高精密度模具與專業技術人員。<br>
+          5. 可承製鋼板厚 0.02mm–3.00mm 及 40 噸位至 400 噸位之沖壓件。<br>
+          6. 熱處理、電鍍、表面處理、組立與出貨可在廠內完成，品質自主掌控。`,
+          `<strong>Stamping advantages:</strong><br>
+          Highly mechanized and automated production, over 40 years of OEM/ODM experience, precision stamping equipment, high-precision molds, trained technicians, and in-house heat treatment, electroplating, surface treatment, assembly, and shipment.`
+        ),
+
+        stamping_features: t(
+          `<strong>沖壓製件的特點：</strong><br>
+          1. 可大量生產且品質一致。<br>
+          2. 可依產品需求製作不同形狀、尺寸、厚度與功能。<br>
+          3. 可用於支撐、固定、夾持、彈性恢復、阻尼、調節力量、間隙填充、防漏與減震等功能。<br>
+          4. 可應用於支架、承架、車用零件、Clip、Leaf、盤彈、沖壓樞紐、墊片等多種零組件。`,
+          `<strong>Stamping features:</strong><br>
+          Mass production with consistent quality; customizable shapes, sizes, thicknesses, and functions; suitable for supporting, fixing, clamping, elasticity, damping, force adjustment, gap filling, sealing, and vibration reduction.`
+        ),
+
+        stamping_bracket: t(
+          `<strong>沖壓相關產品範例：</strong><br>
+          1. 支架／承架：用於支撐與固定產品，例如汽車、家電、機械設備等。<br>
+          2. 車用零件：車身板件、汽車結構件、座椅零件、車門鎖具、空調系統零件。<br>
+          3. Clip / Leaf：具夾持或彈性功能的金屬片或組件，應用於機械、電子、家具等。<br>
+          4. 沖壓盤彈：盤狀彈簧組件，提供壓縮、撓曲或扭轉等彈性功能。<br>
+          5. 沖壓樞紐：可用於筆電、手機、連接門、蓋子、摺疊結構、鉸鏈、機械臂等。<br>
+          6. 沖壓墊片：用於間隙填充、防止漏洩、減震或調整間距。`,
+          `<strong>Stamping product examples:</strong><br>
+          Brackets, automotive parts, Clip/Leaf components, disc springs, stamped hinges, and washers.`
         ),
 
         lathe: t(
-          `Lathe 車銑製件是 SZS 產品分類之一。依官網說明，公司自 2001 年開始陸續引進百餘台多功能 CNC 車床機，可承製直徑 3mm 到 32mm 的車製件。新人可以把它理解為：透過 CNC 車床加工金屬材料，製作精密圓柱形、軸類或小型金屬零件。`,
-          `Lathe parts are one of SZS’s product categories. The website states that SZS introduced over one hundred multifunction CNC lathes since 2001 and can produce lathe parts from 3mm to 32mm in diameter.`
+          `<strong>Lathe 車銑製件</strong><br>
+          依 SZS 官網內容，新日興擁有完整的車製件生產線，能整體性完成客戶交付任務。公司陸續引進新型機種，開發電輔車與自行車各種高精密金屬零件，具備快速生產、隨時交貨能力，並提供客戶多樣化選擇。<br><br>
+
+          <strong>官網重點：</strong><br>
+          1. 具備完整車製件生產線。<br>
+          2. 可整體完成客戶交付之任務。<br>
+          3. 陸續引進新型機種。<br>
+          4. 開發電輔車與自行車高精密金屬零件。<br>
+          5. 具備快速生產、隨時交貨與多樣化選擇能力。<br><br>
+
+          <strong>製程理解：</strong><br>
+          車銑製件可理解為透過 CNC 車床、車削與銑削相關加工能力，製作精密金屬零件，適合需要尺寸精準、外型穩定與金屬加工品質的產品。`,
+          `<strong>Lathe parts</strong><br>
+          According to the SZS website, SZS has a complete lathe parts production line and can complete customer-assigned tasks holistically. The company has introduced new machines and develops high-precision metal parts for e-bikes and bicycles, offering fast production, flexible delivery, and diverse customer choices.`
+        ),
+
+        lathe_application: t(
+          `車銑製件主要應用於需要高精密金屬加工的零件。依官網內容，新日興陸續引進新型機種，開發電輔車及自行車各種高精密金屬零件。`,
+          `Lathe parts are used for high-precision metal components. According to the SZS website, SZS develops high-precision parts for e-bikes and bicycles.`
+        ),
+
+        lathe_advantage: t(
+          `車銑製件的優勢在於完整生產線、快速生產、彈性交貨，以及能提供客戶多樣化選擇，適合高精密金屬零件需求。`,
+          `Lathe part advantages include a complete production line, fast production, flexible delivery, and diverse choices for high-precision metal parts.`
         ),
 
         ai_server: t(
-          `AI Server & Liquid Cooling 是 SZS 官網產品專區中的分類之一，代表公司產品應用也延伸到 AI 伺服器與液冷相關零組件領域。`,
-          `AI Server & Liquid Cooling is listed as a product category on the SZS website, indicating applications in AI server and liquid-cooling related components.`
+          `<strong>AI Server & Liquid Cooling</strong><br>
+          依 SZS 官網英文頁面內容，新日興提供 AI 伺服器液冷應用相關的高精密零組件，包含 UQD connectors 與 manifolds 等。官網強調公司結合核心 MIM 技術與先進雷射焊接能力，支援下一代 HPC（High Performance Computing，高效能運算）環境所需的可靠性與維護需求。<br><br>
+
+          <strong>官網重點：</strong><br>
+          1. 產品方向：AI Server liquid cooling parts。<br>
+          2. 代表零件：UQD connectors、manifolds。<br>
+          3. 技術基礎：核心 MIM 技術與 advanced laser welding。<br>
+          4. 可靠度訴求：zero-leak reliability。<br>
+          5. 維護訴求：modular maintenance。<br>
+          6. 應用環境：next-gen HPC environments。<br><br>
+
+          <strong>理解方式：</strong><br>
+          AI Server & Liquid Cooling 可理解為 AI 伺服器液冷系統所需的精密金屬零件與連接零件，重點在於高精密、耐壓、密封可靠、零洩漏，以及方便模組化維護。`,
+          `<strong>AI Server & Liquid Cooling</strong><br>
+          According to the SZS website, SZS provides high-precision AI server liquid cooling parts, including UQD connectors and manifolds. The website emphasizes core MIM technology and advanced laser welding, supporting zero-leak reliability and modular maintenance for next-generation HPC environments.`
+        ),
+
+        ai_server_application: t(
+          `AI Server & Liquid Cooling 主要應用於下一代 HPC 高效能運算與 AI 伺服器液冷環境，包含液冷系統中的 UQD connectors、manifolds 等高精密零件。`,
+          `AI Server & Liquid Cooling is used in next-generation HPC and AI server liquid cooling environments, including UQD connectors, manifolds, and other high-precision components.`
+        ),
+
+        ai_server_advantage: t(
+          `AI Server & Liquid Cooling 的重點優勢包含核心 MIM 技術、先進雷射焊接、零洩漏可靠性與模組化維護能力，適合下一代 HPC 液冷系統需求。`,
+          `Key advantages include core MIM technology, advanced laser welding, zero-leak reliability, and modular maintenance for next-generation HPC liquid cooling systems.`
         ),
 
         technology: t(
