@@ -1116,10 +1116,11 @@
       users.push({ companyId, department, name, email, password, role });
       saveUsers(users);
 
-      alert(t(`註冊成功。你的角色是 ${getRoleLabel(role)}。`, `Registration successful. Your role is ${getRoleLabel(role)}.`));
+      alert(t(`註冊成功。你的角色是 ${getRoleLabel(role)}。請到登入畫面重新輸入工號與密碼。`, `Registration successful. Your role is ${getRoleLabel(role)}. Please enter your employee ID and password again on the login screen.`));
       switchAuthTab("login");
-      document.getElementById("loginId").value = companyId;
+      document.getElementById("loginId").value = "";
       document.getElementById("loginPassword").value = "";
+      document.getElementById("loginId").focus();
     }
 
     function login() {
@@ -1240,6 +1241,41 @@
       chatBody.scrollTop = chatBody.scrollHeight;
     }
 
+
+    function setupEnterToNextField() {
+      const selector = "input, select, textarea, button";
+      const containers = [
+        document.getElementById("authModal"),
+        document.getElementById("adminPage")
+      ].filter(Boolean);
+
+      containers.forEach(container => {
+        container.addEventListener("keydown", function(event) {
+          if (event.key !== "Enter") return;
+
+          const target = event.target;
+          const tagName = target.tagName.toLowerCase();
+
+          // In textarea, Shift + Enter keeps normal line break behavior.
+          if (tagName === "textarea" && event.shiftKey) return;
+
+          // Prevent accidental form submission / button click.
+          event.preventDefault();
+
+          const fields = Array.from(container.querySelectorAll(selector))
+            .filter(el => !el.disabled && el.offsetParent !== null);
+
+          const index = fields.indexOf(target);
+          if (index >= 0 && index < fields.length - 1) {
+            fields[index + 1].focus();
+          } else if (index === fields.length - 1) {
+            target.blur();
+          }
+        });
+      });
+    }
+
+    setupEnterToNextField();
     init();
   </script>
 </body>
