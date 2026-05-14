@@ -24,6 +24,8 @@
       --soft: rgba(14, 165, 233, 0.12);
       --shadow: rgba(15, 23, 42, 0.12);
       --chip: #e6f6fd;
+      --warning: #fff7ed;
+      --warning-text: #9a3412;
     }
 
     body.dark {
@@ -40,6 +42,8 @@
       --soft: rgba(34, 211, 238, 0.12);
       --shadow: rgba(0, 0, 0, 0.36);
       --chip: rgba(34, 211, 238, 0.12);
+      --warning: rgba(251, 146, 60, 0.12);
+      --warning-text: #fdba74;
     }
 
     body {
@@ -67,16 +71,6 @@
       z-index: -2;
     }
 
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.16) 45%, transparent 70%);
-      z-index: -1;
-    }
-
     header {
       position: sticky;
       top: 0;
@@ -95,6 +89,8 @@
       display: flex;
       align-items: center;
       gap: 14px;
+      cursor: pointer;
+      user-select: none;
     }
 
     .logo {
@@ -157,6 +153,22 @@
       background: transparent;
     }
 
+    button.danger {
+      color: #ef4444;
+      background: transparent;
+    }
+
+    .user-pill {
+      display: none;
+      color: var(--primary);
+      background: var(--chip);
+      border: 1px solid var(--line);
+      padding: 10px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
     .page {
       display: none;
       max-width: 1260px;
@@ -166,6 +178,19 @@
 
     .page.active {
       display: block;
+    }
+
+    .warning-banner {
+      max-width: 1260px;
+      margin: 24px auto 0;
+      padding: 14px 18px;
+      border: 1px solid rgba(251, 146, 60, 0.35);
+      border-radius: 16px;
+      background: var(--warning);
+      color: var(--warning-text);
+      font-size: 14px;
+      line-height: 1.6;
+      font-weight: 800;
     }
 
     .hero {
@@ -359,7 +384,8 @@
       justify-content: flex-end;
     }
 
-    .detail-toolbar {
+    .detail-toolbar,
+    .admin-toolbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -380,7 +406,7 @@
       align-items: center;
     }
 
-    .search-box input {
+    input, select, textarea {
       width: 100%;
       padding: 13px 14px;
       border-radius: 13px;
@@ -389,9 +415,16 @@
       background: var(--panel-solid);
       color: var(--text);
       font-size: 15px;
+      font-family: inherit;
     }
 
-    .doc-table {
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .doc-table,
+    .admin-panel {
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 24px;
@@ -441,6 +474,38 @@
       border: 1px solid var(--line);
       font-size: 12px;
       font-weight: 900;
+    }
+
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .admin-box {
+      padding: 24px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 22px 60px var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .admin-box h2 {
+      margin: 0 0 16px;
+      font-size: 22px;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
     .assistant-launcher {
@@ -567,13 +632,6 @@
 
     .chat-input {
       flex: 1;
-      padding: 13px;
-      border-radius: 13px;
-      border: 1px solid var(--line);
-      outline: none;
-      background: var(--bg2);
-      color: var(--text);
-      font-size: 14px;
     }
 
     .note {
@@ -668,17 +726,6 @@
       font-weight: 900;
     }
 
-    .field input {
-      width: 100%;
-      padding: 13px 14px;
-      border-radius: 13px;
-      border: 1px solid var(--line);
-      background: var(--bg2);
-      color: var(--text);
-      outline: none;
-      font-size: 15px;
-    }
-
     .form button {
       width: 100%;
       margin-top: 8px;
@@ -716,6 +763,10 @@
       .detail-actions {
         justify-content: flex-start;
       }
+
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 760px) {
@@ -746,9 +797,14 @@
         text-align: left;
       }
 
-      .detail-toolbar {
+      .detail-toolbar,
+      .admin-toolbar {
         flex-direction: column;
         align-items: stretch;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
       }
 
       .chat-box {
@@ -768,7 +824,7 @@
 
 <body>
   <header>
-    <div class="brand">
+    <div class="brand" onclick="showHome()">
       <img src="logo.png" alt="SZS Logo" class="logo" />
       <div>
         <div class="brand-title" data-zh="SZS PE知識庫" data-en="SZS PE Knowledge Base">SZS PE知識庫</div>
@@ -777,13 +833,20 @@
     </div>
 
     <div class="nav-actions">
+      <span class="user-pill" id="userPill"></span>
       <button class="ghost" onclick="switchLanguage()" id="langBtn">English</button>
       <button onclick="toggleTheme()" id="themeBtn">🌙</button>
-      <button onclick="openAuthModal('login')" data-zh="登入" data-en="Login">登入</button>
-      <button class="primary" onclick="openAuthModal('register')" data-zh="註冊" data-en="Sign Up">註冊</button>
-      <button onclick="openAuthModal('login')" data-zh="後台管理" data-en="Admin Panel">後台管理</button>
+      <button id="loginBtn" onclick="openAuthModal('login')" data-zh="登入" data-en="Login">登入</button>
+      <button id="registerBtn" class="primary" onclick="openAuthModal('register')" data-zh="註冊" data-en="Sign Up">註冊</button>
+      <button id="logoutBtn" style="display:none;" onclick="logout()" data-zh="登出" data-en="Logout">登出</button>
+      <button onclick="openAdmin()" data-zh="後台管理" data-en="Admin Panel">後台管理</button>
     </div>
   </header>
+
+  <div class="warning-banner" data-zh="原型提醒：此版本資料只會暫存在目前瀏覽器 localStorage，請勿放入公司機密、真實帳密、客戶資料或正式文件。"
+       data-en="Prototype reminder: Data is stored only in this browser localStorage. Do not enter confidential company data, real passwords, customer data, or official documents.">
+    原型提醒：此版本資料只會暫存在目前瀏覽器 localStorage，請勿放入公司機密、真實帳密、客戶資料或正式文件。
+  </div>
 
   <main id="homePage" class="page active">
     <section class="hero">
@@ -832,6 +895,81 @@
     </section>
 
     <section class="doc-table" id="detailDocumentList"></section>
+  </main>
+
+  <main id="adminPage" class="page">
+    <section class="detail-top">
+      <div class="detail-title-area">
+        <div class="detail-label">ADMIN PROTOTYPE</div>
+        <h1 data-zh="後台管理" data-en="Admin Panel">後台管理</h1>
+        <p data-zh="你可以在這裡新增測試文件。新增後會出現在資料庫頁面，也能被小幫手搜尋到。"
+           data-en="You can add sample documents here. Added documents will appear in database pages and can be searched by the assistant.">
+          你可以在這裡新增測試文件。新增後會出現在資料庫頁面，也能被小幫手搜尋到。
+        </p>
+      </div>
+
+      <div class="detail-actions">
+        <button onclick="showHome()" data-zh="← 返回首頁" data-en="← Back Home">← 返回首頁</button>
+      </div>
+    </section>
+
+    <section class="admin-layout">
+      <div class="admin-box">
+        <h2 data-zh="新增測試文件" data-en="Add Sample Document">新增測試文件</h2>
+
+        <div class="form-grid">
+          <div>
+            <label data-zh="所屬資料庫" data-en="Database">所屬資料庫</label>
+            <select id="adminDatabase"></select>
+          </div>
+
+          <div class="two-col">
+            <div>
+              <label data-zh="中文文件名稱" data-en="Chinese Title">中文文件名稱</label>
+              <input id="adminTitleZh" placeholder="例如：測試規格書" />
+            </div>
+            <div>
+              <label data-zh="英文文件名稱" data-en="English Title">英文文件名稱</label>
+              <input id="adminTitleEn" placeholder="Example: Test Specification" />
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div>
+              <label data-zh="文件類型" data-en="File Type">文件類型</label>
+              <select id="adminType">
+                <option>PDF</option>
+                <option>DOCX</option>
+                <option>XLSX</option>
+                <option>PPTX</option>
+                <option>TXT</option>
+              </select>
+            </div>
+            <div>
+              <label data-zh="關鍵字" data-en="Keywords">關鍵字</label>
+              <input id="adminKeywords" placeholder="例如：規格 測試 PE" />
+            </div>
+          </div>
+
+          <div>
+            <label data-zh="中文說明" data-en="Chinese Description">中文說明</label>
+            <textarea id="adminDescZh" placeholder="請輸入測試文件說明"></textarea>
+          </div>
+
+          <div>
+            <label data-zh="英文說明" data-en="English Description">英文說明</label>
+            <textarea id="adminDescEn" placeholder="Enter sample document description"></textarea>
+          </div>
+
+          <button class="primary" onclick="addAdminDocument()" data-zh="新增文件" data-en="Add Document">新增文件</button>
+        </div>
+      </div>
+
+      <div class="admin-box">
+        <h2 data-zh="目前測試文件" data-en="Current Sample Documents">目前測試文件</h2>
+        <div id="adminDocumentList"></div>
+      </div>
+    </section>
   </main>
 
   <div class="assistant-launcher" onclick="toggleAssistant()">?</div>
@@ -883,30 +1021,34 @@
           <label data-zh="密碼" data-en="Password">密碼</label>
           <input id="loginPassword" type="password" />
         </div>
-        <button class="primary" onclick="fakeLogin()" data-zh="登入" data-en="Login">登入</button>
-        <div class="form-hint" data-zh="原型版：輸入任意公司編號與密碼即可模擬登入。正式版會串接公司 Server。"
-             data-en="Prototype: Enter any company ID and password to simulate login. The official version will connect to the company server.">
-          原型版：輸入任意公司編號與密碼即可模擬登入。正式版會串接公司 Server。
+        <button class="primary" onclick="login()" data-zh="登入" data-en="Login">登入</button>
+        <div class="form-hint" data-zh="請先註冊測試帳號，再用相同公司編號與密碼登入。"
+             data-en="Please register a test account first, then log in with the same company ID and password.">
+          請先註冊測試帳號，再用相同公司編號與密碼登入。
         </div>
       </div>
 
       <div class="form" id="registerForm" style="display:none;">
         <div class="field">
           <label data-zh="公司編號" data-en="Company ID">公司編號</label>
-          <input />
+          <input id="registerId" />
+        </div>
+        <div class="field">
+          <label data-zh="姓名" data-en="Name">姓名</label>
+          <input id="registerName" />
         </div>
         <div class="field">
           <label data-zh="電子信箱" data-en="Email">電子信箱</label>
-          <input type="email" />
+          <input id="registerEmail" type="email" />
         </div>
         <div class="field">
           <label data-zh="密碼" data-en="Password">密碼</label>
-          <input type="password" />
+          <input id="registerPassword" type="password" />
         </div>
-        <button class="primary" onclick="fakeRegister()" data-zh="註冊" data-en="Sign Up">註冊</button>
-        <div class="form-hint" data-zh="原型版：註冊資料不會真的送出，正式版會由公司 Server 處理。"
-             data-en="Prototype: Registration data will not be submitted. The official version will be handled by the company server.">
-          原型版：註冊資料不會真的送出，正式版會由公司 Server 處理。
+        <button class="primary" onclick="register()" data-zh="註冊" data-en="Sign Up">註冊</button>
+        <div class="form-hint" data-zh="原型版帳號只存在目前瀏覽器，請勿使用真實密碼。"
+             data-en="Prototype accounts are stored only in this browser. Do not use a real password.">
+          原型版帳號只存在目前瀏覽器，請勿使用真實密碼。
         </div>
       </div>
     </div>
@@ -918,10 +1060,10 @@
 
   <script>
     let currentLang = "zh";
-    let isLoggedIn = false;
     let selectedDatabaseId = null;
+    let currentUser = null;
 
-    const databases = [
+    const defaultDatabases = [
       {
         id: "01",
         titleZh: "A 產品資料庫",
@@ -966,8 +1108,9 @@
       }
     ];
 
-    const documents = [
+    const defaultDocuments = [
       {
+        id: "sample-1",
         databaseId: "01",
         titleZh: "A100 產品規格書",
         titleEn: "A100 Product Specification",
@@ -978,6 +1121,7 @@
         keywords: "A100 specification 規格書 產品"
       },
       {
+        id: "sample-2",
         databaseId: "01",
         titleZh: "A100 測試報告",
         titleEn: "A100 Test Report",
@@ -988,16 +1132,7 @@
         keywords: "A100 test report 測試 報告"
       },
       {
-        databaseId: "01",
-        titleZh: "A 產品安全檢查表",
-        titleEn: "A Product Safety Checklist",
-        descriptionZh: "產品安全檢查項目範例。",
-        descriptionEn: "Sample product safety checklist.",
-        type: "XLSX",
-        updatedAt: "2026-05-05",
-        keywords: "safety checklist 安全 檢查表"
-      },
-      {
+        id: "sample-3",
         databaseId: "02",
         titleZh: "B200 維修手冊",
         titleEn: "B200 Maintenance Manual",
@@ -1008,16 +1143,7 @@
         keywords: "B200 maintenance manual 維修 手冊"
       },
       {
-        databaseId: "02",
-        titleZh: "跨產品資料索引",
-        titleEn: "Cross Product Data Index",
-        descriptionZh: "非 A 類產品資料索引範例。",
-        descriptionEn: "Sample index for non-A product data.",
-        type: "DOCX",
-        updatedAt: "2026-04-28",
-        keywords: "index non-a product 索引 非A"
-      },
-      {
+        id: "sample-4",
         databaseId: "03",
         titleZh: "新人訓練指南",
         titleEn: "Newcomer Training Guide",
@@ -1028,16 +1154,7 @@
         keywords: "training newcomer onboarding 新人 訓練"
       },
       {
-        databaseId: "03",
-        titleZh: "部門 SOP 範例",
-        titleEn: "Department SOP Sample",
-        descriptionZh: "部門標準作業流程範例文件。",
-        descriptionEn: "Sample standard operating procedure document.",
-        type: "DOCX",
-        updatedAt: "2026-03-20",
-        keywords: "SOP department 部門 標準 作業"
-      },
-      {
+        id: "sample-5",
         databaseId: "04",
         titleZh: "一般研發測試報告",
         titleEn: "General R&D Test Report",
@@ -1048,16 +1165,7 @@
         keywords: "R&D test report 測試 報告 研發"
       },
       {
-        databaseId: "04",
-        titleZh: "技術參考資料",
-        titleEn: "Technical Reference",
-        descriptionZh: "通用技術參考文件範例。",
-        descriptionEn: "Sample general technical reference document.",
-        type: "PDF",
-        updatedAt: "2026-02-22",
-        keywords: "technical reference 技術 參考"
-      },
-      {
+        id: "sample-6",
         databaseId: "05",
         titleZh: "製程參數範例表",
         titleEn: "Process Parameter Sample Sheet",
@@ -1068,16 +1176,7 @@
         keywords: "process parameter 製程 參數"
       },
       {
-        databaseId: "05",
-        titleZh: "製程改善紀錄",
-        titleEn: "Process Improvement Record",
-        descriptionZh: "製程改善追蹤範例。",
-        descriptionEn: "Sample process improvement tracking record.",
-        type: "DOCX",
-        updatedAt: "2026-02-02",
-        keywords: "process improvement 製程 改善"
-      },
-      {
+        id: "sample-7",
         databaseId: "06",
         titleZh: "品質異常紀錄",
         titleEn: "Quality Issue Record",
@@ -1086,27 +1185,53 @@
         type: "PDF",
         updatedAt: "2026-02-10",
         keywords: "quality issue 品質 異常"
-      },
-      {
-        databaseId: "06",
-        titleZh: "品質稽核清單",
-        titleEn: "Quality Audit Checklist",
-        descriptionZh: "品質稽核檢查表範例。",
-        descriptionEn: "Sample quality audit checklist.",
-        type: "XLSX",
-        updatedAt: "2026-02-12",
-        keywords: "quality audit checklist 品質 稽核 檢查"
       }
     ];
+
+    let databases = [];
+    let documents = [];
 
     function t(zh, en) {
       return currentLang === "zh" ? zh : en;
     }
 
+    function saveDocuments() {
+      localStorage.setItem("szs_documents", JSON.stringify(documents));
+    }
+
+    function loadDocuments() {
+      const saved = localStorage.getItem("szs_documents");
+      documents = saved ? JSON.parse(saved) : [...defaultDocuments];
+    }
+
+    function saveUsers(users) {
+      localStorage.setItem("szs_users", JSON.stringify(users));
+    }
+
+    function loadUsers() {
+      const saved = localStorage.getItem("szs_users");
+      return saved ? JSON.parse(saved) : [];
+    }
+
+    function saveCurrentUser() {
+      localStorage.setItem("szs_current_user", JSON.stringify(currentUser));
+    }
+
+    function loadCurrentUser() {
+      const saved = localStorage.getItem("szs_current_user");
+      currentUser = saved ? JSON.parse(saved) : null;
+    }
+
     function init() {
+      databases = [...defaultDatabases];
+      loadDocuments();
+      loadCurrentUser();
       renderDatabases();
+      renderAdminDatabaseOptions();
+      renderAdminDocuments();
       updateLanguageText();
       updateBadge();
+      updateAuthUI();
       closeAssistant();
     }
 
@@ -1143,12 +1268,23 @@
       }).join("");
     }
 
+    function showPage(pageId) {
+      document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showHome() {
+      selectedDatabaseId = null;
+      renderDatabases();
+      showPage("homePage");
+    }
+
     function showDetail(id) {
       selectedDatabaseId = id;
       const db = databases.find(item => item.id === id);
 
-      document.getElementById("homePage").classList.remove("active");
-      document.getElementById("detailPage").classList.add("active");
+      showPage("detailPage");
 
       document.getElementById("detailTitle").textContent = t(db.titleZh, db.titleEn);
       document.getElementById("detailDescription").textContent = t(db.descriptionZh, db.descriptionEn);
@@ -1161,16 +1297,6 @@
         `已進入「${db.titleZh}」。您可以查看文件列表，或直接問我想找的資料。`,
         `Entered "${db.titleEn}". You can view the document list or ask me what you are looking for.`
       ));
-
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function showHome() {
-      selectedDatabaseId = null;
-      document.getElementById("detailPage").classList.remove("active");
-      document.getElementById("homePage").classList.add("active");
-      renderDatabases();
-      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function renderDetailDocuments() {
@@ -1227,6 +1353,115 @@
       `).join("");
     }
 
+    function openAdmin() {
+      if (!currentUser) {
+        openAuthModal("login");
+        addBotMessage(t(
+          "請先登入，才能使用後台管理功能。",
+          "Please log in before using the admin panel."
+        ));
+        return;
+      }
+
+      renderAdminDatabaseOptions();
+      renderAdminDocuments();
+      showPage("adminPage");
+    }
+
+    function renderAdminDatabaseOptions() {
+      const select = document.getElementById("adminDatabase");
+      if (!select) return;
+
+      select.innerHTML = databases.map(db => `
+        <option value="${db.id}">${db.id} - ${t(db.titleZh, db.titleEn)}</option>
+      `).join("");
+    }
+
+    function addAdminDocument() {
+      if (!currentUser) {
+        openAuthModal("login");
+        return;
+      }
+
+      const databaseId = document.getElementById("adminDatabase").value;
+      const titleZh = document.getElementById("adminTitleZh").value.trim();
+      const titleEn = document.getElementById("adminTitleEn").value.trim();
+      const type = document.getElementById("adminType").value;
+      const keywords = document.getElementById("adminKeywords").value.trim();
+      const descriptionZh = document.getElementById("adminDescZh").value.trim();
+      const descriptionEn = document.getElementById("adminDescEn").value.trim();
+
+      if (!titleZh || !titleEn) {
+        alert(t("請至少輸入中文與英文文件名稱。", "Please enter both Chinese and English document titles."));
+        return;
+      }
+
+      const today = new Date().toISOString().slice(0, 10);
+
+      documents.unshift({
+        id: "custom-" + Date.now(),
+        databaseId,
+        titleZh,
+        titleEn,
+        descriptionZh: descriptionZh || "測試文件說明。",
+        descriptionEn: descriptionEn || "Sample document description.",
+        type,
+        updatedAt: today,
+        keywords: keywords || `${titleZh} ${titleEn}`
+      });
+
+      saveDocuments();
+
+      document.getElementById("adminTitleZh").value = "";
+      document.getElementById("adminTitleEn").value = "";
+      document.getElementById("adminKeywords").value = "";
+      document.getElementById("adminDescZh").value = "";
+      document.getElementById("adminDescEn").value = "";
+
+      renderAdminDocuments();
+      renderDatabases();
+
+      if (selectedDatabaseId) renderDetailDocuments();
+
+      alert(t("測試文件已新增。", "Sample document added."));
+    }
+
+    function renderAdminDocuments() {
+      const box = document.getElementById("adminDocumentList");
+      if (!box) return;
+
+      if (documents.length === 0) {
+        box.innerHTML = `<p style="color:var(--muted);">${t("目前沒有文件。", "No documents yet.")}</p>`;
+        return;
+      }
+
+      box.innerHTML = documents.map(doc => {
+        const db = databases.find(item => item.id === doc.databaseId);
+        return `
+          <div class="doc-row" style="grid-template-columns:1fr auto;">
+            <div>
+              <div class="doc-title">${t(doc.titleZh, doc.titleEn)}</div>
+              <div class="doc-desc">
+                ${t("分類", "Category")}: ${db ? t(db.titleZh, db.titleEn) : doc.databaseId} · ${doc.type} · ${doc.updatedAt}
+              </div>
+            </div>
+            <button class="danger" onclick="deleteDocument('${doc.id}')">${t("刪除", "Delete")}</button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function deleteDocument(id) {
+      const ok = confirm(t("確定要刪除此測試文件嗎？", "Are you sure you want to delete this sample document?"));
+      if (!ok) return;
+
+      documents = documents.filter(doc => doc.id !== id);
+      saveDocuments();
+      renderAdminDocuments();
+      renderDatabases();
+      if (selectedDatabaseId) renderDetailDocuments();
+    }
+
     function viewFile() {
       alert(t(
         "這是原型版，尚未連接正式檔案。正式版會從公司 Server 或內部檔案系統開啟文件。",
@@ -1239,6 +1474,8 @@
       updateLanguageText();
       updateBadge();
       renderDatabases();
+      renderAdminDatabaseOptions();
+      renderAdminDocuments();
 
       if (selectedDatabaseId) {
         const db = databases.find(item => item.id === selectedDatabaseId);
@@ -1304,22 +1541,90 @@
       }
     }
 
-    function fakeLogin() {
-      isLoggedIn = true;
+    function register() {
+      const companyId = document.getElementById("registerId").value.trim();
+      const name = document.getElementById("registerName").value.trim();
+      const email = document.getElementById("registerEmail").value.trim();
+      const password = document.getElementById("registerPassword").value;
+
+      if (!companyId || !name || !email || !password) {
+        alert(t("請完整填寫註冊資料。", "Please complete all registration fields."));
+        return;
+      }
+
+      const users = loadUsers();
+      const exists = users.some(user => user.companyId === companyId);
+
+      if (exists) {
+        alert(t("此公司編號已註冊。", "This company ID has already been registered."));
+        return;
+      }
+
+      users.push({ companyId, name, email, password });
+      saveUsers(users);
+
+      alert(t("註冊成功，請使用剛剛的公司編號與密碼登入。", "Registration successful. Please log in with your company ID and password."));
+      switchAuthTab("login");
+
+      document.getElementById("loginId").value = companyId;
+      document.getElementById("loginPassword").value = "";
+    }
+
+    function login() {
+      const companyId = document.getElementById("loginId").value.trim();
+      const password = document.getElementById("loginPassword").value;
+
+      const users = loadUsers();
+      const user = users.find(item => item.companyId === companyId && item.password === password);
+
+      if (!user) {
+        alert(t("登入失敗，請確認公司編號與密碼。", "Login failed. Please check your company ID and password."));
+        return;
+      }
+
+      currentUser = {
+        companyId: user.companyId,
+        name: user.name,
+        email: user.email
+      };
+
+      saveCurrentUser();
       closeAuthModal();
+      updateAuthUI();
       openAssistant();
+
       addBotMessage(t(
-        "登入成功。現在可以使用小幫手搜尋文件。",
-        "Login successful. You can now use the assistant to search documents."
+        `登入成功，${user.name}。現在可以使用小幫手搜尋文件，也可以進入後台新增測試資料。`,
+        `Login successful, ${user.name}. You can now search documents with the assistant and add sample data in the admin panel.`
       ));
     }
 
-    function fakeRegister() {
-      alert(t(
-        "原型版註冊完成。正式版會連接公司 Server。",
-        "Prototype registration complete. The official version will connect to the company server."
-      ));
-      switchAuthTab("login");
+    function logout() {
+      currentUser = null;
+      localStorage.removeItem("szs_current_user");
+      updateAuthUI();
+      showHome();
+      addBotMessage(t("已登出。", "Logged out."));
+    }
+
+    function updateAuthUI() {
+      const userPill = document.getElementById("userPill");
+      const loginBtn = document.getElementById("loginBtn");
+      const registerBtn = document.getElementById("registerBtn");
+      const logoutBtn = document.getElementById("logoutBtn");
+
+      if (currentUser) {
+        userPill.style.display = "inline-flex";
+        userPill.textContent = currentUser.name + " · " + currentUser.companyId;
+        loginBtn.style.display = "none";
+        registerBtn.style.display = "none";
+        logoutBtn.style.display = "inline-block";
+      } else {
+        userPill.style.display = "none";
+        loginBtn.style.display = "inline-block";
+        registerBtn.style.display = "inline-block";
+        logoutBtn.style.display = "none";
+      }
     }
 
     function handleEnter(event) {
@@ -1334,7 +1639,7 @@
 
       if (!keyword) return;
 
-      if (!isLoggedIn) {
+      if (!currentUser) {
         openAssistant();
         openAuthModal("login");
         addBotMessage(t(
@@ -1377,7 +1682,7 @@
         html += `
           <div class="chat-result-card">
             <strong>${t(doc.titleZh, doc.titleEn)}</strong><br>
-            <span>${t("分類", "Category")}: ${t(db.titleZh, db.titleEn)}</span><br>
+            <span>${t("分類", "Category")}: ${db ? t(db.titleZh, db.titleEn) : doc.databaseId}</span><br>
             <span>${t("更新日期", "Updated")}: ${doc.updatedAt}</span><br>
             <button style="margin-top:10px;padding:8px 10px;font-size:12px;" onclick="viewFile()">
               ${t("查看檔案", "View File")}
