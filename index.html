@@ -1374,12 +1374,752 @@
       }
     }
 
+  
+    /* === CATEGORY CARD STYLE: compact professional cards like selected reference === */
+    #databaseSection,
+    #homePage section:has(.database-grid) {
+      max-width: 1260px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .section-head {
+      margin-top: 18px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .section-head h2,
+    .section-title h2 {
+      font-size: 22px;
+      letter-spacing: 1px;
+      font-weight: 950;
+    }
+
+    .section-hint {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .database-grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 18px !important;
+      align-items: stretch;
+    }
+
+    .database-card {
+      min-height: 220px !important;
+      border-radius: 14px !important;
+      background: rgba(255, 255, 255, 0.86) !important;
+      border: 1px solid rgba(191, 219, 254, 0.85) !important;
+      box-shadow: 0 14px 38px rgba(15, 23, 42, 0.08) !important;
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+      transition: 0.18s ease;
+      padding: 0 !important;
+    }
+
+    body.dark .database-card {
+      background: rgba(15, 23, 42, 0.82) !important;
+      border-color: rgba(14, 165, 233, 0.35) !important;
+    }
+
+    .database-card:hover {
+      transform: translateY(-3px) !important;
+      border-color: rgba(14, 165, 233, 0.85) !important;
+      box-shadow: 0 20px 46px rgba(14, 165, 233, 0.15) !important;
+    }
+
+    .database-card .card-topbar,
+    .card-topbar,
+    .database-card::before {
+      height: 4px !important;
+      background: linear-gradient(90deg, #0284c7, #22d3ee) !important;
+    }
+
+    .database-card .card-body,
+    .card-body {
+      padding: 22px 22px 18px !important;
+    }
+
+    .stream-row {
+      margin: 0 0 22px !important;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stream-id {
+      font-size: 11px !important;
+      letter-spacing: 4px !important;
+      font-weight: 950 !important;
+      color: #64748b !important;
+    }
+
+    body.dark .stream-id {
+      color: #94a3b8 !important;
+    }
+
+    .doc-count,
+    .file-count {
+      padding: 5px 10px !important;
+      border-radius: 999px !important;
+      font-size: 12px !important;
+      font-weight: 950 !important;
+      color: #0284c7 !important;
+      background: rgba(224, 242, 254, 0.82) !important;
+      border: 1px solid rgba(125, 211, 252, 0.55) !important;
+      white-space: nowrap;
+    }
+
+    .database-card h3 {
+      font-size: 21px !important;
+      line-height: 1.28 !important;
+      margin: 0 0 12px !important;
+      color: var(--text) !important;
+      font-weight: 950 !important;
+      letter-spacing: -0.3px;
+    }
+
+    .database-card p {
+      font-size: 14px !important;
+      line-height: 1.75 !important;
+      color: var(--muted) !important;
+      margin: 0 !important;
+      min-height: 52px !important;
+    }
+
+    .database-meta {
+      display: flex !important;
+      flex-wrap: wrap;
+      gap: 8px !important;
+      margin-top: 18px !important;
+    }
+
+    .database-meta span {
+      padding: 5px 9px !important;
+      border-radius: 999px !important;
+      font-size: 12px !important;
+      font-weight: 950 !important;
+      color: #0284c7 !important;
+      background: rgba(224, 242, 254, 0.75) !important;
+      border: 1px solid rgba(125, 211, 252, 0.5) !important;
+    }
+
+    body.dark .database-meta span,
+    body.dark .doc-count,
+    body.dark .file-count {
+      background: rgba(14, 165, 233, 0.13) !important;
+      border-color: rgba(14, 165, 233, 0.32) !important;
+      color: #38bdf8 !important;
+    }
+
+    .query-link,
+    .database-card a {
+      display: inline-block;
+      margin-top: 14px !important;
+      color: #0284c7 !important;
+      font-size: 12px !important;
+      font-weight: 950 !important;
+      letter-spacing: 0.5px !important;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .query-link:hover,
+    .database-card a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 1050px) {
+      .database-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .database-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      .database-card {
+        min-height: 210px !important;
+      }
+    }
+
+  
+    /* === A+C DASHBOARD THEME: blue modern + enterprise sidebar/list view === */
+    body {
+      background:
+        radial-gradient(circle at 72% 12%, rgba(96, 165, 250, 0.18), transparent 30%),
+        linear-gradient(135deg, #f8fbff 0%, #eef6ff 52%, #f8fbff 100%) !important;
+    }
+
+    body::before {
+      background-image:
+        linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px) !important;
+      background-size: 44px 44px !important;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.44), rgba(0,0,0,.03)) !important;
+    }
+
+    header {
+      height: 72px !important;
+      min-height: 72px !important;
+      padding: 0 28px !important;
+      background: rgba(255, 255, 255, 0.86) !important;
+      border-bottom: 1px solid #dbe7f5 !important;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05) !important;
+      backdrop-filter: blur(18px);
+    }
+
+    .brand::before {
+      content: "☰";
+      color: #1e3a5f;
+      font-size: 23px;
+      margin-right: 10px;
+      font-weight: 900;
+    }
+
+    .brand img,
+    .brand .logo {
+      width: 48px !important;
+      height: 48px !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      background: transparent !important;
+      padding: 0 !important;
+    }
+
+    .brand-title {
+      font-size: 20px !important;
+      font-weight: 950 !important;
+      letter-spacing: .3px !important;
+    }
+
+    .brand-subtitle {
+      display: none !important;
+    }
+
+    .top-search {
+      display: grid;
+      grid-template-columns: auto minmax(220px, 1fr) auto;
+      align-items: center;
+      gap: 8px;
+      width: min(430px, 34vw);
+      height: 48px;
+      padding: 0 12px;
+      border: 1px solid #dbe7f5;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.88);
+      color: #64748b;
+    }
+
+    .top-search input {
+      border: 0 !important;
+      background: transparent !important;
+      outline: none;
+      padding: 0 !important;
+      font-weight: 800;
+      color: #334155;
+    }
+
+    .top-search kbd {
+      border: 1px solid #dbe7f5;
+      border-radius: 8px;
+      padding: 4px 8px;
+      color: #64748b;
+      background: #f8fbff;
+      font-size: 12px;
+    }
+
+    .app-sidebar {
+      position: fixed;
+      top: 72px;
+      left: 0;
+      bottom: 0;
+      width: 246px;
+      padding: 28px 18px;
+      background: rgba(255, 255, 255, 0.70);
+      border-right: 1px solid #dbe7f5;
+      backdrop-filter: blur(18px);
+      z-index: 25;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .side-item {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      align-items: center;
+      width: 100%;
+      min-height: 54px;
+      border-radius: 14px;
+      border: 0;
+      background: transparent;
+      color: #52627a;
+      text-align: left;
+      font-size: 15px;
+      box-shadow: none;
+    }
+
+    .side-item:hover {
+      background: rgba(219, 234, 254, 0.62);
+      transform: none;
+      box-shadow: none;
+    }
+
+    .side-item.active {
+      background: linear-gradient(135deg, #0b7ff3, #1677ff);
+      color: white;
+      box-shadow: 0 16px 30px rgba(22, 119, 255, 0.22);
+    }
+
+    .side-icon {
+      font-size: 18px;
+      text-align: center;
+    }
+
+    .side-card {
+      margin-top: auto;
+      border-radius: 22px;
+      padding: 20px;
+      background: linear-gradient(145deg, rgba(255,255,255,.8), rgba(235,246,255,.9));
+      border: 1px solid #dbeafe;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, .06);
+    }
+
+    .side-card-art {
+      font-size: 34px;
+      margin-bottom: 12px;
+    }
+
+    .side-card strong {
+      display: block;
+      color: #0f172a;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .side-card p {
+      color: #64748b;
+      font-size: 13px;
+      line-height: 1.7;
+      margin: 0 0 14px;
+    }
+
+    .side-card button {
+      width: 100%;
+      color: #0b7ff3;
+      background: rgba(255,255,255,.8);
+      border: 1px solid #bfdbfe;
+    }
+
+    .warning-banner,
+    .notice {
+      margin-left: 274px !important;
+      max-width: calc(100vw - 330px) !important;
+      display: none !important;
+    }
+
+    main.page {
+      max-width: none !important;
+      margin-left: 246px !important;
+      padding: 0 40px 70px !important;
+    }
+
+    #homePage .hero {
+      position: relative;
+      margin: 0 -40px 0 !important;
+      padding: 72px 80px 80px !important;
+      min-height: 310px !important;
+      text-align: left !important;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 82% 42%, rgba(96,165,250,.23), transparent 34%),
+        linear-gradient(135deg, rgba(255,255,255,.62), rgba(235,246,255,.48));
+      border-bottom: 1px solid #dbe7f5;
+    }
+
+    #homePage .hero::after {
+      content: "";
+      position: absolute;
+      right: 72px;
+      top: 36px;
+      width: 320px;
+      height: 230px;
+      background:
+        radial-gradient(circle at 68% 58%, rgba(14,165,233,.28), transparent 20%),
+        linear-gradient(135deg, rgba(255,255,255,.65), rgba(96,165,250,.18));
+      border: 1px solid rgba(147,197,253,.45);
+      border-radius: 34px;
+      transform: perspective(500px) rotateY(-13deg) rotateX(8deg);
+      box-shadow: 0 30px 80px rgba(59,130,246,.14);
+      opacity: .78;
+    }
+
+    #homePage .hero::before {
+      content: "SZS PE";
+      position: absolute;
+      right: 178px;
+      top: 105px;
+      z-index: 1;
+      width: 86px;
+      height: 120px;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #60a5fa, #2563eb);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 950;
+      font-size: 13px;
+      box-shadow: 0 18px 40px rgba(37, 99, 235, .25);
+      transform: perspective(400px) rotateY(-14deg);
+    }
+
+    #homePage .hero-label {
+      display: none !important;
+    }
+
+    #homePage .hero h1 {
+      font-size: clamp(40px, 4.4vw, 58px) !important;
+      max-width: 620px;
+      letter-spacing: -1.2px !important;
+      margin-bottom: 18px !important;
+    }
+
+    #homePage .hero p {
+      margin: 0 !important;
+      max-width: 640px !important;
+      font-size: 17px !important;
+      color: #64748b !important;
+    }
+
+    .dashboard-overview {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin: -36px 0 28px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .dash-stat {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 18px;
+      align-items: center;
+      background: rgba(255,255,255,.88);
+      border: 1px solid #dbe7f5;
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(15,23,42,.08);
+    }
+
+    .dash-icon {
+      width: 54px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      font-size: 24px;
+      box-shadow: 0 14px 30px rgba(37,99,235,.25);
+    }
+
+    .dash-icon.blue { background: linear-gradient(135deg,#3b82f6,#2563eb); }
+    .dash-icon.cyan { background: linear-gradient(135deg,#22d3ee,#06b6d4); }
+    .dash-icon.purple { background: linear-gradient(135deg,#818cf8,#6366f1); }
+    .dash-icon.green { background: linear-gradient(135deg,#22c55e,#16a34a); }
+
+    .dash-label {
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .dash-value {
+      color: #0f172a;
+      font-size: 30px;
+      font-weight: 950;
+      line-height: 1.1;
+    }
+
+    .dash-value small {
+      font-size: 14px;
+      color: #64748b;
+      margin-left: 3px;
+      font-weight: 900;
+    }
+
+    .dash-link {
+      margin-top: 6px;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    #databaseSection {
+      margin-top: 0 !important;
+    }
+
+    .section-head {
+      background: rgba(255,255,255,.86);
+      border: 1px solid #dbe7f5;
+      border-bottom: 0;
+      border-radius: 18px 18px 0 0;
+      padding: 20px 24px !important;
+      margin: 0 !important;
+      box-shadow: 0 14px 30px rgba(15,23,42,.05);
+    }
+
+    .section-title h2,
+    .section-head h2 {
+      font-size: 22px !important;
+      letter-spacing: 0 !important;
+    }
+
+    .database-view-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .database-view-actions span {
+      display: none;
+    }
+
+    #databaseViewToggle {
+      border-radius: 12px;
+      padding: 10px 16px;
+      color: #475569;
+      background: rgba(255,255,255,.82);
+      border: 1px solid #dbe7f5;
+      box-shadow: none;
+    }
+
+    #databaseViewToggle::before {
+      content: "▦ ";
+      color: #2563eb;
+    }
+
+    .database-grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 18px !important;
+      background: rgba(255,255,255,.64);
+      border: 1px solid #dbe7f5;
+      border-top: 0;
+      border-radius: 0 0 18px 18px;
+      padding: 24px !important;
+      box-shadow: 0 20px 50px rgba(15,23,42,.08);
+    }
+
+    .database-list-panel {
+      background: rgba(255,255,255,.86);
+      border: 1px solid #dbe7f5;
+      border-top: 0;
+      border-radius: 0 0 18px 18px;
+      box-shadow: 0 20px 50px rgba(15,23,42,.08);
+      overflow: hidden;
+    }
+
+    .db-list-header,
+    .db-list-row {
+      display: grid;
+      grid-template-columns: minmax(360px, 1fr) 120px 170px 150px;
+      gap: 18px;
+      align-items: center;
+      padding: 15px 28px;
+      border-bottom: 1px solid #e5eef8;
+    }
+
+    .db-list-header {
+      color: #475569;
+      font-size: 13px;
+      font-weight: 950;
+      background: rgba(248,251,255,.92);
+    }
+
+    .db-list-row {
+      background: rgba(255,255,255,.74);
+    }
+
+    .db-list-name {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .db-folder {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #edf6ff;
+      color: #2563eb;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 950;
+    }
+
+    .db-list-name strong {
+      color: #0f172a;
+      font-size: 15px;
+    }
+
+    .db-list-name p {
+      margin: 4px 0 0;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .db-list-count,
+    .db-list-date {
+      color: #475569;
+      font-weight: 900;
+    }
+
+    .db-list-btn {
+      border-radius: 12px;
+      padding: 9px 16px;
+      background: white;
+      border: 1px solid #dbe7f5;
+      color: #1e3a5f;
+      box-shadow: none;
+    }
+
+    .show-more-db {
+      width: 100%;
+      height: 48px;
+      border: 0;
+      border-radius: 0;
+      background: rgba(248,251,255,.9);
+      color: #64748b;
+      box-shadow: none;
+    }
+
+    .assistant-launcher {
+      width: 70px !important;
+      height: 70px !important;
+      right: 28px !important;
+      bottom: 28px !important;
+      background: linear-gradient(135deg,#60a5fa,#2563eb) !important;
+      box-shadow: 0 20px 50px rgba(37,99,235,.35) !important;
+      border: 5px solid rgba(255,255,255,.8) !important;
+      font-size: 0 !important;
+    }
+
+    .assistant-launcher::before {
+      content: "🤖";
+      font-size: 28px;
+    }
+
+    .assistant-launcher::after {
+      content: "小幫手";
+      position: absolute;
+      bottom: 7px;
+      left: 0;
+      right: 0;
+      font-size: 11px;
+      font-weight: 950;
+      color: white;
+      text-align: center;
+    }
+
+    body.dark {
+      background: #07111f !important;
+    }
+
+    body.dark header,
+    body.dark .app-sidebar,
+    body.dark .dash-stat,
+    body.dark .section-head,
+    body.dark .database-grid,
+    body.dark .database-list-panel,
+    body.dark .db-list-row {
+      background: rgba(15, 23, 42, 0.84) !important;
+      border-color: rgba(56,189,248,.18) !important;
+    }
+
+    body.dark .side-card,
+    body.dark .db-list-header {
+      background: rgba(15, 23, 42, 0.92) !important;
+      border-color: rgba(56,189,248,.18) !important;
+    }
+
+    body.dark .dash-value,
+    body.dark .db-list-name strong,
+    body.dark .side-card strong {
+      color: #e2e8f0 !important;
+    }
+
+    @media (max-width: 1180px) {
+      .dashboard-overview {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .database-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+      }
+
+      .top-search {
+        display: none;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .app-sidebar {
+        display: none;
+      }
+
+      main.page {
+        margin-left: 0 !important;
+        padding: 0 18px 70px !important;
+      }
+
+      #homePage .hero {
+        margin: 0 -18px 0 !important;
+        padding: 50px 28px !important;
+      }
+
+      #homePage .hero::before,
+      #homePage .hero::after {
+        display: none;
+      }
+
+      .dashboard-overview {
+        grid-template-columns: 1fr;
+        margin-top: 20px;
+      }
+
+      .database-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      .db-list-header {
+        display: none;
+      }
+
+      .db-list-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
   </style>
 </head>
 <body>
   <header>
     <div class="brand" onclick="showHome()">
-      <img src="logo.png" alt="SZS Logo" class="logo" / onerror="this.style.display=\'none\'; this.parentElement.querySelector(\'.logo-fallback\')?.classList.remove(\'hidden\');">
+      <img src="logo.png" alt="SZS Logo" class="logo" onerror="this.style.display=\'none\'; const f=this.parentElement.querySelector(\'.logo-fallback\'); if(f){f.classList.add(\'show\');}">
       <div>
         <div class="brand-title" data-zh="SZS PE知識庫" data-en="SZS PE Knowledge Base">SZS PE知識庫</div>
         <div class="brand-subtitle" data-zh="內部資料搜尋系統" data-en="INTERNAL DATABASE SYSTEM">內部資料搜尋系統</div>
@@ -1387,6 +2127,13 @@
     </div>
 
     <div class="nav-actions">
+
+      <div class="top-search">
+        <span>⌕</span>
+        <input id="topSearchInput" placeholder="搜尋文件、分類或標籤..." onkeydown="handleTopSearch(event)" />
+        <kbd>⌘ K</kbd>
+      </div>
+
       <span class="user-pill" id="userPill"></span>
       <button class="ghost" onclick="switchLanguage()" id="langBtn">English</button>
       <button onclick="toggleTheme()" id="themeBtn">🌙</button>
@@ -1396,6 +2143,38 @@
       <button onclick="openAdmin()" data-zh="後台管理" data-en="Admin Panel">後台管理</button>
     </div>
   </header>
+
+  <aside class="app-sidebar" aria-label="main navigation">
+    <button class="side-item active" onclick="showHome()" data-side="home">
+      <span class="side-icon">⌂</span><span data-zh="首頁" data-en="Home">首頁</span>
+    </button>
+    <button class="side-item" onclick="document.getElementById('databaseSection')?.scrollIntoView({behavior:'smooth'});" data-side="databases">
+      <span class="side-icon">▦</span><span data-zh="資料庫分類" data-en="Databases">資料庫分類</span>
+    </button>
+    <button class="side-item" onclick="openAdmin(); setTimeout(()=>switchAdminTab('documents'), 0);" data-side="documents">
+      <span class="side-icon">▤</span><span data-zh="文件管理" data-en="Documents">文件管理</span>
+    </button>
+    <button class="side-item" onclick="openAdmin(); setTimeout(()=>switchAdminTab('logs'), 0);" data-side="logs">
+      <span class="side-icon">◷</span><span data-zh="操作紀錄" data-en="Logs">操作紀錄</span>
+    </button>
+    <button class="side-item" onclick="openAdmin(); setTimeout(()=>switchAdminTab('users'), 0);" data-side="users">
+      <span class="side-icon">♙</span><span data-zh="會員權限" data-en="Members">會員權限</span>
+    </button>
+    <button class="side-item" onclick="openAssistantPage()" data-side="assistant">
+      <span class="side-icon">✦</span><span data-zh="小幫手" data-en="Assistant">小幫手</span>
+    </button>
+    <button class="side-item" onclick="toggleTheme()" data-side="settings">
+      <span class="side-icon">⚙</span><span data-zh="系統設定" data-en="Settings">系統設定</span>
+    </button>
+
+    <div class="side-card">
+      <div class="side-card-art">🔐</div>
+      <strong data-zh="安全・可靠・共享" data-en="Secure · Reliable · Shared">安全・可靠・共享</strong>
+      <p data-zh="建立標準化文件，讓知識成為團隊的力量。" data-en="Standardize files and turn knowledge into team power.">建立標準化文件，讓知識成為團隊的力量。</p>
+      <button onclick="openAssistant()" data-zh="了解更多 ↗" data-en="Learn More ↗">了解更多 ↗</button>
+    </div>
+  </aside>
+
 
   <div class="warning-banner" data-zh="原型提醒：此版本資料只會暫存在目前瀏覽器 localStorage，請勿放入公司機密、真實帳密、客戶資料或正式文件。"
        data-en="Prototype reminder: Data is stored only in this browser localStorage. Do not enter confidential data or real passwords. ">
@@ -1411,17 +2190,55 @@
         請選擇資料庫分類進行查詢，或使用右下角小幫手搜尋你需要的文件。此版本為非機密原型展示，所有資料皆為測試資料。
       </p>
     </section>
+
+    <section class="dashboard-overview" aria-label="dashboard overview">
+      <div class="dash-stat">
+        <div class="dash-icon blue">▣</div>
+        <div>
+          <div class="dash-label" data-zh="資料庫分類" data-en="Database Categories">資料庫分類</div>
+          <div class="dash-value"><span id="overviewDatabaseCount">0</span><small data-zh=" 個" data-en=" categories"> 個</small></div>
+          <div class="dash-link" data-zh="所有分類總覽 ›" data-en="All categories ›">所有分類總覽 ›</div>
+        </div>
+      </div>
+      <div class="dash-stat">
+        <div class="dash-icon cyan">▤</div>
+        <div>
+          <div class="dash-label" data-zh="目前文件" data-en="Current Documents">目前文件</div>
+          <div class="dash-value"><span id="overviewDocumentCount">0</span><small data-zh=" 份" data-en=" docs"> 份</small></div>
+          <div class="dash-link" data-zh="所有文件總數 ›" data-en="Total documents ›">所有文件總數 ›</div>
+        </div>
+      </div>
+      <div class="dash-stat">
+        <div class="dash-icon purple">♙</div>
+        <div>
+          <div class="dash-label" data-zh="目前登入者" data-en="Current User">目前登入者</div>
+          <div class="dash-value"><span id="overviewUserRole">Guest</span></div>
+          <div class="dash-link" data-zh="線上成員 ›" data-en="Online member ›">線上成員 ›</div>
+        </div>
+      </div>
+      <div class="dash-stat">
+        <div class="dash-icon green">✓</div>
+        <div>
+          <div class="dash-label" data-zh="系統狀態" data-en="System Status">系統狀態</div>
+          <div class="dash-value"><span data-zh="正常" data-en="OK">正常</span></div>
+          <div class="dash-link" data-zh="系統運行良好 ›" data-en="System healthy ›">系統運行良好 ›</div>
+        </div>
+      </div>
+    </section>
+
     <section id="databaseSection">
       <div class="section-head">
         <div class="section-title">
           <h2 data-zh="資料庫分類" data-en="DATA STREAMS">資料庫分類</h2>
           <span class="badge" id="activeBadge">0 個分類</span>
         </div>
-        <div class="section-hint" data-zh="你可以到後台管理自行新增資料庫分類與測試文件。" data-en="You can add database categories and sample documents in the admin panel.">
-          你可以到後台管理自行新增資料庫分類與測試文件。
+        <div class="section-hint database-view-actions">
+          <span data-zh="你可以到後台管理自行新增資料庫分類與測試文件。" data-en="You can add database categories and sample documents in the admin panel.">你可以到後台管理自行新增資料庫分類與測試文件。</span>
+          <button id="databaseViewToggle" onclick="toggleDatabaseView()" data-zh="查看全部分類" data-en="View All Categories">查看全部分類</button>
         </div>
       </div>
       <div class="database-grid" id="databaseGrid"></div>
+      <div class="database-list-panel" id="databaseListPanel" style="display:none;"><div id="databaseList"></div></div>
     </section>
   </main>
 
@@ -1807,6 +2624,7 @@
     let currentLang = "zh";
     let selectedDatabaseId = null;
     let currentDocumentTypeFilter = "ALL";
+    let databaseHomeView = "cards";
     let currentUser = null;
     let assistantMode = "all";
 
@@ -2031,9 +2849,49 @@
       return `<div class="filter-bar">${chips}</div>`;
     }
 
+
+    function toggleDatabaseView() {
+      databaseHomeView = databaseHomeView === "cards" ? "list" : "cards";
+      renderDatabases();
+    }
+
+    function updateDatabaseViewUI() {
+      const grid = document.getElementById("databaseGrid");
+      const panel = document.getElementById("databaseListPanel");
+      const btn = document.getElementById("databaseViewToggle");
+
+      if (grid) grid.style.display = databaseHomeView === "cards" ? "grid" : "none";
+      if (panel) panel.style.display = databaseHomeView === "list" ? "block" : "none";
+
+      if (btn) {
+        btn.textContent = databaseHomeView === "cards"
+          ? t("查看全部分類", "View All Categories")
+          : t("切回卡片式", "Back to Cards");
+      }
+    }
+
+    function handleTopSearch(event) {
+      if (event.key !== "Enter") return;
+      const input = document.getElementById("topSearchInput");
+      const value = input ? input.value.trim() : "";
+      if (!value) return;
+      openAssistant();
+      const chatInput = document.getElementById("chatInput");
+      if (chatInput) chatInput.value = value;
+      sendMessageFromInput("chatInput");
+    }
+
+    function updateSideNav(active) {
+      document.querySelectorAll(".side-item").forEach(item => {
+        item.classList.toggle("active", item.dataset.side === active);
+      });
+    }
+
     function renderDatabases() {
       const grid = document.getElementById("databaseGrid");
-      grid.innerHTML = databases.map(db => {
+      const listBox = document.getElementById("databaseList");
+
+      const cardsHtml = databases.map(db => {
         const count = getDocumentsByDatabase(db.id).length;
         const lastUpdated = getDatabaseLastUpdated(db.id);
         return `
@@ -2054,6 +2912,38 @@
             </div>
           </div>`;
       }).join("");
+
+      const listHtml = `
+        <div class="db-list-header">
+          <div>${t("分類名稱", "Category Name")}</div>
+          <div>${t("文件數", "Docs")}</div>
+          <div>${t("最後更新", "Last Updated")}</div>
+          <div>${t("操作", "Action")}</div>
+        </div>
+        ${databases.map(db => {
+          const count = getDocumentsByDatabase(db.id).length;
+          const lastUpdated = getDatabaseLastUpdated(db.id);
+          return `
+            <div class="db-list-row">
+              <div class="db-list-name">
+                <span class="db-folder">▣</span>
+                <div>
+                  <strong>${t(db.titleZh, db.titleEn)}</strong>
+                  <p>${t(db.descriptionZh, db.descriptionEn)}</p>
+                </div>
+              </div>
+              <div class="db-list-count">${count}</div>
+              <div class="db-list-date">${lastUpdated === "-" ? t("尚未更新", "Not updated") : lastUpdated}</div>
+              <div><button class="db-list-btn" onclick="showDetail('${db.id}')">${t("查看", "View")} ›</button></div>
+            </div>`;
+        }).join("")}
+        <button class="show-more-db" onclick="databaseHomeView='cards';renderDatabases();">${t("切回卡片式", "Back to Cards")}⌄</button>
+      `;
+
+      if (grid) grid.innerHTML = cardsHtml;
+      if (listBox) listBox.innerHTML = listHtml;
+
+      updateDatabaseViewUI();
       updateBadge();
     }
 
@@ -2064,13 +2954,14 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function showHome() { selectedDatabaseId = null; renderDatabases(); showPage("homePage"); }
+    function showHome() { selectedDatabaseId = null; databaseHomeView = "cards"; renderDatabases(); updateSideNav("home"); showPage("homePage"); }
 
     function showDetail(id) {
       selectedDatabaseId = id;
       currentDocumentTypeFilter = "ALL";
       const db = databases.find(item => item.id === id);
       if (!db) return;
+      updateSideNav("databases");
       showPage("detailPage");
       document.getElementById("detailTitle").textContent = t(db.titleZh, db.titleEn);
       document.getElementById("detailDescription").textContent = t(db.descriptionZh, db.descriptionEn);
@@ -2133,6 +3024,7 @@
       renderAdminUsers();
       renderAdminLogs();
       switchAdminTab("documents");
+      updateSideNav("documents");
       showPage("adminPage");
     }
 
@@ -2726,6 +3618,7 @@
 
     function openAssistantPage() {
       closeAssistant();
+      updateSideNav("assistant");
       showPage("assistantPage");
       setTimeout(() => {
         const input = document.getElementById("fullChatInput");
