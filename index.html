@@ -2844,9 +2844,63 @@
       }
     }
 
+  
+    /* === CLEAN SEARCH RESULTS + ALWAYS-CLOSED SIDEBAR DEFAULT === */
+    .search-tabs {
+      display: flex;
+      gap: 10px;
+      margin: 0 0 16px;
+      padding: 0 4px;
+    }
+
+    .search-tabs button {
+      border-radius: 999px;
+      padding: 10px 18px;
+      background: rgba(255,255,255,.82);
+      border: 1px solid #dbe7f5;
+      box-shadow: none;
+      color: #475569;
+    }
+
+    .search-tabs button.active {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 14px 30px rgba(14, 165, 233, .18);
+    }
+
+    .empty-state.mini {
+      margin: 0;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      border-radius: 0;
+      background: transparent;
+      padding: 24px;
+    }
+
+    #searchResultList .search-section-title + .empty-state.mini {
+      border-top: 0;
+    }
+
+    body.sidebar-collapsed .app-sidebar {
+      transform: translateX(-100%) !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    body.sidebar-collapsed main.page {
+      margin-left: 0 !important;
+    }
+
+    body:not(.sidebar-collapsed) .app-sidebar {
+      transform: translateX(0) !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+
   </style>
 </head>
-<body>
+<body class="sidebar-collapsed">
   <header>
     <button id="sidebarToggleBtn" class="sidebar-toggle" onclick="toggleSidebar(event)">☰</button>
     <div class="brand" onclick="showHome()">
@@ -3065,6 +3119,12 @@
         <button onclick="runSearchFromPage()" data-zh="搜尋" data-en="Search">搜尋</button>
       </div>
       <span class="badge" id="searchResultCount">0 documents</span>
+    </section>
+
+    <section class="search-tabs" id="searchResultTabs">
+      <button id="searchTabFiles" class="active" onclick="setSearchResultView('files')" data-zh="文件" data-en="Files">文件</button>
+      <button id="searchTabCategories" onclick="setSearchResultView('categories')" data-zh="資料庫分類" data-en="Categories">資料庫分類</button>
+      <button id="searchTabAll" onclick="setSearchResultView('all')" data-zh="全部" data-en="All">全部</button>
     </section>
 
     <section class="doc-table" id="searchResultList"></section>
@@ -3435,6 +3495,7 @@
     let currentDocumentTypeFilter = "ALL";
     let databaseHomeView = "cards";
     let currentSearchKeyword = "";
+    let searchResultView = "files";
     let currentUser = null;
     let assistantMode = "all";
 
@@ -3864,6 +3925,7 @@
 
     function showSearchResults(keyword) {
       currentSearchKeyword = keyword;
+      searchResultView = "files";
       const topInput = document.getElementById("topSearchInput");
       const pageInput = document.getElementById("searchPageInput");
       if (topInput) topInput.value = keyword;
@@ -3874,6 +3936,11 @@
       renderSearchResults();
     }
 
+    function setSearchResultView(view) {
+      searchResultView = view;
+      renderSearchResults();
+    }
+
     function renderSearchResults() {
       const box = document.getElementById("searchResultList");
       const count = document.getElementById("searchResultCount");
@@ -3881,10 +3948,20 @@
       if (!box) return;
 
       const keyword = currentSearchKeyword.trim();
-      let docs = documents.filter(doc => documentMatchesQuery(doc, keyword));
-      let matchedDatabases = databases.filter(db => {
+      const docs = documents.filter(doc => documentMatchesQuery(doc, keyword));
+      const matchedDatabases = databases.filter(db => {
         const text = [db.titleZh, db.titleEn, db.descriptionZh, db.descriptionEn, db.id].join(" ").toLowerCase();
-        return normalizeSearchQuery(text).includes(normalizeSearchQuery(keyword)) || text.includes(keyword.toLowerCase());
+        const normalizedKeyword = normalizeSearchQuery(keyword);
+        return normalizedKeyword && (normalizeSearchQuery(text).includes(normalizedKeyword) || text.includes(keyword.toLowerCase()));
+      });
+
+      const tabs = {
+        files: document.getElementById("searchTabFiles"),
+        categories: document.getElementById("searchTabCategories"),
+        all: document.getElementById("searchTabAll")
+      };
+      Object.entries(tabs).forEach(([key, btn]) => {
+        if (btn) btn.classList.toggle("active", searchResultView === key);
       });
 
       if (summary) {
@@ -3893,7 +3970,8 @@
           : t("請輸入關鍵字搜尋文件、分類或標籤。", "Please enter a keyword to search documents, categories, or tags.");
       }
 
-      if (count) count.textContent = currentLang === "zh" ? `${docs.length} 份文件` : `${docs.length} documents`;
+      const visibleCount = searchResultView === "categories" ? matchedDatabases.length : searchResultView === "files" ? docs.length : docs.length + matchedDatabases.length;
+      if (count) count.textContent = currentLang === "zh" ? `${visibleCount} 筆結果` : `${visibleCount} results`;
 
       if (!keyword || (docs.length === 0 && matchedDatabases.length === 0)) {
         box.innerHTML = `<div class="empty-state"><strong>${t("沒有找到符合條件的結果", "No matching results found")}</strong>${t("你可以換個關鍵字，或使用右下角小幫手詢問。", "Try another keyword or ask the assistant in the lower-right corner.")}<br><button onclick="openAssistant()">${t("詢問小幫手", "Ask Assistant")}</button></div>`;
@@ -3916,7 +3994,7 @@
               <div><button class="primary" onclick="showDetail('${db.id}')">${t("查看", "View")}</button></div>
             </div>`;
         }).join("")}
-      ` : "";
+      ` : `<div class="empty-state mini"><strong>${t("沒有符合的資料庫分類", "No matching categories")}</strong></div>`;
 
       const docHtml = docs.length ? `
         <div class="search-section-title">${t("符合的文件", "Matched Documents")}</div>
@@ -3930,9 +4008,15 @@
               <div><button class="primary" onclick="viewFile()">${t("查看檔案", "View File")}</button></div>
             </div>`;
         }).join("")}
-      ` : "";
+      ` : `<div class="empty-state mini"><strong>${t("沒有符合的文件", "No matching files")}</strong></div>`;
 
-      box.innerHTML = dbHtml + docHtml;
+      if (searchResultView === "files") {
+        box.innerHTML = docHtml;
+      } else if (searchResultView === "categories") {
+        box.innerHTML = dbHtml;
+      } else {
+        box.innerHTML = docHtml + dbHtml;
+      }
     }
 
     function updateSideNav(active) {
