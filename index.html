@@ -2391,6 +2391,321 @@
       }
     }
 
+  
+    /* === NEXT FEATURES: logo-left, profile menu, notifications, inline auth, forgot modal === */
+    header {
+      justify-content: flex-start !important;
+      gap: 14px !important;
+      padding-left: 22px !important;
+    }
+
+    .sidebar-toggle {
+      margin-right: 4px !important;
+      flex: 0 0 auto;
+    }
+
+    .brand {
+      margin-right: 22px !important;
+      flex: 0 0 auto !important;
+      justify-content: flex-start !important;
+    }
+
+    .brand img,
+    .brand .logo {
+      margin-left: 0 !important;
+    }
+
+    .top-search {
+      margin-left: auto !important;
+    }
+
+    .icon-btn {
+      position: relative;
+      width: 46px;
+      height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border-radius: 14px;
+    }
+
+    #notificationDot {
+      position: absolute;
+      top: 9px;
+      right: 9px;
+      width: 9px;
+      height: 9px;
+      display: none;
+      border-radius: 50%;
+      background: #ef4444;
+      border: 2px solid white;
+    }
+
+    .profile-wrap {
+      position: relative;
+      display: none;
+    }
+
+    .profile-btn {
+      display: inline-grid;
+      grid-template-columns: 34px auto auto auto;
+      gap: 8px;
+      align-items: center;
+      min-height: 46px;
+      border-radius: 16px;
+      padding: 6px 11px 6px 6px;
+      background: rgba(224,242,254,.75);
+      color: #075985;
+      border: 1px solid rgba(125,211,252,.6);
+    }
+
+    .profile-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #60a5fa, #2563eb);
+      color: white;
+      font-weight: 950;
+    }
+
+    .profile-avatar.large {
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      flex: 0 0 auto;
+    }
+
+    .profile-name {
+      font-weight: 950;
+      max-width: 100px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .profile-role {
+      font-size: 12px;
+      color: #0284c7;
+      font-weight: 900;
+    }
+
+    .profile-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 10px);
+      width: 260px;
+      background: rgba(255,255,255,.96);
+      border: 1px solid #dbe7f5;
+      border-radius: 18px;
+      box-shadow: 0 24px 70px rgba(15,23,42,.18);
+      padding: 10px;
+      display: none;
+      z-index: 120;
+      backdrop-filter: blur(18px);
+    }
+
+    .profile-menu.open {
+      display: block;
+    }
+
+    .profile-menu-head {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      margin-bottom: 6px;
+      border-radius: 15px;
+      background: #eff6ff;
+    }
+
+    .profile-menu-head strong {
+      color: #0f172a;
+      font-size: 15px;
+    }
+
+    .profile-menu-head p {
+      margin: 4px 0 0;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .profile-menu button {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+      text-align: left;
+      padding: 11px 12px;
+      color: #334155;
+      border-radius: 12px;
+    }
+
+    .profile-menu button:hover {
+      transform: none;
+      background: #eff6ff;
+      box-shadow: none;
+    }
+
+    .profile-menu .danger-text {
+      color: #dc2626;
+    }
+
+    .notification-panel {
+      position: fixed;
+      top: 78px;
+      right: 28px;
+      width: 360px;
+      max-height: 520px;
+      overflow: hidden;
+      background: rgba(255,255,255,.96);
+      border: 1px solid #dbe7f5;
+      border-radius: 20px;
+      box-shadow: 0 24px 70px rgba(15,23,42,.18);
+      z-index: 119;
+      display: none;
+      backdrop-filter: blur(18px);
+    }
+
+    .notification-panel.open {
+      display: block;
+    }
+
+    .notification-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 18px;
+      border-bottom: 1px solid #e5eef8;
+    }
+
+    .notification-head strong {
+      color: #0f172a;
+      font-size: 17px;
+    }
+
+    .notification-head button {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      box-shadow: none;
+    }
+
+    #notificationList {
+      max-height: 440px;
+      overflow: auto;
+      padding: 8px;
+    }
+
+    .notification-item {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 14px;
+    }
+
+    .notification-item:hover {
+      background: #eff6ff;
+    }
+
+    .notification-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: #eff6ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .notification-item strong {
+      color: #0f172a;
+      font-size: 14px;
+    }
+
+    .notification-item p {
+      margin: 4px 0 0;
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .form-error-box {
+      display: none;
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-weight: 900;
+      line-height: 1.5;
+    }
+
+    .form-error-box.error {
+      display: block;
+      color: #b91c1c;
+      background: rgba(239,68,68,.12);
+      border: 1px solid rgba(239,68,68,.22);
+    }
+
+    .form-error-box.success {
+      display: block;
+      color: #15803d;
+      background: rgba(34,197,94,.12);
+      border: 1px solid rgba(34,197,94,.22);
+    }
+
+    .forgot-modal {
+      max-width: 520px;
+    }
+
+    .forgot-intro {
+      margin: 18px 22px 0;
+      color: #64748b;
+      line-height: 1.7;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .forgot-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    body.dark .profile-menu,
+    body.dark .notification-panel,
+    body.dark .profile-menu-head,
+    body.dark .notification-icon {
+      background: rgba(15,23,42,.94) !important;
+      border-color: rgba(56,189,248,.18) !important;
+    }
+
+    body.dark .profile-menu-head strong,
+    body.dark .notification-head strong,
+    body.dark .notification-item strong {
+      color: #e2e8f0 !important;
+    }
+
+    @media (max-width: 900px) {
+      .profile-name,
+      .profile-role {
+        display: none;
+      }
+
+      .profile-btn {
+        grid-template-columns: 34px auto;
+      }
+
+      .notification-panel {
+        right: 14px;
+        width: calc(100vw - 28px);
+      }
+    }
 
   </style>
 </head>
@@ -2416,12 +2731,43 @@
       <span class="user-pill" id="userPill"></span>
       <button class="ghost" onclick="switchLanguage()" id="langBtn">English</button>
       <button onclick="toggleTheme()" id="themeBtn">🌙</button>
+      <button id="notificationBtn" class="icon-btn" onclick="toggleNotifications(event)" title="通知">🔔<span id="notificationDot"></span></button>
+      <div class="profile-wrap" id="profileWrap">
+        <button id="profileBtn" class="profile-btn" onclick="toggleProfileMenu(event)">
+          <span class="profile-avatar" id="profileAvatar">U</span>
+          <span class="profile-name" id="profileName">User</span>
+          <span class="profile-role" id="profileRole">User</span>
+          <span>⌄</span>
+        </button>
+        <div class="profile-menu" id="profileMenu">
+          <div class="profile-menu-head">
+            <span class="profile-avatar large" id="profileAvatarLarge">U</span>
+            <div>
+              <strong id="profileMenuName">User</strong>
+              <p id="profileMenuMeta">User · 離線</p>
+            </div>
+          </div>
+          <button onclick="switchLanguage(); closeProfileMenu();" data-zh="語言 / Language" data-en="Language / 語言">語言 / Language</button>
+          <button onclick="showSystemInfo(); closeProfileMenu();" data-zh="系統資訊" data-en="System Info">系統資訊</button>
+          <button onclick="showToast(t('我的設定為原型展示項目。','My settings is a prototype item.')); closeProfileMenu();" data-zh="我的設定" data-en="My Settings">我的設定</button>
+          <button onclick="showMyMessages(); closeProfileMenu();" data-zh="我的訊息" data-en="My Messages">我的訊息</button>
+          <button onclick="showFeedbackBox(); closeProfileMenu();" data-zh="意見回饋" data-en="Feedback">意見回饋</button>
+          <button class="danger-text" onclick="closeProfileMenu(); logout();" data-zh="登出" data-en="Logout">登出</button>
+        </div>
+      </div>
       <button id="loginBtn" onclick="openAuthModal('login')" data-zh="登入" data-en="Login">登入</button>
       <button id="registerBtn" class="primary" onclick="openAuthModal('register')" data-zh="註冊" data-en="Sign Up">註冊</button>
       <button id="logoutBtn" style="display:none;" onclick="logout()" data-zh="登出" data-en="Logout">登出</button>
       <button onclick="openAdmin()" data-zh="後台管理" data-en="Admin Panel">後台管理</button>
     </div>
   </header>
+  <div class="notification-panel" id="notificationPanel">
+    <div class="notification-head">
+      <strong data-zh="通知中心" data-en="Notifications">通知中心</strong>
+      <button onclick="toggleNotifications(event)">×</button>
+    </div>
+    <div id="notificationList"></div>
+  </div>
 
   <aside class="app-sidebar" aria-label="main navigation">
     <button class="side-item active" onclick="showHome()" data-side="home">
@@ -2505,30 +2851,24 @@
       </div>
     </section>
 
-    <section class="online-compact-panel" id="onlineMembersPanel">
-      <div class="online-compact-head">
+    
+    <section class="online-members-panel" id="onlineMembersPanel">
+      <div class="online-members-head">
         <div>
           <h2 data-zh="線上成員" data-en="Online Members">線上成員</h2>
-          <p data-zh="點選成員可開啟一對一對話框。" data-en="Click a member to open a direct chat.">點選成員可開啟一對一對話框。</p>
+          <p data-zh="顯示目前會員狀態。綠燈代表線上，紅燈代表離開，灰燈代表離線。" data-en="Shows member status. Green means online, red means away, gray means offline.">顯示目前會員狀態。綠燈代表線上，紅燈代表離開，灰燈代表離線。</p>
         </div>
-        <div class="my-status-control compact">
+        <div class="my-status-control">
           <span data-zh="我的狀態" data-en="My Status">我的狀態</span>
           <button class="status-btn online" onclick="setMyPresence('online')" data-zh="線上" data-en="Online">線上</button>
           <button class="status-btn away" onclick="setMyPresence('away')" data-zh="離開" data-en="Away">離開</button>
           <button class="status-btn offline" onclick="setMyPresence('offline')" data-zh="離線" data-en="Offline">離線</button>
         </div>
       </div>
-
-      <div class="online-group-tabs">
-        <button onclick="selectTeamGroup('all')" id="groupBtnAll" class="team-tool active" data-zh="全部" data-en="All">全部</button>
-        <button onclick="selectTeamGroup('BU1')" id="groupBtnBU1" class="team-tool">BU1</button>
-        <button onclick="selectTeamGroup('BU3')" id="groupBtnBU3" class="team-tool">BU3</button>
-      </div>
-
-      <div class="online-compact-list" id="onlineMembersList"></div>
+      <div class="online-members-list" id="onlineMembersList"></div>
     </section>
 
-<section id="databaseSection" class="view-cards">
+    <section id="databaseSection" class="view-cards">
       <div class="section-head">
         <div class="section-title">
           <h2 data-zh="資料庫分類" data-en="DATA STREAMS">資料庫分類</h2>
@@ -2809,45 +3149,6 @@
   </main>
 
 
-  
-  <div class="member-chat-box" id="memberChatBox">
-    <div class="member-chat-header">
-      <div>
-        <strong id="memberChatTitle">聊天室</strong>
-        <p id="memberChatSub">原型版訊息會暫存在 localStorage</p>
-      </div>
-      <div class="member-chat-actions">
-        <button onclick="openMemberChatFull()" title="全頁模式">⛶</button>
-        <button onclick="closeMemberChat()" title="關閉">×</button>
-      </div>
-    </div>
-    <div class="member-chat-body" id="memberChatBody"></div>
-    <div class="member-chat-input">
-      <input id="memberChatInput" placeholder="輸入訊息..." onkeydown="if(event.key==='Enter') sendMemberMessage();" />
-      <button class="primary" onclick="sendMemberMessage()" data-zh="送出" data-en="Send">送出</button>
-    </div>
-  </div>
-
-  <div class="member-chat-full" id="memberChatFull">
-    <div class="member-chat-full-panel">
-      <div class="member-chat-header">
-        <div>
-          <strong id="memberChatFullTitle">全頁聊天室</strong>
-          <p id="memberChatFullSub">一對一對話全頁模式</p>
-        </div>
-        <div class="member-chat-actions">
-          <button onclick="closeMemberChatFull()" data-zh="返回" data-en="Back">返回</button>
-          <button onclick="closeMemberChatFull()">×</button>
-        </div>
-      </div>
-      <div class="member-chat-body full" id="memberChatFullBody"></div>
-      <div class="member-chat-input">
-        <input id="memberChatFullInput" placeholder="輸入訊息..." onkeydown="if(event.key==='Enter') sendMemberMessage(true);" />
-        <button class="primary" onclick="sendMemberMessage(true)" data-zh="送出" data-en="Send">送出</button>
-      </div>
-    </div>
-  </div>
-
   <div class="assistant-launcher" onclick="toggleAssistant()">?</div>
 
   <div class="chat-box" id="chatBox">
@@ -2902,9 +3203,11 @@
         <div class="tab" id="registerTab" onclick="switchAuthTab('register')" data-zh="註冊" data-en="Sign Up">註冊</div>
       </div>
       <div class="form" id="loginForm">
+        <div class="form-error-box" id="loginFormError"></div>
         <div class="field">
           <label data-zh="工號" data-en="Employee ID">工號</label>
           <input id="loginId" />
+          <div class="error-message" id="loginIdError"></div>
         </div>
         <div class="field">
           <label data-zh="密碼" data-en="Password">密碼</label>
@@ -2912,10 +3215,11 @@
             <input id="loginPassword" type="password" />
             <button type="button" onclick="togglePassword('loginPassword', this)" data-show-zh="顯示" data-hide-zh="隱藏" data-show-en="Show" data-hide-en="Hide">顯示</button>
           </div>
+          <div class="error-message" id="loginPasswordError"></div>
         </div>
         <button class="primary" onclick="login()" data-zh="登入" data-en="Login">登入</button>
         <button type="button" onclick="forgotPassword()" data-zh="忘記密碼" data-en="Forgot Password">忘記密碼</button>
-        <div class="auth-note" data-zh="忘記密碼：原型版請聯絡系統管理者協助重設。" data-en="Forgot password: In this prototype, please contact the system administrator to reset it.">忘記密碼：原型版請聯絡系統管理者協助重設。</div>
+        <div class="auth-note" data-zh="原型版登入與註冊資料暫存在目前瀏覽器 localStorage。" data-en="Prototype login and registration data are saved in this browser localStorage.">原型版登入與註冊資料暫存在目前瀏覽器 localStorage。</div>
         <div class="form-hint" data-zh="請輸入你的工號與密碼登入。"
              data-en="Please enter your employee ID and password to log in.">
           請輸入你的工號與密碼登入。
@@ -2966,7 +3270,6 @@
     let selectedDatabaseId = null;
     let currentDocumentTypeFilter = "ALL";
     let databaseHomeView = "cards";
-    let selectedTeamGroup = "BU3";
     let currentUser = null;
     let assistantMode = "all";
 
@@ -3080,13 +3383,95 @@
 
 
     function forgotPassword() {
-      addActivityLog("使用忘記密碼", "Forgot password clicked", "Login", "");
-      showToast(t("原型版請聯絡系統管理者協助重設密碼。", "Please contact the system administrator to reset your password in this prototype."));
-      openAssistant();
-      addBotMessage(t(
-        "忘記密碼請聯絡系統管理者。正式版可以改成寄送重設信或由 IT 後台重設。",
-        "For forgotten passwords, please contact the system administrator. The official version can support reset emails or IT admin reset."
-      ));
+      openForgotModal();
+    }
+
+    function openForgotModal() {
+      clearForgotErrors();
+      const idInput = document.getElementById("forgotId");
+      const emailInput = document.getElementById("forgotEmail");
+
+      if (currentUser) {
+        if (idInput) idInput.value = currentUser.companyId || "";
+        if (emailInput) emailInput.value = currentUser.email || "";
+      } else {
+        if (idInput) idInput.value = document.getElementById("loginId")?.value || "";
+        if (emailInput) emailInput.value = "";
+      }
+
+      document.getElementById("forgotModal").classList.add("open");
+      setTimeout(() => idInput?.focus(), 50);
+    }
+
+    function closeForgotModal() {
+      document.getElementById("forgotModal").classList.remove("open");
+    }
+
+    function clearForgotErrors() {
+      ["forgotId", "forgotEmail"].forEach(id => {
+        const input = document.getElementById(id);
+        const error = document.getElementById(id + "Error");
+        if (input) input.classList.remove("invalid");
+        if (error) error.textContent = "";
+      });
+      const box = document.getElementById("forgotFormMessage");
+      if (box) {
+        box.textContent = "";
+        box.classList.remove("success", "error");
+      }
+    }
+
+    function setForgotError(fieldId, message) {
+      const input = document.getElementById(fieldId);
+      const error = document.getElementById(fieldId + "Error");
+      if (input) input.classList.add("invalid");
+      if (error) error.textContent = message;
+    }
+
+    function submitForgotPassword() {
+      clearForgotErrors();
+
+      const companyId = document.getElementById("forgotId").value.trim();
+      const email = document.getElementById("forgotEmail").value.trim();
+      const messageBox = document.getElementById("forgotFormMessage");
+      let valid = true;
+
+      if (!companyId) {
+        setForgotError("forgotId", t("請輸入工號。", "Please enter employee ID."));
+        valid = false;
+      }
+
+      if (!email) {
+        setForgotError("forgotEmail", t("請輸入公司電子郵件。", "Please enter company email."));
+        valid = false;
+      } else if (!email.toLowerCase().endsWith("@szs.com.tw")) {
+        setForgotError("forgotEmail", t("只能使用 @szs.com.tw 公司信箱。", "Only @szs.com.tw company email is allowed."));
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      const user = loadUsers().map(normalizeUser).find(item =>
+        item.companyId === companyId && String(item.email).toLowerCase() === email.toLowerCase()
+      );
+
+      if (!user) {
+        if (messageBox) {
+          messageBox.textContent = t("找不到符合的工號與公司信箱，請確認後再試。", "No matching employee ID and company email found. Please check and try again.");
+          messageBox.classList.add("error");
+        }
+        return;
+      }
+
+      addActivityLog("使用忘記密碼", "Forgot password requested", `${user.name} / ${companyId}`, email);
+
+      if (messageBox) {
+        messageBox.textContent = t(
+          "身份確認完成。原型版不會真的寄信；正式版會寄送重設密碼通知到公司信箱。",
+          "Identity verified. This prototype will not send email; the official version will send a password reset notice to the company email."
+        );
+        messageBox.classList.add("success");
+      }
     }
 
     function togglePassword(inputId, button) {
@@ -3142,7 +3527,6 @@
       updateBadge();
       updateSystemOverview();
       renderOnlineMembers();
-      renderTeamChat();
       updateAuthUI();
       closeAssistant();
     }
@@ -3228,147 +3612,8 @@
       };
       savePresence(presence);
       renderOnlineMembers();
+      updateAuthUI();
       showToast(t(`狀態已更新為：${getPresenceLabel(status)}`, `Status updated: ${getPresenceLabel(status)}`));
-    }
-
-    function getUserBusinessUnit(user) {
-      const department = String(user.department || "").toUpperCase();
-      if (department.includes("BU1")) return "BU1";
-      if (department.includes("BU3")) return "BU3";
-      if (String(user.companyId || "").toUpperCase().includes("BU1")) return "BU1";
-      if (String(user.companyId || "").toUpperCase().includes("BU3")) return "BU3";
-      return "其他";
-    }
-
-    function selectTeamGroup(group) {
-      selectedTeamGroup = group;
-      renderOnlineMembers();
-    }
-
-    function escapeHtml(text) {
-      const div = document.createElement("div");
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    let selectedDirectChatUserId = null;
-
-    function getDirectChatKey(userId) {
-      if (!currentUser || !userId) return "szs_direct_chat_guest";
-      const pair = [currentUser.companyId, userId].sort().join("__");
-      return "szs_direct_chat_" + pair;
-    }
-
-    function loadDirectChat(userId) {
-      return JSON.parse(localStorage.getItem(getDirectChatKey(userId)) || "[]");
-    }
-
-    function saveDirectChat(userId, messages) {
-      localStorage.setItem(getDirectChatKey(userId), JSON.stringify(messages));
-    }
-
-    function getSelectedChatUser() {
-      if (!selectedDirectChatUserId) return null;
-      return loadUsers().map(normalizeUser).find(user => user.companyId === selectedDirectChatUserId);
-    }
-
-    function openMemberChat(userId) {
-      if (!currentUser) {
-        openAuthModal("login");
-        showToast(t("請先登入後再開啟聊天室。", "Please log in before opening chat."), "error");
-        return;
-      }
-
-      selectedDirectChatUserId = userId;
-      const box = document.getElementById("memberChatBox");
-      if (box) box.classList.add("active");
-      renderMemberChat();
-    }
-
-    function closeMemberChat() {
-      const box = document.getElementById("memberChatBox");
-      if (box) box.classList.remove("active");
-    }
-
-    function openMemberChatFull() {
-      if (!selectedDirectChatUserId) return;
-      const full = document.getElementById("memberChatFull");
-      if (full) full.classList.add("active");
-      renderMemberChat();
-    }
-
-    function closeMemberChatFull() {
-      const full = document.getElementById("memberChatFull");
-      if (full) full.classList.remove("active");
-    }
-
-    function sendMemberMessage(fromFull = false) {
-      if (!currentUser || !selectedDirectChatUserId) {
-        openAuthModal("login");
-        return;
-      }
-
-      const input = document.getElementById(fromFull ? "memberChatFullInput" : "memberChatInput");
-      const text = input ? input.value.trim() : "";
-      if (!text) return;
-
-      const messages = loadDirectChat(selectedDirectChatUserId);
-      messages.push({
-        id: "msg-" + Date.now(),
-        senderId: currentUser.companyId,
-        senderName: currentUser.name,
-        text,
-        time: new Date().toLocaleString()
-      });
-
-      saveDirectChat(selectedDirectChatUserId, messages.slice(-200));
-      input.value = "";
-
-      const mirrorInput = document.getElementById(fromFull ? "memberChatInput" : "memberChatFullInput");
-      if (mirrorInput) mirrorInput.value = "";
-
-      renderMemberChat();
-    }
-
-    function renderMemberChat() {
-      const target = getSelectedChatUser();
-      const titleText = target ? `${target.name || "-"} · ${getPresenceLabel((loadPresence()[target.companyId] || {}).status || "offline")}` : t("聊天室", "Chat");
-      const subText = target ? `${target.department || "-"} · ${target.companyId || "-"} · ${getRoleLabel(target.role)}` : t("原型版訊息會暫存在 localStorage", "Prototype messages are saved in localStorage.");
-
-      const title = document.getElementById("memberChatTitle");
-      const sub = document.getElementById("memberChatSub");
-      const fullTitle = document.getElementById("memberChatFullTitle");
-      const fullSub = document.getElementById("memberChatFullSub");
-
-      if (title) title.textContent = titleText;
-      if (sub) sub.textContent = subText;
-      if (fullTitle) fullTitle.textContent = titleText;
-      if (fullSub) fullSub.textContent = subText;
-
-      const messages = selectedDirectChatUserId ? loadDirectChat(selectedDirectChatUserId) : [];
-      const html = messages.length ? messages.map(msg => {
-        const mine = currentUser && msg.senderId === currentUser.companyId;
-        return `
-          <div class="member-message ${mine ? "mine" : ""}">
-            <div class="member-message-avatar">${(msg.senderName || "S").slice(0, 1).toUpperCase()}</div>
-            <div class="member-message-bubble">
-              <div class="member-message-meta">${msg.senderName || "-"} · ${msg.time || "-"}</div>
-              <div>${escapeHtml(msg.text || "")}</div>
-            </div>
-          </div>
-        `;
-      }).join("") : `<div class="member-empty-chat">${t("目前沒有訊息，先輸入一句話開始聊天。", "No messages yet. Send the first message to start chatting.")}</div>`;
-
-      const body = document.getElementById("memberChatBody");
-      const fullBody = document.getElementById("memberChatFullBody");
-      if (body) {
-        body.innerHTML = html;
-        body.scrollTop = body.scrollHeight;
-      }
-      if (fullBody) {
-        fullBody.innerHTML = html;
-        fullBody.scrollTop = fullBody.scrollHeight;
-      }
     }
 
     function renderOnlineMembers() {
@@ -3386,47 +3631,29 @@
         savePresence(presence);
       }
 
-      const groups = { BU1: [], BU3: [], "其他": [] };
-      users.forEach(user => {
-        const bu = getUserBusinessUnit(user);
-        if (!groups[bu]) groups[bu] = [];
-        groups[bu].push(user);
-      });
+      if (!users.length) {
+        box.innerHTML = `<div class="empty-state"><strong>${t("目前沒有會員資料", "No members yet")}</strong>${t("註冊後會在這裡顯示會員清單。", "Members will appear here after registration.")}</div>`;
+        return;
+      }
 
-      document.querySelectorAll(".team-tool").forEach(btn => btn.classList.remove("active"));
-      const activeBtn = document.getElementById("groupBtn" + (selectedTeamGroup === "all" ? "All" : selectedTeamGroup));
-      if (activeBtn) activeBtn.classList.add("active");
-
-      const groupKeys = selectedTeamGroup === "all" ? ["BU1", "BU3", "其他"] : [selectedTeamGroup];
-      let output = "";
-
-      groupKeys.forEach(group => {
-        const list = groups[group] || [];
-        output += `
-          <div class="compact-group">
-            <div class="compact-group-title"><span>${group}</span><small>${list.length}</small></div>
-            <div class="compact-member-strip">
-              ${list.length ? list.map(user => {
-                const item = presence[user.companyId] || { status: "offline", updatedAt: "-" };
-                const status = item.status || "offline";
-                return `
-                  <button class="compact-member" onclick="openMemberChat('${user.companyId}')">
-                    <span class="presence-dot ${status}"></span>
-                    <span class="compact-avatar">${(user.name || "S").slice(0, 1).toUpperCase()}</span>
-                    <span class="compact-member-text">
-                      <strong>${user.name || "-"}</strong>
-                      <small>${getPresenceLabel(status)} · ${user.companyId || "-"}</small>
-                    </span>
-                  </button>
-                `;
-              }).join("") : `<div class="no-member">${t("目前沒有成員", "No members")}</div>`}
+      box.innerHTML = users.map(user => {
+        const item = presence[user.companyId] || { status: "offline", updatedAt: "-" };
+        const status = item.status || "offline";
+        return `
+          <div class="member-presence-card">
+            <span class="presence-dot ${status}"></span>
+            <div class="member-avatar">${(user.name || "S").slice(0, 1).toUpperCase()}</div>
+            <div class="member-info">
+              <strong>${user.name || "-"}</strong>
+              <p>${user.department || "-"} · ${user.companyId || "-"} · ${getRoleLabel(user.role)}</p>
+            </div>
+            <div class="member-status">
+              <span class="status-label ${status}">${getPresenceLabel(status)}</span>
+              <small>${item.updatedAt || "-"}</small>
             </div>
           </div>
         `;
-      });
-
-      box.innerHTML = output;
-      renderMemberChat();
+      }).join("");
     }
 
     function toggleDatabaseView() {
@@ -4133,6 +4360,7 @@
       });
       updateSystemOverview();
       updateAssistantModeHint();
+      renderNotifications();
     }
 
     function toggleTheme() {
@@ -4234,6 +4462,37 @@
       document.getElementById("loginForm").style.display = tab === "login" ? "block" : "none";
       document.getElementById("registerForm").style.display = tab === "register" ? "block" : "none";
       if (tab === "register") clearRegisterErrors();
+      if (tab === "login") clearLoginErrors();
+    }
+
+    function clearLoginErrors() {
+      ["loginId", "loginPassword"].forEach(id => {
+        const input = document.getElementById(id);
+        const error = document.getElementById(id + "Error");
+        if (input) input.classList.remove("invalid");
+        if (error) error.textContent = "";
+      });
+
+      const box = document.getElementById("loginFormError");
+      if (box) {
+        box.textContent = "";
+        box.classList.remove("success", "error");
+      }
+    }
+
+    function setLoginError(fieldId, message) {
+      const input = document.getElementById(fieldId);
+      const error = document.getElementById(fieldId + "Error");
+      if (input) input.classList.add("invalid");
+      if (error) error.textContent = message;
+    }
+
+    function setLoginFormError(message) {
+      const box = document.getElementById("loginFormError");
+      if (box) {
+        box.textContent = message;
+        box.classList.add("error");
+      }
     }
 
     function clearRegisterErrors() {
@@ -4338,10 +4597,22 @@
       const users = loadUsers().map(normalizeUser);
       saveUsers(users);
 
+      clearLoginErrors();
+
+      if (!companyId) {
+        setLoginError("loginId", t("請輸入工號。", "Please enter employee ID."));
+        return;
+      }
+
+      if (!password) {
+        setLoginError("loginPassword", t("請輸入密碼。", "Please enter password."));
+        return;
+      }
+
       const user = users.find(item => item.companyId === companyId && item.password === password);
 
       if (!user) {
-        alert(t("登入失敗，請確認工號與密碼。", "Login failed. Please check your employee ID and password."));
+        setLoginFormError(t("登入失敗：請確認工號與密碼。", "Login failed: Please check your employee ID and password."));
         return;
       }
 
@@ -4425,25 +4696,131 @@
       return "";
     }
 
+
+    function getCurrentPresenceStatus() {
+      if (!currentUser) return "offline";
+      const presence = loadPresence();
+      return (presence[currentUser.companyId] || {}).status || "online";
+    }
+
+    function toggleProfileMenu(event) {
+      if (event) event.stopPropagation();
+      document.getElementById("profileMenu")?.classList.toggle("open");
+      document.getElementById("notificationPanel")?.classList.remove("open");
+    }
+
+    function closeProfileMenu() {
+      document.getElementById("profileMenu")?.classList.remove("open");
+    }
+
+    function toggleNotifications(event) {
+      if (event) event.stopPropagation();
+      renderNotifications();
+      document.getElementById("notificationPanel")?.classList.toggle("open");
+      closeProfileMenu();
+    }
+
+    function getNotifications() {
+      const docs = documents.slice(0, 3).map(doc => ({
+        type: "file",
+        titleZh: "文件更新",
+        titleEn: "Document Update",
+        textZh: `${doc.titleZh} · ${doc.updatedAt}`,
+        textEn: `${doc.titleEn} · ${doc.updatedAt}`
+      }));
+
+      const base = [
+        { type: "role", titleZh: "權限提醒", titleEn: "Role Reminder", textZh: currentUser ? `目前權限：${getRoleLabel(currentUser.role)}` : "尚未登入", textEn: currentUser ? `Current role: ${getRoleLabel(currentUser.role)}` : "Not logged in" },
+        { type: "chat", titleZh: "聊天室提示", titleEn: "Chat Reminder", textZh: "線上成員狀態與聊天訊息為原型版 localStorage。", textEn: "Member status and chat messages are prototype localStorage." },
+        { type: "system", titleZh: "系統狀態", titleEn: "System Status", textZh: "Prototype 運行中。", textEn: "Prototype is running." }
+      ];
+
+      return [...base, ...docs];
+    }
+
+    function renderNotifications() {
+      const list = document.getElementById("notificationList");
+      if (!list) return;
+
+      const notifications = getNotifications();
+      list.innerHTML = notifications.map(item => `
+        <div class="notification-item">
+          <div class="notification-icon">${item.type === "file" ? "📄" : item.type === "role" ? "🔐" : item.type === "chat" ? "💬" : "🔔"}</div>
+          <div>
+            <strong>${t(item.titleZh, item.titleEn)}</strong>
+            <p>${t(item.textZh, item.textEn)}</p>
+          </div>
+        </div>
+      `).join("");
+
+      const dot = document.getElementById("notificationDot");
+      if (dot) dot.style.display = notifications.length ? "block" : "none";
+    }
+
+    function showSystemInfo() {
+      showToast(t(`系統狀態：Prototype。資料庫 ${databases.length} 個，文件 ${documents.length} 份。`, `System: Prototype. ${databases.length} databases, ${documents.length} documents.`));
+    }
+
+    function showMyMessages() {
+      document.getElementById("onlineMembersPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      showToast(t("我的訊息功能已連到線上成員與聊天室原型。", "My Messages is linked to the online members and chat prototype."));
+    }
+
+    function showFeedbackBox() {
+      showToast(t("意見回饋為原型展示項目，正式版可串接表單或 Email。", "Feedback is a prototype item. The official version can connect to a form or email."));
+    }
+
     function updateAuthUI() {
       const userPill = document.getElementById("userPill");
       const loginBtn = document.getElementById("loginBtn");
       const registerBtn = document.getElementById("registerBtn");
       const logoutBtn = document.getElementById("logoutBtn");
+      const profileWrap = document.getElementById("profileWrap");
+      const notificationBtn = document.getElementById("notificationBtn");
 
       if (currentUser) {
-        userPill.style.display = "inline-flex";
-        userPill.textContent = `${currentUser.name} · ${currentUser.companyId} · ${getRoleLabel(currentUser.role)}`;
+        if (userPill) userPill.style.display = "none";
         loginBtn.style.display = "none";
         registerBtn.style.display = "none";
-        logoutBtn.style.display = "inline-block";
+        logoutBtn.style.display = "none";
+
+        if (profileWrap) profileWrap.style.display = "block";
+        if (notificationBtn) notificationBtn.style.display = "inline-flex";
+
+        const status = getCurrentPresenceStatus();
+        const initial = (currentUser.name || "U").slice(0, 1).toUpperCase();
+        ["profileAvatar", "profileAvatarLarge"].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = initial;
+        });
+
+        const profileName = document.getElementById("profileName");
+        const profileRole = document.getElementById("profileRole");
+        const profileMenuName = document.getElementById("profileMenuName");
+        const profileMenuMeta = document.getElementById("profileMenuMeta");
+
+        if (profileName) profileName.textContent = currentUser.name;
+        if (profileRole) profileRole.textContent = getRoleLabel(currentUser.role);
+        if (profileMenuName) profileMenuName.textContent = currentUser.name;
+        if (profileMenuMeta) profileMenuMeta.textContent = `${getRoleLabel(currentUser.role)} · ${getPresenceLabel(status)}`;
       } else {
-        userPill.style.display = "none";
+        if (userPill) userPill.style.display = "none";
         loginBtn.style.display = "inline-block";
         registerBtn.style.display = "inline-block";
         logoutBtn.style.display = "none";
+        if (profileWrap) profileWrap.style.display = "none";
+        if (notificationBtn) notificationBtn.style.display = "none";
       }
+
+      renderNotifications();
     }
+
+    function closeFloatingMenus() {
+      closeProfileMenu();
+      document.getElementById("notificationPanel")?.classList.remove("open");
+    }
+
+    document.addEventListener("click", closeFloatingMenus);
 
     function handleEnter(event) { if (event.key === "Enter") sendMessage(); }
 
