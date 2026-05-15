@@ -477,6 +477,88 @@
       font-size: 14px;
     }
 
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin: 26px 0 10px;
+    }
+
+    .quick-action-card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 16px 45px var(--shadow);
+      backdrop-filter: blur(18px);
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .quick-action-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+    }
+
+    .quick-action-card strong {
+      display: block;
+      color: var(--text);
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .quick-action-card span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .database-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .database-meta span {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--chip);
+      border: 1px solid var(--line);
+      color: var(--primary);
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 20px;
+    }
+
+    .filter-chip {
+      border: 1px solid var(--line);
+      background: var(--panel-solid);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .filter-chip.active,
+    .filter-chip:hover {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: white;
+      border-color: transparent;
+    }
+
+
     .tag-list {
       display: flex;
       flex-wrap: wrap;
@@ -555,6 +637,7 @@
       .assistant-launcher { right: 18px; bottom: 18px; }
       .assistant-full-layout { grid-template-columns: 1fr; }
       .assistant-full-panel { height: 70vh; min-height: 520px; }
+      .quick-actions { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -917,6 +1000,7 @@
   <script>
     let currentLang = "zh";
     let selectedDatabaseId = null;
+    let currentDocumentTypeFilter = "ALL";
     let currentUser = null;
 
     const OWNER_ACCOUNT = {
@@ -1020,10 +1104,50 @@
       if (badge) badge.textContent = currentLang === "zh" ? `${databases.length} 個分類` : `${databases.length} ACTIVE`;
     }
 
+
+    function getDatabaseDocuments(databaseId) {
+      return documents.filter(doc => doc.databaseId === databaseId);
+    }
+
+    function getDatabaseLastUpdated(databaseId) {
+      const list = getDatabaseDocuments(databaseId)
+        .map(doc => doc.updatedAt)
+        .filter(Boolean)
+        .sort()
+        .reverse();
+
+      return list[0] || "-";
+    }
+
+    function getAvailableDocumentTypes(databaseId) {
+      const list = databaseId ? getDatabaseDocuments(databaseId) : documents;
+      const types = Array.from(new Set(list.map(doc => doc.type).filter(Boolean)));
+      return types.sort();
+    }
+
+    function setDocumentTypeFilter(type) {
+      currentDocumentTypeFilter = type;
+      renderDetailDocuments();
+    }
+
+    function renderDocumentTypeFilters(databaseId) {
+      const types = getAvailableDocumentTypes(databaseId);
+      if (!types.length) return "";
+
+      const chips = ["ALL", ...types].map(type => {
+        const label = type === "ALL" ? t("全部", "All") : type;
+        const active = currentDocumentTypeFilter === type ? "active" : "";
+        return `<button class="filter-chip ${active}" onclick="setDocumentTypeFilter('${type}')">${label}</button>`;
+      }).join("");
+
+      return `<div class="filter-bar">${chips}</div>`;
+    }
+
     function renderDatabases() {
       const grid = document.getElementById("databaseGrid");
       grid.innerHTML = databases.map(db => {
         const count = getDocumentsByDatabase(db.id).length;
+        const lastUpdated = getDatabaseLastUpdated(db.id);
         return `
           <div class="database-card">
             <div class="card-topbar"></div>
@@ -1034,6 +1158,10 @@
               </div>
               <h3>${t(db.titleZh, db.titleEn)}</h3>
               <p>${t(db.descriptionZh, db.descriptionEn)}</p>
+              <div class="database-meta">
+                <span>${t("共", "Total")} ${count} ${t("份文件", "docs")}</span>
+                <span>${t("最後更新", "Last updated")}: ${lastUpdated}</span>
+              </div>
               <div class="query-link" onclick="showDetail('${db.id}')">${t("查詢 →", "QUERY →")}</div>
             </div>
           </div>`;
@@ -1052,6 +1180,7 @@
 
     function showDetail(id) {
       selectedDatabaseId = id;
+      currentDocumentTypeFilter = "ALL";
       const db = databases.find(item => item.id === id);
       if (!db) return;
       showPage("detailPage");
@@ -1065,19 +1194,29 @@
 
     function renderDetailDocuments() {
       if (!selectedDatabaseId) return;
+
       const keyword = document.getElementById("detailSearch").value.trim().toLowerCase();
       const db = databases.find(item => item.id === selectedDatabaseId);
       let list = getDocumentsByDatabase(selectedDatabaseId);
+
+      if (currentDocumentTypeFilter !== "ALL") {
+        list = list.filter(doc => doc.type === currentDocumentTypeFilter);
+      }
+
       if (keyword) {
         list = list.filter(doc => documentMatchesQuery(doc, keyword));
       }
+
       document.getElementById("detailCount").textContent = currentLang === "zh" ? `${list.length} 份文件` : `${list.length} documents`;
       const container = document.getElementById("detailDocumentList");
+      const filters = renderDocumentTypeFilters(selectedDatabaseId);
+
       if (list.length === 0) {
-        container.innerHTML = `<div class="doc-row"><div><div class="doc-title">${t("沒有找到相關文件", "No related documents found")}</div><div class="doc-desc">${t("請嘗試其他關鍵字。", "Please try another keyword.")}</div></div></div>`;
+        container.innerHTML = filters + `<div class="doc-row"><div><div class="doc-title">${t("沒有找到相關文件", "No related documents found")}</div><div class="doc-desc">${t("請嘗試其他關鍵字或切換文件類型。", "Please try another keyword or switch file type.")}</div></div></div>`;
         return;
       }
-      container.innerHTML = list.map(doc => `
+
+      container.innerHTML = filters + list.map(doc => `
         <div class="doc-row">
           <div><div class="doc-title">${t(doc.titleZh, doc.titleEn)}</div><div class="doc-desc">${t(doc.descriptionZh, doc.descriptionEn)}</div>${renderTagChips(doc.tags || [])}</div>
           <div class="doc-meta">${t("分類", "Category")}: ${db ? t(db.titleZh, db.titleEn) : doc.databaseId}<br>${t("更新日期", "Updated")}: ${doc.updatedAt}</div>
