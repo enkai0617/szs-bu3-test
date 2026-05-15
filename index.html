@@ -3938,6 +3938,9 @@
     <button class="side-item active" onclick="showHome()" data-side="home">
       <span class="side-icon">⌂</span><span data-zh="首頁" data-en="Home">首頁</span>
     </button>
+    <button class="side-item" onclick="openMembersSection()" data-side="members">
+      <span class="side-icon">☷</span><span data-zh="線上成員" data-en="Members">線上成員</span>
+    </button>
     <button class="side-item" onclick="document.getElementById('databaseSection')?.scrollIntoView({behavior:'smooth'});" data-side="databases">
       <span class="side-icon">▦</span><span data-zh="資料庫分類" data-en="Databases">資料庫分類</span>
     </button>
@@ -4049,11 +4052,11 @@
           <div class="dash-link" data-zh="" data-en=""></div>
         </div>
       </div>
-      <div class="dash-stat clickable" onclick="openAdmin(); setTimeout(()=>switchAdminTab('users'), 0);">
+      <div class="dash-stat clickable" onclick="openMembersSection()">
         <div class="dash-icon purple">♙</div>
         <div>
-          <div class="dash-label" data-zh="目前登入者" data-en="Current User">目前登入者</div>
-          <div class="dash-value"><span id="overviewUserRole">Guest</span></div>
+          <div class="dash-label" data-zh="總人數" data-en="Total Members">總人數</div>
+          <div class="dash-value"><span id="overviewUserRole">0</span><small data-zh=" 人" data-en=" members"> 人</small></div>
           <div class="dash-link" data-zh="" data-en=""></div>
         </div>
       </div>
@@ -5508,6 +5511,18 @@
       showPage("loginLandingPage");
     }
 
+    function openMembersSection() {
+      if (!currentUser) {
+        showLoginLanding();
+        return;
+      }
+      showHome();
+      setTimeout(() => {
+        updateSideNav("members");
+        document.getElementById("onlineMembersPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 80);
+    }
+
     function showHome() { selectedDatabaseId = null; databaseHomeView = "cards"; renderDatabases(); renderOnlineMembers(); updateSideNav("home"); document.body.classList.add("sidebar-collapsed"); showPage("homePage"); }
 
     function showDetail(id) {
@@ -6454,7 +6469,10 @@
       if (dbEl) dbEl.textContent = databases.length;
       if (docEl) docEl.textContent = documents.length;
       if (roleEl) {
-        roleEl.textContent = currentUser ? getRoleLabel(currentUser.role) : "Guest";
+        const totalMembers = typeof getAllDisplayMembers === "function"
+          ? getAllDisplayMembers().length
+          : loadUsers().length;
+        roleEl.textContent = totalMembers;
       }
     }
 
