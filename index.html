@@ -3896,6 +3896,14 @@
       display: block;
     }
 
+    body.members-open .home-quick-members {
+      display: none !important;
+    }
+
+    body.members-open .home-main-layout {
+      grid-template-columns: 1fr;
+    }
+
     body:not(.members-open) #onlineMembersPanel {
       display: none !important;
     }
@@ -4661,6 +4669,32 @@
 
     function saveUsers(users) { localStorage.setItem("szs_users", JSON.stringify(users)); }
 
+    function enforceSingleOwnerAccount() {
+      const users = loadUsers().map(user => {
+        const normalized = normalizeUser(user);
+        const companyId = String(normalized.companyId || "");
+        const name = String(normalized.name || "");
+        if (companyId === OWNER_ACCOUNT.companyId) return { ...normalized, role: "owner" };
+        if (companyId === "E00010" || companyId === "E00030" || companyId === "00000000" || name === "王建國" || name === "許昱翔") {
+          return { ...normalized, role: "user" };
+        }
+        if (normalized.role === "owner") return { ...normalized, role: "user" };
+        return normalized;
+      });
+      saveUsers(users);
+
+      if (currentUser) {
+        const currentId = String(currentUser.companyId || "");
+        if (currentId === OWNER_ACCOUNT.companyId) {
+          currentUser = { ...currentUser, role: "owner" };
+          localStorage.setItem("szs_current_user", JSON.stringify(currentUser));
+        } else if (currentUser.role === "owner") {
+          currentUser = { ...currentUser, role: "user" };
+          localStorage.setItem("szs_current_user", JSON.stringify(currentUser));
+        }
+      }
+    }
+
     function loadActivityLogs() {
       return JSON.parse(localStorage.getItem("szs_activity_logs") || "[]");
     }
@@ -4855,6 +4889,7 @@
       loadUsers();
       loadCurrentUser();
       if (currentUser) currentUser = normalizeUser(currentUser);
+      enforceSingleOwnerAccount();
       renderDatabases();
       renderAdminDatabaseOptions();
       renderAdminDocuments();
@@ -4936,9 +4971,9 @@
       { companyId: "E00345", department: "BU3 產品工程", name: "吳柏毅", email: "wu.by@szs.com.tw", role: "manager", titleZh: "資深工程師", titleEn: "Senior Engineer", defaultStatus: "online" },
       { companyId: "E00378", department: "BU3 產品工程", name: "李昱廷", email: "lee.yt@szs.com.tw", role: "user", titleZh: "工程師", titleEn: "Engineer", defaultStatus: "online" },
       { companyId: "E00392", department: "BU3 產品工程", name: "劉子晴", email: "liu.zq@szs.com.tw", role: "user", titleZh: "工程師", titleEn: "Engineer", defaultStatus: "away" },
-      { companyId: "E00010", department: "系統管理部", name: "王建國", email: "wang.jg@szs.com.tw", role: "owner", titleZh: "系統管理者", titleEn: "System Administrator", defaultStatus: "online" },
+      { companyId: "E00010", department: "系統管理部", name: "王建國", email: "wang.jg@szs.com.tw", role: "user", titleZh: "工程師", titleEn: "Engineer", defaultStatus: "online" },
       { companyId: "E00021", department: "資訊管理部", name: "周筱玲", email: "chou.sl@szs.com.tw", role: "manager", titleZh: "知識庫管理者", titleEn: "Knowledge Base Manager", defaultStatus: "online" },
-      { companyId: "E00030", department: "策略規劃部", name: "許昱翔", email: "hsu.yh@szs.com.tw", role: "owner", titleZh: "系統管理者", titleEn: "System Administrator", defaultStatus: "offline" }
+      { companyId: "E00030", department: "策略規劃部", name: "許昱翔", email: "hsu.yh@szs.com.tw", role: "user", titleZh: "工程師", titleEn: "Engineer", defaultStatus: "offline" }
     ];
 
     function saveMemberGroupState() {
@@ -5017,9 +5052,9 @@
     function getMemberGroupInfo(user) {
       const dept = String(user.department || "").toUpperCase();
       let key = "others";
-      if (dept.includes("BU1")) key = "bu1";
+      if (user.companyId === OWNER_ACCOUNT.companyId || user.role === "owner") key = "managers";
+      else if (dept.includes("BU1")) key = "bu1";
       else if (dept.includes("BU3")) key = "bu3";
-      else if (user.role === "owner" || dept.includes("SZS") || dept.includes("資訊") || dept.includes("系統") || dept.includes("策略")) key = "managers";
       const labels = getMemberGroupLabels(key);
       return { key, zh: labels.zh, en: labels.en };
     }
@@ -6193,7 +6228,7 @@
 
       box.innerHTML = users.map(user => {
         const isOwner = user.role === "owner";
-        const protectedOwner = user.companyId === OWNER_ACCOUNT.companyId || isOwner;
+        const protectedOwner = user.companyId === OWNER_ACCOUNT.companyId;
         const roleControls = protectedOwner
           ? `<span style="color:var(--muted);font-size:13px;">${t("Owner 不可變更", "Owner cannot be changed")}</span>`
           : `
@@ -6251,7 +6286,7 @@
         return;
       }
       const member = getAllDisplayMembers().find(user => user.companyId === companyId);
-      if (!member || member.role === "owner" || companyId === OWNER_ACCOUNT.companyId) {
+      if (!member || companyId === OWNER_ACCOUNT.companyId) {
         alert(t("Owner 帳號不可變更。", "Owner accounts cannot be changed."));
         return;
       }
@@ -6268,7 +6303,7 @@
         return;
       }
       const member = getAllDisplayMembers().find(user => user.companyId === companyId);
-      if (!member || member.role === "owner" || companyId === OWNER_ACCOUNT.companyId) {
+      if (!member || companyId === OWNER_ACCOUNT.companyId) {
         alert(t("Owner 帳號不可編輯。", "Owner accounts cannot be edited."));
         return;
       }
