@@ -3880,6 +3880,22 @@
       content: none !important;
     }
 
+    .home-main-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 18px;
+      align-items: start;
+      margin-top: 28px;
+    }
+
+    .home-main-column {
+      min-width: 0;
+    }
+
+    .home-quick-members {
+      display: block;
+    }
+
     body:not(.members-open) #onlineMembersPanel {
       display: none !important;
     }
@@ -3888,8 +3904,30 @@
       display: block !important;
     }
 
-    body:not(.members-open) #databaseSection {
-      margin-top: 28px;
+    body.members-open #databaseSection {
+      display: none !important;
+    }
+
+    #databaseSection {
+      margin-top: 0;
+    }
+
+    #onlineMembersPanel {
+      margin-top: 0;
+    }
+
+    #onlineMembersPanel .members-hybrid-grid {
+      display: block;
+    }
+
+    @media (max-width: 1180px) {
+      .home-main-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .home-quick-members {
+        position: static;
+      }
     }
 
   </style>
@@ -4092,7 +4130,9 @@
 
     
 
-    <section class="online-members-panel" id="onlineMembersPanel">
+    <div class="home-main-layout">
+      <div class="home-main-column">
+        <section class="online-members-panel" id="onlineMembersPanel">
       <div class="online-members-head">
         <div>
           <h2 data-zh="線上成員" data-en="Online Members">線上成員</h2>
@@ -4107,24 +4147,11 @@
       </div>
       <div class="members-hybrid-grid">
         <div class="online-members-list" id="onlineMembersList"></div>
-        <aside class="quick-members-sidebar">
-          <div class="quick-members-head">
-            <h3 data-zh="線上成員" data-en="Members">線上成員</h3>
-            <span id="quickMemberCount">0</span>
-          </div>
-          <div class="quick-member-search">
-            <input id="quickMemberSearch" placeholder="搜尋成員..." oninput="renderOnlineMembers()" />
-          </div>
-          <div class="quick-member-groups" id="quickMembersSidebar"></div>
-          <div class="quick-members-footer">
-            <button onclick="scrollToAllMemberGroups()" data-zh="查看全部成員" data-en="View All Members">查看全部成員</button>
-          </div>
-        </aside>
-      </div>
-      <div class="member-chat-modal" id="memberChatModal"></div>
-    </section>
 
-    <section id="databaseSection" class="view-cards">
+      </div>
+        </section>
+
+        <section id="databaseSection" class="view-cards">
       <div class="section-head">
         <div class="section-title">
           <h2 data-zh="資料庫分類" data-en="DATA STREAMS">資料庫分類</h2>
@@ -4137,7 +4164,23 @@
       </div>
       <div class="database-grid" id="databaseGrid"></div>
       <div class="database-list-panel" id="databaseListPanel" style="display:none;"><div id="databaseList"></div></div>
-    </section>
+        </section>
+      </div>
+        <aside class="quick-members-sidebar home-quick-members">
+          <div class="quick-members-head">
+            <h3 data-zh="線上成員" data-en="Members">線上成員</h3>
+            <span id="quickMemberCount">0</span>
+          </div>
+          <div class="quick-member-search">
+            <input id="quickMemberSearch" placeholder="搜尋成員..." oninput="renderOnlineMembers()" />
+          </div>
+          <div class="quick-member-groups" id="quickMembersSidebar"></div>
+          <div class="quick-members-footer">
+            <button onclick="scrollToAllMemberGroups()" data-zh="展開更多" data-en="Expand More">展開更多</button>
+          </div>
+        </aside>
+    </div>
+    <div class="member-chat-modal" id="memberChatModal"></div>
   </main>
 
   <main id="detailPage" class="page">
@@ -5120,10 +5163,10 @@
     }
 
     function scrollToAllMemberGroups() {
-      document.body.classList.add("members-open");
-      updateSideNav("members");
-      renderOnlineMembers();
-      document.getElementById("onlineMembersList")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      openMembersSection();
+      setTimeout(() => {
+        document.getElementById("onlineMembersPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
     }
 
     function toggleMemberGroup(groupKey) {
