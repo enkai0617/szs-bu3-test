@@ -4317,6 +4317,7 @@
           <input id="adminUserSearch" placeholder="搜尋工號、姓名、部門或信箱" oninput="renderAdminUsers()" />
           <button onclick="document.getElementById('adminUserSearch').value='';renderAdminUsers();" data-zh="清除" data-en="Clear">清除</button>
         </div>
+        <div id="adminGroupNameManager" style="margin:14px 0 18px;"></div>
         <div id="adminUserList"></div>
       </div>
     </section>
@@ -4796,6 +4797,7 @@
       renderAdminDocuments();
       renderAdminDatabases();
       renderAdminUsers();
+      renderAdminGroupNameManager();
       updateLanguageText();
       updateBadge();
       updateSystemOverview();
@@ -4888,6 +4890,57 @@
       localStorage.setItem("szs_member_chats", JSON.stringify(chats));
     }
 
+
+    function loadMemberOverrides() {
+      return safeJsonParse(localStorage.getItem("szs_member_overrides"), {});
+    }
+
+    function saveMemberOverrides(overrides) {
+      localStorage.setItem("szs_member_overrides", JSON.stringify(overrides));
+    }
+
+    function loadDeletedMemberIds() {
+      return safeJsonParse(localStorage.getItem("szs_deleted_member_ids"), []);
+    }
+
+    function saveDeletedMemberIds(ids) {
+      localStorage.setItem("szs_deleted_member_ids", JSON.stringify(Array.from(new Set(ids))));
+    }
+
+    function loadMemberGroupNames() {
+      return safeJsonParse(localStorage.getItem("szs_member_group_names"), {});
+    }
+
+    function saveMemberGroupNames(names) {
+      localStorage.setItem("szs_member_group_names", JSON.stringify(names));
+    }
+
+    function getDefaultMemberGroupLabels(groupKey) {
+      const defaults = {
+        bu1: { zh: "BU1 產品工程", en: "BU1 Product Engineering" },
+        bu3: { zh: "BU3 產品工程", en: "BU3 Product Engineering" },
+        managers: { zh: "管理者", en: "Managers" },
+        others: { zh: "其他成員", en: "Other Members" }
+      };
+      return defaults[groupKey] || defaults.others;
+    }
+
+    function getMemberGroupLabels(groupKey) {
+      const defaults = getDefaultMemberGroupLabels(groupKey);
+      const custom = loadMemberGroupNames()[groupKey] || {};
+      return {
+        zh: custom.zh || defaults.zh,
+        en: custom.en || defaults.en
+      };
+    }
+
+    function refreshMemberViews() {
+      renderAdminUsers();
+      renderAdminGroupNameManager();
+      renderOnlineMembers();
+      updateSystemOverview();
+    }
+
     function getMemberInitial(name) {
       return (String(name || "S").trim().charAt(0) || "S").toUpperCase();
     }
@@ -4900,12 +4953,12 @@
 
     function getMemberGroupInfo(user) {
       const dept = String(user.department || "").toUpperCase();
-      if (dept.includes("BU1")) return { key: "bu1", zh: "BU1 產品工程", en: "BU1 Product Engineering" };
-      if (dept.includes("BU3")) return { key: "bu3", zh: "BU3 產品工程", en: "BU3 Product Engineering" };
-      if (user.role === "owner" || dept.includes("SZS") || dept.includes("資訊") || dept.includes("系統") || dept.includes("策略")) {
-        return { key: "managers", zh: "管理者", en: "Managers" };
-      }
-      return { key: "others", zh: "其他成員", en: "Other Members" };
+      let key = "others";
+      if (dept.includes("BU1")) key = "bu1";
+      else if (dept.includes("BU3")) key = "bu3";
+      else if (user.role === "owner" || dept.includes("SZS") || dept.includes("資訊") || dept.includes("系統") || dept.includes("策略")) key = "managers";
+      const labels = getMemberGroupLabels(key);
+      return { key, zh: labels.zh, en: labels.en };
     }
 
     function getAllDisplayMembers() {
@@ -4933,17 +4986,23 @@
           defaultStatus: "online"
         });
       }
-      return Array.from(map.values()).map(member => {
-        const group = getMemberGroupInfo(member);
-        return {
-          ...member,
-          groupKey: group.key,
-          groupLabelZh: group.zh,
-          groupLabelEn: group.en,
-          titleZh: member.titleZh || getRoleTitle(member.role),
-          titleEn: member.titleEn || getRoleTitle(member.role)
-        };
-      });
+      const deletedIds = new Set(loadDeletedMemberIds());
+      const overrides = loadMemberOverrides();
+      return Array.from(map.values())
+        .filter(member => !deletedIds.has(member.companyId))
+        .map(member => {
+          const override = overrides[member.companyId] || {};
+          const merged = { ...member, ...override };
+          const group = getMemberGroupInfo(merged);
+          return {
+            ...merged,
+            groupKey: group.key,
+            groupLabelZh: group.zh,
+            groupLabelEn: group.en,
+            titleZh: merged.titleZh || getRoleTitle(merged.role),
+            titleEn: merged.titleEn || getRoleTitle(merged.role)
+          };
+        });
     }
 
     function getFilteredDisplayMembers() {
@@ -5231,6 +5290,7 @@
               <div class="member-group-summary">
                 <span class="member-group-count">${group.members.length} ${currentLang === 'zh' ? '人' : 'members'}</span>
                 <span class="member-group-online-pill">${group.onlineCount} ${currentLang === 'zh' ? '位線上' : 'online'}</span>
+                ${canManageUsers() ? `<span class="member-group-count" onclick="event.stopPropagation(); editMemberGroupName('${group.key}')">${t('改名', 'Rename')}</span>` : ''}
               </div>
             </button>
             <div class="member-group-members ${collapsed ? 'collapsed' : ''}">
@@ -6003,15 +6063,35 @@
       if (selectedDatabaseId) renderDetailDocuments();
     }
 
+    function renderAdminGroupNameManager() {
+      const box = document.getElementById("adminGroupNameManager");
+      if (!box) return;
+      const groups = ["bu1", "bu3", "managers", "others"];
+      box.innerHTML = `
+        <div class="doc-row" style="grid-template-columns:1fr auto;align-items:center;background:rgba(248,251,255,.78);">
+          <div>
+            <div class="doc-title">${t("群組名稱管理", "Group Name Manager")}</div>
+            <div class="doc-desc">${t("可調整首頁線上成員區塊的 BU / 群組顯示名稱。", "Rename the BU / group labels used in the online members section.")}</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+            ${groups.map(key => {
+              const label = getMemberGroupLabels(key);
+              return `<button class="small" onclick="editMemberGroupName('${key}')">${currentLang === 'zh' ? label.zh : label.en}</button>`;
+            }).join("")}
+          </div>
+        </div>
+      `;
+    }
+
     function renderAdminUsers() {
       const box = document.getElementById("adminUserList");
       if (!box) return;
+      renderAdminGroupNameManager();
 
       const searchInput = document.getElementById("adminUserSearch");
       const keyword = searchInput ? searchInput.value.trim().toLowerCase() : "";
 
-      let users = loadUsers().map(normalizeUser);
-      saveUsers(users);
+      let users = getAllDisplayMembers();
 
       if (keyword) {
         users = users.filter(user => [
@@ -6019,7 +6099,9 @@
           user.department,
           user.name,
           user.email,
-          user.role
+          user.role,
+          user.groupLabelZh,
+          user.groupLabelEn
         ].join(" ").toLowerCase().includes(keyword));
       }
 
@@ -6030,11 +6112,18 @@
 
       box.innerHTML = users.map(user => {
         const isOwner = user.role === "owner";
-        const controls = isOwner
+        const protectedOwner = user.companyId === OWNER_ACCOUNT.companyId || isOwner;
+        const roleControls = protectedOwner
           ? `<span style="color:var(--muted);font-size:13px;">${t("Owner 不可變更", "Owner cannot be changed")}</span>`
           : `
             <button class="small ${user.role === "manager" ? "primary" : ""}" onclick="setUserRole('${user.companyId}', 'manager')">Manager</button>
             <button class="small ${user.role === "user" ? "primary" : ""}" onclick="setUserRole('${user.companyId}', 'user')">User</button>
+          `;
+        const accountControls = protectedOwner
+          ? ""
+          : `
+            <button class="small" onclick="editMemberAccount('${user.companyId}')">${t("編輯", "Edit")}</button>
+            <button class="small danger" onclick="deleteMemberAccount('${user.companyId}')">${t("刪除", "Delete")}</button>
           `;
 
         return `
@@ -6043,6 +6132,7 @@
               <div class="doc-title">${user.name} · ${user.companyId} <span class="role-pill ${user.role}">${getRoleLabel(user.role)}</span></div>
               <div class="doc-desc">
                 ${t("工號", "Employee ID")}: ${user.companyId || "-"} ·
+                ${t("群組", "Group")}: ${currentLang === 'zh' ? user.groupLabelZh : user.groupLabelEn} ·
                 ${t("部門", "Department")}: ${user.department || "-"} ·
                 ${t("姓名", "Name")}: ${user.name || "-"} ·
                 ${t("信箱", "Email")}: ${user.email || "-"} ·
@@ -6050,10 +6140,28 @@
                 ${t("註冊時間", "Registered")}: ${user.createdAt || "-"}
               </div>
             </div>
-            <div>${controls}</div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;align-items:center;">${roleControls}${accountControls}</div>
           </div>
         `;
       }).join("");
+    }
+
+    function updateMemberRecord(companyId, patch) {
+      let users = loadUsers().map(normalizeUser);
+      const idx = users.findIndex(user => user.companyId === companyId);
+      if (idx >= 0) {
+        users[idx] = normalizeUser({ ...users[idx], ...patch });
+        saveUsers(users);
+      } else {
+        const overrides = loadMemberOverrides();
+        overrides[companyId] = { ...(overrides[companyId] || {}), ...patch };
+        saveMemberOverrides(overrides);
+      }
+      if (currentUser && currentUser.companyId === companyId) {
+        currentUser = normalizeUser({ ...currentUser, ...patch });
+        saveCurrentUser();
+        updateAuthUI();
+      }
     }
 
     function setUserRole(companyId, role) {
@@ -6061,24 +6169,86 @@
         alert(t("權限不足：只有 Owner 可以管理會員權限。", "Permission denied: Only the Owner can manage member permissions."));
         return;
       }
-
-      let users = loadUsers().map(normalizeUser);
-      users = users.map(user => {
-        if (user.companyId === companyId && user.role !== "owner") return { ...user, role };
-        return user;
-      });
-      saveUsers(users);
-      const changedUser = users.find(user => user.companyId === companyId);
-      addActivityLog("會員權限異動", "Member role changed", changedUser ? `${changedUser.name} / ${companyId}` : companyId, `Role: ${role}`);
-
-      if (currentUser && currentUser.companyId === companyId) {
-        currentUser = normalizeUser(users.find(user => user.companyId === companyId));
-        saveCurrentUser();
-        updateAuthUI();
+      const member = getAllDisplayMembers().find(user => user.companyId === companyId);
+      if (!member || member.role === "owner" || companyId === OWNER_ACCOUNT.companyId) {
+        alert(t("Owner 帳號不可變更。", "Owner accounts cannot be changed."));
+        return;
       }
-
-      renderAdminUsers();
+      updateMemberRecord(companyId, { role });
+      const changedUser = getAllDisplayMembers().find(user => user.companyId === companyId);
+      addActivityLog("會員權限異動", "Member role changed", changedUser ? `${changedUser.name} / ${companyId}` : companyId, `Role: ${role}`);
+      refreshMemberViews();
       alert(t("會員權限已更新。", "Member permission updated."));
+    }
+
+    function editMemberAccount(companyId) {
+      if (!canManageUsers()) {
+        alert(t("權限不足：只有 Owner 可以編輯會員。", "Permission denied: Only the Owner can edit members."));
+        return;
+      }
+      const member = getAllDisplayMembers().find(user => user.companyId === companyId);
+      if (!member || member.role === "owner" || companyId === OWNER_ACCOUNT.companyId) {
+        alert(t("Owner 帳號不可編輯。", "Owner accounts cannot be edited."));
+        return;
+      }
+      const name = prompt(t("請輸入姓名", "Enter name"), member.name || "");
+      if (name === null) return;
+      const department = prompt(t("請輸入部門 / 群組", "Enter department / group"), member.department || "");
+      if (department === null) return;
+      const email = prompt(t("請輸入信箱", "Enter email"), member.email || "");
+      if (email === null) return;
+      updateMemberRecord(companyId, {
+        name: name.trim() || member.name,
+        department: department.trim() || member.department,
+        email: email.trim() || member.email
+      });
+      addActivityLog("編輯會員", "Member edited", `${name || member.name} / ${companyId}`, "");
+      refreshMemberViews();
+      alert(t("會員資料已更新。", "Member profile updated."));
+    }
+
+    function deleteMemberAccount(companyId) {
+      if (!canManageUsers()) {
+        alert(t("權限不足：只有 Owner 可以刪除會員。", "Permission denied: Only the Owner can delete members."));
+        return;
+      }
+      const member = getAllDisplayMembers().find(user => user.companyId === companyId);
+      if (!member || member.role === "owner" || companyId === OWNER_ACCOUNT.companyId || (currentUser && currentUser.companyId === companyId)) {
+        alert(t("Owner 或目前登入帳號不可刪除。", "Owner or current login account cannot be deleted."));
+        return;
+      }
+      if (!confirm(t("確定要刪除此會員帳號嗎？", "Are you sure you want to delete this member account?"))) return;
+      let users = loadUsers().map(normalizeUser);
+      const before = users.length;
+      users = users.filter(user => user.companyId !== companyId);
+      if (users.length !== before) saveUsers(users);
+      const overrides = loadMemberOverrides();
+      delete overrides[companyId];
+      saveMemberOverrides(overrides);
+      const deleted = loadDeletedMemberIds();
+      deleted.push(companyId);
+      saveDeletedMemberIds(deleted);
+      addActivityLog("刪除會員", "Member deleted", `${member.name} / ${companyId}`, "");
+      refreshMemberViews();
+      alert(t("會員帳號已刪除。", "Member account deleted."));
+    }
+
+    function editMemberGroupName(groupKey) {
+      if (!canManageUsers()) {
+        alert(t("權限不足：只有 Owner 可以更改群組名稱。", "Permission denied: Only the Owner can rename groups."));
+        return;
+      }
+      const labels = getMemberGroupLabels(groupKey);
+      const zh = prompt(t("請輸入中文群組名稱", "Enter Chinese group name"), labels.zh);
+      if (zh === null) return;
+      const en = prompt(t("請輸入英文群組名稱", "Enter English group name"), labels.en);
+      if (en === null) return;
+      const names = loadMemberGroupNames();
+      names[groupKey] = { zh: zh.trim() || labels.zh, en: en.trim() || labels.en };
+      saveMemberGroupNames(names);
+      addActivityLog("群組名稱異動", "Group renamed", labels.zh, `${names[groupKey].zh} / ${names[groupKey].en}`);
+      refreshMemberViews();
+      alert(t("群組名稱已更新。", "Group name updated."));
     }
 
     function viewFile() {
