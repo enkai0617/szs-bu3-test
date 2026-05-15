@@ -3872,6 +3872,26 @@
       }
     }
 
+
+    /* Home default layout: keep database categories as the default main content. */
+    #homePage .hero::before,
+    #homePage .hero::after {
+      display: none !important;
+      content: none !important;
+    }
+
+    body:not(.members-open) #onlineMembersPanel {
+      display: none !important;
+    }
+
+    body.members-open #onlineMembersPanel {
+      display: block !important;
+    }
+
+    body:not(.members-open) #databaseSection {
+      margin-top: 28px;
+    }
+
   </style>
 </head>
 <body class="sidebar-collapsed">
@@ -3941,7 +3961,7 @@
     <button class="side-item" onclick="openMembersSection()" data-side="members">
       <span class="side-icon">☷</span><span data-zh="線上成員" data-en="Members">線上成員</span>
     </button>
-    <button class="side-item" onclick="document.getElementById('databaseSection')?.scrollIntoView({behavior:'smooth'});" data-side="databases">
+    <button class="side-item" onclick="closeMembersSection(); updateSideNav('databases'); document.getElementById('databaseSection')?.scrollIntoView({behavior:'smooth'});" data-side="databases">
       <span class="side-icon">▦</span><span data-zh="資料庫分類" data-en="Databases">資料庫分類</span>
     </button>
     <button class="side-item" onclick="openAdmin(); setTimeout(()=>switchAdminTab('documents'), 0);" data-side="documents">
@@ -4036,7 +4056,7 @@
     </section>
 
     <section class="dashboard-overview" aria-label="dashboard overview">
-      <div class="dash-stat clickable" onclick="document.getElementById('databaseSection')?.scrollIntoView({behavior:'smooth'}); databaseHomeView='cards'; renderDatabases();">
+      <div class="dash-stat clickable" onclick="closeMembersSection(); document.getElementById('databaseSection')?.scrollIntoView({behavior:'smooth'}); databaseHomeView='cards'; renderDatabases();">
         <div class="dash-icon blue">▣</div>
         <div>
           <div class="dash-label" data-zh="資料庫分類" data-en="Database Categories">資料庫分類</div>
@@ -5089,6 +5109,8 @@
     }
 
     function focusMemberGroup(groupKey) {
+      document.body.classList.add("members-open");
+      updateSideNav("members");
       memberGroupState[groupKey] = false;
       saveMemberGroupState();
       renderOnlineMembers();
@@ -5098,6 +5120,9 @@
     }
 
     function scrollToAllMemberGroups() {
+      document.body.classList.add("members-open");
+      updateSideNav("members");
+      renderOnlineMembers();
       document.getElementById("onlineMembersList")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
@@ -5565,10 +5590,16 @@
 
     function showLoginLanding() {
       selectedDatabaseId = null;
+      document.body.classList.remove("members-open");
       document.body.classList.add("sidebar-collapsed");
       closeAuthModal();
       closeAssistant();
       showPage("loginLandingPage");
+    }
+
+    function closeMembersSection() {
+      document.body.classList.remove("members-open");
+      closeMemberChat();
     }
 
     function openMembersSection() {
@@ -5576,16 +5607,23 @@
         showLoginLanding();
         return;
       }
-      showHome();
+      selectedDatabaseId = null;
+      databaseHomeView = "cards";
+      document.body.classList.add("members-open");
+      renderDatabases();
+      renderOnlineMembers();
+      updateSideNav("members");
+      document.body.classList.add("sidebar-collapsed");
+      showPage("homePage");
       setTimeout(() => {
-        updateSideNav("members");
         document.getElementById("onlineMembersPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 80);
     }
 
-    function showHome() { selectedDatabaseId = null; databaseHomeView = "cards"; renderDatabases(); renderOnlineMembers(); updateSideNav("home"); document.body.classList.add("sidebar-collapsed"); showPage("homePage"); }
+    function showHome() { selectedDatabaseId = null; databaseHomeView = "cards"; closeMembersSection(); renderDatabases(); renderOnlineMembers(); updateSideNav("home"); document.body.classList.add("sidebar-collapsed"); showPage("homePage"); }
 
     function showDetail(id) {
+      closeMembersSection();
       selectedDatabaseId = id;
       currentDocumentTypeFilter = "ALL";
       const db = databases.find(item => item.id === id);
