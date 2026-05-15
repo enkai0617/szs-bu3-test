@@ -3379,6 +3379,36 @@
       }
     }
 
+  
+
+    /* === HERO VISUAL OPTIMIZATION: remove awkward floating card, keep original functions unchanged === */
+    #homePage .hero::before,
+    #homePage .hero::after {
+      display: none !important;
+      content: none !important;
+    }
+
+    #homePage .hero {
+      padding: 76px 80px 92px !important;
+      min-height: 300px !important;
+      background:
+        radial-gradient(circle at 78% 30%, rgba(96,165,250,.18), transparent 34%),
+        radial-gradient(circle at 24% 18%, rgba(255,255,255,.74), transparent 30%),
+        linear-gradient(135deg, rgba(255,255,255,.70), rgba(235,246,255,.52)) !important;
+    }
+
+    #homePage .hero h1,
+    #homePage .hero p {
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 900px) {
+      #homePage .hero {
+        padding: 52px 28px 64px !important;
+      }
+    }
+
   </style>
 </head>
 <body class="sidebar-collapsed">
