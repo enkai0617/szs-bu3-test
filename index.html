@@ -2391,316 +2391,6 @@
       }
     }
 
-  
-    /* === TEAM CHAT STYLE: grouped online members and simple chat room === */
-    .team-chat-panel {
-      display: grid;
-      grid-template-columns: 330px 1fr;
-      gap: 18px;
-      margin: 0 0 28px;
-      min-height: 520px;
-    }
-
-    .team-panel-sidebar,
-    .team-chat-room {
-      background: rgba(255,255,255,.88);
-      border: 1px solid #dbe7f5;
-      border-radius: 20px;
-      box-shadow: 0 20px 50px rgba(15,23,42,.08);
-      overflow: hidden;
-    }
-
-    .team-panel-sidebar {
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .team-profile {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #eff6ff, #ffffff);
-      border: 1px solid #dbeafe;
-    }
-
-    .team-avatar,
-    .chat-member-avatar,
-    .team-message-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #60a5fa, #2563eb);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 950;
-      flex: 0 0 auto;
-    }
-
-    .team-profile strong {
-      color: #0f172a;
-      font-size: 15px;
-    }
-
-    .team-profile p {
-      margin: 4px 0 0;
-      color: #64748b;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .presence-dot.inline {
-      position: static;
-      display: inline-block;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-    }
-
-    .team-status-actions,
-    .team-tools {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .team-tool {
-      flex: 1;
-      border-radius: 12px;
-      padding: 9px 10px;
-      font-size: 13px;
-      box-shadow: none;
-    }
-
-    .team-tool.active {
-      color: white;
-      background: linear-gradient(135deg, #2563eb, #0ea5e9);
-      border-color: transparent;
-    }
-
-    .team-member-groups {
-      overflow: auto;
-      padding-right: 2px;
-    }
-
-    .member-group {
-      margin-bottom: 10px;
-    }
-
-    .member-group-title {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: transparent;
-      border: 0;
-      padding: 10px 6px;
-      box-shadow: none;
-      color: #475569;
-      font-weight: 950;
-    }
-
-    .member-group-title:hover {
-      transform: none;
-      box-shadow: none;
-      background: #eff6ff;
-    }
-
-    .member-group-title small {
-      color: #0ea5e9;
-      font-weight: 950;
-    }
-
-    .chat-member-row {
-      position: relative;
-      display: grid;
-      grid-template-columns: 42px 1fr;
-      gap: 12px;
-      align-items: center;
-      padding: 10px;
-      border-radius: 14px;
-      cursor: pointer;
-      transition: 0.15s ease;
-    }
-
-    .chat-member-row:hover {
-      background: #eff6ff;
-    }
-
-    .chat-member-row .presence-dot {
-      position: absolute;
-      left: 38px;
-      bottom: 10px;
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-      border: 2px solid white;
-      z-index: 2;
-    }
-
-    .chat-member-info strong {
-      display: block;
-      color: #0f172a;
-      font-size: 14px;
-      line-height: 1.25;
-    }
-
-    .chat-member-info p {
-      margin: 4px 0 0;
-      color: #64748b;
-      font-size: 12px;
-      line-height: 1.4;
-    }
-
-    .no-member {
-      color: #94a3b8;
-      font-size: 13px;
-      padding: 8px 10px 14px;
-    }
-
-    .team-chat-room {
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-    }
-
-    .team-chat-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      align-items: flex-start;
-      padding: 18px 20px;
-      border-bottom: 1px solid #e5eef8;
-      background: rgba(248,251,255,.8);
-    }
-
-    .team-chat-header h2 {
-      margin: 0 0 6px;
-      color: #0f172a;
-      font-size: 22px;
-      font-weight: 950;
-    }
-
-    .team-chat-header p {
-      margin: 0;
-      color: #64748b;
-      font-size: 13px;
-    }
-
-    .team-chat-messages {
-      flex: 1;
-      overflow: auto;
-      padding: 22px;
-      background:
-        radial-gradient(circle at 90% 10%, rgba(96,165,250,.10), transparent 30%),
-        #f8fbff;
-    }
-
-    .team-empty-chat {
-      color: #64748b;
-      text-align: center;
-      padding: 90px 20px;
-      font-weight: 800;
-    }
-
-    .team-message {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 14px;
-      max-width: 78%;
-    }
-
-    .team-message.mine {
-      margin-left: auto;
-      flex-direction: row-reverse;
-    }
-
-    .team-message-avatar {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      font-size: 13px;
-    }
-
-    .team-message-bubble {
-      background: white;
-      border: 1px solid #dbe7f5;
-      border-radius: 16px;
-      padding: 11px 13px;
-      color: #0f172a;
-      line-height: 1.55;
-      box-shadow: 0 10px 24px rgba(15,23,42,.05);
-    }
-
-    .team-message.mine .team-message-bubble {
-      background: linear-gradient(135deg, #2563eb, #0ea5e9);
-      color: white;
-      border-color: transparent;
-    }
-
-    .team-message-meta {
-      font-size: 11px;
-      color: #64748b;
-      margin-bottom: 5px;
-      font-weight: 900;
-    }
-
-    .team-message.mine .team-message-meta {
-      color: rgba(255,255,255,.78);
-    }
-
-    .team-chat-input {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      padding: 16px;
-      border-top: 1px solid #e5eef8;
-      background: white;
-    }
-
-    .team-chat-input input {
-      height: 46px;
-      border-radius: 14px;
-      padding: 0 14px;
-    }
-
-    body.dark .team-panel-sidebar,
-    body.dark .team-chat-room,
-    body.dark .team-profile,
-    body.dark .team-chat-header,
-    body.dark .team-chat-input,
-    body.dark .team-message-bubble {
-      background: rgba(15, 23, 42, 0.86) !important;
-      border-color: rgba(56,189,248,.18) !important;
-    }
-
-    body.dark .team-chat-messages {
-      background: #07111f !important;
-    }
-
-    body.dark .team-profile strong,
-    body.dark .chat-member-info strong,
-    body.dark .team-chat-header h2,
-    body.dark .team-message-bubble {
-      color: #e2e8f0 !important;
-    }
-
-    @media (max-width: 1100px) {
-      .team-chat-panel {
-        grid-template-columns: 1fr;
-      }
-
-      .team-panel-sidebar {
-        max-height: 460px;
-      }
-    }
 
   </style>
 </head>
@@ -2815,53 +2505,30 @@
       </div>
     </section>
 
-    
-
-    <section class="team-chat-panel" id="onlineMembersPanel">
-      <div class="team-panel-sidebar">
-        <div class="team-profile">
-          <div class="team-avatar">S</div>
-          <div>
-            <strong id="teamCurrentName">Guest</strong>
-            <p><span class="presence-dot inline online"></span><span id="teamCurrentStatus">線上</span></p>
-          </div>
+    <section class="online-compact-panel" id="onlineMembersPanel">
+      <div class="online-compact-head">
+        <div>
+          <h2 data-zh="線上成員" data-en="Online Members">線上成員</h2>
+          <p data-zh="點選成員可開啟一對一對話框。" data-en="Click a member to open a direct chat.">點選成員可開啟一對一對話框。</p>
         </div>
-
-        <div class="team-status-actions">
+        <div class="my-status-control compact">
+          <span data-zh="我的狀態" data-en="My Status">我的狀態</span>
           <button class="status-btn online" onclick="setMyPresence('online')" data-zh="線上" data-en="Online">線上</button>
           <button class="status-btn away" onclick="setMyPresence('away')" data-zh="離開" data-en="Away">離開</button>
           <button class="status-btn offline" onclick="setMyPresence('offline')" data-zh="離線" data-en="Offline">離線</button>
         </div>
-
-        <div class="team-tools">
-          <button onclick="selectTeamGroup('all')" id="groupBtnAll" class="team-tool active" data-zh="全部" data-en="All">全部</button>
-          <button onclick="selectTeamGroup('BU1')" id="groupBtnBU1" class="team-tool">BU1</button>
-          <button onclick="selectTeamGroup('BU3')" id="groupBtnBU3" class="team-tool">BU3</button>
-        </div>
-
-        <div class="team-member-groups" id="onlineMembersList"></div>
       </div>
 
-      <div class="team-chat-room">
-        <div class="team-chat-header">
-          <div>
-            <h2 id="teamChatTitle" data-zh="BU3 聊天室" data-en="BU3 Chat Room">BU3 聊天室</h2>
-            <p data-zh="原型版訊息會暫存在目前瀏覽器 localStorage。" data-en="Prototype messages are saved in this browser localStorage.">原型版訊息會暫存在目前瀏覽器 localStorage。</p>
-          </div>
-          <button onclick="clearTeamChat()" data-zh="清除訊息" data-en="Clear Messages">清除訊息</button>
-        </div>
-
-        <div class="team-chat-messages" id="teamChatMessages"></div>
-
-        <div class="team-chat-input">
-          <input id="teamChatInput" placeholder="輸入訊息..." onkeydown="if(event.key==='Enter') sendTeamMessage();" />
-          <button class="primary" onclick="sendTeamMessage()" data-zh="送出" data-en="Send">送出</button>
-        </div>
+      <div class="online-group-tabs">
+        <button onclick="selectTeamGroup('all')" id="groupBtnAll" class="team-tool active" data-zh="全部" data-en="All">全部</button>
+        <button onclick="selectTeamGroup('BU1')" id="groupBtnBU1" class="team-tool">BU1</button>
+        <button onclick="selectTeamGroup('BU3')" id="groupBtnBU3" class="team-tool">BU3</button>
       </div>
+
+      <div class="online-compact-list" id="onlineMembersList"></div>
     </section>
 
-
-    <section id="databaseSection" class="view-cards">
+<section id="databaseSection" class="view-cards">
       <div class="section-head">
         <div class="section-title">
           <h2 data-zh="資料庫分類" data-en="DATA STREAMS">資料庫分類</h2>
@@ -3141,6 +2808,45 @@
     </section>
   </main>
 
+
+  
+  <div class="member-chat-box" id="memberChatBox">
+    <div class="member-chat-header">
+      <div>
+        <strong id="memberChatTitle">聊天室</strong>
+        <p id="memberChatSub">原型版訊息會暫存在 localStorage</p>
+      </div>
+      <div class="member-chat-actions">
+        <button onclick="openMemberChatFull()" title="全頁模式">⛶</button>
+        <button onclick="closeMemberChat()" title="關閉">×</button>
+      </div>
+    </div>
+    <div class="member-chat-body" id="memberChatBody"></div>
+    <div class="member-chat-input">
+      <input id="memberChatInput" placeholder="輸入訊息..." onkeydown="if(event.key==='Enter') sendMemberMessage();" />
+      <button class="primary" onclick="sendMemberMessage()" data-zh="送出" data-en="Send">送出</button>
+    </div>
+  </div>
+
+  <div class="member-chat-full" id="memberChatFull">
+    <div class="member-chat-full-panel">
+      <div class="member-chat-header">
+        <div>
+          <strong id="memberChatFullTitle">全頁聊天室</strong>
+          <p id="memberChatFullSub">一對一對話全頁模式</p>
+        </div>
+        <div class="member-chat-actions">
+          <button onclick="closeMemberChatFull()" data-zh="返回" data-en="Back">返回</button>
+          <button onclick="closeMemberChatFull()">×</button>
+        </div>
+      </div>
+      <div class="member-chat-body full" id="memberChatFullBody"></div>
+      <div class="member-chat-input">
+        <input id="memberChatFullInput" placeholder="輸入訊息..." onkeydown="if(event.key==='Enter') sendMemberMessage(true);" />
+        <button class="primary" onclick="sendMemberMessage(true)" data-zh="送出" data-en="Send">送出</button>
+      </div>
+    </div>
+  </div>
 
   <div class="assistant-launcher" onclick="toggleAssistant()">?</div>
 
@@ -3537,89 +3243,132 @@
     function selectTeamGroup(group) {
       selectedTeamGroup = group;
       renderOnlineMembers();
-      renderTeamChat();
-    }
-
-    function getTeamChatKey() {
-      return "szs_team_chat_" + selectedTeamGroup;
-    }
-
-    function loadTeamChat() {
-      return JSON.parse(localStorage.getItem(getTeamChatKey()) || "[]");
-    }
-
-    function saveTeamChat(messages) {
-      localStorage.setItem(getTeamChatKey(), JSON.stringify(messages));
-    }
-
-    function sendTeamMessage() {
-      if (!currentUser) {
-        openAuthModal("login");
-        showToast(t("請先登入後再傳送訊息。", "Please log in before sending messages."), "error");
-        return;
-      }
-
-      const input = document.getElementById("teamChatInput");
-      const text = input ? input.value.trim() : "";
-      if (!text) return;
-
-      const messages = loadTeamChat();
-      messages.push({
-        id: "msg-" + Date.now(),
-        senderId: currentUser.companyId,
-        senderName: currentUser.name,
-        department: currentUser.department,
-        text,
-        time: new Date().toLocaleString()
-      });
-
-      saveTeamChat(messages.slice(-200));
-      input.value = "";
-      renderTeamChat();
-    }
-
-    function clearTeamChat() {
-      if (!confirm(t("確定要清除目前群組聊天室訊息嗎？", "Are you sure you want to clear messages in this group?"))) return;
-      saveTeamChat([]);
-      renderTeamChat();
-    }
-
-    function renderTeamChat() {
-      const title = document.getElementById("teamChatTitle");
-      const box = document.getElementById("teamChatMessages");
-      if (!box) return;
-
-      if (title) title.textContent = selectedTeamGroup === "all" ? t("全部聊天室", "All Chat Room") : `${selectedTeamGroup} ${t("聊天室", "Chat Room")}`;
-
-      document.querySelectorAll(".team-tool").forEach(btn => btn.classList.remove("active"));
-      const btn = document.getElementById("groupBtn" + (selectedTeamGroup === "all" ? "All" : selectedTeamGroup));
-      if (btn) btn.classList.add("active");
-
-      const messages = loadTeamChat();
-      if (!messages.length) {
-        box.innerHTML = `<div class="team-empty-chat">${t("目前沒有訊息，先輸入一句話開始聊天。", "No messages yet. Send the first message to start chatting.")}</div>`;
-        return;
-      }
-
-      box.innerHTML = messages.map(msg => {
-        const mine = currentUser && msg.senderId === currentUser.companyId;
-        return `
-          <div class="team-message ${mine ? "mine" : ""}">
-            <div class="team-message-avatar">${(msg.senderName || "S").slice(0, 1).toUpperCase()}</div>
-            <div class="team-message-bubble">
-              <div class="team-message-meta">${msg.senderName || "-"} · ${msg.department || "-"} · ${msg.time || "-"}</div>
-              <div>${escapeHtml(msg.text || "")}</div>
-            </div>
-          </div>
-        `;
-      }).join("");
-      box.scrollTop = box.scrollHeight;
     }
 
     function escapeHtml(text) {
       const div = document.createElement("div");
       div.textContent = text;
       return div.innerHTML;
+    }
+
+    let selectedDirectChatUserId = null;
+
+    function getDirectChatKey(userId) {
+      if (!currentUser || !userId) return "szs_direct_chat_guest";
+      const pair = [currentUser.companyId, userId].sort().join("__");
+      return "szs_direct_chat_" + pair;
+    }
+
+    function loadDirectChat(userId) {
+      return JSON.parse(localStorage.getItem(getDirectChatKey(userId)) || "[]");
+    }
+
+    function saveDirectChat(userId, messages) {
+      localStorage.setItem(getDirectChatKey(userId), JSON.stringify(messages));
+    }
+
+    function getSelectedChatUser() {
+      if (!selectedDirectChatUserId) return null;
+      return loadUsers().map(normalizeUser).find(user => user.companyId === selectedDirectChatUserId);
+    }
+
+    function openMemberChat(userId) {
+      if (!currentUser) {
+        openAuthModal("login");
+        showToast(t("請先登入後再開啟聊天室。", "Please log in before opening chat."), "error");
+        return;
+      }
+
+      selectedDirectChatUserId = userId;
+      const box = document.getElementById("memberChatBox");
+      if (box) box.classList.add("active");
+      renderMemberChat();
+    }
+
+    function closeMemberChat() {
+      const box = document.getElementById("memberChatBox");
+      if (box) box.classList.remove("active");
+    }
+
+    function openMemberChatFull() {
+      if (!selectedDirectChatUserId) return;
+      const full = document.getElementById("memberChatFull");
+      if (full) full.classList.add("active");
+      renderMemberChat();
+    }
+
+    function closeMemberChatFull() {
+      const full = document.getElementById("memberChatFull");
+      if (full) full.classList.remove("active");
+    }
+
+    function sendMemberMessage(fromFull = false) {
+      if (!currentUser || !selectedDirectChatUserId) {
+        openAuthModal("login");
+        return;
+      }
+
+      const input = document.getElementById(fromFull ? "memberChatFullInput" : "memberChatInput");
+      const text = input ? input.value.trim() : "";
+      if (!text) return;
+
+      const messages = loadDirectChat(selectedDirectChatUserId);
+      messages.push({
+        id: "msg-" + Date.now(),
+        senderId: currentUser.companyId,
+        senderName: currentUser.name,
+        text,
+        time: new Date().toLocaleString()
+      });
+
+      saveDirectChat(selectedDirectChatUserId, messages.slice(-200));
+      input.value = "";
+
+      const mirrorInput = document.getElementById(fromFull ? "memberChatInput" : "memberChatFullInput");
+      if (mirrorInput) mirrorInput.value = "";
+
+      renderMemberChat();
+    }
+
+    function renderMemberChat() {
+      const target = getSelectedChatUser();
+      const titleText = target ? `${target.name || "-"} · ${getPresenceLabel((loadPresence()[target.companyId] || {}).status || "offline")}` : t("聊天室", "Chat");
+      const subText = target ? `${target.department || "-"} · ${target.companyId || "-"} · ${getRoleLabel(target.role)}` : t("原型版訊息會暫存在 localStorage", "Prototype messages are saved in localStorage.");
+
+      const title = document.getElementById("memberChatTitle");
+      const sub = document.getElementById("memberChatSub");
+      const fullTitle = document.getElementById("memberChatFullTitle");
+      const fullSub = document.getElementById("memberChatFullSub");
+
+      if (title) title.textContent = titleText;
+      if (sub) sub.textContent = subText;
+      if (fullTitle) fullTitle.textContent = titleText;
+      if (fullSub) fullSub.textContent = subText;
+
+      const messages = selectedDirectChatUserId ? loadDirectChat(selectedDirectChatUserId) : [];
+      const html = messages.length ? messages.map(msg => {
+        const mine = currentUser && msg.senderId === currentUser.companyId;
+        return `
+          <div class="member-message ${mine ? "mine" : ""}">
+            <div class="member-message-avatar">${(msg.senderName || "S").slice(0, 1).toUpperCase()}</div>
+            <div class="member-message-bubble">
+              <div class="member-message-meta">${msg.senderName || "-"} · ${msg.time || "-"}</div>
+              <div>${escapeHtml(msg.text || "")}</div>
+            </div>
+          </div>
+        `;
+      }).join("") : `<div class="member-empty-chat">${t("目前沒有訊息，先輸入一句話開始聊天。", "No messages yet. Send the first message to start chatting.")}</div>`;
+
+      const body = document.getElementById("memberChatBody");
+      const fullBody = document.getElementById("memberChatFullBody");
+      if (body) {
+        body.innerHTML = html;
+        body.scrollTop = body.scrollHeight;
+      }
+      if (fullBody) {
+        fullBody.innerHTML = html;
+        fullBody.scrollTop = fullBody.scrollHeight;
+      }
     }
 
     function renderOnlineMembers() {
@@ -3637,11 +3386,6 @@
         savePresence(presence);
       }
 
-      const currentName = document.getElementById("teamCurrentName");
-      const currentStatus = document.getElementById("teamCurrentStatus");
-      if (currentName) currentName.textContent = currentUser ? currentUser.name : "Guest";
-      if (currentStatus) currentStatus.textContent = currentUser ? getPresenceLabel((presence[currentUser.companyId] || {}).status || "online") : t("離線", "Offline");
-
       const groups = { BU1: [], BU3: [], "其他": [] };
       users.forEach(user => {
         const bu = getUserBusinessUnit(user);
@@ -3649,37 +3393,40 @@
         groups[bu].push(user);
       });
 
+      document.querySelectorAll(".team-tool").forEach(btn => btn.classList.remove("active"));
+      const activeBtn = document.getElementById("groupBtn" + (selectedTeamGroup === "all" ? "All" : selectedTeamGroup));
+      if (activeBtn) activeBtn.classList.add("active");
+
       const groupKeys = selectedTeamGroup === "all" ? ["BU1", "BU3", "其他"] : [selectedTeamGroup];
-      let html = "";
+      let output = "";
 
       groupKeys.forEach(group => {
         const list = groups[group] || [];
-        html += `
-          <div class="member-group">
-            <button class="member-group-title" onclick="selectTeamGroup('${group}')">
-              <span>${group}</span>
-              <small>${list.length}</small>
-            </button>
-            ${list.length ? list.map(user => {
-              const item = presence[user.companyId] || { status: "offline", updatedAt: "-" };
-              const status = item.status || "offline";
-              return `
-                <div class="chat-member-row" onclick="selectTeamGroup('${group}')">
-                  <span class="presence-dot ${status}"></span>
-                  <div class="chat-member-avatar">${(user.name || "S").slice(0, 1).toUpperCase()}</div>
-                  <div class="chat-member-info">
-                    <strong>${user.name || "-"}</strong>
-                    <p>${getPresenceLabel(status)} · ${user.companyId || "-"} · ${getRoleLabel(user.role)}</p>
-                  </div>
-                </div>
-              `;
-            }).join("") : `<div class="no-member">${t("目前沒有成員", "No members")}</div>`}
+        output += `
+          <div class="compact-group">
+            <div class="compact-group-title"><span>${group}</span><small>${list.length}</small></div>
+            <div class="compact-member-strip">
+              ${list.length ? list.map(user => {
+                const item = presence[user.companyId] || { status: "offline", updatedAt: "-" };
+                const status = item.status || "offline";
+                return `
+                  <button class="compact-member" onclick="openMemberChat('${user.companyId}')">
+                    <span class="presence-dot ${status}"></span>
+                    <span class="compact-avatar">${(user.name || "S").slice(0, 1).toUpperCase()}</span>
+                    <span class="compact-member-text">
+                      <strong>${user.name || "-"}</strong>
+                      <small>${getPresenceLabel(status)} · ${user.companyId || "-"}</small>
+                    </span>
+                  </button>
+                `;
+              }).join("") : `<div class="no-member">${t("目前沒有成員", "No members")}</div>`}
+            </div>
           </div>
         `;
       });
 
-      box.innerHTML = html;
-      renderTeamChat();
+      box.innerHTML = output;
+      renderMemberChat();
     }
 
     function toggleDatabaseView() {
