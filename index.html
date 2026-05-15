@@ -2114,6 +2114,65 @@
       }
     }
 
+  
+    /* === FIX: database view toggles in-place and stat cards are clickable === */
+    .dash-stat.clickable {
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+
+    .dash-stat.clickable:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 26px 58px rgba(37, 99, 235, 0.14);
+      border-color: #bfdbfe;
+    }
+
+    .dash-stat.clickable:active {
+      transform: translateY(-1px);
+    }
+
+    #databaseSection.view-list #databaseGrid {
+      display: none !important;
+    }
+
+    #databaseSection.view-list #databaseListPanel {
+      display: block !important;
+    }
+
+    #databaseSection.view-cards #databaseGrid {
+      display: grid !important;
+    }
+
+    #databaseSection.view-cards #databaseListPanel {
+      display: none !important;
+    }
+
+    #databaseListPanel {
+      margin: 0 !important;
+    }
+
+    #databaseSection.view-list .section-head {
+      border-radius: 18px 18px 0 0 !important;
+    }
+
+    #databaseSection.view-list {
+      scroll-margin-top: 92px;
+    }
+
+    #databaseSection.view-cards {
+      scroll-margin-top: 92px;
+    }
+
+  
+    .show-more-db {
+      display: block;
+      max-width: 180px;
+      margin: 12px auto 16px;
+      border-radius: 999px !important;
+      height: 38px !important;
+      background: transparent !important;
+    }
+
   </style>
 </head>
 <body>
@@ -2192,7 +2251,7 @@
     </section>
 
     <section class="dashboard-overview" aria-label="dashboard overview">
-      <div class="dash-stat">
+      <div class="dash-stat clickable" onclick="document.getElementById('databaseSection')?.scrollIntoView({behavior:'smooth'}); databaseHomeView='cards'; renderDatabases();">
         <div class="dash-icon blue">▣</div>
         <div>
           <div class="dash-label" data-zh="資料庫分類" data-en="Database Categories">資料庫分類</div>
@@ -2200,7 +2259,7 @@
           <div class="dash-link" data-zh="所有分類總覽 ›" data-en="All categories ›">所有分類總覽 ›</div>
         </div>
       </div>
-      <div class="dash-stat">
+      <div class="dash-stat clickable" onclick="databaseHomeView='list'; renderDatabases(); document.getElementById('databaseSection')?.scrollIntoView({behavior:'smooth'});">
         <div class="dash-icon cyan">▤</div>
         <div>
           <div class="dash-label" data-zh="目前文件" data-en="Current Documents">目前文件</div>
@@ -2208,7 +2267,7 @@
           <div class="dash-link" data-zh="所有文件總數 ›" data-en="Total documents ›">所有文件總數 ›</div>
         </div>
       </div>
-      <div class="dash-stat">
+      <div class="dash-stat clickable" onclick="openAdmin(); setTimeout(()=>switchAdminTab('users'), 0);">
         <div class="dash-icon purple">♙</div>
         <div>
           <div class="dash-label" data-zh="目前登入者" data-en="Current User">目前登入者</div>
@@ -2216,7 +2275,7 @@
           <div class="dash-link" data-zh="線上成員 ›" data-en="Online member ›">線上成員 ›</div>
         </div>
       </div>
-      <div class="dash-stat">
+      <div class="dash-stat clickable" onclick="openAdmin(); setTimeout(()=>switchAdminTab('logs'), 0);">
         <div class="dash-icon green">✓</div>
         <div>
           <div class="dash-label" data-zh="系統狀態" data-en="System Status">系統狀態</div>
@@ -2226,7 +2285,7 @@
       </div>
     </section>
 
-    <section id="databaseSection">
+    <section id="databaseSection" class="view-cards">
       <div class="section-head">
         <div class="section-title">
           <h2 data-zh="資料庫分類" data-en="DATA STREAMS">資料庫分類</h2>
@@ -2853,15 +2912,17 @@
     function toggleDatabaseView() {
       databaseHomeView = databaseHomeView === "cards" ? "list" : "cards";
       renderDatabases();
+      document.getElementById("databaseSection")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     function updateDatabaseViewUI() {
-      const grid = document.getElementById("databaseGrid");
-      const panel = document.getElementById("databaseListPanel");
+      const section = document.getElementById("databaseSection");
       const btn = document.getElementById("databaseViewToggle");
 
-      if (grid) grid.style.display = databaseHomeView === "cards" ? "grid" : "none";
-      if (panel) panel.style.display = databaseHomeView === "list" ? "block" : "none";
+      if (section) {
+        section.classList.toggle("view-cards", databaseHomeView === "cards");
+        section.classList.toggle("view-list", databaseHomeView === "list");
+      }
 
       if (btn) {
         btn.textContent = databaseHomeView === "cards"
