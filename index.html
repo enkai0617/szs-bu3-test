@@ -1247,6 +1247,133 @@
       }
     }
 
+  
+    /* === FINAL POLISH: dashboard summary, mode hint, logs, empty states, logo fallback === */
+    .system-overview {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin: -28px 0 34px;
+    }
+
+    .overview-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px 20px;
+      box-shadow: 0 16px 40px var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .overview-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .overview-value {
+      color: var(--primary);
+      font-size: 25px;
+      line-height: 1.1;
+      font-weight: 950;
+    }
+
+    .assistant-mode-hint {
+      padding: 9px 12px;
+      border-radius: 14px;
+      background: var(--chip);
+      color: var(--muted);
+      border: 1px solid var(--line);
+      font-size: 12px;
+      line-height: 1.55;
+      font-weight: 800;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 34px 24px;
+      border: 1px dashed var(--line);
+      border-radius: 22px;
+      background: color-mix(in srgb, var(--panel-solid) 76%, transparent);
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .empty-state strong {
+      display: block;
+      color: var(--text);
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .empty-state button {
+      margin-top: 14px;
+    }
+
+    .log-type-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 950;
+      margin-right: 8px;
+      border: 1px solid var(--line);
+      background: var(--chip);
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    .log-type-pill.add { color: #047857; background: rgba(16, 185, 129, 0.12); }
+    .log-type-pill.edit { color: #0369a1; background: rgba(14, 165, 233, 0.14); }
+    .log-type-pill.delete { color: #dc2626; background: rgba(239, 68, 68, 0.12); }
+    .log-type-pill.login { color: #7c3aed; background: rgba(124, 58, 237, 0.12); }
+    .log-type-pill.role { color: #c2410c; background: rgba(249, 115, 22, 0.14); }
+
+    .log-row {
+      grid-template-columns: 160px 130px 1fr !important;
+      align-items: start;
+    }
+
+    .logo-fallback {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid var(--line);
+      color: var(--primary);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-weight: 950;
+      font-size: 15px;
+      letter-spacing: .5px;
+    }
+
+    .logo-fallback.show {
+      display: flex;
+    }
+
+    @media (max-width: 900px) {
+      .system-overview {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 0;
+      }
+
+      .log-row {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .system-overview {
+        grid-template-columns: 1fr;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1530,6 +1657,7 @@
             <button id="fullModeWebsiteBtn" class="assistant-mode-btn" onclick="setAssistantMode('website')" data-zh="官網資訊" data-en="Website">官網資訊</button>
             <button id="fullModeDocsBtn" class="assistant-mode-btn" onclick="setAssistantMode('docs')" data-zh="內部文件" data-en="Internal Docs">內部文件</button>
           </div>
+          <div class="assistant-mode-hint" id="fullAssistantModeHint">目前模式：全部搜尋。會同時查詢官網知識與內部文件。</div>
           <div class="suggestion-row">
             <button class="suggestion-chip" onclick="askAssistantQuestion('SZS 有哪些產品')">SZS 有哪些產品？</button>
             <button class="suggestion-chip" onclick="askAssistantQuestion('MIM 是什麼')">MIM 是什麼？</button>
@@ -1582,6 +1710,7 @@
         <button id="modeWebsiteBtn" class="assistant-mode-btn" onclick="setAssistantMode('website')" data-zh="官網資訊" data-en="Website">官網資訊</button>
         <button id="modeDocsBtn" class="assistant-mode-btn" onclick="setAssistantMode('docs')" data-zh="內部文件" data-en="Internal Docs">內部文件</button>
       </div>
+      <div class="assistant-mode-hint" id="assistantModeHint">目前模式：全部搜尋。會同時查詢官網知識與內部文件。</div>
       <div class="suggestion-row">
         <button class="suggestion-chip" onclick="askAssistantQuestion('SZS 有哪些產品')">SZS 有哪些產品？</button>
         <button class="suggestion-chip" onclick="askAssistantQuestion('MIM 是什麼')">MIM 是什麼？</button>
@@ -1762,19 +1891,24 @@
 
       const logs = loadActivityLogs();
       if (logs.length === 0) {
-        box.innerHTML = `<p style="color:var(--muted);">${t("目前沒有操作紀錄。", "No activity logs yet.")}</p>`;
+        box.innerHTML = `<div class="empty-state"><strong>${t("目前沒有操作紀錄", "No activity logs yet")}</strong>${t("系統會在這裡記錄新增、修改、刪除、登入與權限異動。", "The system will record add, edit, delete, login, and role changes here.")}</div>`;
         return;
       }
 
-      box.innerHTML = logs.map(log => `
-        <div class="log-row">
-          <div class="log-time">${log.time}<br>${log.user}</div>
-          <div>
-            <div class="log-action">${t(log.actionZh, log.actionEn)} · ${log.target || "-"}</div>
-            <div class="log-detail">${log.detail || "-"}</div>
+      box.innerHTML = logs.map(log => {
+        const actionText = t(log.actionZh, log.actionEn);
+        const typeClass = getLogTypeClass(actionText);
+        return `
+          <div class="log-row">
+            <div class="log-time">${log.time}<br>${log.user}</div>
+            <div><span class="log-type-pill ${typeClass}">${actionText.split(" ")[0]}</span></div>
+            <div>
+              <div class="log-action">${actionText} · ${log.target || "-"}</div>
+              <div class="log-detail">${log.detail || "-"}</div>
+            </div>
           </div>
-        </div>
-      `).join("");
+        `;
+      }).join("");
     }
 
     function clearActivityLogs() {
@@ -1846,6 +1980,7 @@
       renderAdminUsers();
       updateLanguageText();
       updateBadge();
+      updateSystemOverview();
       updateAuthUI();
       closeAssistant();
     }
@@ -1965,7 +2100,7 @@
       const filters = renderDocumentTypeFilters(selectedDatabaseId);
 
       if (list.length === 0) {
-        container.innerHTML = filters + `<div class="doc-row"><div><div class="doc-title">${t("沒有找到相關文件", "No related documents found")}</div><div class="doc-desc">${t("請嘗試其他關鍵字或切換文件類型。", "Please try another keyword or switch file type.")}</div></div></div>`;
+        container.innerHTML = filters + `<div class="empty-state"><strong>${t("目前沒有符合條件的文件", "No matching documents found")}</strong>${t("請嘗試其他關鍵字或切換文件類型。Manager 可以到後台新增第一份文件。", "Please try another keyword or switch file type. Managers can add the first document in the admin panel.")}<br><button onclick="openAdmin()">${t("前往後台新增文件", "Go to Admin")}</button></div>`;
         return;
       }
 
@@ -2372,7 +2507,7 @@
       if (!box) return;
 
       if (documents.length === 0) {
-        box.innerHTML = `<p style="color:var(--muted);">${t("目前沒有文件。", "No documents yet.")}</p>`;
+        box.innerHTML = `<div class="empty-state"><strong>${t("目前沒有文件", "No documents yet")}</strong>${t("請在左側新增第一份測試文件。", "Please add the first sample document on the left.")}</div>`;
         return;
       }
 
@@ -2428,7 +2563,7 @@
       }
 
       if (users.length === 0) {
-        box.innerHTML = `<p style="color:var(--muted);">${t("沒有找到符合條件的會員。", "No matching members found.")}</p>`;
+        box.innerHTML = `<div class="empty-state"><strong>${t("沒有找到符合條件的會員", "No matching members found")}</strong>${t("請換其他工號、姓名、部門或信箱關鍵字。", "Try another employee ID, name, department, or email keyword.")}</div>`;
         return;
       }
 
@@ -2523,6 +2658,8 @@
           ? (isVisible ? button.dataset.hideZh : button.dataset.showZh)
           : (isVisible ? button.dataset.hideEn : button.dataset.showEn);
       });
+      updateSystemOverview();
+      updateAssistantModeHint();
     }
 
     function toggleTheme() {
@@ -2758,6 +2895,58 @@
 
     function logout() {
       openLogoutConfirm();
+    }
+
+
+    function updateSystemOverview() {
+      const dbEl = document.getElementById("overviewDatabaseCount");
+      const docEl = document.getElementById("overviewDocumentCount");
+      const roleEl = document.getElementById("overviewUserRole");
+
+      if (dbEl) dbEl.textContent = databases.length;
+      if (docEl) docEl.textContent = documents.length;
+      if (roleEl) {
+        roleEl.textContent = currentUser ? getRoleLabel(currentUser.role) : "Guest";
+      }
+    }
+
+    function getAssistantModeHintText() {
+      if (assistantMode === "website") {
+        return t(
+          "目前模式：官網資訊。會優先回答 SZS 官網整理內容。",
+          "Current mode: Website. It will prioritize SZS website knowledge."
+        );
+      }
+
+      if (assistantMode === "docs") {
+        return t(
+          "目前模式：內部文件。會只搜尋目前知識庫文件。",
+          "Current mode: Internal Docs. It will search only current knowledge-base documents."
+        );
+      }
+
+      return t(
+        "目前模式：全部搜尋。會同時查詢官網知識與內部文件。",
+        "Current mode: All. It will search both website knowledge and internal documents."
+      );
+    }
+
+    function updateAssistantModeHint() {
+      const text = getAssistantModeHintText();
+      const hint = document.getElementById("assistantModeHint");
+      const fullHint = document.getElementById("fullAssistantModeHint");
+      if (hint) hint.textContent = text;
+      if (fullHint) fullHint.textContent = text;
+    }
+
+    function getLogTypeClass(action) {
+      const text = String(action || "");
+      if (text.includes("新增") || text.includes("add")) return "add";
+      if (text.includes("修改") || text.includes("edit")) return "edit";
+      if (text.includes("刪除") || text.includes("delete")) return "delete";
+      if (text.includes("登入") || text.includes("登出") || text.includes("login") || text.includes("logout")) return "login";
+      if (text.includes("權限") || text.includes("role")) return "role";
+      return "";
     }
 
     function updateAuthUI() {
@@ -4050,6 +4239,8 @@
     function setAssistantMode(mode) {
       assistantMode = mode;
       updateAssistantModeUI();
+      updateSystemOverview();
+      updateAssistantModeHint();
       const label = mode === "website" ? t("官網資訊", "Website") : mode === "docs" ? t("內部文件", "Internal Docs") : t("全部搜尋", "All");
       showToast(t(`小幫手已切換為「${label}」模式。`, `Assistant switched to "${label}" mode.`));
     }
@@ -4067,6 +4258,7 @@
         const btn = document.getElementById(id);
         if (btn) btn.classList.toggle("active", assistantMode === mode);
       });
+      updateAssistantModeHint();
     }
 
     function getSourceLabel(intent) {
