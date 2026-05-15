@@ -2230,13 +2230,15 @@
       min-height: 122px;
     }
 
+
     .online-members-panel {
       margin: 0 0 28px;
       background: rgba(255,255,255,.86);
       border: 1px solid #dbe7f5;
-      border-radius: 18px;
+      border-radius: 20px;
       box-shadow: 0 20px 50px rgba(15,23,42,.08);
       padding: 22px 24px;
+      position: relative;
     }
 
     .online-members-head {
@@ -2279,104 +2281,587 @@
       box-shadow: none;
     }
 
+    .status-btn.active {
+      box-shadow: inset 0 0 0 2px rgba(15,23,42,.08);
+      transform: translateY(-1px);
+    }
+
     .status-btn.online { color: #15803d; background: rgba(34,197,94,.12); border-color: rgba(34,197,94,.24); }
     .status-btn.away { color: #b91c1c; background: rgba(239,68,68,.12); border-color: rgba(239,68,68,.24); }
     .status-btn.offline { color: #64748b; background: rgba(148,163,184,.14); border-color: rgba(148,163,184,.26); }
 
-    .online-members-list {
+    .members-hybrid-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .online-members-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .member-group-card {
+      background: rgba(248,251,255,.82);
+      border: 1px solid #e5eef8;
+      border-radius: 18px;
+      padding: 14px 16px 16px;
+      box-shadow: 0 10px 30px rgba(15,23,42,.04);
+    }
+
+    .member-group-toggle {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       gap: 12px;
+      padding: 0;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .member-group-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .member-group-chevron {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: rgba(59,130,246,.12);
+      color: #2563eb;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .member-group-title {
+      font-weight: 900;
+      color: #0f172a;
+      font-size: 18px;
+    }
+
+    .member-group-subtitle {
+      color: #64748b;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .member-group-summary {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .member-group-count,
+    .member-group-online-pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .member-group-count {
+      background: rgba(59,130,246,.10);
+      color: #2563eb;
+    }
+
+    .member-group-online-pill {
+      background: rgba(34,197,94,.12);
+      color: #15803d;
+    }
+
+    .member-group-members {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .member-group-members.collapsed {
+      display: none;
     }
 
     .member-presence-card {
       position: relative;
-      display: grid;
-      grid-template-columns: 44px 1fr auto;
+      display: flex;
+      flex-direction: column;
       gap: 12px;
-      align-items: center;
-      background: rgba(248,251,255,.82);
+      background: rgba(255,255,255,.92);
       border: 1px solid #e5eef8;
       border-radius: 16px;
       padding: 14px;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      min-height: 146px;
+    }
+
+    .member-presence-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(37,99,235,.12);
+      border-color: rgba(59,130,246,.28);
     }
 
     .presence-dot {
       position: absolute;
       left: 12px;
       top: 12px;
-      width: 10px;
-      height: 10px;
+      width: 11px;
+      height: 11px;
       border-radius: 50%;
       border: 2px solid white;
       box-shadow: 0 0 0 2px rgba(15,23,42,.04);
     }
 
     .presence-dot.online { background: #22c55e; }
-    .presence-dot.away { background: #ef4444; }
+    .presence-dot.away { background: #f59e0b; }
     .presence-dot.offline { background: #94a3b8; }
 
+    .member-card-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
     .member-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 13px;
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       background: linear-gradient(135deg, #60a5fa, #2563eb);
       color: white;
       font-weight: 950;
+      font-size: 18px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .member-info {
+      min-width: 0;
     }
 
     .member-info strong {
+      display: block;
       color: #0f172a;
-      font-size: 14px;
+      font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
+    .member-employee,
+    .member-title,
     .member-info p {
       margin: 4px 0 0;
       color: #64748b;
       font-size: 12px;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     .member-status {
-      text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: auto;
+      padding-top: 4px;
     }
 
     .status-label {
       display: inline-flex;
       border-radius: 999px;
-      padding: 5px 9px;
+      padding: 5px 10px;
       font-size: 12px;
       font-weight: 950;
     }
 
     .status-label.online { color: #15803d; background: rgba(34,197,94,.12); }
-    .status-label.away { color: #b91c1c; background: rgba(239,68,68,.12); }
+    .status-label.away { color: #b45309; background: rgba(245,158,11,.14); }
     .status-label.offline { color: #64748b; background: rgba(148,163,184,.14); }
 
     .member-status small {
-      display: block;
       color: #94a3b8;
       font-size: 11px;
-      margin-top: 4px;
       white-space: nowrap;
     }
 
+    .quick-members-sidebar {
+      position: sticky;
+      top: 88px;
+      background: rgba(248,251,255,.88);
+      border: 1px solid #dbe7f5;
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 18px 40px rgba(15,23,42,.06);
+    }
+
+    .quick-members-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .quick-members-head h3 {
+      margin: 0;
+      color: #0f172a;
+      font-size: 20px;
+      font-weight: 950;
+    }
+
+    .quick-members-head span {
+      font-size: 12px;
+      font-weight: 900;
+      color: #2563eb;
+      background: rgba(59,130,246,.10);
+      border-radius: 999px;
+      padding: 6px 10px;
+    }
+
+    .quick-member-search {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .quick-member-search input {
+      width: 100%;
+      border: 1px solid #dbe7f5;
+      border-radius: 14px;
+      background: white;
+      padding: 12px 14px;
+      font-size: 13px;
+      color: #0f172a;
+    }
+
+    .quick-member-groups {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .quick-member-group {
+      background: white;
+      border: 1px solid #e5eef8;
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    .quick-group-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .quick-group-head strong {
+      color: #0f172a;
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .quick-group-head button {
+      background: transparent;
+      border: 0;
+      color: #2563eb;
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .quick-member-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quick-member-row {
+      width: 100%;
+      border: 0;
+      background: rgba(248,251,255,.88);
+      border-radius: 12px;
+      padding: 8px 10px;
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .quick-member-row:hover {
+      background: rgba(239,246,255,.96);
+    }
+
+    .quick-member-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #60a5fa, #2563eb);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .quick-member-meta {
+      min-width: 0;
+    }
+
+    .quick-member-meta strong {
+      display: block;
+      font-size: 13px;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .quick-member-meta span {
+      display: block;
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .quick-status-label {
+      font-size: 11px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .quick-status-label.online { color: #15803d; }
+    .quick-status-label.away { color: #b45309; }
+    .quick-status-label.offline { color: #64748b; }
+
+    .quick-members-footer {
+      margin-top: 12px;
+    }
+
+    .quick-members-footer button {
+      width: 100%;
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 13px;
+      font-weight: 900;
+      background: white;
+    }
+
+    .member-chat-modal {
+      position: fixed;
+      right: 24px;
+      bottom: 88px;
+      width: min(380px, calc(100vw - 28px));
+      border-radius: 22px;
+      border: 1px solid #dbe7f5;
+      background: rgba(255,255,255,.98);
+      box-shadow: 0 22px 60px rgba(15,23,42,.18);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 45;
+    }
+
+    .member-chat-modal.open {
+      display: flex;
+    }
+
+    .member-chat-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid #e5eef8;
+      background: linear-gradient(180deg, rgba(248,251,255,.98), rgba(255,255,255,.98));
+    }
+
+    .member-chat-profile {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .member-chat-profile .member-avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      font-size: 20px;
+    }
+
+    .member-chat-profile strong {
+      display: block;
+      color: #0f172a;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .member-chat-profile p {
+      margin: 4px 0 0;
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .member-chat-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .member-chat-actions button {
+      border: 0;
+      background: rgba(226,232,240,.65);
+      color: #475569;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .member-chat-body {
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .member-chat-messages {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .chat-bubble {
+      max-width: 86%;
+      border-radius: 16px;
+      padding: 10px 12px;
+      font-size: 13px;
+      line-height: 1.55;
+      position: relative;
+    }
+
+    .chat-bubble.member {
+      background: rgba(241,245,249,.95);
+      color: #334155;
+      border-top-left-radius: 6px;
+      align-self: flex-start;
+    }
+
+    .chat-bubble.me {
+      background: rgba(219,234,254,.95);
+      color: #1e3a8a;
+      border-top-right-radius: 6px;
+      align-self: flex-end;
+    }
+
+    .chat-time {
+      display: block;
+      margin-top: 6px;
+      font-size: 11px;
+      color: #94a3b8;
+      text-align: right;
+    }
+
+    .member-chat-inputbar {
+      display: grid;
+      grid-template-columns: 1fr 52px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .member-chat-inputbar input {
+      width: 100%;
+      border: 1px solid #dbe7f5;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 13px;
+      color: #0f172a;
+      background: white;
+    }
+
+    .member-chat-inputbar button {
+      height: 46px;
+      border-radius: 14px;
+      font-size: 20px;
+      padding: 0;
+    }
+
     body.dark .online-members-panel,
-    body.dark .member-presence-card {
-      background: rgba(15, 23, 42, 0.84) !important;
+    body.dark .member-group-card,
+    body.dark .quick-members-sidebar,
+    body.dark .quick-member-group,
+    body.dark .member-presence-card,
+    body.dark .member-chat-modal {
+      background: rgba(15, 23, 42, 0.92) !important;
       border-color: rgba(56,189,248,.18) !important;
     }
 
     body.dark .online-members-head h2,
-    body.dark .member-info strong {
+    body.dark .member-group-title,
+    body.dark .member-info strong,
+    body.dark .quick-members-head h3,
+    body.dark .quick-group-head strong,
+    body.dark .quick-member-meta strong,
+    body.dark .member-chat-profile strong {
       color: #e2e8f0 !important;
     }
 
+    body.dark .online-members-head p,
+    body.dark .member-employee,
+    body.dark .member-title,
+    body.dark .member-info p,
+    body.dark .quick-member-meta span,
+    body.dark .member-chat-profile p {
+      color: #94a3b8 !important;
+    }
+
+    @media (max-width: 1320px) {
+      .member-group-members {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
     @media (max-width: 1180px) {
-      .online-members-list {
+      .members-hybrid-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-members-sidebar {
+        position: static;
+      }
+
+      .member-group-members {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
@@ -2386,10 +2871,18 @@
         flex-direction: column;
       }
 
-      .online-members-list {
+      .member-group-members {
         grid-template-columns: 1fr;
       }
+
+      .member-chat-modal {
+        right: 14px;
+        left: 14px;
+        width: auto;
+        bottom: 78px;
+      }
     }
+
 
   
     /* === NEXT FEATURES: logo-left, profile menu, notifications, inline auth, forgot modal === */
@@ -3379,36 +3872,6 @@
       }
     }
 
-  
-
-    /* === HERO VISUAL OPTIMIZATION: remove awkward floating card, keep original functions unchanged === */
-    #homePage .hero::before,
-    #homePage .hero::after {
-      display: none !important;
-      content: none !important;
-    }
-
-    #homePage .hero {
-      padding: 76px 80px 92px !important;
-      min-height: 300px !important;
-      background:
-        radial-gradient(circle at 78% 30%, rgba(96,165,250,.18), transparent 34%),
-        radial-gradient(circle at 24% 18%, rgba(255,255,255,.74), transparent 30%),
-        linear-gradient(135deg, rgba(255,255,255,.70), rgba(235,246,255,.52)) !important;
-    }
-
-    #homePage .hero h1,
-    #homePage .hero p {
-      position: relative;
-      z-index: 1;
-    }
-
-    @media (max-width: 900px) {
-      #homePage .hero {
-        padding: 52px 28px 64px !important;
-      }
-    }
-
   </style>
 </head>
 <body class="sidebar-collapsed">
@@ -3605,20 +4068,37 @@
     </section>
 
     
+
     <section class="online-members-panel" id="onlineMembersPanel">
       <div class="online-members-head">
         <div>
           <h2 data-zh="線上成員" data-en="Online Members">線上成員</h2>
-          <p data-zh="顯示目前會員狀態。綠燈代表線上，紅燈代表離開，灰燈代表離線。" data-en="Shows member status. Green means online, red means away, gray means offline.">顯示目前會員狀態。綠燈代表線上，紅燈代表離開，灰燈代表離線。</p>
+          <p data-zh="首頁右側提供快速總覽，主區可依 BU 分組展開成員，點選成員即可開啟對話框。" data-en="The homepage shows a quick overview on the right, while the main area expands members by BU. Click a member to open a chat dialog.">首頁右側提供快速總覽，主區可依 BU 分組展開成員，點選成員即可開啟對話框。</p>
         </div>
         <div class="my-status-control">
           <span data-zh="我的狀態" data-en="My Status">我的狀態</span>
-          <button class="status-btn online" onclick="setMyPresence('online')" data-zh="線上" data-en="Online">線上</button>
-          <button class="status-btn away" onclick="setMyPresence('away')" data-zh="離開" data-en="Away">離開</button>
-          <button class="status-btn offline" onclick="setMyPresence('offline')" data-zh="離線" data-en="Offline">離線</button>
+          <button id="presenceOnlineBtn" class="status-btn online" onclick="setMyPresence('online')" data-zh="線上" data-en="Online">線上</button>
+          <button id="presenceAwayBtn" class="status-btn away" onclick="setMyPresence('away')" data-zh="離開" data-en="Away">離開</button>
+          <button id="presenceOfflineBtn" class="status-btn offline" onclick="setMyPresence('offline')" data-zh="離線" data-en="Offline">離線</button>
         </div>
       </div>
-      <div class="online-members-list" id="onlineMembersList"></div>
+      <div class="members-hybrid-grid">
+        <div class="online-members-list" id="onlineMembersList"></div>
+        <aside class="quick-members-sidebar">
+          <div class="quick-members-head">
+            <h3 data-zh="線上成員" data-en="Members">線上成員</h3>
+            <span id="quickMemberCount">0</span>
+          </div>
+          <div class="quick-member-search">
+            <input id="quickMemberSearch" placeholder="搜尋成員..." oninput="renderOnlineMembers()" />
+          </div>
+          <div class="quick-member-groups" id="quickMembersSidebar"></div>
+          <div class="quick-members-footer">
+            <button onclick="scrollToAllMemberGroups()" data-zh="查看全部成員" data-en="View All Members">查看全部成員</button>
+          </div>
+        </aside>
+      </div>
+      <div class="member-chat-modal" id="memberChatModal"></div>
     </section>
 
     <section id="databaseSection" class="view-cards">
@@ -4060,6 +4540,8 @@
     let searchResultView = "files";
     let currentUser = null;
     let assistantMode = "all";
+    let activeMemberChatId = null;
+    let memberGroupState = safeJsonParse(localStorage.getItem("szs_member_group_state"), {});
 
     const OWNER_ACCOUNT = {
       companyId: "1",
@@ -4377,6 +4859,302 @@
       document.body.classList.toggle("sidebar-collapsed");
     }
 
+
+    const DEMO_MEMBER_SEED = [
+      { companyId: "E00123", department: "BU1 產品工程", name: "林志豪", email: "lin.zhih@szs.com.tw", role: "manager", titleZh: "資深工程師", titleEn: "Senior Engineer", defaultStatus: "online" },
+      { companyId: "E00145", department: "BU1 產品工程", name: "陳怡君", email: "chen.yj@szs.com.tw", role: "user", titleZh: "工程師", titleEn: "Engineer", defaultStatus: "online" },
+      { companyId: "E00189", department: "BU1 產品工程", name: "黃子軒", email: "huang.zx@szs.com.tw", role: "user", titleZh: "工程師", titleEn: "Engineer", defaultStatus: "away" },
+      { companyId: "E00211", department: "BU1 產品工程", name: "張雅涵", email: "chang.yh@szs.com.tw", role: "user", titleZh: "助理工程師", titleEn: "Assistant Engineer", defaultStatus: "offline" },
+      { companyId: "E00345", department: "BU3 產品工程", name: "吳柏毅", email: "wu.by@szs.com.tw", role: "manager", titleZh: "資深工程師", titleEn: "Senior Engineer", defaultStatus: "online" },
+      { companyId: "E00378", department: "BU3 產品工程", name: "李昱廷", email: "lee.yt@szs.com.tw", role: "user", titleZh: "工程師", titleEn: "Engineer", defaultStatus: "online" },
+      { companyId: "E00392", department: "BU3 產品工程", name: "劉子晴", email: "liu.zq@szs.com.tw", role: "user", titleZh: "工程師", titleEn: "Engineer", defaultStatus: "away" },
+      { companyId: "E00010", department: "系統管理部", name: "王建國", email: "wang.jg@szs.com.tw", role: "owner", titleZh: "系統管理者", titleEn: "System Administrator", defaultStatus: "online" },
+      { companyId: "E00021", department: "資訊管理部", name: "周筱玲", email: "chou.sl@szs.com.tw", role: "manager", titleZh: "知識庫管理者", titleEn: "Knowledge Base Manager", defaultStatus: "online" },
+      { companyId: "E00030", department: "策略規劃部", name: "許昱翔", email: "hsu.yh@szs.com.tw", role: "owner", titleZh: "系統管理者", titleEn: "System Administrator", defaultStatus: "offline" }
+    ];
+
+    function saveMemberGroupState() {
+      localStorage.setItem("szs_member_group_state", JSON.stringify(memberGroupState));
+    }
+
+    function loadMemberChats() {
+      return safeJsonParse(localStorage.getItem("szs_member_chats"), {});
+    }
+
+    function saveMemberChats(chats) {
+      localStorage.setItem("szs_member_chats", JSON.stringify(chats));
+    }
+
+    function getMemberInitial(name) {
+      return (String(name || "S").trim().charAt(0) || "S").toUpperCase();
+    }
+
+    function getRoleTitle(role) {
+      if (role === "owner") return t("系統管理者", "System Administrator");
+      if (role === "manager") return t("資深工程師", "Senior Engineer");
+      return t("工程師", "Engineer");
+    }
+
+    function getMemberGroupInfo(user) {
+      const dept = String(user.department || "").toUpperCase();
+      if (dept.includes("BU1")) return { key: "bu1", zh: "BU1 產品工程", en: "BU1 Product Engineering" };
+      if (dept.includes("BU3")) return { key: "bu3", zh: "BU3 產品工程", en: "BU3 Product Engineering" };
+      if (user.role === "owner" || dept.includes("SZS") || dept.includes("資訊") || dept.includes("系統") || dept.includes("策略")) {
+        return { key: "managers", zh: "管理者", en: "Managers" };
+      }
+      return { key: "others", zh: "其他成員", en: "Other Members" };
+    }
+
+    function getAllDisplayMembers() {
+      const map = new Map();
+      DEMO_MEMBER_SEED.forEach(member => map.set(member.companyId, { ...member, isDemo: true }));
+      loadUsers().map(normalizeUser).forEach(user => {
+        const existing = map.get(user.companyId) || {};
+        map.set(user.companyId, {
+          ...existing,
+          ...user,
+          isDemo: false,
+          titleZh: existing.titleZh || getRoleTitle(user.role),
+          titleEn: existing.titleEn || getRoleTitle(user.role),
+          defaultStatus: existing.defaultStatus || "offline"
+        });
+      });
+      if (currentUser) {
+        const existing = map.get(currentUser.companyId) || {};
+        map.set(currentUser.companyId, {
+          ...existing,
+          ...currentUser,
+          isDemo: false,
+          titleZh: existing.titleZh || getRoleTitle(currentUser.role),
+          titleEn: existing.titleEn || getRoleTitle(currentUser.role),
+          defaultStatus: "online"
+        });
+      }
+      return Array.from(map.values()).map(member => {
+        const group = getMemberGroupInfo(member);
+        return {
+          ...member,
+          groupKey: group.key,
+          groupLabelZh: group.zh,
+          groupLabelEn: group.en,
+          titleZh: member.titleZh || getRoleTitle(member.role),
+          titleEn: member.titleEn || getRoleTitle(member.role)
+        };
+      });
+    }
+
+    function getFilteredDisplayMembers() {
+      const keyword = (document.getElementById("quickMemberSearch")?.value || "").trim().toLowerCase();
+      const members = getAllDisplayMembers();
+      if (!keyword) return members;
+      return members.filter(member => [member.name, member.department, member.companyId, member.email, member.groupLabelZh, member.groupLabelEn]
+        .join(" ")
+        .toLowerCase()
+        .includes(keyword));
+    }
+
+    function ensurePresenceForMembers(members) {
+      const presence = loadPresence();
+      let changed = false;
+      members.forEach(member => {
+        if (!presence[member.companyId]) {
+          presence[member.companyId] = {
+            status: member.companyId === (currentUser && currentUser.companyId) ? "online" : (member.defaultStatus || "offline"),
+            updatedAt: member.companyId === (currentUser && currentUser.companyId) ? new Date().toLocaleString() : "-"
+          };
+          changed = true;
+        }
+      });
+      if (changed) savePresence(presence);
+      return presence;
+    }
+
+    function getSortedGroupMembers(members, presence) {
+      const statusOrder = { online: 0, away: 1, offline: 2 };
+      return [...members].sort((a, b) => {
+        const aStatus = (presence[a.companyId] || {}).status || a.defaultStatus || "offline";
+        const bStatus = (presence[b.companyId] || {}).status || b.defaultStatus || "offline";
+        const diff = (statusOrder[aStatus] ?? 99) - (statusOrder[bStatus] ?? 99);
+        if (diff !== 0) return diff;
+        return String(a.name || "").localeCompare(String(b.name || ""), 'zh-Hant');
+      });
+    }
+
+    function buildMemberGroups(members, presence) {
+      const grouped = members.reduce((acc, member) => {
+        (acc[member.groupKey] ||= []).push(member);
+        return acc;
+      }, {});
+      const order = ["bu1", "bu3", "managers", "others"];
+      return order
+        .filter(key => grouped[key] && grouped[key].length)
+        .map(key => {
+          const list = getSortedGroupMembers(grouped[key], presence);
+          const onlineCount = list.filter(member => ((presence[member.companyId] || {}).status || member.defaultStatus || "offline") === "online").length;
+          return {
+            key,
+            label: currentLang === "zh" ? list[0].groupLabelZh : list[0].groupLabelEn,
+            members: list,
+            onlineCount
+          };
+        });
+    }
+
+    function getMemberChatKey(memberId) {
+      return `${currentUser ? currentUser.companyId : 'guest'}__${memberId}`;
+    }
+
+    function getDefaultMemberMessages(member) {
+      return [
+        {
+          from: "member",
+          text: currentLang === "zh"
+            ? `你好，我想請問關於 ${member.groupLabelZh} 相關文件的位置。`
+            : `Hi, I want to ask about the related documents for ${member.groupLabelEn}.`,
+          time: "10:32"
+        }
+      ];
+    }
+
+    function ensureMemberChat(member) {
+      const chats = loadMemberChats();
+      const key = getMemberChatKey(member.companyId);
+      if (!chats[key] || !chats[key].length) {
+        chats[key] = getDefaultMemberMessages(member);
+        saveMemberChats(chats);
+      }
+      return chats[key];
+    }
+
+    function focusMemberGroup(groupKey) {
+      memberGroupState[groupKey] = false;
+      saveMemberGroupState();
+      renderOnlineMembers();
+      setTimeout(() => {
+        document.getElementById(`member-group-${groupKey}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 40);
+    }
+
+    function scrollToAllMemberGroups() {
+      document.getElementById("onlineMembersList")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function toggleMemberGroup(groupKey) {
+      memberGroupState[groupKey] = !memberGroupState[groupKey];
+      saveMemberGroupState();
+      renderOnlineMembers();
+    }
+
+    function openMemberChat(memberId) {
+      activeMemberChatId = memberId;
+      renderMemberChatModal();
+    }
+
+    function closeMemberChat() {
+      activeMemberChatId = null;
+      renderMemberChatModal();
+    }
+
+    function handleMemberChatEnter(event) {
+      if (event.key === "Enter") sendMemberChatMessage();
+    }
+
+    function sendMemberChatMessage() {
+      if (!activeMemberChatId || !currentUser) return;
+      const input = document.getElementById("memberChatInput");
+      const text = input ? input.value.trim() : "";
+      if (!text) return;
+      const chats = loadMemberChats();
+      const key = getMemberChatKey(activeMemberChatId);
+      const thread = chats[key] || [];
+      const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      thread.push({ from: "me", text, time: now });
+      chats[key] = thread.slice(-30);
+      saveMemberChats(chats);
+      if (input) input.value = "";
+      renderMemberChatModal();
+      setTimeout(() => autoReplyMemberChat(activeMemberChatId), 550);
+    }
+
+    function autoReplyMemberChat(memberId) {
+      const members = getAllDisplayMembers();
+      const member = members.find(item => item.companyId === memberId);
+      if (!member) return;
+      const chats = loadMemberChats();
+      const key = getMemberChatKey(memberId);
+      const thread = chats[key] || [];
+      const replies = currentLang === "zh"
+        ? [
+            "收到，我先幫你確認。",
+            "可以，稍後我把對應文件路徑傳給你。",
+            "你也可以先用上方搜尋列輸入關鍵字看看。"
+          ]
+        : [
+            "Got it, let me check for you.",
+            "Sure, I will send you the related document path shortly.",
+            "You can also try the top search bar with keywords first."
+          ];
+      const reply = replies[thread.length % replies.length];
+      thread.push({ from: "member", text: reply, time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) });
+      chats[key] = thread.slice(-30);
+      saveMemberChats(chats);
+      if (activeMemberChatId === memberId) renderMemberChatModal();
+    }
+
+    function renderMemberChatModal() {
+      const modal = document.getElementById("memberChatModal");
+      if (!modal) return;
+      if (!activeMemberChatId) {
+        modal.classList.remove("open");
+        modal.innerHTML = "";
+        return;
+      }
+      const members = getAllDisplayMembers();
+      const member = members.find(item => item.companyId === activeMemberChatId);
+      if (!member) {
+        modal.classList.remove("open");
+        modal.innerHTML = "";
+        return;
+      }
+
+      const presence = ensurePresenceForMembers(members);
+      const status = (presence[member.companyId] || {}).status || member.defaultStatus || "offline";
+      const messages = ensureMemberChat(member);
+      modal.innerHTML = `
+        <div class="member-chat-head">
+          <div class="member-chat-profile">
+            <div class="member-avatar">${getMemberInitial(member.name)}</div>
+            <div>
+              <strong>${member.name}</strong>
+              <p>${member.companyId} · ${currentLang === 'zh' ? member.department : member.department}<br>${currentLang === 'zh' ? (member.titleZh || getRoleTitle(member.role)) : (member.titleEn || getRoleTitle(member.role))} · ${getPresenceLabel(status)}</p>
+            </div>
+          </div>
+          <div class="member-chat-actions">
+            <button onclick="closeMemberChat()" aria-label="close">×</button>
+          </div>
+        </div>
+        <div class="member-chat-body">
+          <div class="member-chat-messages" id="memberChatMessages">
+            ${messages.map(item => `
+              <div class="chat-bubble ${item.from === 'me' ? 'me' : 'member'}">
+                ${item.text}
+                <span class="chat-time">${item.time || '-'}</span>
+              </div>
+            `).join('')}
+          </div>
+          <div class="member-chat-inputbar">
+            <input id="memberChatInput" placeholder="${currentLang === 'zh' ? '輸入訊息...' : 'Type a message...'}" onkeydown="handleMemberChatEnter(event)" />
+            <button onclick="sendMemberChatMessage()">➤</button>
+          </div>
+        </div>
+      `;
+      modal.classList.add("open");
+      setTimeout(() => {
+        const box = document.getElementById("memberChatMessages");
+        if (box) box.scrollTop = box.scrollHeight;
+      }, 20);
+    }
+
     function loadPresence() {
       return JSON.parse(localStorage.getItem("szs_presence") || "{}");
     }
@@ -4411,42 +5189,104 @@
 
     function renderOnlineMembers() {
       const box = document.getElementById("onlineMembersList");
-      if (!box) return;
+      const quickBox = document.getElementById("quickMembersSidebar");
+      const totalCountEl = document.getElementById("quickMemberCount");
+      if (!box || !quickBox) return;
 
-      const users = loadUsers().map(normalizeUser);
-      const presence = loadPresence();
+      const members = getFilteredDisplayMembers();
+      const allMembers = getAllDisplayMembers();
+      const presence = ensurePresenceForMembers(allMembers);
+      const groups = buildMemberGroups(members, presence);
+      const currentStatus = getCurrentPresenceStatus();
 
-      if (currentUser && !presence[currentUser.companyId]) {
-        presence[currentUser.companyId] = {
-          status: "online",
-          updatedAt: new Date().toLocaleString()
-        };
-        savePresence(presence);
-      }
+      ["online", "away", "offline"].forEach(status => {
+        const btn = document.getElementById(`presence${status.charAt(0).toUpperCase() + status.slice(1)}Btn`);
+        if (btn) btn.classList.toggle("active", currentStatus === status);
+      });
 
-      if (!users.length) {
-        box.innerHTML = `<div class="empty-state"><strong>${t("目前沒有會員資料", "No members yet")}</strong>${t("註冊後會在這裡顯示會員清單。", "Members will appear here after registration.")}</div>`;
+      if (totalCountEl) totalCountEl.textContent = `${members.length} ${currentLang === 'zh' ? '人' : 'members'}`;
+
+      if (!members.length) {
+        box.innerHTML = `<div class="empty-state"><strong>${t("沒有符合條件的成員", "No matching members")}</strong>${t("請換其他姓名、工號或部門關鍵字。", "Try another name, employee ID, or department keyword.")}</div>`;
+        quickBox.innerHTML = "";
+        renderMemberChatModal();
         return;
       }
 
-      box.innerHTML = users.map(user => {
-        const item = presence[user.companyId] || { status: "offline", updatedAt: "-" };
-        const status = item.status || "offline";
+      box.innerHTML = groups.map(group => {
+        const collapsed = !!memberGroupState[group.key];
         return `
-          <div class="member-presence-card">
-            <span class="presence-dot ${status}"></span>
-            <div class="member-avatar">${(user.name || "S").slice(0, 1).toUpperCase()}</div>
-            <div class="member-info">
-              <strong>${user.name || "-"}</strong>
-              <p>${user.department || "-"} · ${user.companyId || "-"} · ${getRoleLabel(user.role)}</p>
-            </div>
-            <div class="member-status">
-              <span class="status-label ${status}">${getPresenceLabel(status)}</span>
-              <small>${item.updatedAt || "-"}</small>
+          <div class="member-group-card" id="member-group-${group.key}">
+            <button class="member-group-toggle" onclick="toggleMemberGroup('${group.key}')">
+              <div class="member-group-heading">
+                <span class="member-group-chevron">${collapsed ? '▸' : '▾'}</span>
+                <div>
+                  <div class="member-group-title">${group.label}</div>
+                  <div class="member-group-subtitle">${t('點選成員即可開啟對話框', 'Click a member to open a chat dialog')}</div>
+                </div>
+              </div>
+              <div class="member-group-summary">
+                <span class="member-group-count">${group.members.length} ${currentLang === 'zh' ? '人' : 'members'}</span>
+                <span class="member-group-online-pill">${group.onlineCount} ${currentLang === 'zh' ? '位線上' : 'online'}</span>
+              </div>
+            </button>
+            <div class="member-group-members ${collapsed ? 'collapsed' : ''}">
+              ${group.members.map(member => {
+                const item = presence[member.companyId] || { status: member.defaultStatus || 'offline', updatedAt: '-' };
+                const status = item.status || 'offline';
+                const title = currentLang === 'zh' ? (member.titleZh || getRoleTitle(member.role)) : (member.titleEn || getRoleTitle(member.role));
+                return `
+                  <div class="member-presence-card" onclick="openMemberChat('${member.companyId}')">
+                    <span class="presence-dot ${status}"></span>
+                    <div class="member-card-head">
+                      <div class="member-avatar">${getMemberInitial(member.name)}</div>
+                      <div class="member-info">
+                        <strong>${member.name || '-'}</strong>
+                        <div class="member-employee">${member.companyId || '-'}</div>
+                        <div class="member-title">${member.department || '-'} · ${title}</div>
+                      </div>
+                    </div>
+                    <div class="member-status">
+                      <span class="status-label ${status}">${getPresenceLabel(status)}</span>
+                      <small>${item.updatedAt || '-'}</small>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
             </div>
           </div>
         `;
       }).join("");
+
+      quickBox.innerHTML = groups.map(group => {
+        const visibleMembers = group.members.slice(0, 4);
+        return `
+          <div class="quick-member-group">
+            <div class="quick-group-head">
+              <strong>${group.label}</strong>
+              <button onclick="focusMemberGroup('${group.key}')">${t('展開更多', 'Expand')}</button>
+            </div>
+            <div class="quick-member-list">
+              ${visibleMembers.map(member => {
+                const item = presence[member.companyId] || { status: member.defaultStatus || 'offline' };
+                const status = item.status || 'offline';
+                return `
+                  <button class="quick-member-row" onclick="openMemberChat('${member.companyId}')">
+                    <div class="quick-member-avatar">${getMemberInitial(member.name)}</div>
+                    <div class="quick-member-meta">
+                      <strong>${member.name || '-'}</strong>
+                      <span>${member.companyId || '-'} · ${member.department || '-'}</span>
+                    </div>
+                    <span class="quick-status-label ${status}">${getPresenceLabel(status)}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      renderMemberChatModal();
     }
 
     function toggleDatabaseView() {
@@ -4668,7 +5508,7 @@
       showPage("loginLandingPage");
     }
 
-    function showHome() { selectedDatabaseId = null; databaseHomeView = "cards"; renderDatabases(); updateSideNav("home"); document.body.classList.add("sidebar-collapsed"); showPage("homePage"); }
+    function showHome() { selectedDatabaseId = null; databaseHomeView = "cards"; renderDatabases(); renderOnlineMembers(); updateSideNav("home"); document.body.classList.add("sidebar-collapsed"); showPage("homePage"); }
 
     function showDetail(id) {
       selectedDatabaseId = id;
@@ -5268,6 +6108,9 @@
       updateSystemOverview();
       updateAssistantModeHint();
       renderNotifications();
+      const quickSearchInput = document.getElementById("quickMemberSearch");
+      if (quickSearchInput) quickSearchInput.placeholder = currentLang === "zh" ? "搜尋成員..." : "Search members...";
+      renderOnlineMembers();
     }
 
     function toggleTheme() {
@@ -5309,6 +6152,7 @@
       addActivityLog("會員登出", "Member logged out", logoutName, "");
       currentUser = null;
       localStorage.removeItem("szs_current_user");
+      closeMemberChat();
       updateAuthUI();
       showLoginLanding();
 
