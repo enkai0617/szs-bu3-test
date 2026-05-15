@@ -3938,6 +3938,215 @@
       }
     }
 
+  
+
+    /* Assistant full-page refinement: GPT-like large reading workspace */
+    #assistantPage.page {
+      max-width: none !important;
+      padding: 26px 28px 44px !important;
+    }
+
+    #assistantPage .detail-top {
+      display: none !important;
+    }
+
+    #assistantPage .assistant-full-layout {
+      grid-template-columns: minmax(0, 1fr) !important;
+      gap: 0 !important;
+      width: 100%;
+      max-width: none;
+    }
+
+    #assistantPage .assistant-side-card {
+      display: none !important;
+    }
+
+    #assistantPage .assistant-full-panel {
+      width: 100%;
+      max-width: min(1560px, calc(100vw - 326px));
+      height: calc(100vh - 112px) !important;
+      min-height: 720px !important;
+      margin: 0 auto;
+      border-radius: 30px;
+      overflow: hidden;
+    }
+
+    body.sidebar-collapsed #assistantPage .assistant-full-panel {
+      max-width: calc(100vw - 56px);
+    }
+
+    #assistantPage .assistant-full-header {
+      padding: 24px 30px;
+    }
+
+    #assistantPage .assistant-full-body {
+      padding: 28px 30px;
+      font-size: 16px;
+    }
+
+    #assistantPage .assistant-full-footer {
+      padding: 20px 22px;
+    }
+
+    #assistantPage .chat-input {
+      min-height: 56px;
+      font-size: 16px;
+      border-radius: 18px;
+    }
+
+    #assistantPage .message {
+      max-width: min(1040px, 88%);
+      font-size: 16px;
+      padding: 16px 18px;
+      border-radius: 18px;
+    }
+
+    #assistantPage .message.bot {
+      max-width: min(1180px, 94%);
+    }
+
+    .message-time {
+      display: block;
+      margin-top: 8px;
+      font-size: 11px;
+      line-height: 1;
+      opacity: .68;
+      font-weight: 800;
+      text-align: right;
+      letter-spacing: .2px;
+    }
+
+    .message.bot .message-time {
+      color: var(--muted);
+      text-align: left;
+    }
+
+    .member-dialog-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 130;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      background: rgba(15, 23, 42, .36);
+      backdrop-filter: blur(12px);
+    }
+
+    .member-dialog-backdrop.open {
+      display: flex;
+    }
+
+    .member-dialog-card {
+      width: min(560px, 100%);
+      background: var(--panel-solid);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: 0 34px 100px rgba(15, 23, 42, .28);
+      overflow: hidden;
+      animation: memberDialogIn .18s ease;
+    }
+
+    @keyframes memberDialogIn {
+      from { opacity: 0; transform: translateY(10px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .member-dialog-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 24px 26px 18px;
+      background: linear-gradient(135deg, var(--soft), transparent), var(--panel-solid);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .member-dialog-title {
+      margin: 0 0 7px;
+      font-size: 22px;
+      letter-spacing: -.3px;
+      font-weight: 950;
+    }
+
+    .member-dialog-desc {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .member-dialog-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: color-mix(in srgb, var(--panel-solid) 88%, transparent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--muted);
+    }
+
+    .member-dialog-body {
+      padding: 22px 26px 8px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .member-dialog-field label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 950;
+      letter-spacing: .4px;
+    }
+
+    .member-dialog-field input {
+      min-height: 48px;
+      border-radius: 16px;
+      font-weight: 800;
+    }
+
+    .member-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 18px 26px 24px;
+    }
+
+    .member-dialog-actions button {
+      min-width: 96px;
+    }
+
+    @media (max-width: 760px) {
+      #assistantPage.page {
+        padding: 16px 12px 28px !important;
+      }
+      #assistantPage .assistant-full-panel {
+        max-width: 100% !important;
+        height: calc(100vh - 88px) !important;
+        min-height: 560px !important;
+        border-radius: 22px;
+      }
+      #assistantPage .assistant-full-body {
+        padding: 18px;
+      }
+      #assistantPage .message,
+      #assistantPage .message.bot {
+        max-width: 96%;
+        font-size: 15px;
+      }
+    }
+
   </style>
 </head>
 <body class="sidebar-collapsed">
@@ -4489,6 +4698,25 @@
     </section>
   </main>
 
+
+
+
+  <div class="member-dialog-backdrop" id="memberFormDialog" aria-hidden="true">
+    <div class="member-dialog-card" role="dialog" aria-modal="true" aria-labelledby="memberDialogTitle">
+      <div class="member-dialog-head">
+        <div>
+          <h2 class="member-dialog-title" id="memberDialogTitle">編輯資料</h2>
+          <p class="member-dialog-desc" id="memberDialogDesc">請確認後再儲存。</p>
+        </div>
+        <button class="member-dialog-close" type="button" onclick="closeMemberFormDialog(false)">×</button>
+      </div>
+      <div class="member-dialog-body" id="memberDialogBody"></div>
+      <div class="member-dialog-actions">
+        <button type="button" class="small" onclick="closeMemberFormDialog(false)" data-zh="取消" data-en="Cancel">取消</button>
+        <button type="button" class="primary" id="memberDialogConfirmBtn" onclick="closeMemberFormDialog(true)" data-zh="儲存" data-en="Save">儲存</button>
+      </div>
+    </div>
+  </div>
 
   <div class="assistant-launcher" onclick="toggleAssistant()">?</div>
 
@@ -6298,7 +6526,7 @@
       alert(t("會員權限已更新。", "Member permission updated."));
     }
 
-    function editMemberAccount(companyId) {
+    async function editMemberAccount(companyId) {
       if (!canManageUsers()) {
         alert(t("權限不足：只有 Owner 可以編輯會員。", "Permission denied: Only the Owner can edit members."));
         return;
@@ -6308,20 +6536,27 @@
         alert(t("Owner 帳號不可編輯。", "Owner accounts cannot be edited."));
         return;
       }
-      const name = prompt(t("請輸入姓名", "Enter name"), member.name || "");
-      if (name === null) return;
-      const department = prompt(t("請輸入部門 / 群組", "Enter department / group"), member.department || "");
-      if (department === null) return;
-      const email = prompt(t("請輸入信箱", "Enter email"), member.email || "");
-      if (email === null) return;
-      updateMemberRecord(companyId, {
-        name: name.trim() || member.name,
-        department: department.trim() || member.department,
-        email: email.trim() || member.email
+
+      const values = await openMemberFormDialog({
+        title: t("編輯會員資料", "Edit Member Profile"),
+        description: t("一次修改姓名、部門 / 群組與信箱，確認後才會儲存。", "Edit name, department / group, and email together. Changes are saved only after confirmation."),
+        confirmText: t("儲存變更", "Save Changes"),
+        fields: [
+          { key: "name", label: t("姓名", "Name"), value: member.name || "", placeholder: t("請輸入姓名", "Enter name") },
+          { key: "department", label: t("部門 / 群組", "Department / Group"), value: member.department || "", placeholder: t("請輸入部門或群組", "Enter department or group") },
+          { key: "email", label: t("信箱", "Email"), value: member.email || "", placeholder: t("請輸入信箱", "Enter email") }
+        ]
       });
-      addActivityLog("編輯會員", "Member edited", `${name || member.name} / ${companyId}`, "");
+      if (!values) return;
+
+      updateMemberRecord(companyId, {
+        name: values.name.trim() || member.name,
+        department: values.department.trim() || member.department,
+        email: values.email.trim() || member.email
+      });
+      addActivityLog("編輯會員", "Member edited", `${values.name || member.name} / ${companyId}`, "");
       refreshMemberViews();
-      alert(t("會員資料已更新。", "Member profile updated."));
+      showToast(t("會員資料已更新。", "Member profile updated."));
     }
 
     function deleteMemberAccount(companyId) {
@@ -6350,22 +6585,93 @@
       alert(t("會員帳號已刪除。", "Member account deleted."));
     }
 
-    function editMemberGroupName(groupKey) {
+    async function editMemberGroupName(groupKey) {
       if (!canManageUsers()) {
         alert(t("權限不足：只有 Owner 可以更改群組名稱。", "Permission denied: Only the Owner can rename groups."));
         return;
       }
       const labels = getMemberGroupLabels(groupKey);
-      const zh = prompt(t("請輸入中文群組名稱", "Enter Chinese group name"), labels.zh);
-      if (zh === null) return;
-      const en = prompt(t("請輸入英文群組名稱", "Enter English group name"), labels.en);
-      if (en === null) return;
+      const values = await openMemberFormDialog({
+        title: t("群組名稱管理", "Group Name Management"),
+        description: t("設定首頁與線上成員顯示用的群組名稱。", "Set the group display name used on Home and Members pages."),
+        confirmText: t("儲存名稱", "Save Names"),
+        fields: [
+          { key: "zh", label: t("中文群組名稱", "Chinese Group Name"), value: labels.zh, placeholder: t("請輸入中文群組名稱", "Enter Chinese group name") },
+          { key: "en", label: t("英文群組名稱", "English Group Name"), value: labels.en, placeholder: t("請輸入英文群組名稱", "Enter English group name") }
+        ]
+      });
+      if (!values) return;
+
       const names = loadMemberGroupNames();
-      names[groupKey] = { zh: zh.trim() || labels.zh, en: en.trim() || labels.en };
+      names[groupKey] = { zh: values.zh.trim() || labels.zh, en: values.en.trim() || labels.en };
       saveMemberGroupNames(names);
       addActivityLog("群組名稱異動", "Group renamed", labels.zh, `${names[groupKey].zh} / ${names[groupKey].en}`);
       refreshMemberViews();
-      alert(t("群組名稱已更新。", "Group name updated."));
+      showToast(t("群組名稱已更新。", "Group name updated."));
+    }
+
+
+
+    let memberDialogResolver = null;
+
+    function openMemberFormDialog(config) {
+      return new Promise(resolve => {
+        memberDialogResolver = resolve;
+        const dialog = document.getElementById("memberFormDialog");
+        const title = document.getElementById("memberDialogTitle");
+        const desc = document.getElementById("memberDialogDesc");
+        const body = document.getElementById("memberDialogBody");
+        const confirmBtn = document.getElementById("memberDialogConfirmBtn");
+        if (!dialog || !title || !desc || !body || !confirmBtn) {
+          resolve(null);
+          return;
+        }
+
+        title.textContent = config.title || t("編輯資料", "Edit Data");
+        desc.textContent = config.description || t("請確認後再儲存。", "Please confirm before saving.");
+        confirmBtn.textContent = config.confirmText || t("儲存", "Save");
+        body.innerHTML = (config.fields || []).map(field => `
+          <div class="member-dialog-field">
+            <label for="memberDialog_${field.key}">${field.label}</label>
+            <input id="memberDialog_${field.key}" data-key="${field.key}" value="${escapeAttr(field.value || "")}" placeholder="${escapeAttr(field.placeholder || "")}">
+          </div>
+        `).join("");
+
+        dialog.classList.add("open");
+        dialog.setAttribute("aria-hidden", "false");
+        setTimeout(() => {
+          const first = body.querySelector("input");
+          if (first) first.focus();
+        }, 60);
+      });
+    }
+
+    function closeMemberFormDialog(shouldSave) {
+      const dialog = document.getElementById("memberFormDialog");
+      const body = document.getElementById("memberDialogBody");
+      if (dialog) {
+        dialog.classList.remove("open");
+        dialog.setAttribute("aria-hidden", "true");
+      }
+      let values = null;
+      if (shouldSave && body) {
+        values = {};
+        body.querySelectorAll("input[data-key]").forEach(input => {
+          values[input.dataset.key] = input.value;
+        });
+      }
+      if (memberDialogResolver) {
+        memberDialogResolver(values);
+        memberDialogResolver = null;
+      }
+    }
+
+    function escapeAttr(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
     }
 
     function viewFile() {
@@ -6475,7 +6781,7 @@
       const fullBody = document.getElementById("fullChatBody");
       if (!fullBody) return;
 
-      fullBody.innerHTML = `<div class="message bot">${getAssistantWelcomeMessage()}</div>`;
+      fullBody.innerHTML = `<div class="message bot">${getAssistantWelcomeMessage()}<div class="message-time">${getCurrentMessageTime()}</div></div>`;
       showToast(t("全頁小幫手對話已清除。", "Full-page assistant chat cleared."));
     }
 
@@ -8462,13 +8768,23 @@
       if (!message) return;
 
       const clone = message.cloneNode(true);
-      clone.querySelectorAll(".message-actions, .related-questions").forEach(el => el.remove());
+      clone.querySelectorAll(".message-actions, .related-questions, .message-time").forEach(el => el.remove());
       const text = clone.textContent.trim();
 
       navigator.clipboard.writeText(text).then(() => {
         showToast(t("已複製小幫手回答。", "Assistant answer copied."));
       }).catch(() => {
         showToast(t("複製失敗，請手動選取文字。", "Copy failed. Please select the text manually."), "error");
+      });
+    }
+
+    function getCurrentMessageTime() {
+      return new Date().toLocaleString(currentLang === "zh" ? "zh-TW" : "en-US", {
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
       });
     }
 
@@ -8481,11 +8797,16 @@
 
       if (isHtml) {
         div.innerHTML = content;
+        div.innerHTML += `<div class="message-time">${getCurrentMessageTime()}</div>`;
         if (className.includes("bot")) {
           div.innerHTML += `<div class="message-actions"><button class="small" onclick="copyAssistantAnswer(this)">${t("複製回答", "Copy Answer")}</button></div>`;
         }
       } else {
         div.textContent = content;
+        const time = document.createElement("div");
+        time.className = "message-time";
+        time.textContent = getCurrentMessageTime();
+        div.appendChild(time);
       }
 
       chatBody.appendChild(div);
