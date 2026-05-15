@@ -478,6 +478,50 @@
     }
 
 
+
+    .password-wrapper {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .admin-search {
+      margin: 16px 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .log-row {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .log-time {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      font-weight: 900;
+    }
+
+    .log-action {
+      font-weight: 900;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+
+    .log-detail {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+
     .quick-actions {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -677,7 +721,27 @@
       </p>
     </section>
 
-    <section>
+
+    <section class="quick-actions" aria-label="quick actions">
+      <div class="quick-action-card" onclick="document.getElementById('databaseSection').scrollIntoView({behavior:'smooth'});">
+        <strong data-zh="進入資料庫" data-en="Open Database">進入資料庫</strong>
+        <span data-zh="快速查看所有資料庫分類與文件。" data-en="Quickly view all database categories and documents.">快速查看所有資料庫分類與文件。</span>
+      </div>
+      <div class="quick-action-card" onclick="openAssistant()">
+        <strong data-zh="開啟小幫手" data-en="Open Assistant">開啟小幫手</strong>
+        <span data-zh="用對話方式搜尋文件或查詢 SZS 官網資訊。" data-en="Search documents or SZS website information by chat.">用對話方式搜尋文件或查詢 SZS 官網資訊。</span>
+      </div>
+      <div class="quick-action-card" onclick="openAssistantPage()">
+        <strong data-zh="全頁小幫手" data-en="Full Assistant">全頁小幫手</strong>
+        <span data-zh="適合較長的查詢、整理與閱讀。" data-en="Better for longer searches, summaries, and reading.">適合較長的查詢、整理與閱讀。</span>
+      </div>
+      <div class="quick-action-card" onclick="openAdmin()">
+        <strong data-zh="後台管理" data-en="Admin Panel">後台管理</strong>
+        <span data-zh="Manager 以上可新增、修改資料庫與文件。" data-en="Managers and above can add or edit databases and documents.">Manager 以上可新增、修改資料庫與文件。</span>
+      </div>
+    </section>
+
+    <section id="databaseSection">
       <div class="section-head">
         <div class="section-title">
           <h2 data-zh="資料庫分類" data-en="DATA STREAMS">資料庫分類</h2>
@@ -719,9 +783,9 @@
       <div class="detail-title-area">
         <div class="detail-label">ADMIN PROTOTYPE</div>
         <h1 data-zh="後台管理" data-en="Admin Panel">後台管理</h1>
-        <p data-zh="Manager 可以新增資料庫與測試文件；Owner 可以額外管理會員權限。"
-           data-en="Managers can add database categories and sample documents. Owners can also manage member permissions.">
-          Manager 可以新增資料庫與測試文件；Owner 可以額外管理會員權限。
+        <p data-zh="Manager 可以新增、修改、刪除資料庫與文件；Owner 可以額外管理會員權限與查看操作紀錄。"
+           data-en="Managers can add, edit, and delete database categories and documents. Owners can also manage member permissions and review activity logs.">
+          Manager 可以新增、修改、刪除資料庫與文件；Owner 可以額外管理會員權限與查看操作紀錄。
         </p>
       </div>
       <div class="detail-actions">
@@ -733,6 +797,7 @@
       <button id="adminDocTab" class="admin-tab-button active" onclick="switchAdminTab('documents')" data-zh="文件管理" data-en="Document Manager">文件管理</button>
       <button id="adminDbTab" class="admin-tab-button" onclick="switchAdminTab('databases')" data-zh="資料庫分類管理" data-en="Database Manager">資料庫分類管理</button>
       <button id="adminUserTab" class="admin-tab-button" onclick="switchAdminTab('users')" data-zh="會員權限管理" data-en="Member Permissions">會員權限管理</button>
+      <button id="adminLogTab" class="admin-tab-button" onclick="switchAdminTab('logs')" data-zh="操作紀錄" data-en="Activity Logs">操作紀錄</button>
     </div>
 
     <section id="adminDocumentsSection" class="admin-section active">
@@ -740,6 +805,7 @@
         <div class="admin-box">
           <h2 id="documentFormTitle" data-zh="新增測試文件" data-en="Add Sample Document">新增測試文件</h2>
           <input id="editingDocumentId" type="hidden" />
+          <p style="color:var(--muted);line-height:1.7;margin:0 0 14px;" data-zh="可新增文件、修改文件、移動所屬資料庫、設定標籤，並會寫入操作紀錄。" data-en="You can add documents, edit documents, move them between databases, set tags, and record activity logs.">可新增文件、修改文件、移動所屬資料庫、設定標籤，並會寫入操作紀錄。</p>
           <div class="form-grid">
             <div>
               <label data-zh="所屬資料庫" data-en="Database">所屬資料庫</label>
@@ -835,7 +901,25 @@
            data-en="Only the Owner can change member roles. Departments starting with AB are Managers by default; all others are Users.">
           只有 Owner 可以調整會員角色。AB 開頭部門註冊者預設為 Manager，其他註冊者預設為 User。
         </p>
+        <div class="admin-search">
+          <input id="adminUserSearch" placeholder="搜尋工號、姓名、部門或信箱" oninput="renderAdminUsers()" />
+          <button onclick="document.getElementById('adminUserSearch').value='';renderAdminUsers();" data-zh="清除" data-en="Clear">清除</button>
+        </div>
         <div id="adminUserList"></div>
+      </div>
+    </section>
+
+    <section id="adminLogsSection" class="admin-section">
+      <div class="admin-box">
+        <h2 data-zh="操作紀錄" data-en="Activity Logs">操作紀錄</h2>
+        <p style="color:var(--muted);line-height:1.7;" data-zh="此處會記錄原型版中的新增、修改、刪除與權限異動。正式版會寫入公司 Server 資料庫。"
+           data-en="This area records prototype add, edit, delete, and permission changes. The official version will store logs in the company server database.">
+          此處會記錄原型版中的新增、修改、刪除與權限異動。正式版會寫入公司 Server 資料庫。
+        </p>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-bottom:12px;">
+          <button onclick="clearActivityLogs()" data-zh="清除紀錄" data-en="Clear Logs">清除紀錄</button>
+        </div>
+        <div id="adminLogList"></div>
       </div>
     </section>
   </main>
@@ -952,7 +1036,10 @@
         </div>
         <div class="field">
           <label data-zh="密碼" data-en="Password">密碼</label>
-          <input id="loginPassword" type="password" />
+          <div class="password-wrapper">
+            <input id="loginPassword" type="password" />
+            <button type="button" onclick="togglePassword('loginPassword', this)" data-show-zh="顯示" data-hide-zh="隱藏" data-show-en="Show" data-hide-en="Hide">顯示</button>
+          </div>
         </div>
         <button class="primary" onclick="login()" data-zh="登入" data-en="Login">登入</button>
         <div class="form-hint" data-zh="請輸入你的工號與密碼登入。"
@@ -983,7 +1070,10 @@
         </div>
         <div class="field">
           <label data-zh="密碼" data-en="Password">密碼</label>
-          <input id="registerPassword" type="password" />
+          <div class="password-wrapper">
+            <input id="registerPassword" type="password" />
+            <button type="button" onclick="togglePassword('registerPassword', this)" data-show-zh="顯示" data-hide-zh="隱藏" data-show-en="Show" data-hide-en="Hide">顯示</button>
+          </div>
           <div class="error-message" id="registerPasswordError"></div>
         </div>
         <button class="primary" onclick="register()" data-zh="註冊" data-en="Sign Up">註冊</button>
@@ -1053,6 +1143,70 @@
     }
 
     function saveUsers(users) { localStorage.setItem("szs_users", JSON.stringify(users)); }
+
+    function loadActivityLogs() {
+      return JSON.parse(localStorage.getItem("szs_activity_logs") || "[]");
+    }
+
+    function saveActivityLogs(logs) {
+      localStorage.setItem("szs_activity_logs", JSON.stringify(logs));
+    }
+
+    function addActivityLog(actionZh, actionEn, target, detail = "") {
+      const user = currentUser ? `${currentUser.name} / ${currentUser.companyId}` : "System";
+      const logs = loadActivityLogs();
+      logs.unshift({
+        id: "log-" + Date.now(),
+        time: new Date().toLocaleString(),
+        user,
+        actionZh,
+        actionEn,
+        target,
+        detail
+      });
+      saveActivityLogs(logs.slice(0, 120));
+      renderAdminLogs();
+    }
+
+    function renderAdminLogs() {
+      const box = document.getElementById("adminLogList");
+      if (!box) return;
+
+      const logs = loadActivityLogs();
+      if (logs.length === 0) {
+        box.innerHTML = `<p style="color:var(--muted);">${t("目前沒有操作紀錄。", "No activity logs yet.")}</p>`;
+        return;
+      }
+
+      box.innerHTML = logs.map(log => `
+        <div class="log-row">
+          <div class="log-time">${log.time}<br>${log.user}</div>
+          <div>
+            <div class="log-action">${t(log.actionZh, log.actionEn)} · ${log.target || "-"}</div>
+            <div class="log-detail">${log.detail || "-"}</div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function clearActivityLogs() {
+      if (!confirm(t("確定要清除操作紀錄嗎？", "Are you sure you want to clear activity logs?"))) return;
+      saveActivityLogs([]);
+      renderAdminLogs();
+      showToast(t("操作紀錄已清除。", "Activity logs cleared."));
+    }
+
+    function togglePassword(inputId, button) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+
+      const isPassword = input.type === "password";
+      input.type = isPassword ? "text" : "password";
+      button.textContent = currentLang === "zh"
+        ? (isPassword ? button.dataset.hideZh : button.dataset.showZh)
+        : (isPassword ? button.dataset.hideEn : button.dataset.showEn);
+    }
+
     function saveCurrentUser() { localStorage.setItem("szs_current_user", JSON.stringify(currentUser)); }
     function loadCurrentUser() { currentUser = safeJsonParse(localStorage.getItem("szs_current_user"), null); }
 
@@ -1233,7 +1387,9 @@
       }
 
       if (!canManageData()) {
-        alert(t("權限不足：你目前是一般使用者，只能查詢資料，不能進入後台管理。", "Permission denied: You are a regular user and can only search data."));
+        showToast(t("你目前是 User，只能查詢資料。如需新增或修改資料，請聯絡 Manager 或 Owner。", "You are currently a User and can only search data. Please contact a Manager or Owner if you need to add or edit data."), "error");
+        openAssistant();
+        addBotMessage(t("你目前是 User 權限，可以查詢資料與使用小幫手；若需要新增文件、修改資料庫或管理後台，請聯絡 Manager 或 Owner。", "Your current role is User. You can search data and use the assistant. To add documents, edit databases, or access the admin panel, please contact a Manager or Owner."));
         return;
       }
 
@@ -1241,6 +1397,7 @@
       renderAdminDocuments();
       renderAdminDatabases();
       renderAdminUsers();
+      renderAdminLogs();
       switchAdminTab("documents");
       showPage("adminPage");
     }
@@ -1383,6 +1540,7 @@
           renderDetailDocuments();
         }
 
+        addActivityLog("修改資料庫分類", "Database category edited", titleZh, "");
         alert(t("資料庫分類已更新。", "Database category updated."));
         return;
       }
@@ -1401,6 +1559,7 @@
       renderDatabases();
       renderAdminDatabaseOptions();
       renderAdminDatabases();
+      addActivityLog("新增資料庫分類", "Database category added", titleZh, "");
       alert(t("資料庫分類已新增。", "Database category added."));
     }
 
@@ -1429,8 +1588,10 @@
         return;
       }
       if (!confirm(t("確定要刪除此資料庫分類嗎？", "Are you sure you want to delete this database category?"))) return;
+      const deletedDb = databases.find(db => db.id === id);
       databases = databases.filter(db => db.id !== id);
       saveDatabases();
+      addActivityLog("刪除資料庫分類", "Database category deleted", deletedDb ? deletedDb.titleZh : id, "");
       renderDatabases();
       renderAdminDatabaseOptions();
       renderAdminDatabases();
@@ -1559,6 +1720,14 @@
         renderAdminDatabases();
         renderDatabases();
         if (selectedDatabaseId) renderDetailDocuments();
+        const editedDb = databases.find(db => db.id === databaseId);
+        const tagText = tags.length ? tags.join(", ") : "-";
+        addActivityLog(
+          "修改文件",
+          "Document edited",
+          titleZh,
+          `${t("所屬資料庫", "Database")}: ${editedDb ? t(editedDb.titleZh, editedDb.titleEn) : databaseId} · Type: ${type} · ${t("標籤", "Tags")}: ${tagText}`
+        );
         alert(t("測試文件已更新。", "Sample document updated."));
         return;
       }
@@ -1583,6 +1752,14 @@
       renderAdminDatabases();
       renderDatabases();
       if (selectedDatabaseId) renderDetailDocuments();
+      const addedDb = databases.find(db => db.id === databaseId);
+      const tagText = tags.length ? tags.join(", ") : "-";
+      addActivityLog(
+        "新增文件",
+        "Document added",
+        titleZh,
+        `${t("所屬資料庫", "Database")}: ${addedDb ? t(addedDb.titleZh, addedDb.titleEn) : databaseId} · Type: ${type} · ${t("標籤", "Tags")}: ${tagText}`
+      );
       alert(t("測試文件已新增。", "Sample document added."));
     }
 
@@ -1621,8 +1798,10 @@
       if (!canManageData()) { alert(t("權限不足。", "Permission denied.")); return; }
       if (!confirm(t("確定要刪除此測試文件嗎？", "Are you sure you want to delete this sample document?"))) return;
 
+      const deletedDoc = documents.find(doc => doc.id === id);
       documents = documents.filter(doc => doc.id !== id);
       saveDocuments();
+      addActivityLog("刪除文件", "Document deleted", deletedDoc ? deletedDoc.titleZh : id, "");
       renderAdminDocuments();
       renderAdminDatabases();
       renderDatabases();
@@ -1632,8 +1811,27 @@
     function renderAdminUsers() {
       const box = document.getElementById("adminUserList");
       if (!box) return;
-      const users = loadUsers().map(normalizeUser);
+
+      const searchInput = document.getElementById("adminUserSearch");
+      const keyword = searchInput ? searchInput.value.trim().toLowerCase() : "";
+
+      let users = loadUsers().map(normalizeUser);
       saveUsers(users);
+
+      if (keyword) {
+        users = users.filter(user => [
+          user.companyId,
+          user.department,
+          user.name,
+          user.email,
+          user.role
+        ].join(" ").toLowerCase().includes(keyword));
+      }
+
+      if (users.length === 0) {
+        box.innerHTML = `<p style="color:var(--muted);">${t("沒有找到符合條件的會員。", "No matching members found.")}</p>`;
+        return;
+      }
 
       box.innerHTML = users.map(user => {
         const isOwner = user.role === "owner";
@@ -1648,7 +1846,7 @@
           <div class="doc-row" style="grid-template-columns:1fr auto;">
             <div>
               <div class="doc-title">${user.name} · ${user.companyId} <span class="role-pill ${user.role}">${getRoleLabel(user.role)}</span></div>
-              <div class="doc-desc">${t("部門", "Department")}: ${user.department || "-"} · ${t("信箱", "Email")}: ${user.email || "-"}</div>
+              <div class="doc-desc">${t("部門", "Department")}: ${user.department || "-"} · ${t("信箱", "Email")}: ${user.email || "-"} · ${t("註冊日期", "Registered")}: ${user.createdAt || "-"}</div>
             </div>
             <div>${controls}</div>
           </div>
@@ -1668,6 +1866,8 @@
         return user;
       });
       saveUsers(users);
+      const changedUser = users.find(user => user.companyId === companyId);
+      addActivityLog("會員權限異動", "Member role changed", changedUser ? `${changedUser.name} / ${companyId}` : companyId, `Role: ${role}`);
 
       if (currentUser && currentUser.companyId === companyId) {
         currentUser = normalizeUser(users.find(user => user.companyId === companyId));
@@ -1692,6 +1892,7 @@
       renderAdminDocuments();
       renderAdminDatabases();
       renderAdminUsers();
+      renderAdminLogs();
       if (selectedDatabaseId) {
         const db = databases.find(item => item.id === selectedDatabaseId);
         if (db) {
@@ -1743,6 +1944,8 @@
     function confirmLogout() {
       closeLogoutConfirm();
 
+      const logoutName = currentUser ? `${currentUser.name} / ${currentUser.companyId}` : "-";
+      addActivityLog("會員登出", "Member logged out", logoutName, "");
       currentUser = null;
       localStorage.removeItem("szs_current_user");
       updateAuthUI();
@@ -1887,8 +2090,9 @@
 
       const role = getDefaultRole(department);
 
-      users.push({ companyId, department, name, email, password, role });
+      users.push({ companyId, department, name, email, password, role, createdAt: new Date().toISOString().slice(0, 10) });
       saveUsers(users);
+      addActivityLog("會員註冊", "Member registered", `${name} / ${companyId}`, `Role: ${role}`);
 
       alert(t(`註冊成功。你的角色是 ${getRoleLabel(role)}。請到登入畫面重新輸入工號與密碼。`, `Registration successful. Your role is ${getRoleLabel(role)}. Please enter your employee ID and password again on the login screen.`));
       switchAuthTab("login");
@@ -1924,6 +2128,8 @@
       openAssistant();
 
       showToast(t("登入成功。", "Login successful."));
+
+      addActivityLog("會員登入", "Member logged in", `${user.name} / ${user.companyId}`, `Role: ${user.role}`);
 
       addBotMessage(t(
         `歡迎回來，${user.name}。你的目前權限是 ${getRoleLabel(user.role)}，可以開始查資料囉。`,
