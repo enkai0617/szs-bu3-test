@@ -2173,10 +2173,229 @@
       background: transparent !important;
     }
 
+  
+    /* === SIDEBAR COLLAPSE + ONLINE MEMBERS POLISH === */
+    .sidebar-toggle {
+      width: 42px;
+      height: 42px;
+      border: 0;
+      background: transparent;
+      color: #1e3a5f;
+      font-size: 24px;
+      box-shadow: none;
+      padding: 0;
+      margin-right: 6px;
+    }
+
+    .sidebar-toggle:hover {
+      background: rgba(219, 234, 254, 0.7);
+      box-shadow: none;
+      transform: none;
+    }
+
+    .brand::before {
+      display: none !important;
+      content: none !important;
+    }
+
+    body.sidebar-collapsed .app-sidebar {
+      transform: translateX(-100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    body.sidebar-collapsed main.page {
+      margin-left: 0 !important;
+    }
+
+    body.sidebar-collapsed .warning-banner,
+    body.sidebar-collapsed .notice {
+      margin-left: auto !important;
+      max-width: 1260px !important;
+    }
+
+    .app-sidebar {
+      transition: transform .22s ease, opacity .22s ease;
+    }
+
+    main.page {
+      transition: margin-left .22s ease;
+    }
+
+    .dash-link {
+      display: none !important;
+    }
+
+    .dash-stat {
+      min-height: 122px;
+    }
+
+    .online-members-panel {
+      margin: 0 0 28px;
+      background: rgba(255,255,255,.86);
+      border: 1px solid #dbe7f5;
+      border-radius: 18px;
+      box-shadow: 0 20px 50px rgba(15,23,42,.08);
+      padding: 22px 24px;
+    }
+
+    .online-members-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .online-members-head h2 {
+      margin: 0 0 6px;
+      font-size: 22px;
+      color: #0f172a;
+      font-weight: 950;
+    }
+
+    .online-members-head p {
+      margin: 0;
+      color: #64748b;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .my-status-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .status-btn {
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      box-shadow: none;
+    }
+
+    .status-btn.online { color: #15803d; background: rgba(34,197,94,.12); border-color: rgba(34,197,94,.24); }
+    .status-btn.away { color: #b91c1c; background: rgba(239,68,68,.12); border-color: rgba(239,68,68,.24); }
+    .status-btn.offline { color: #64748b; background: rgba(148,163,184,.14); border-color: rgba(148,163,184,.26); }
+
+    .online-members-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .member-presence-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 44px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      background: rgba(248,251,255,.82);
+      border: 1px solid #e5eef8;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .presence-dot {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px rgba(15,23,42,.04);
+    }
+
+    .presence-dot.online { background: #22c55e; }
+    .presence-dot.away { background: #ef4444; }
+    .presence-dot.offline { background: #94a3b8; }
+
+    .member-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #60a5fa, #2563eb);
+      color: white;
+      font-weight: 950;
+    }
+
+    .member-info strong {
+      color: #0f172a;
+      font-size: 14px;
+    }
+
+    .member-info p {
+      margin: 4px 0 0;
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .member-status {
+      text-align: right;
+    }
+
+    .status-label {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .status-label.online { color: #15803d; background: rgba(34,197,94,.12); }
+    .status-label.away { color: #b91c1c; background: rgba(239,68,68,.12); }
+    .status-label.offline { color: #64748b; background: rgba(148,163,184,.14); }
+
+    .member-status small {
+      display: block;
+      color: #94a3b8;
+      font-size: 11px;
+      margin-top: 4px;
+      white-space: nowrap;
+    }
+
+    body.dark .online-members-panel,
+    body.dark .member-presence-card {
+      background: rgba(15, 23, 42, 0.84) !important;
+      border-color: rgba(56,189,248,.18) !important;
+    }
+
+    body.dark .online-members-head h2,
+    body.dark .member-info strong {
+      color: #e2e8f0 !important;
+    }
+
+    @media (max-width: 1180px) {
+      .online-members-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .online-members-head {
+        flex-direction: column;
+      }
+
+      .online-members-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
   </style>
 </head>
 <body>
   <header>
+    <button id="sidebarToggleBtn" class="sidebar-toggle" onclick="toggleSidebar(event)">☰</button>
     <div class="brand" onclick="showHome()">
       <img src="logo.png" alt="SZS Logo" class="logo" onerror="this.style.display=\'none\'; const f=this.parentElement.querySelector(\'.logo-fallback\'); if(f){f.classList.add(\'show\');}">
       <div>
@@ -2256,15 +2475,15 @@
         <div>
           <div class="dash-label" data-zh="資料庫分類" data-en="Database Categories">資料庫分類</div>
           <div class="dash-value"><span id="overviewDatabaseCount">0</span><small data-zh=" 個" data-en=" categories"> 個</small></div>
-          <div class="dash-link" data-zh="所有分類總覽 ›" data-en="All categories ›">所有分類總覽 ›</div>
+          <div class="dash-link" data-zh="" data-en=""></div>
         </div>
       </div>
       <div class="dash-stat clickable" onclick="databaseHomeView='list'; renderDatabases(); document.getElementById('databaseSection')?.scrollIntoView({behavior:'smooth'});">
         <div class="dash-icon cyan">▤</div>
         <div>
-          <div class="dash-label" data-zh="目前文件" data-en="Current Documents">目前文件</div>
+          <div class="dash-label" data-zh="總文件數" data-en="Total Documents">總文件數</div>
           <div class="dash-value"><span id="overviewDocumentCount">0</span><small data-zh=" 份" data-en=" docs"> 份</small></div>
-          <div class="dash-link" data-zh="所有文件總數 ›" data-en="Total documents ›">所有文件總數 ›</div>
+          <div class="dash-link" data-zh="" data-en=""></div>
         </div>
       </div>
       <div class="dash-stat clickable" onclick="openAdmin(); setTimeout(()=>switchAdminTab('users'), 0);">
@@ -2272,7 +2491,7 @@
         <div>
           <div class="dash-label" data-zh="目前登入者" data-en="Current User">目前登入者</div>
           <div class="dash-value"><span id="overviewUserRole">Guest</span></div>
-          <div class="dash-link" data-zh="線上成員 ›" data-en="Online member ›">線上成員 ›</div>
+          <div class="dash-link" data-zh="" data-en=""></div>
         </div>
       </div>
       <div class="dash-stat clickable" onclick="openAdmin(); setTimeout(()=>switchAdminTab('logs'), 0);">
@@ -2280,9 +2499,26 @@
         <div>
           <div class="dash-label" data-zh="系統狀態" data-en="System Status">系統狀態</div>
           <div class="dash-value"><span data-zh="正常" data-en="OK">正常</span></div>
-          <div class="dash-link" data-zh="系統運行良好 ›" data-en="System healthy ›">系統運行良好 ›</div>
+          <div class="dash-link" data-zh="" data-en=""></div>
         </div>
       </div>
+    </section>
+
+    
+    <section class="online-members-panel" id="onlineMembersPanel">
+      <div class="online-members-head">
+        <div>
+          <h2 data-zh="線上成員" data-en="Online Members">線上成員</h2>
+          <p data-zh="顯示目前會員狀態。綠燈代表線上，紅燈代表離開，灰燈代表離線。" data-en="Shows member status. Green means online, red means away, gray means offline.">顯示目前會員狀態。綠燈代表線上，紅燈代表離開，灰燈代表離線。</p>
+        </div>
+        <div class="my-status-control">
+          <span data-zh="我的狀態" data-en="My Status">我的狀態</span>
+          <button class="status-btn online" onclick="setMyPresence('online')" data-zh="線上" data-en="Online">線上</button>
+          <button class="status-btn away" onclick="setMyPresence('away')" data-zh="離開" data-en="Away">離開</button>
+          <button class="status-btn offline" onclick="setMyPresence('offline')" data-zh="離線" data-en="Offline">離線</button>
+        </div>
+      </div>
+      <div class="online-members-list" id="onlineMembersList"></div>
     </section>
 
     <section id="databaseSection" class="view-cards">
@@ -2858,6 +3094,7 @@
       updateLanguageText();
       updateBadge();
       updateSystemOverview();
+      renderOnlineMembers();
       updateAuthUI();
       closeAssistant();
     }
@@ -2908,6 +3145,83 @@
       return `<div class="filter-bar">${chips}</div>`;
     }
 
+
+
+    function toggleSidebar(event) {
+      if (event) event.stopPropagation();
+      document.body.classList.toggle("sidebar-collapsed");
+    }
+
+    function loadPresence() {
+      return JSON.parse(localStorage.getItem("szs_presence") || "{}");
+    }
+
+    function savePresence(presence) {
+      localStorage.setItem("szs_presence", JSON.stringify(presence));
+    }
+
+    function getPresenceLabel(status) {
+      if (status === "online") return t("線上", "Online");
+      if (status === "away") return t("離開", "Away");
+      return t("離線", "Offline");
+    }
+
+    function setMyPresence(status) {
+      if (!currentUser) {
+        openAuthModal("login");
+        showToast(t("請先登入後再切換狀態。", "Please log in before changing your status."), "error");
+        return;
+      }
+
+      const presence = loadPresence();
+      presence[currentUser.companyId] = {
+        status,
+        updatedAt: new Date().toLocaleString()
+      };
+      savePresence(presence);
+      renderOnlineMembers();
+      showToast(t(`狀態已更新為：${getPresenceLabel(status)}`, `Status updated: ${getPresenceLabel(status)}`));
+    }
+
+    function renderOnlineMembers() {
+      const box = document.getElementById("onlineMembersList");
+      if (!box) return;
+
+      const users = loadUsers().map(normalizeUser);
+      const presence = loadPresence();
+
+      if (currentUser && !presence[currentUser.companyId]) {
+        presence[currentUser.companyId] = {
+          status: "online",
+          updatedAt: new Date().toLocaleString()
+        };
+        savePresence(presence);
+      }
+
+      if (!users.length) {
+        box.innerHTML = `<div class="empty-state"><strong>${t("目前沒有會員資料", "No members yet")}</strong>${t("註冊後會在這裡顯示會員清單。", "Members will appear here after registration.")}</div>`;
+        return;
+      }
+
+      box.innerHTML = users.map(user => {
+        const item = presence[user.companyId] || { status: "offline", updatedAt: "-" };
+        const status = item.status || "offline";
+        return `
+          <div class="member-presence-card">
+            <span class="presence-dot ${status}"></span>
+            <div class="member-avatar">${(user.name || "S").slice(0, 1).toUpperCase()}</div>
+            <div class="member-info">
+              <strong>${user.name || "-"}</strong>
+              <p>${user.department || "-"} · ${user.companyId || "-"} · ${getRoleLabel(user.role)}</p>
+            </div>
+            <div class="member-status">
+              <span class="status-label ${status}">${getPresenceLabel(status)}</span>
+              <small>${item.updatedAt || "-"}</small>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
 
     function toggleDatabaseView() {
       databaseHomeView = databaseHomeView === "cards" ? "list" : "cards";
@@ -3649,6 +3963,7 @@
     function confirmLogout() {
       closeLogoutConfirm();
 
+      if (currentUser) setMyPresence('offline');
       const logoutName = currentUser ? `${currentUser.name} / ${currentUser.companyId}` : "-";
       addActivityLog("會員登出", "Member logged out", logoutName, "");
       currentUser = null;
@@ -3840,6 +4155,7 @@
       showToast(t("登入成功。", "Login successful."));
 
       addActivityLog("會員登入", "Member logged in", `${user.name} / ${user.companyId}`, `Role: ${user.role}`);
+      setMyPresence('online');
 
       addBotMessage(t(
         `歡迎回來，${user.name}。你的目前權限是 ${getRoleLabel(user.role)}，可以開始查資料囉。`,
