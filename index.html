@@ -477,6 +477,53 @@
       font-size: 14px;
     }
 
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tag-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--chip);
+      color: var(--primary);
+      border: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .message-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .related-questions {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    .related-questions-title {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .related-question-btn {
+      margin: 4px 6px 0 0;
+      padding: 7px 9px;
+      font-size: 12px;
+    }
+
+
     .quick-question {
       display: block;
       width: 100%;
@@ -608,7 +655,8 @@
     <section id="adminDocumentsSection" class="admin-section active">
       <div class="admin-layout">
         <div class="admin-box">
-          <h2 data-zh="新增測試文件" data-en="Add Sample Document">新增測試文件</h2>
+          <h2 id="documentFormTitle" data-zh="新增測試文件" data-en="Add Sample Document">新增測試文件</h2>
+          <input id="editingDocumentId" type="hidden" />
           <div class="form-grid">
             <div>
               <label data-zh="所屬資料庫" data-en="Database">所屬資料庫</label>
@@ -640,6 +688,10 @@
               </div>
             </div>
             <div>
+              <label data-zh="標籤" data-en="Tags">標籤</label>
+              <input id="adminTags" placeholder="例如：SOP, 規格書, 測試報告" />
+            </div>
+            <div>
               <label data-zh="中文說明" data-en="Chinese Description">中文說明</label>
               <textarea id="adminDescZh" placeholder="請輸入測試文件說明"></textarea>
             </div>
@@ -647,7 +699,8 @@
               <label data-zh="英文說明" data-en="English Description">英文說明</label>
               <textarea id="adminDescEn" placeholder="Enter sample document description"></textarea>
             </div>
-            <button class="primary" onclick="addAdminDocument()" data-zh="新增文件" data-en="Add Document">新增文件</button>
+            <button id="documentSaveButton" class="primary" onclick="addAdminDocument()" data-zh="新增文件" data-en="Add Document">新增文件</button>
+            <button id="documentCancelButton" style="display:none;" onclick="cancelDocumentEdit()" data-zh="取消修改" data-en="Cancel Edit">取消修改</button>
           </div>
         </div>
         <div class="admin-box">
@@ -741,7 +794,10 @@
             <div class="chat-title" data-zh="SZS人工智慧小幫手" data-en="SZS AI Assistant">SZS人工智慧小幫手</div>
             <div class="chat-status">● RIZEN · FULL PAGE</div>
           </div>
-          <span class="badge" data-zh="全頁模式" data-en="Full Page Mode">全頁模式</span>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end;">
+            <button class="small" onclick="clearFullChat()" data-zh="清除對話" data-en="Clear Chat">清除對話</button>
+            <span class="badge" data-zh="全頁模式" data-en="Full Page Mode">全頁模式</span>
+          </div>
         </div>
         <div class="assistant-full-body" id="fullChatBody">
           <div class="message bot" data-zh="嗨，我是 SZS 小幫手。你可以問我公司官網資訊、產品、認證、投資人資訊，也可以搜尋目前知識庫文件。"
@@ -1023,7 +1079,7 @@
       }
       container.innerHTML = list.map(doc => `
         <div class="doc-row">
-          <div><div class="doc-title">${t(doc.titleZh, doc.titleEn)}</div><div class="doc-desc">${t(doc.descriptionZh, doc.descriptionEn)}</div></div>
+          <div><div class="doc-title">${t(doc.titleZh, doc.titleEn)}</div><div class="doc-desc">${t(doc.descriptionZh, doc.descriptionEn)}</div>${renderTagChips(doc.tags || [])}</div>
           <div class="doc-meta">${t("分類", "Category")}: ${db ? t(db.titleZh, db.titleEn) : doc.databaseId}<br>${t("更新日期", "Updated")}: ${doc.updatedAt}</div>
           <div><span class="doc-type">${doc.type}</span></div>
           <div><button class="primary" onclick="viewFile()">${t("查看檔案", "View File")}</button></div>
@@ -1241,20 +1297,133 @@
       renderAdminDatabases();
     }
 
+    function resetDocumentForm() {
+      const editingInput = document.getElementById("editingDocumentId");
+      if (editingInput) editingInput.value = "";
+
+      document.getElementById("adminTitleZh").value = "";
+      document.getElementById("adminTitleEn").value = "";
+      document.getElementById("adminKeywords").value = "";
+      const tagsInput = document.getElementById("adminTags");
+      if (tagsInput) tagsInput.value = "";
+      document.getElementById("adminDescZh").value = "";
+      document.getElementById("adminDescEn").value = "";
+
+      const title = document.getElementById("documentFormTitle");
+      const saveButton = document.getElementById("documentSaveButton");
+      const cancelButton = document.getElementById("documentCancelButton");
+
+      if (title) {
+        title.textContent = t("新增測試文件", "Add Sample Document");
+        title.dataset.zh = "新增測試文件";
+        title.dataset.en = "Add Sample Document";
+      }
+
+      if (saveButton) {
+        saveButton.textContent = t("新增文件", "Add Document");
+        saveButton.dataset.zh = "新增文件";
+        saveButton.dataset.en = "Add Document";
+      }
+
+      if (cancelButton) cancelButton.style.display = "none";
+    }
+
+    function cancelDocumentEdit() {
+      resetDocumentForm();
+    }
+
+    function editDocument(id) {
+      if (!canManageData()) { alert(t("權限不足。", "Permission denied.")); return; }
+      const doc = documents.find(item => item.id === id);
+      if (!doc) return;
+
+      document.getElementById("editingDocumentId").value = id;
+      document.getElementById("adminDatabase").value = doc.databaseId;
+      document.getElementById("adminTitleZh").value = doc.titleZh;
+      document.getElementById("adminTitleEn").value = doc.titleEn;
+      document.getElementById("adminType").value = doc.type;
+      document.getElementById("adminKeywords").value = doc.keywords || "";
+      const tagsInput = document.getElementById("adminTags");
+      if (tagsInput) tagsInput.value = (doc.tags || []).join(", ");
+      document.getElementById("adminDescZh").value = doc.descriptionZh;
+      document.getElementById("adminDescEn").value = doc.descriptionEn;
+
+      const title = document.getElementById("documentFormTitle");
+      const saveButton = document.getElementById("documentSaveButton");
+      const cancelButton = document.getElementById("documentCancelButton");
+
+      if (title) {
+        title.textContent = t("修改測試文件", "Edit Sample Document");
+        title.dataset.zh = "修改測試文件";
+        title.dataset.en = "Edit Sample Document";
+      }
+
+      if (saveButton) {
+        saveButton.textContent = t("儲存修改", "Save Changes");
+        saveButton.dataset.zh = "儲存修改";
+        saveButton.dataset.en = "Save Changes";
+      }
+
+      if (cancelButton) cancelButton.style.display = "inline-block";
+
+      document.getElementById("adminTitleZh").focus();
+    }
+
+    function parseTags(value) {
+      return String(value || "")
+        .split(/[,，、]/)
+        .map(tag => tag.trim())
+        .filter(Boolean);
+    }
+
     function addAdminDocument() {
       if (!canManageData()) { alert(t("權限不足。", "Permission denied.")); return; }
+
+      const editingId = document.getElementById("editingDocumentId").value;
       const databaseId = document.getElementById("adminDatabase").value;
       const titleZh = document.getElementById("adminTitleZh").value.trim();
       const titleEn = document.getElementById("adminTitleEn").value.trim();
       const type = document.getElementById("adminType").value;
       const keywords = document.getElementById("adminKeywords").value.trim();
+      const tags = parseTags(document.getElementById("adminTags") ? document.getElementById("adminTags").value : "");
       const descriptionZh = document.getElementById("adminDescZh").value.trim();
       const descriptionEn = document.getElementById("adminDescEn").value.trim();
+
       if (!titleZh || !titleEn) {
         alert(t("請至少輸入中文與英文文件名稱。", "Please enter both Chinese and English document titles."));
         return;
       }
+
       const today = new Date().toISOString().slice(0, 10);
+
+      if (editingId) {
+        documents = documents.map(doc => {
+          if (doc.id !== editingId) return doc;
+          return {
+            ...doc,
+            databaseId,
+            titleZh,
+            titleEn,
+            descriptionZh: descriptionZh || "測試文件說明。",
+            descriptionEn: descriptionEn || "Sample document description.",
+            type,
+            updatedAt: today,
+            keywords: keywords || `${titleZh} ${titleEn} ${tags.join(" ")}`,
+            tags,
+            isDefault: doc.isDefault || false
+          };
+        });
+
+        saveDocuments();
+        resetDocumentForm();
+        renderAdminDocuments();
+        renderAdminDatabases();
+        renderDatabases();
+        if (selectedDatabaseId) renderDetailDocuments();
+        alert(t("測試文件已更新。", "Sample document updated."));
+        return;
+      }
+
       documents.unshift({
         id: "custom-" + Date.now(),
         databaseId,
@@ -1264,15 +1433,13 @@
         descriptionEn: descriptionEn || "Sample document description.",
         type,
         updatedAt: today,
-        keywords: keywords || `${titleZh} ${titleEn}`,
+        keywords: keywords || `${titleZh} ${titleEn} ${tags.join(" ")}`,
+        tags,
         isDefault: false
       });
+
       saveDocuments();
-      document.getElementById("adminTitleZh").value = "";
-      document.getElementById("adminTitleEn").value = "";
-      document.getElementById("adminKeywords").value = "";
-      document.getElementById("adminDescZh").value = "";
-      document.getElementById("adminDescEn").value = "";
+      resetDocumentForm();
       renderAdminDocuments();
       renderAdminDatabases();
       renderDatabases();
@@ -1280,13 +1447,20 @@
       alert(t("測試文件已新增。", "Sample document added."));
     }
 
+    function renderTagChips(tags) {
+      if (!tags || !tags.length) return "";
+      return `<div class="tag-list">${tags.map(tag => `<span class="tag-chip">${tag}</span>`).join("")}</div>`;
+    }
+
     function renderAdminDocuments() {
       const box = document.getElementById("adminDocumentList");
       if (!box) return;
+
       if (documents.length === 0) {
         box.innerHTML = `<p style="color:var(--muted);">${t("目前沒有文件。", "No documents yet.")}</p>`;
         return;
       }
+
       box.innerHTML = documents.map(doc => {
         const db = databases.find(item => item.id === doc.databaseId);
         return `
@@ -1294,8 +1468,12 @@
             <div>
               <div class="doc-title">${t(doc.titleZh, doc.titleEn)}</div>
               <div class="doc-desc">${t("分類", "Category")}: ${db ? t(db.titleZh, db.titleEn) : doc.databaseId} · ${doc.type} · ${doc.updatedAt}</div>
+              ${renderTagChips(doc.tags || [])}
             </div>
-            <button class="danger" onclick="deleteDocument('${doc.id}')">${t("刪除", "Delete")}</button>
+            <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">
+              <button class="small" onclick="editDocument('${doc.id}')">${t("修改", "Edit")}</button>
+              <button class="small danger" onclick="deleteDocument('${doc.id}')">${t("刪除", "Delete")}</button>
+            </div>
           </div>`;
       }).join("");
     }
@@ -1303,6 +1481,7 @@
     function deleteDocument(id) {
       if (!canManageData()) { alert(t("權限不足。", "Permission denied.")); return; }
       if (!confirm(t("確定要刪除此測試文件嗎？", "Are you sure you want to delete this sample document?"))) return;
+
       documents = documents.filter(doc => doc.id !== id);
       saveDocuments();
       renderAdminDocuments();
@@ -1434,6 +1613,22 @@
       addBotMessage(t("你已經登出囉。", "You have been logged out."));
     }
 
+
+
+    function getAssistantWelcomeMessage() {
+      return t(
+        "嗨，我是 SZS 小幫手。你可以問我公司官網資訊、產品、認證、投資人資訊，也可以搜尋目前知識庫文件。",
+        "Hi, I am the SZS assistant. You can ask about company website information, products, certifications, investor information, or search the current knowledge base."
+      );
+    }
+
+    function clearFullChat() {
+      const fullBody = document.getElementById("fullChatBody");
+      if (!fullBody) return;
+
+      fullBody.innerHTML = `<div class="message bot">${getAssistantWelcomeMessage()}</div>`;
+      showToast(t("全頁小幫手對話已清除。", "Full-page assistant chat cleared."));
+    }
 
     function openAssistantPage() {
       closeAssistant();
@@ -1652,6 +1847,7 @@
         doc.descriptionZh,
         doc.descriptionEn,
         doc.keywords,
+        (doc.tags || []).join(" "),
         doc.type
       ].join(" ").toLowerCase();
 
@@ -2885,6 +3081,54 @@
     }
 
 
+
+    function getRelatedQuestions(intent, keyword) {
+      const relatedMap = {
+        mim: ["MIM 技術優點", "MIM 有哪些應用", "MIM 產品範例"],
+        mim_advantages: ["MIM 有哪些應用", "MIM 產品範例", "MIM 製程"],
+        mim_applications: ["MIM 技術優點", "MIM 產品範例", "金屬射出成型"],
+        hinges: ["樞紐製件的應用", "樞紐製件的優勢", "樞紐製件的特點"],
+        springs: ["彈簧製件的應用", "彈簧製件的優勢", "彈簧客製化"],
+        stamping: ["沖壓製件的應用", "沖壓製件的優勢", "沖壓製件的特點"],
+        lathe: ["車銑製件的應用", "車銑製件的優勢", "車銑製件"],
+        ai_server: ["液冷應用", "液冷優勢", "AI Server & Liquid Cooling"],
+        technology: ["研發願景是什麼", "設備製程有哪些設備", "品質檢驗設備有哪些"],
+        investor: ["公司基本資料", "法人說明會是什麼", "財務資訊有哪些"],
+        sustainability: ["環境永續有哪些", "公司治理是什麼", "友善職場是什麼"],
+        company: ["沿革大事記", "理念與願景", "全球經營據點"],
+        jobs: ["職缺列表", "加入我們", "人才招募"]
+      };
+
+      const base = relatedMap[intent] || [];
+
+      if (base.length) return base;
+
+      const text = String(keyword || "");
+      if (text.includes("SZS") || text.includes("新日興")) return ["SZS 有哪些產品", "全球經營據點", "人才招募"];
+      return ["SZS 有哪些產品", "MIM 是什麼", "法人說明會是什麼"];
+    }
+
+    function addRelatedQuestions(answerHtml, intent, keyword) {
+      const questions = getRelatedQuestions(intent, keyword).slice(0, 3);
+      if (!questions.length) return answerHtml;
+
+      return `${answerHtml}
+        <div class="related-questions">
+          <div class="related-questions-title">${t("相關問題", "Related questions")}</div>
+          ${questions.map(q => `<button class="related-question-btn" onclick="askAssistantQuestion('${q.replace(/'/g, "\\'")}')">${q}</button>`).join("")}
+        </div>`;
+    }
+
+    function askAssistantQuestion(question) {
+      const activePage = document.getElementById("assistantPage") && document.getElementById("assistantPage").classList.contains("active");
+      const inputId = activePage ? "fullChatInput" : "chatInput";
+      const input = document.getElementById(inputId);
+      if (input) input.value = question;
+
+      if (!activePage) openAssistant();
+      sendMessageFromInput(inputId);
+    }
+
     function sendMessage() {
       sendMessageFromInput("chatInput");
     }
@@ -2906,7 +3150,7 @@
 
       const szsIntent = getSzsIntent(keyword);
       if (szsIntent) {
-        addBotMessage(getSzsPublicInfoAnswer(szsIntent));
+        addBotMessage(addRelatedQuestions(getSzsPublicInfoAnswer(szsIntent), szsIntent, keyword));
         return;
       }
 
@@ -2926,7 +3170,28 @@
         const db = databases.find(item => item.id === doc.databaseId);
         html += `<div class="chat-result-card"><strong>${t(doc.titleZh, doc.titleEn)}</strong><br><span>${t("分類", "Category")}: ${db ? t(db.titleZh, db.titleEn) : doc.databaseId}</span><br><span>${t("更新日期", "Updated")}: ${doc.updatedAt}</span><br><button style="margin-top:10px;padding:8px 10px;font-size:12px;" onclick="viewFile()">${t("查看檔案", "View File")}</button></div>`;
       });
-      addBotMessage(html);
+      addBotMessage(addRelatedQuestions(html, "", keyword));
+    }
+
+    function stripHtml(html) {
+      const div = document.createElement("div");
+      div.innerHTML = html;
+      return div.textContent || div.innerText || "";
+    }
+
+    function copyAssistantAnswer(button) {
+      const message = button.closest(".message");
+      if (!message) return;
+
+      const clone = message.cloneNode(true);
+      clone.querySelectorAll(".message-actions, .related-questions").forEach(el => el.remove());
+      const text = clone.textContent.trim();
+
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(t("已複製小幫手回答。", "Assistant answer copied."));
+      }).catch(() => {
+        showToast(t("複製失敗，請手動選取文字。", "Copy failed. Please select the text manually."), "error");
+      });
     }
 
     function appendMessageToBody(bodyId, className, content, isHtml) {
@@ -2936,8 +3201,14 @@
       const div = document.createElement("div");
       div.className = className;
 
-      if (isHtml) div.innerHTML = content;
-      else div.textContent = content;
+      if (isHtml) {
+        div.innerHTML = content;
+        if (className.includes("bot")) {
+          div.innerHTML += `<div class="message-actions"><button class="small" onclick="copyAssistantAnswer(this)">${t("複製回答", "Copy Answer")}</button></div>`;
+        }
+      } else {
+        div.textContent = content;
+      }
 
       chatBody.appendChild(div);
       chatBody.scrollTop = chatBody.scrollHeight;
