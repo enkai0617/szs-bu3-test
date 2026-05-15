@@ -3124,230 +3124,454 @@
       }
     }
 
+
   
-    /* === TEMPLATE B LOGIN + HERO ILLUSTRATION RIGHT SIDE === */
-    .login-landing {
-      grid-template-columns: 1.05fr 0.95fr !important;
-      gap: 54px !important;
-      padding: 58px 7vw !important;
-      background:
-        radial-gradient(circle at 12% 24%, rgba(255,255,255,.68), transparent 28%),
-        radial-gradient(circle at 82% 16%, rgba(147,197,253,.42), transparent 30%),
-        radial-gradient(circle at 72% 80%, rgba(34,211,238,.22), transparent 32%),
-        linear-gradient(135deg, #dff7fb 0%, #eff8ff 45%, #dbeafe 100%) !important;
+    /* === SCREENSHOT-MATCH TEMPLATE B LOGIN PAGE === */
+    .login-landing-page {
+      padding: 0 !important;
+      margin-left: 0 !important;
+      min-height: calc(100vh - 72px);
+      background: #f5faff;
     }
 
-    .login-landing-visual {
-      min-height: 560px !important;
-      justify-content: flex-start !important;
-    }
-
-    .landing-illustration {
-      width: min(690px, 92vw) !important;
-      height: 470px !important;
-      border-radius: 38px !important;
-      background:
-        radial-gradient(circle at 12% 26%, rgba(255,255,255,.95) 0 7%, transparent 8%),
-        radial-gradient(circle at 76% 18%, #facc15 0 5%, transparent 6%),
-        radial-gradient(circle at 77% 78%, #fb7185 0 6%, transparent 7%),
-        linear-gradient(145deg, rgba(255,255,255,.78), rgba(147,197,253,.28)) !important;
-      box-shadow: 0 38px 95px rgba(37,99,235,.16) !important;
-      border: 1px solid rgba(255,255,255,.74) !important;
+    .login-shot-shell {
+      width: min(1038px, calc(100vw - 28px));
+      height: 620px;
+      margin: 28px auto;
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: 1fr 376px;
+      gap: 38px;
+      align-items: center;
+      padding: 54px 66px 46px;
+      box-sizing: border-box;
       position: relative;
       overflow: hidden;
-    }
-
-    .landing-illustration::before {
-      content: "";
-      position: absolute;
-      left: 58px;
-      top: 54px;
-      width: 250px;
-      height: 150px;
-      border-radius: 24px;
       background:
-        linear-gradient(90deg, #2563eb 0 24%, transparent 24% 32%, #93c5fd 32% 100%);
-      opacity: .18;
-      box-shadow:
-        150px 74px 0 rgba(14,165,233,.18),
-        260px -18px 0 rgba(37,99,235,.12);
+        radial-gradient(circle at 12% 12%, rgba(255,255,255,.96), transparent 26%),
+        radial-gradient(circle at 70% 12%, rgba(147,197,253,.54), transparent 30%),
+        linear-gradient(135deg, #eaf5ff 0%, #dcecff 100%);
+      border: 1px solid #b9d2f0;
+      box-shadow: 0 16px 46px rgba(37,99,235,.12);
     }
 
-    .landing-illustration::after {
-      content: "SZS PE";
+    .login-shot-left {
+      position: relative;
+      height: 100%;
+      min-width: 0;
+    }
+
+    .login-shot-art {
       position: absolute;
-      right: 88px;
-      top: 92px;
-      width: 118px;
-      height: 150px;
-      border-radius: 24px;
-      background: linear-gradient(145deg, #60a5fa, #2563eb);
+      left: -10px;
+      top: -8px;
+      width: 590px;
+      height: 385px;
+    }
+
+    .art-laptop {
+      position: absolute;
+      left: 142px;
+      top: 44px;
+      width: 330px;
+      height: 226px;
+      transform: perspective(740px) rotateX(8deg) rotateY(-12deg);
+      z-index: 4;
+    }
+
+    .art-screen {
+      height: 192px;
+      border-radius: 20px 20px 14px 14px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.82), rgba(147,197,253,.30));
+      border: 1px solid rgba(255,255,255,.78);
+      box-shadow: 0 28px 65px rgba(37,99,235,.18);
+      padding: 22px;
+      box-sizing: border-box;
+    }
+
+    .art-screen::before,
+    .art-screen::after {
+      content: "";
+      display: block;
+      height: 18px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      background: rgba(96,165,250,.28);
+    }
+
+    .art-screen::before {
+      width: 58%;
+      background: rgba(37,99,235,.20);
+    }
+
+    .art-screen::after {
+      width: 78%;
+      background: rgba(14,165,233,.18);
+    }
+
+    .art-window {
+      width: 190px;
+      height: 54px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #2563eb, #0ea5e9);
       color: white;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      gap: 12px;
       font-weight: 950;
-      letter-spacing: .6px;
-      box-shadow: 0 22px 48px rgba(37,99,235,.24);
-      transform: perspective(420px) rotateY(-14deg);
+      box-shadow: 0 18px 38px rgba(37,99,235,.23);
+      margin: 20px auto 0;
     }
 
-    .screen-shape {
-      position: relative;
-      width: 360px !important;
-      height: 240px !important;
-      transform: translateX(-34px);
-      z-index: 2;
+    .art-window b {
+      font-size: 20px;
     }
 
-    .screen-shape::before {
-      content: "🔎";
+    .art-base {
+      width: 230px;
+      height: 24px;
+      margin: 16px auto 0;
+      border-radius: 0 0 20px 20px;
+      background: rgba(37,99,235,.18);
+      box-shadow: 0 12px 26px rgba(37,99,235,.12);
+    }
+
+    .art-cloud,
+    .art-folder,
+    .art-stack,
+    .art-shield,
+    .art-doc,
+    .art-magnifier {
       position: absolute;
-      right: -78px;
-      bottom: -36px;
-      width: 92px;
-      height: 92px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.92);
+      background: rgba(255,255,255,.65);
+      border: 1px solid rgba(255,255,255,.74);
+      box-shadow: 0 18px 46px rgba(37,99,235,.12);
+      backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 42px;
-      box-shadow: 0 18px 45px rgba(15,23,42,.12);
-      border: 1px solid rgba(255,255,255,.82);
+      color: #2563eb;
     }
 
-    .floating-card {
-      width: 78px !important;
-      height: 78px !important;
-      font-size: 32px !important;
-      border-radius: 22px !important;
+    .art-cloud {
+      right: 40px;
+      top: 22px;
+      width: 94px;
+      height: 58px;
+      border-radius: 35px;
+      font-size: 28px;
+      font-weight: 950;
     }
 
-    .floating-card.card-a {
-      left: 4% !important;
-      top: 12% !important;
+    .art-folder {
+      right: 124px;
+      top: 82px;
+      width: 92px;
+      height: 130px;
+      border-radius: 19px;
+      background: linear-gradient(135deg, rgba(37,99,235,.20), rgba(255,255,255,.72));
     }
 
-    .floating-card.card-b {
-      right: 7% !important;
-      top: 12% !important;
+    .art-folder::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: -14px;
+      width: 42px;
+      height: 24px;
+      border-radius: 10px 10px 0 0;
+      background: rgba(147,197,253,.70);
     }
 
-    .floating-card.card-c {
-      left: 12% !important;
-      bottom: 10% !important;
+    .art-stack.one {
+      left: 58px;
+      top: 32px;
+      width: 64px;
+      height: 52px;
+      border-radius: 12px;
+      transform: rotate(-18deg);
     }
 
-    .login-landing-card {
-      justify-self: end !important;
-      width: min(460px, 100%) !important;
+    .art-stack.two {
+      right: 80px;
+      bottom: 80px;
+      width: 104px;
+      height: 64px;
+      border-radius: 12px;
+      transform: rotate(9deg);
+    }
+
+    .art-shield {
+      right: 8px;
+      top: 132px;
+      width: 62px;
+      height: 62px;
+      border-radius: 17px;
+      font-size: 24px;
+    }
+
+    .art-doc {
+      width: 62px;
+      height: 62px;
+      border-radius: 16px;
+      font-size: 22px;
+    }
+
+    .art-doc.doc-left {
+      left: 0;
+      top: 86px;
+      transform: rotate(-9deg);
+    }
+
+    .art-doc.doc-right {
+      right: 204px;
+      bottom: 18px;
+      transform: rotate(8deg);
+    }
+
+    .art-magnifier {
+      right: 38px;
+      bottom: -6px;
+      width: 116px;
+      height: 116px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.78);
+    }
+
+    .art-magnifier::before {
+      content: "";
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 8px solid #2563eb;
+      opacity: .72;
+    }
+
+    .art-magnifier::after {
+      content: "";
+      position: absolute;
+      width: 38px;
+      height: 10px;
+      background: #2563eb;
+      border-radius: 999px;
+      transform: rotate(45deg);
+      right: 20px;
+      bottom: 24px;
+      opacity: .72;
+    }
+
+    .login-shot-copy {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      z-index: 5;
+      width: 420px;
+    }
+
+    .login-shot-copy h1 {
+      margin: 0 0 10px;
+      color: #0f172a;
+      font-size: 36px;
+      font-weight: 950;
+      letter-spacing: -1px;
+    }
+
+    .login-shot-copy p {
+      margin: 0 0 24px;
+      color: #1e293b;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .login-shot-copy span {
+      display: block;
+      width: 330px;
+      color: #64748b;
+      font-size: 14px;
+      line-height: 1.85;
+      font-weight: 800;
+    }
+
+    .login-shot-dots {
+      display: flex;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .login-shot-dots i {
+      display: block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #bfdbfe;
+    }
+
+    .login-shot-dots i:first-child {
+      background: #2563eb;
+    }
+
+    .login-shot-card {
+      width: 100%;
+      max-width: 346px;
+      justify-self: end;
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(255,255,255,.8);
+      border-radius: 20px;
+      box-shadow: 0 24px 64px rgba(15,23,42,.15);
+      padding: 36px 34px 28px;
+      box-sizing: border-box;
+    }
+
+    .login-shot-logo {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .login-shot-logo img {
+      width: 78px;
+      height: 78px;
+      object-fit: contain;
+    }
+
+    .login-shot-card h2 {
+      text-align: center;
+      color: #0f172a;
+      margin: 0 0 24px;
+      font-size: 22px;
+      font-weight: 950;
+    }
+
+    .shot-field {
+      height: 46px;
+      border-radius: 10px;
+      border: 1px solid #dbe7f5;
+      background: #fff;
+      display: grid;
+      grid-template-columns: 32px 1fr auto;
+      align-items: center;
+      padding: 0 12px;
+      margin-top: 12px;
+      box-sizing: border-box;
+      color: #64748b;
+    }
+
+    .shot-field input {
+      height: 42px;
+      border: 0 !important;
+      outline: none !important;
+      background: transparent !important;
       padding: 0 !important;
-      border-radius: 26px !important;
-      background: rgba(255,255,255,.78) !important;
-      box-shadow: 0 34px 90px rgba(15,23,42,.18) !important;
-      overflow: hidden !important;
+      color: #0f172a;
+      font-weight: 800;
+      font-size: 14px;
     }
 
-    .landing-logo {
-      margin: 0 !important;
-      padding: 28px 30px !important;
-      justify-content: center !important;
-      text-align: left;
-      background:
-        radial-gradient(circle at 18% 20%, rgba(255,255,255,.82), transparent 30%),
-        linear-gradient(135deg, rgba(224,247,250,.92), rgba(255,255,255,.70)) !important;
+    .shot-field button {
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #64748b;
+      box-shadow: none;
     }
 
-    .landing-logo img {
-      width: 72px !important;
-      height: 72px !important;
+    .shot-options {
+      margin: 14px 0 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 800;
     }
 
-    .login-landing-card h1 {
+    .shot-options label {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .shot-options button {
+      border: 0;
+      background: transparent;
+      color: #475569;
+      padding: 0;
+      box-shadow: none;
+      font-size: 13px;
+    }
+
+    .shot-login-btn {
+      width: 100%;
+      height: 48px;
+      border: 0;
+      border-radius: 9px;
+      color: white;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      font-weight: 950;
+      box-shadow: 0 12px 24px rgba(37,99,235,.22);
+    }
+
+    .shot-register {
       text-align: center;
-      font-size: 28px !important;
-      margin: 30px 32px 14px !important;
+      margin-top: 16px;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 800;
     }
 
-    .login-landing-card p {
-      text-align: center;
-      margin: 0 34px 24px !important;
-      font-size: 15px;
-    }
-
-    .landing-actions {
-      margin: 0 34px 14px !important;
-    }
-
-    .landing-forgot {
-      margin: 0 34px 18px !important;
-      width: calc(100% - 68px) !important;
-    }
-
-    .landing-note {
-      background: rgba(255,255,255,.58);
-      padding: 20px 34px 26px !important;
-      margin-top: 22px;
+    .shot-register button {
+      border: 0;
+      background: transparent;
+      color: #2563eb;
+      padding: 0 0 0 8px;
+      box-shadow: none;
+      font-size: 13px;
     }
 
     @media (max-width: 980px) {
-      .login-landing {
-        grid-template-columns: 1fr !important;
+      .login-shot-shell {
+        grid-template-columns: 1fr;
+        height: auto;
+        padding: 32px;
       }
 
-      .login-landing-card {
-        justify-self: center !important;
+      .login-shot-left {
+        min-height: 470px;
       }
 
-      .login-landing-visual {
-        min-height: 320px !important;
-      }
-
-      .landing-illustration {
-        height: 280px !important;
-      }
-
-      .landing-illustration::after {
-        right: 38px;
-        top: 58px;
-        width: 86px;
-        height: 112px;
-      }
-
-      .screen-shape {
-        transform: scale(.78) translateX(-30px);
+      .login-shot-card {
+        justify-self: center;
       }
     }
 
-    /* Move the blue SZS PE hero illustration to the far right, away from the title. */
-    #homePage .hero {
-      padding-right: 430px !important;
-    }
-
-    #homePage .hero::after {
-      right: 56px !important;
-      left: auto !important;
-      top: 54px !important;
-      width: 360px !important;
-      height: 240px !important;
-      opacity: .74 !important;
-    }
-
-    #homePage .hero::before {
-      right: 178px !important;
-      left: auto !important;
-      top: 122px !important;
-    }
-
-    @media (max-width: 1180px) {
-      #homePage .hero {
-        padding-right: 80px !important;
+    @media (max-width: 620px) {
+      .login-shot-shell {
+        width: calc(100vw - 24px);
+        padding: 22px;
       }
 
-      #homePage .hero::before,
-      #homePage .hero::after {
-        display: none !important;
+      .login-shot-left {
+        min-height: 340px;
+      }
+
+      .login-shot-art {
+        transform: scale(.65);
+        transform-origin: top left;
+      }
+
+      .login-shot-copy {
+        width: 100%;
+      }
+
+      .login-shot-copy h1 {
+        font-size: 29px;
+      }
+
+      .login-shot-copy span {
+        width: 100%;
       }
     }
 
@@ -3451,51 +3675,78 @@
   </div>
 
 
+
+
   <main id="loginLandingPage" class="page login-landing-page active">
-    <section class="login-landing">
-      <div class="login-landing-visual">
-        <div class="floating-card card-a">📁</div>
-        <div class="floating-card card-b">🔎</div>
-        <div class="floating-card card-c">🤖</div>
-        <div class="landing-illustration">
-          <div class="screen-shape">
-            <div class="screen-line long"></div>
-            <div class="screen-line"></div>
-            <div class="screen-chart"></div>
+    <section class="login-shot-shell">
+      <div class="login-shot-left">
+        <div class="login-shot-art">
+          <div class="art-laptop">
+            <div class="art-screen">
+              <div class="art-window">
+                <span>SZS PE</span>
+                <b>⌕</b>
+              </div>
+            </div>
+            <div class="art-base"></div>
           </div>
+
+          <div class="art-cloud">↕</div>
+          <div class="art-folder"></div>
+          <div class="art-stack one"></div>
+          <div class="art-stack two"></div>
+          <div class="art-shield">🔒</div>
+          <div class="art-doc doc-left">⌘</div>
+          <div class="art-doc doc-right">▤</div>
+          <div class="art-magnifier"></div>
+        </div>
+
+        <div class="login-shot-copy">
+          <h1 data-zh="SZS PE 知識庫" data-en="SZS PE Knowledge Base">SZS PE 知識庫</h1>
+          <p data-zh="內部資料搜尋系統" data-en="Internal Document Search System">內部資料搜尋系統</p>
+          <span data-zh="整合公司內部知識，讓資料搜尋更快速、更簡單。"
+                data-en="Integrate internal knowledge and make document search faster and easier.">
+            整合公司內部知識，讓資料搜尋更快速、更簡單。
+          </span>
+          <div class="login-shot-dots"><i></i><i></i><i></i></div>
         </div>
       </div>
 
-      <div class="login-landing-card">
-        <div class="landing-logo">
+      <div class="login-shot-card">
+        <div class="login-shot-logo">
           <img src="logo.png" alt="SZS Logo" onerror="this.style.display='none';">
-          <div>
-            <strong data-zh="新日興股份有限公司" data-en="SHIN ZU SHING CO., LTD.">新日興股份有限公司</strong>
-            <span>SZS PE Knowledge Base</span>
-          </div>
         </div>
 
-        <h1 data-zh="歡迎登入" data-en="Welcome">歡迎登入</h1>
-        <p data-zh="整合公司內部知識，讓資料搜尋更快速、更簡單。"
-           data-en="Integrate internal knowledge and make document search faster and easier.">
-          整合公司內部知識，讓資料搜尋更快速、更簡單。
-        </p>
+        <h2 data-zh="歡迎登入" data-en="Welcome">歡迎登入</h2>
+        <div class="form-error-box" id="landingLoginError"></div>
 
-        <div class="landing-actions">
-          <button class="primary" onclick="openAuthModal('login')" data-zh="登入" data-en="Login">登入</button>
-          <button onclick="openAuthModal('register')" data-zh="註冊" data-en="Sign Up">註冊</button>
+        <div class="shot-field">
+          <span>♙</span>
+          <input id="landingLoginId" placeholder="工號" onkeydown="handleLandingLoginEnter(event)" />
+        </div>
+        <div class="error-message" id="landingLoginIdError"></div>
+
+        <div class="shot-field">
+          <span>🔒</span>
+          <input id="landingLoginPassword" type="password" placeholder="密碼" onkeydown="handleLandingLoginEnter(event)" />
+          <button type="button" onclick="toggleLandingPassword(this)">⊙</button>
+        </div>
+        <div class="error-message" id="landingLoginPasswordError"></div>
+
+        <div class="shot-options">
+          <label><input type="checkbox" id="landingRememberMe"> <span data-zh="記住我" data-en="Remember me">記住我</span></label>
+          <button type="button" onclick="forgotPassword()" data-zh="忘記密碼？" data-en="Forgot Password?">忘記密碼？</button>
         </div>
 
-        <button class="landing-forgot" onclick="forgotPassword()" data-zh="忘記密碼" data-en="Forgot Password">忘記密碼</button>
+        <button class="shot-login-btn" onclick="loginFromLanding()" data-zh="登入" data-en="Login">登入</button>
 
-        <div class="landing-note" data-zh="原型提醒：此版本資料只會暫存在目前瀏覽器 localStorage，請勿放入公司機密、真實帳密或正式文件。"
-             data-en="Prototype reminder: Data is stored only in this browser localStorage. Do not enter confidential data, real passwords, or official documents.">
-          原型提醒：此版本資料只會暫存在目前瀏覽器 localStorage，請勿放入公司機密、真實帳密或正式文件。
+        <div class="shot-register">
+          <span data-zh="沒有帳號？" data-en="No account?">沒有帳號？</span>
+          <button onclick="openAuthModal('register')" data-zh="立即註冊" data-en="Sign up">立即註冊</button>
         </div>
       </div>
     </section>
   </main>
-
 
   <main id="homePage" class="page">
     <section class="hero">
@@ -4108,6 +4359,82 @@
     }
 
 
+
+    function clearLandingLoginErrors() {
+      ["landingLoginId", "landingLoginPassword"].forEach(id => {
+        const input = document.getElementById(id);
+        const error = document.getElementById(id + "Error");
+        if (input) input.classList.remove("invalid");
+        if (error) error.textContent = "";
+      });
+
+      const box = document.getElementById("landingLoginError");
+      if (box) {
+        box.textContent = "";
+        box.classList.remove("success", "error");
+      }
+    }
+
+    function setLandingLoginError(fieldId, message) {
+      const input = document.getElementById(fieldId);
+      const error = document.getElementById(fieldId + "Error");
+      if (input) input.classList.add("invalid");
+      if (error) error.textContent = message;
+    }
+
+    function setLandingFormError(message) {
+      const box = document.getElementById("landingLoginError");
+      if (box) {
+        box.textContent = message;
+        box.classList.add("error");
+      }
+    }
+
+    function handleLandingLoginEnter(event) {
+      if (event.key === "Enter") loginFromLanding();
+    }
+
+    function toggleLandingPassword(button) {
+      const input = document.getElementById("landingLoginPassword");
+      if (!input) return;
+      input.type = input.type === "password" ? "text" : "password";
+      button.textContent = input.type === "password" ? "⊙" : "◉";
+    }
+
+    function loginFromLanding() {
+      clearLandingLoginErrors();
+
+      const companyId = document.getElementById("landingLoginId").value.trim();
+      const password = document.getElementById("landingLoginPassword").value.trim();
+      let valid = true;
+
+      if (!companyId) {
+        setLandingLoginError("landingLoginId", t("請輸入工號。", "Please enter employee ID."));
+        valid = false;
+      }
+
+      if (!password) {
+        setLandingLoginError("landingLoginPassword", t("請輸入密碼。", "Please enter password."));
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      const loginId = document.getElementById("loginId");
+      const loginPassword = document.getElementById("loginPassword");
+      if (loginId) loginId.value = companyId;
+      if (loginPassword) loginPassword.value = password;
+
+      const users = loadUsers().map(normalizeUser);
+      const user = users.find(item => item.companyId === companyId && item.password === password);
+      if (!user) {
+        setLandingFormError(t("登入失敗：請確認工號與密碼。", "Login failed: Please check your employee ID and password."));
+        return;
+      }
+
+      login();
+    }
+
     function forgotPassword() {
       openForgotModal();
     }
@@ -4121,7 +4448,7 @@
         if (idInput) idInput.value = currentUser.companyId || "";
         if (emailInput) emailInput.value = currentUser.email || "";
       } else {
-        if (idInput) idInput.value = document.getElementById("loginId")?.value || "";
+        if (idInput) idInput.value = document.getElementById("landingLoginId")?.value || document.getElementById("loginId")?.value || "";
         if (emailInput) emailInput.value = "";
       }
 
