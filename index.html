@@ -5007,6 +5007,369 @@
       opacity: .72;
     }
 
+
+
+    /* === Home dashboard optimization: recent files, favorites, quick scenarios === */
+    .home-productivity-panels {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(320px, .88fr);
+      gap: 22px;
+      margin: 0 0 24px;
+    }
+
+    .home-panel {
+      position: relative;
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(189, 213, 240, .82);
+      border-radius: 26px;
+      box-shadow: 0 24px 55px rgba(15, 43, 77, .08);
+      padding: 22px;
+      overflow: hidden;
+    }
+
+    .home-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.78), rgba(236,247,255,.42));
+      pointer-events: none;
+    }
+
+    .home-panel > * { position: relative; z-index: 1; }
+
+    .home-panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .home-panel-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 950;
+      color: #0f172a;
+      letter-spacing: -.02em;
+    }
+
+    .home-panel-title .num-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+      font-weight: 950;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      box-shadow: 0 10px 22px rgba(37,99,235,.22);
+    }
+
+    .home-panel-action {
+      border: 0;
+      background: transparent;
+      color: #2563eb;
+      font-weight: 900;
+      cursor: pointer;
+      padding: 8px 10px;
+      border-radius: 12px;
+    }
+
+    .home-panel-action:hover { background: rgba(37,99,235,.08); }
+
+    .recent-doc-list,
+    .favorite-db-list,
+    .smart-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .recent-doc-item,
+    .favorite-db-item,
+    .smart-list-item {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 66px;
+      padding: 12px;
+      border: 1px solid rgba(215,228,242,.88);
+      border-radius: 17px;
+      background: rgba(255,255,255,.88);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .recent-doc-item:hover,
+    .favorite-db-item:hover,
+    .smart-list-item:hover {
+      transform: translateY(-1px);
+      border-color: rgba(147,197,253,.92);
+      box-shadow: 0 14px 30px rgba(37,99,235,.08);
+    }
+
+    .file-type-icon,
+    .folder-type-icon,
+    .smart-type-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 950;
+      color: white;
+      box-shadow: 0 10px 22px rgba(15, 43, 77, .12);
+    }
+
+    .file-type-pdf { background: linear-gradient(135deg, #fb7185, #ef4444); }
+    .file-type-xlsx { background: linear-gradient(135deg, #34d399, #10b981); }
+    .file-type-docx { background: linear-gradient(135deg, #60a5fa, #2563eb); }
+    .file-type-ppt { background: linear-gradient(135deg, #fb923c, #f97316); }
+    .file-type-default { background: linear-gradient(135deg, #94a3b8, #64748b); }
+    .folder-type-icon { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #fff; font-size: 22px; }
+    .smart-type-icon { background: linear-gradient(135deg, #93c5fd, #3b82f6); font-size: 18px; }
+
+    .recent-doc-meta,
+    .favorite-db-meta,
+    .smart-list-meta { min-width: 0; }
+
+    .recent-doc-meta strong,
+    .favorite-db-meta strong,
+    .smart-list-meta strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 950;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .recent-doc-meta small,
+    .favorite-db-meta small,
+    .smart-list-meta small {
+      display: block;
+      margin-top: 5px;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .latest-pill,
+    .favorite-star-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      min-width: 42px;
+      height: 28px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    .latest-pill { color: #15803d; background: #dcfce7; }
+    .favorite-star-btn { color: #f59e0b; background: #fff7ed; }
+    .favorite-star-btn.is-muted { color: #94a3b8; background: #f1f5f9; }
+
+    .home-secondary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin: 0 0 24px;
+    }
+
+    .search-demo-card .mock-search-input {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 11px 12px;
+      border: 1px solid rgba(203, 221, 240, .9);
+      border-radius: 16px;
+      background: rgba(255,255,255,.92);
+      color: #64748b;
+      font-weight: 850;
+      margin-bottom: 12px;
+    }
+
+    .search-type-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .search-type-tabs span {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #2563eb;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .assistant-scenario-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .assistant-scenario-btn {
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      border: 1px solid rgba(215,228,242,.9);
+      border-radius: 16px;
+      background: rgba(255,255,255,.92);
+      color: #0f172a;
+      padding: 10px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 900;
+    }
+
+    .assistant-scenario-btn:hover { border-color: #93c5fd; background: #f8fbff; }
+    .assistant-scenario-btn span:first-child {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #eff6ff;
+      color: #2563eb;
+      font-size: 18px;
+    }
+    .assistant-scenario-btn small { display: block; margin-top: 3px; color: #64748b; font-size: 12px; }
+
+    .confirm-demo-card {
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(215,228,242,.95);
+      border-radius: 20px;
+      padding: 14px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.85);
+    }
+
+    .confirm-demo-warning {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: #334155;
+      font-weight: 850;
+    }
+
+    .confirm-demo-warning b { color: #0f172a; display: block; margin-bottom: 4px; }
+    .confirm-demo-warning .warning-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: #fff7ed;
+      color: #f59e0b;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex: 0 0 auto;
+    }
+
+    .confirm-demo-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .confirm-demo-actions button {
+      border: 1px solid #dbe7f5;
+      border-radius: 12px;
+      padding: 9px 14px;
+      font-weight: 950;
+      background: #fff;
+      cursor: default;
+    }
+
+    .confirm-demo-actions .danger { background: #ef4444; color: white; border-color: #ef4444; }
+
+    .undo-demo {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 16px;
+      background: #f8fafc;
+      color: #475569;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+      font-weight: 850;
+    }
+    .undo-demo span:last-child { color: #2563eb; font-weight: 950; }
+
+    .home-small-optimizations {
+      display: grid;
+      gap: 12px;
+    }
+
+    .optimization-item {
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      padding: 11px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(215,228,242,.72);
+    }
+
+    .optimization-item span:first-child {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: #eff6ff;
+      color: #2563eb;
+      font-size: 18px;
+    }
+
+    .optimization-item strong { display:block; color:#0f172a; font-size:14px; font-weight:950; }
+    .optimization-item small { display:block; margin-top:3px; color:#64748b; font-size:12px; font-weight:800; }
+
+    body.dark .home-panel,
+    body.dark .recent-doc-item,
+    body.dark .favorite-db-item,
+    body.dark .smart-list-item,
+    body.dark .assistant-scenario-btn,
+    body.dark .confirm-demo-card,
+    body.dark .optimization-item,
+    body.dark .search-demo-card .mock-search-input {
+      background: rgba(15,23,42,.86);
+      border-color: rgba(71,85,105,.78);
+    }
+    body.dark .home-panel-title,
+    body.dark .recent-doc-meta strong,
+    body.dark .favorite-db-meta strong,
+    body.dark .smart-list-meta strong,
+    body.dark .assistant-scenario-btn,
+    body.dark .confirm-demo-warning b,
+    body.dark .optimization-item strong { color: #e5edf7; }
+
+    @media (max-width: 1180px) {
+      .home-productivity-panels,
+      .home-secondary-grid { grid-template-columns: 1fr; }
+    }
+
 </style>
 </head>
 <body class="sidebar-collapsed">
@@ -5227,6 +5590,59 @@
 
     <div class="home-main-layout">
       <div class="home-main-column">
+
+        <section class="home-productivity-panels" id="homeSmartDashboard" aria-label="home smart dashboard">
+          <div class="home-panel recent-doc-panel">
+            <div class="home-panel-head">
+              <div class="home-panel-title"><span class="num-dot">1</span><span data-zh="最近更新文件" data-en="Recently Updated Files">最近更新文件</span></div>
+              <button class="home-panel-action" onclick="showSearchResults('DFM')" data-zh="查看全部" data-en="View All">查看全部</button>
+            </div>
+            <div class="recent-doc-list" id="homeRecentDocuments"></div>
+          </div>
+
+          <div class="home-panel favorite-db-panel">
+            <div class="home-panel-head">
+              <div class="home-panel-title"><span class="num-dot">2</span><span data-zh="常用 / 收藏" data-en="Frequent / Favorites">常用 / 收藏</span></div>
+              <button class="home-panel-action" onclick="manageFavoriteDatabases()" data-zh="管理" data-en="Manage">管理</button>
+            </div>
+            <div class="favorite-db-list" id="homeFavoriteDatabases"></div>
+          </div>
+        </section>
+
+        <section class="home-secondary-grid" aria-label="home feature improvements">
+          <div class="home-panel search-demo-card">
+            <div class="home-panel-head">
+              <div class="home-panel-title"><span class="num-dot">3</span><span data-zh="搜尋結果分類" data-en="Search Result Categories">搜尋結果分類</span></div>
+            </div>
+            <div class="mock-search-input"><span>⌕ DFM 製程</span><kbd>⌘ K</kbd></div>
+            <div class="search-type-tabs"><span>全部</span><span>文件</span><span>資料庫</span><span>DFM 規則</span><span>成員</span></div>
+            <div class="smart-list" id="homeSearchPreview"></div>
+          </div>
+
+          <div class="home-panel assistant-scenarios-card">
+            <div class="home-panel-head">
+              <div class="home-panel-title"><span class="num-dot">4</span><span data-zh="小幫手快捷情境" data-en="Assistant Quick Scenarios">小幫手快捷情境</span></div>
+            </div>
+            <div class="assistant-scenario-grid">
+              <button class="assistant-scenario-btn" onclick="askAssistantQuestion('我要雙胞樞紐的DFM製作')"><span>🤖</span><strong>DFM 製程相關問題<small>製程設計、檢查重點、規則查詢</small></strong></button>
+              <button class="assistant-scenario-btn" onclick="askAssistantQuestion('幫我找文件或資料')"><span>📄</span><strong>文件搜尋協助<small>幫我找文件、分類或標籤</small></strong></button>
+              <button class="assistant-scenario-btn" onclick="askAssistantQuestion('新人教育訓練相關問題')"><span>🎓</span><strong>新人教學<small>系統操作、流程說明、常見問題</small></strong></button>
+              <button class="assistant-scenario-btn" onclick="askAssistantQuestion('系統操作使用說明')"><span>🛠</span><strong>系統操作協助<small>帳號權限、上傳下載、設定問題</small></strong></button>
+            </div>
+          </div>
+
+          <div class="home-panel confirm-recover-card">
+            <div class="home-panel-head">
+              <div class="home-panel-title"><span class="num-dot">5</span><span data-zh="操作確認與復原" data-en="Confirm & Recover">操作確認與復原</span></div>
+            </div>
+            <div class="confirm-demo-card">
+              <div class="confirm-demo-warning"><span class="warning-icon">⚠</span><div><b>刪除文件</b><small>重要操作先確認，避免誤刪；刪除後可在 30 天內復原。</small></div></div>
+              <div class="confirm-demo-actions"><button>取消</button><button class="danger">確認刪除</button></div>
+            </div>
+            <div class="undo-demo"><span>已刪除，文件將在 30 天後永久刪除</span><span>復原</span></div>
+          </div>
+        </section>
+
         <section class="online-members-panel" id="onlineMembersPanel">
       <div class="online-members-head">
         <div>
@@ -6872,6 +7288,92 @@ function init() {
       }, 80);
     }
 
+
+    function homeEscapeHtml(value) {
+      return String(value ?? "").replace(/[&<>'"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[ch]));
+    }
+
+    function getHomeFileIconClass(type) {
+      const normalized = String(type || "").toLowerCase();
+      if (normalized.includes("pdf")) return "file-type-pdf";
+      if (normalized.includes("xls")) return "file-type-xlsx";
+      if (normalized.includes("doc")) return "file-type-docx";
+      if (normalized.includes("ppt")) return "file-type-ppt";
+      return "file-type-default";
+    }
+
+    function getFavoriteDatabaseIds() {
+      const saved = safeJsonParse(localStorage.getItem("szs_favorite_database_ids"), null);
+      if (Array.isArray(saved) && saved.length) return saved;
+      const defaults = ["01", "05", "03"];
+      return defaults.filter(id => databases.some(db => db.id === id));
+    }
+
+    function setFavoriteDatabaseIds(ids) {
+      localStorage.setItem("szs_favorite_database_ids", JSON.stringify(ids));
+    }
+
+    function toggleFavoriteDatabase(id) {
+      const favorites = getFavoriteDatabaseIds();
+      const next = favorites.includes(id) ? favorites.filter(item => item !== id) : [id, ...favorites];
+      setFavoriteDatabaseIds(next.slice(0, 6));
+      renderHomeDashboardEnhancements();
+    }
+
+    function manageFavoriteDatabases() {
+      databaseHomeView = "cards";
+      renderDatabases();
+      document.getElementById("databaseSection")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      showToast(t("可點選常用卡片星號切換收藏。", "Use the star buttons to toggle favorites."));
+    }
+
+    function renderHomeDashboardEnhancements() {
+      const recentBox = document.getElementById("homeRecentDocuments");
+      const favoriteBox = document.getElementById("homeFavoriteDatabases");
+      const searchPreview = document.getElementById("homeSearchPreview");
+
+      if (recentBox) {
+        const recentDocs = [...documents].sort((a, b) => String(b.updatedAt || "").localeCompare(String(a.updatedAt || ""))).slice(0, 4);
+        recentBox.innerHTML = recentDocs.map((doc, index) => {
+          const db = databases.find(item => item.id === doc.databaseId);
+          const type = String(doc.type || "FILE").toUpperCase();
+          const title = homeEscapeHtml(t(doc.titleZh, doc.titleEn));
+          const dbName = db ? homeEscapeHtml(t(db.titleZh, db.titleEn)) : t("未分類", "Uncategorized");
+          return `
+            <button class="recent-doc-item" onclick="showDetail('${doc.databaseId}')">
+              <span class="file-type-icon ${getHomeFileIconClass(type)}">${homeEscapeHtml(type.slice(0, 4))}</span>
+              <span class="recent-doc-meta"><strong>${title}</strong><small>${dbName} · ${homeEscapeHtml(doc.updatedAt || "-")}</small></span>
+              ${index === 0 ? `<span class="latest-pill">${t("最新", "New")}</span>` : `<span></span>`}
+            </button>`;
+        }).join("");
+      }
+
+      if (favoriteBox) {
+        const favorites = getFavoriteDatabaseIds();
+        const favoriteDbs = favorites.map(id => databases.find(db => db.id === id)).filter(Boolean).slice(0, 4);
+        favoriteBox.innerHTML = favoriteDbs.map(db => {
+          const count = getDocumentsByDatabase(db.id).length;
+          return `
+            <div class="favorite-db-item">
+              <span class="folder-type-icon">▰</span>
+              <button class="favorite-db-meta" onclick="showDetail('${db.id}')"><strong>${homeEscapeHtml(t(db.titleZh, db.titleEn))}</strong><small>${count} ${t("份文件", "docs")} · STREAM ${homeEscapeHtml(db.id)}</small></button>
+              <button class="favorite-star-btn" onclick="toggleFavoriteDatabase('${db.id}')" title="Favorite">★</button>
+            </div>`;
+        }).join("") || `<div class="empty-state mini"><strong>${t("尚未設定收藏", "No favorites yet")}</strong></div>`;
+      }
+
+      if (searchPreview) {
+        const keyword = "DFM";
+        const docs = documents.filter(doc => documentMatchesQuery(doc, keyword)).slice(0, 2);
+        searchPreview.innerHTML = docs.map(doc => `
+          <button class="smart-list-item" onclick="showDetail('${doc.databaseId}')">
+            <span class="file-type-icon ${getHomeFileIconClass(doc.type)}">${homeEscapeHtml(String(doc.type || "FILE").slice(0,4).toUpperCase())}</span>
+            <span class="smart-list-meta"><strong>${homeEscapeHtml(t(doc.titleZh, doc.titleEn))}</strong><small>${homeEscapeHtml(doc.updatedAt || "-")} · ${t("點擊查看", "Click to view")}</small></span>
+            <span>›</span>
+          </button>`).join("") || `<div class="empty-state mini"><strong>${t("可用上方搜尋快速查詢", "Use the top search to find results quickly")}</strong></div>`;
+      }
+    }
+
     function renderDatabases() {
       const grid = document.getElementById("databaseGrid");
       const listBox = document.getElementById("databaseList");
@@ -6930,6 +7432,7 @@ function init() {
 
       updateDatabaseViewUI();
       updateBadge();
+      renderHomeDashboardEnhancements();
     }
 
     
