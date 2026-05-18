@@ -5659,7 +5659,7 @@
       { id: "sample-5", databaseId: "04", titleZh: "一般研發測試報告", titleEn: "General R&D Test Report", descriptionZh: "一般研發測試資料範例。", descriptionEn: "Sample general R&D test data.", type: "PDF", updatedAt: "2026-02-18", keywords: "R&D test report 測試 報告 研發", isDefault: true },
       { id: "sample-6", databaseId: "05", titleZh: "製程參數範例表", titleEn: "Process Parameter Sample Sheet", descriptionZh: "測試用製程參數表。", descriptionEn: "Sample process parameter sheet.", type: "XLSX", updatedAt: "2026-01-30", keywords: "process parameter 製程 參數", isDefault: true },
       { id: "sample-7", databaseId: "06", titleZh: "品質異常紀錄", titleEn: "Quality Issue Record", descriptionZh: "品質異常與改善追蹤範例。", descriptionEn: "Sample quality issue and improvement tracking.", type: "PDF", updatedAt: "2026-02-10", keywords: "quality issue 品質 異常", isDefault: true },
-      { id: "dfm-hinge-single-cell", databaseId: "05", titleZh: "樞紐製件 DFM 生成規範", titleEn: "Hinge DFM Generation Standard", descriptionZh: "胞類樞紐製件 DFM 製程流程、工站判斷、注油、壓旋、扭測、清潔補油、掃 CODE 與包裝出貨規範。", descriptionEn: "DFM process flow rules for single-cell and double-cell hinge products, including assembly, oiling, press-rotation, torque test, cleaning, oil replenishment, code scanning, and shipment packaging.", type: "PDF", updatedAt: "2026-05-15", keywords: "DFM 樞紐 製件 胞類 單胞 雙胞 工站 製作流程 製程流程圖 注油 壓旋 扭測 清潔 補油 掃CODE Barcode 包裝出貨 hinge cell type single cell double cell process", tags: ["DFM", "樞紐", "製程", "胞類"], isDefault: true }
+      { id: "dfm-hinge-single-cell", databaseId: "05", titleZh: "SZS DFM 生成規範整理版", titleEn: "SZS DFM Generation Standard", descriptionZh: "依新版 PDF 更新：雙胞 / 胞類樞紐 DFM 製程流程圖規則，含特殊材料判斷、雙胞定義、組立、壓合、鉚合、鎖緊、注油、壓旋、扭測、清潔補油、掃 CODE、噴印雷雕、檢測、排版與包裝出貨。", descriptionEn: "Updated from the new PDF: DFM process-flow rules for double-cell / cell-type hinge products, including special materials, double-cell definition, assembly, press-fit, riveting, tightening, oiling, press-rotation, torque test, cleaning, oil replenishment, code scanning, printing/laser engraving, inspection, layout, and shipment packaging.", type: "PDF", updatedAt: "2026-05-18", keywords: "DFM 生成規範 雙胞 胞類 樞紐 製件 工站 製作流程 製程流程圖 特殊材料 左右件 L1 R1 組立 壓合 鉚合 鎖緊 注油 壓旋 扭測 清潔 補油 掃CODE Barcode 噴印 雷雕 檢測 外觀 OQC 包裝出貨 hinge double cell process", tags: ["DFM", "樞紐", "製程", "雙胞"], isDefault: true }
     ];
 
     let databases = [];
@@ -7599,8 +7599,8 @@
 
     function getAssistantWelcomeMessage() {
       return t(
-        "嗨，我是 SZS 小幫手。你可以問我公司官網資訊、產品、認證、投資人資訊，也可以搜尋目前知識庫文件；現在也能回答胞類樞紐 DFM 工站製作流程。",
-        "Hi, I am the SZS assistant. You can ask about company website information, products, certifications, investor information, search the current knowledge base, and ask for the single-cell hinge DFM station process."
+        "嗨，我是 SZS 小幫手。你可以問我公司官網資訊、產品、認證、投資人資訊，也可以搜尋目前知識庫文件；現在也能回答雙胞 / 胞類樞紐 DFM 工站製作流程。",
+        "Hi, I am the SZS assistant. You can ask about company website information, products, certifications, investor information, search the current knowledge base, and ask for the double-cell / cell-type hinge DFM station process."
       );
     }
 
@@ -9373,11 +9373,12 @@
     function isDfmHingeQuestion(keyword) {
       const text = String(keyword || "").toLowerCase().replace(/\s+/g, "");
       const hasDfm = text.includes("dfm") || text.includes("製程流程") || text.includes("工站") || text.includes("製作流程") || text.includes("製造流程");
-      const hasHinge = text.includes("樞紐") || text.includes("轉軸") || text.includes("hinge");
+      const hasHinge = text.includes("樞紐") || text.includes("轉軸") || text.includes("hinge") || text.includes("鉸鏈");
       const hasSingleCell = text.includes("單胞") || text.includes("一軸一胞") || text.includes("singlecell") || text.includes("single-cell");
+      const hasDoubleCell = text.includes("雙胞") || text.includes("一軸兩胞") || text.includes("軸兩側雙胞") || text.includes("軸同側雙胞") || text.includes("doublecell") || text.includes("double-cell");
       const hasCellType = text.includes("胞類") || text.includes("celltype") || text.includes("cell-type");
       const hasDfmDoc = text.includes("dfm生成規範") || text.includes("dfm規範") || text.includes("dfm文件");
-      return hasDfmDoc || (hasDfm && hasHinge) || (hasSingleCell && hasHinge) || (hasSingleCell && hasDfm) || (hasCellType && hasHinge) || (hasCellType && hasDfm);
+      return hasDfmDoc || (hasDfm && hasHinge) || (hasSingleCell && hasHinge) || (hasSingleCell && hasDfm) || (hasDoubleCell && hasHinge) || (hasDoubleCell && hasDfm) || (hasCellType && hasHinge) || (hasCellType && hasDfm);
     }
 
     function openMediaPreview(src, title) {
@@ -9455,27 +9456,26 @@
 
     function getSingleCellHingeDfmAnswer() {
       return `
-        <div class="source-badge">${t("來源分類：內部文件 · 樞紐製件 DFM 生成規範", "Source: Internal Document · Hinge DFM Generation Standard")}</div>
-        <strong>${t("胞類樞紐工站製作流程 DFM", "Cell-type hinge station process DFM")}</strong><br>
-        ${t("DFM 在這份規範中等同於製程流程圖；拿到機種後，要先研究如何利用設備進行組裝，並且每站都要寫出零件如何被組裝、檢測與出貨。", "In this standard, DFM means the process flow chart. After receiving a model, the process should explain how parts are assembled, inspected, and shipped.")}<br><br>
+        <div class="source-badge">${t("來源分類：內部文件 · SZS DFM 生成規範整理版", "Source: Internal Document · SZS DFM Generation Standard")}</div>
+        <strong>${t("雙胞 / 胞類樞紐工站製作流程 DFM", "Double-cell / cell-type hinge station process DFM")}</strong><br>
+        ${t("新版規範定義：DFM 即為製程流程圖。拿到機種後，需先判斷特殊材料或特殊結構，再依產品結構安排組裝、檢測與出貨流程；若圖片或資料無法判斷，必須列為需確認項目。資料限制：嚴禁使用 SZS 研發工程師之資料。", "The updated standard defines DFM as the process flow chart. After receiving a model, first judge special materials or structures, then arrange assembly, inspection, and shipment steps by product structure. If images or data are insufficient, list them as items to confirm. Data restriction: do not use SZS R&D engineer data.")}<br><br>
 
-
-        <strong>${t("一、胞類樞紐判斷", "1. Cell-type hinge judgment")}</strong><br>
-        ${t("胞類判斷是先確認同一轉軸結構中，胞與軸的配合數量與位置，再區分為單胞、雙胞、軸兩側雙胞或軸同側雙胞。新人判斷口訣是：先找軸，再找胞；再確認是一軸一胞、還是一軸兩胞。L/R 只是產品方向或裝機方向，不能和胞類混淆。", "Cell-type judgment starts by confirming how many cells and what positions are matched with the shaft in the same hinge structure, then classifying it as single-cell, double-cell, double-cell on both shaft sides, or double-cell on the same shaft side. First find the shaft, then find the cell, and confirm whether it is one shaft with one cell or one shaft with two cells. L/R only indicates product direction and must not be confused with the cell type.")}<br><br>
-
-        <strong>${t("二、標準分析順序", "2. Standard analysis order")}</strong><br>
+        <strong>${t("一、DFM 標準分析順序", "1. Standard DFM analysis order")}</strong><br>
         <ol>
           <li>${t("判斷是否有特殊材料或特殊結構。", "Check whether there are special materials or special structures.")}</li>
-          <li>${t("判斷產品屬於哪一種胞類：單胞、雙胞、軸兩側雙胞或軸同側雙胞。", "Judge which cell type the product belongs to: single-cell, double-cell, double-cell on both shaft sides, or double-cell on the same shaft side.")}</li>
-          <li>${t("判斷是否有左右件；左件使用 L1、L2...，右件使用 R1、R2...。", "Check whether there are left/right parts; use L1, L2... for left parts and R1, R2... for right parts.")}</li>
+          <li>${t("判斷產品是雙胞、軸兩側雙胞或軸同側雙胞。", "Judge whether the product is double-cell, double-cell on both shaft sides, or double-cell on the same shaft side.")}</li>
+          <li>${t("判斷是否有左右件；左件使用 L1、L2...，右件使用 R1、R2...。", "Check whether there are left/right parts; use L1/L2... for left parts and R1/R2... for right parts.")}</li>
           <li>${t("判斷是否需要前置零件準備、組立、壓合、鉚合或鎖緊。", "Check whether part preparation, assembly, press-fit, riveting, or tightening is needed.")}</li>
           <li>${t("判斷是否需要注油、壓旋、搖擺或扭測。", "Check whether oiling, press-rotation, swing operation, or torque test is needed.")}</li>
           <li>${t("判斷是否需要清潔、補油、Barcode、掃 CODE、噴印或雷雕。", "Check whether cleaning, oil replenishment, Barcode, code scanning, printing, or laser engraving is needed.")}</li>
-          <li>${t("判斷是否需要全檢、外觀、角度、噪音或 OQC。", "Check whether full inspection, appearance inspection, angle inspection, noise inspection, or OQC is needed.")}</li>
+          <li>${t("判斷是否需要全檢、外觀、角度、噪音、鎖附檢查、標記檢查或 OQC。", "Check whether full inspection, appearance, angle, noise, fastening, marking inspection, or OQC is needed.")}</li>
           <li>${t("最後固定安排包裝出貨。", "Always place shipment packaging as the final station.")}</li>
         </ol>
 
-        <strong>${t("三、胞類樞紐建議主流程", "3. Recommended main flow for a cell-type hinge")}</strong><br>
+        <strong>${t("二、雙胞定義與左右件判斷", "2. Double-cell definition and L/R judgment")}</strong><br>
+        ${t("雙胞係指同一轉軸結構中，具有兩個與軸配合之胞狀結構。判斷時以胞與軸的配合關係為主，不得只看產品左右方向或外觀是否對稱。雙胞可以是一軸兩胞、兩個胞分布在軸兩側，或兩個胞皆位於軸同側。L/R 是產品方向或裝機方向；雙胞是軸與胞的結構關係，兩者不可混淆。", "Double-cell means that the same hinge shaft structure has two cell-like structures matched with the shaft. Judge by the matching relationship between shaft and cells, not only by left/right direction or visual symmetry. Double-cell may be one shaft with two cells, cells on both shaft sides, or cells on the same shaft side. L/R is product direction; double-cell is the shaft-cell structure, so do not confuse them.")}<br><br>
+
+        <strong>${t("三、雙胞 / 胞類樞紐建議主流程", "3. Recommended main flow for double-cell / cell-type hinges")}</strong><br>
         <div class="chat-result-card">
           <table style="width:100%;border-collapse:collapse;font-size:14px;line-height:1.7;">
             <thead>
@@ -9489,34 +9489,37 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td style="padding:6px;">O1</td><td style="padding:6px;">${t("組立", "Assembly")}</td><td style="padding:6px;">${t("製程", "Process")}</td><td style="padding:6px;">${t("依順序與方向組裝軸、胞、彈片、墊片、華司、摩擦片、凹輪、凸輪或止擋片等零件；確認方向、數量、順序與漏裝。", "Assemble shaft, cell, spring plates, washers, friction plates, concave/convex cams, or stopper plates in the correct order and direction; confirm direction, quantity, sequence, and missing parts.")}</td><td style="padding:6px;">${t("組立治具 / 人工作業", "Assembly fixture / Manual work")}</td><td style="padding:6px;">${t("藍框", "Blue")}</td></tr>
-              <tr><td style="padding:6px;">O2</td><td style="padding:6px;">${t("壓合", "Press-fit")}</td><td style="padding:6px;">${t("製程", "Process")}</td><td style="padding:6px;">${t("若零件需壓緊、壓入或緊配，執行壓合；若只是鬆配放入，保留在組立即可。", "If parts must be tightened, pressed in, or interference-fitted, perform press-fit; if they are loose-fit parts, keep them in assembly.")}</td><td style="padding:6px;">${t("伺服壓床機 / 手沖床", "Servo press / Hand press")}</td><td style="padding:6px;">${t("藍框", "Blue")}</td></tr>
-              <tr><td style="padding:6px;">O3</td><td style="padding:6px;">${t("注油", "Oiling")}</td><td style="padding:6px;">${t("製程", "Process")}</td><td style="padding:6px;">${t("對旋轉軸處注油，目的為提供旋轉軸潤滑，降低軸與胞之間摩擦，使旋轉順暢並提升扭力穩定性。", "Apply oil to the rotating shaft area to lubricate the shaft, reduce friction between shaft and cell, smooth rotation, and stabilize torque.")}</td><td style="padding:6px;">${t("注油機", "Oiling machine")}</td><td style="padding:6px;">${t("藍框 / 綠框", "Blue / Green")}</td></tr>
-              <tr><td style="padding:6px;">O4</td><td style="padding:6px;">${t("壓旋", "Press-rotation")}</td><td style="padding:6px;">${t("製程", "Process")}</td><td style="padding:6px;">${t("使軸與胞形成旋轉配合；轉軸處標準流程為：注油 → 壓旋 → 扭測。", "Form rotational fit between shaft and cell; the shaft-area standard flow is oiling -> press-rotation -> torque test.")}</td><td style="padding:6px;">${t("搖擺機壓旋", "Swing machine press-rotation")}</td><td style="padding:6px;">${t("藍框", "Blue")}</td></tr>
-              <tr><td style="padding:6px;">O5</td><td style="padding:6px;">${t("扭測", "Torque test")}</td><td style="padding:6px;">${t("檢測", "Inspection")}</td><td style="padding:6px;">${t("確認旋轉扭力是否符合規格，並檢查轉動穩定性。", "Confirm rotational torque meets specification and check rotation stability.")}</td><td style="padding:6px;">${t("扭力測試機", "Torque tester")}</td><td style="padding:6px;">${t("紅框", "Red")}</td></tr>
-              <tr><td style="padding:6px;">O6</td><td style="padding:6px;">${t("清潔", "Cleaning")}</td><td style="padding:6px;">${t("製程", "Process")}</td><td style="padding:6px;">${t("有注油時後續需清潔；清潔站置於扭測後、外觀前，清除油污、粉塵、壓合後異物或外觀前污染。", "When oiling exists, cleaning is required afterward; place cleaning after torque test and before appearance inspection to remove oil stains, dust, foreign matter, or contamination.")}</td><td style="padding:6px;">${t("清潔治具 / 氣槍 / 擦拭工具", "Cleaning fixture / Air gun / Wiping tools")}</td><td style="padding:6px;">${t("藍框", "Blue")}</td></tr>
-              <tr><td style="padding:6px;">O7</td><td style="padding:6px;">${t("外觀", "Appearance inspection")}</td><td style="padding:6px;">${t("檢測", "Inspection")}</td><td style="padding:6px;">${t("確認刮傷、髒污、壓傷、漏件、方向與組裝狀態。", "Check scratches, dirt, dents, missing parts, direction, and assembly condition.")}</td><td style="padding:6px;">${t("目視 / 放大鏡 / CCD", "Visual / Magnifier / CCD")}</td><td style="padding:6px;">${t("紅框", "Red")}</td></tr>
-              <tr><td style="padding:6px;">O8</td><td style="padding:6px;">${t("補油", "Oil replenishment")}</td><td style="padding:6px;">${t("製程", "Process")}</td><td style="padding:6px;">${t("前段有注油且出貨前需確認潤滑狀態時，於外觀後、包裝出貨前補油。", "If earlier oiling exists and lubrication must be confirmed before shipment, replenish oil after appearance inspection and before shipment packaging.")}</td><td style="padding:6px;">${t("注油機", "Oiling machine")}</td><td style="padding:6px;">${t("藍框", "Blue")}</td></tr>
-              <tr><td style="padding:6px;">O9</td><td style="padding:6px;">${t("掃 CODE / Barcode", "Code scan / Barcode")}</td><td style="padding:6px;">${t("製程 / 檢測", "Process / Inspection")}</td><td style="padding:6px;">${t("若有條碼、QR Code、2D Code、序號、批號、MES 追溯、左右件綁定或客戶出貨追溯要求，安排掃碼；通常置於外觀後、包裝前。若有補油，可為外觀 → 補油 → 掃 CODE → 包裝出貨。", "If barcode, QR code, 2D code, serial number, lot number, MES traceability, L/R binding, or customer shipment traceability is required, scan the code; usually after appearance inspection and before packaging. If oil replenishment exists, use appearance -> oil replenishment -> code scan -> shipment packaging.")}</td><td style="padding:6px;">${t("掃碼槍 / 2D Reader", "Scanner / 2D Reader")}</td><td style="padding:6px;">${t("藍框 / 紅框", "Blue / Red")}</td></tr>
-              <tr><td style="padding:6px;">O10</td><td style="padding:6px;">${t("包裝出貨", "Shipment packaging")}</td><td style="padding:6px;">${t("製程", "Process")}</td><td style="padding:6px;">${t("DFM 最後一站固定為包裝出貨，不可停在外觀、全檢、補油、掃 CODE、OQC 或扭測。", "The final DFM station is always shipment packaging; the flow must not stop at appearance, full inspection, oil replenishment, code scan, OQC, or torque test.")}</td><td style="padding:6px;">${t("包裝治具", "Packaging fixture")}</td><td style="padding:6px;">${t("藍框", "Blue")}</td></tr>
+              <tr><td style="padding:6px;">L1 / R1 / O1</td><td style="padding:6px;">${t("組立", "Assembly")}</td><td style="padding:6px;">${t("製程", "Process")}</td><td style="padding:6px;">${t("組裝彈片、墊片、華司、摩擦片、凹輪、凸輪、止擋片等零件；彈片通常屬鬆配，可依順序與方向一次放入，並確認方向、數量、順序、漏裝與放反防呆。", "Assemble spring plates, washers, friction plates, cams, stopper plates, and related parts. Spring plates are usually loose-fit and can be inserted together by sequence and direction; confirm direction, quantity, sequence, missing parts, and anti-reversal.")}</td><td style="padding:6px;">${t("組立治具 / 人工作業", "Assembly fixture / Manual work")}</td><td style="padding:6px;">${t("藍框", "Blue")}</td></tr>
+              <tr><td style="padding:6px;">L2 / R2 / O2</td><td style="padding:6px;">${t("壓合", "Press-fit")}</td><td style="padding:6px;">${t("製程", "Process")}</td><td style="padding:6px;">${t("若不是轉軸處，而是一般壓入、固定或緊配，配置壓合工站；需管控壓入力、壓合深度、壓合曲線或量產穩定性時使用伺服壓床機。", "If it is not the shaft rotating area but a general press-in, fixing, or interference fit, use a press-fit station. Use a servo press when force, depth, curve, or mass-production stability must be controlled.")}</td><td style="padding:6px;">${t("伺服壓床機 / 手沖床", "Servo press / Hand press")}</td><td style="padding:6px;">${t("藍框", "Blue")}</td></tr>
+              <tr><td style="padding:6px;">L3 / R3 / O3</td><td style="padding:6px;">${t("注油", "Oiling")}</td><td style="padding:6px;">${t("製程", "Process")}</td><td style="padding:6px;">${t("注油目的為提供旋轉軸潤滑，降低軸與胞之間摩擦，使轉軸旋轉順暢並提升扭力穩定性。", "Oiling lubricates the rotating shaft, reduces friction between shaft and cells, smooths rotation, and improves torque stability.")}</td><td style="padding:6px;">${t("注油機", "Oiling machine")}</td><td style="padding:6px;">${t("藍框 / 綠框", "Blue / Green")}</td></tr>
+              <tr><td style="padding:6px;">L4 / R4 / O4</td><td style="padding:6px;">${t("壓旋", "Press-rotation")}</td><td style="padding:6px;">${t("製程", "Process")}</td><td style="padding:6px;">${t("使軸與胞形成旋轉配合；轉軸處標準流程固定為：注油 → 壓旋 → 扭測。", "Form rotational fit between shaft and cells. The shaft-area standard flow is fixed as oiling -> press-rotation -> torque test.")}</td><td style="padding:6px;">${t("搖擺機壓旋", "Swing machine press-rotation")}</td><td style="padding:6px;">${t("藍框", "Blue")}</td></tr>
+              <tr><td style="padding:6px;">L5 / R5 / O5</td><td style="padding:6px;">${t("扭測", "Torque test")}</td><td style="padding:6px;">${t("檢測", "Inspection")}</td><td style="padding:6px;">${t("確認旋轉扭力是否符合規格，並檢查轉動穩定性。", "Confirm rotational torque meets specification and check rotation stability.")}</td><td style="padding:6px;">${t("扭力測試機", "Torque tester")}</td><td style="padding:6px;">${t("紅框", "Red")}</td></tr>
+              <tr><td style="padding:6px;">L6 / R6 / O6</td><td style="padding:6px;">${t("清潔", "Cleaning")}</td><td style="padding:6px;">${t("製程", "Process")}</td><td style="padding:6px;">${t("有注油、壓旋後油脂外溢、雷雕後粉塵、壓合後異物或外觀前需保持乾淨時配置清潔；通常置於扭測後、外觀前。", "Use cleaning when there is oiling, oil overflow after press-rotation, laser-engraving dust, foreign matter after press-fit, or the product must be clean before appearance inspection. Usually place after torque test and before appearance inspection.")}</td><td style="padding:6px;">${t("清潔治具 / 氣槍 / 擦拭工具", "Cleaning fixture / Air gun / Wiping tools")}</td><td style="padding:6px;">${t("藍框", "Blue")}</td></tr>
+              <tr><td style="padding:6px;">L7 / R7 / O7</td><td style="padding:6px;">${t("外觀", "Appearance inspection")}</td><td style="padding:6px;">${t("檢測", "Inspection")}</td><td style="padding:6px;">${t("確認刮傷、髒污、壓傷、漏件、方向與組裝狀態。", "Check scratches, dirt, dents, missing parts, direction, and assembly condition.")}</td><td style="padding:6px;">${t("目視 / 放大鏡 / CCD", "Visual / Magnifier / CCD")}</td><td style="padding:6px;">${t("紅框", "Red")}</td></tr>
+              <tr><td style="padding:6px;">L8 / R8 / O8</td><td style="padding:6px;">${t("補油", "Oil replenishment")}</td><td style="padding:6px;">${t("製程", "Process")}</td><td style="padding:6px;">${t("前段有注油且出貨前需確認潤滑狀態時，於外觀後、包裝出貨前補油。", "If earlier oiling exists and lubrication must be confirmed before shipment, replenish oil after appearance inspection and before shipment packaging.")}</td><td style="padding:6px;">${t("注油機", "Oiling machine")}</td><td style="padding:6px;">${t("藍框", "Blue")}</td></tr>
+              <tr><td style="padding:6px;">L9 / R9 / O9</td><td style="padding:6px;">${t("掃 CODE / Barcode", "Code scan / Barcode")}</td><td style="padding:6px;">${t("製程 / 檢測", "Process / Inspection")}</td><td style="padding:6px;">${t("確認是否有條碼、QR Code、2D Code、序號、批號、MES 追溯、左右件綁定或客戶出貨追溯要求。通常安排於外觀後、包裝出貨前；若有補油，流程可為外觀 → 補油 → 掃 CODE → 包裝出貨。", "Confirm whether barcode, QR code, 2D code, serial number, lot number, MES traceability, L/R binding, or customer shipment traceability is required. Usually after appearance inspection and before packaging; if oil replenishment exists, use appearance -> oil replenishment -> code scan -> shipment packaging.")}</td><td style="padding:6px;">${t("掃碼槍 / 2D Reader", "Scanner / 2D Reader")}</td><td style="padding:6px;">${t("藍框 / 紅框", "Blue / Red")}</td></tr>
+              <tr><td style="padding:6px;">L10 / R10 / O10</td><td style="padding:6px;">${t("包裝出貨", "Shipment packaging")}</td><td style="padding:6px;">${t("製程", "Process")}</td><td style="padding:6px;">${t("DFM 最後一站一定是包裝出貨；流程不可停在外觀、全檢、補油、掃 CODE、OQC 或扭測。", "The final DFM station must always be shipment packaging; the flow must not stop at appearance, full inspection, oil replenishment, code scan, OQC, or torque test.")}</td><td style="padding:6px;">${t("包裝治具", "Packaging fixture")}</td><td style="padding:6px;">${t("藍框", "Blue")}</td></tr>
             </tbody>
           </table>
         </div>
 
-        <strong>${t("四、需依圖面或樣品再確認的項目", "4. Items to confirm by drawing or sample")}</strong><br>
+        <strong>${t("四、需依圖面或樣品確認的項目", "4. Items to confirm by drawing or sample")}</strong><br>
         <ul>
           <li>${t("是否有左右件：有左件用 L1、L2...；有右件用 R1、R2...；無左右件則可用 O1、O2...。", "Whether there are left/right parts: use L1/L2... and R1/R2..., otherwise use O1/O2...")}</li>
           <li>${t("是否含彈片、墊片、華司、摩擦片、凹輪、凸輪、止擋片等堆疊零件；這會影響組立內容。", "Whether spring plates, washers, friction plates, cams, stoppers, or stacked parts exist; this affects assembly content.")}</li>
-          <li>${t("是否有鉚釘或轉軸鉚合需求：若有，流程需加入壓入鉚釘 → 鉚合。", "Whether rivets or shaft riveting are required; if yes, add rivet press-in -> riveting.")}</li>
-          <li>${t("是否有螺絲、螺帽、螺柱、螺紋孔或防鬆要求：若有，需加入鎖緊與扭力確認 / 鎖附檢查。", "Whether screws, nuts, studs, threaded holes, or anti-loosening requirements exist; if yes, add tightening and torque / fastening check.")}</li>
-          <li>${t("是否需要噴印、雷雕、標記檢查、角度檢驗、噪音檢驗、全檢或 OQC。", "Whether printing, laser engraving, mark inspection, angle inspection, noise inspection, full inspection, or OQC is required.")}</li>
+          <li>${t("是否有鉚合需求：若有，不可只寫鉚合，需先壓入鉚釘，再進行鉚合；或確認是否為轉軸需鉚合。", "Whether riveting is required: if yes, do not only write riveting; first press in the rivet and then rivet, or confirm whether the shaft requires riveting.")}</li>
+          <li>${t("是否有螺絲、螺帽、螺柱、螺紋孔、扭力規格或防鬆要求；若有，需新增鎖緊與扭力確認 / 鎖附檢查。", "Whether screws, nuts, studs, threaded holes, torque specs, or anti-loosening requirements exist; if yes, add tightening and torque / fastening check.")}</li>
+          <li>${t("是否需要噴印、噴印乾燥 / 固化、雷雕、雷雕後清潔、標記檢查、角度檢驗、噪音檢驗、全檢或 OQC。", "Whether printing, printing drying/curing, laser engraving, post-laser cleaning, mark inspection, angle inspection, noise inspection, full inspection, or OQC is required.")}</li>
         </ul>
 
-        <strong>${t("五、排版規則", "5. Layout rules")}</strong><br>
-        ${t("圖面排版第 1 排放 1～5 站，第 2 排放 6～10 站；第 6 站放在第 1 站正下方，第 5 站與第 6 站之間不需畫箭頭。製程工站用藍框，檢測工站用紅框，前置準備 / 注油 / 備料可用綠框，前置工站群組背景可用黃色區塊。", "Place stations 1-5 on the first row and stations 6-10 on the second row; station 6 sits below station 1, with no arrow needed between station 5 and station 6. Use blue frames for process stations, red for inspection, green for preparation/oiling/material preparation, and yellow background for preparation groups.")}<br><br>
+        <strong>${t("五、噴印 / 雷雕與標識規則", "5. Printing / laser engraving and marking rules")}</strong><br>
+        ${t("若產品需標示 Logo、方向記號、料號、批號、序號、QR Code、2D Code、條碼或客戶指定識別資訊，需判斷是否新增噴印或雷雕工站。噴印後若需乾燥或固化，新增噴印乾燥 / 固化；雷雕後若可能產生粉塵、燒痕或殘留物，新增雷雕後清潔；標識位置、方向、內容或清晰度需確認時，新增標記檢查。", "If the product needs logo, direction mark, part number, lot number, serial number, QR code, 2D code, barcode, or customer-specified identification, judge whether printing or laser engraving is needed. If printing requires drying/curing, add printing drying/curing. If laser engraving may generate dust, burn marks, or residue, add post-laser cleaning. Add mark inspection when position, direction, content, or clarity must be confirmed.")}<br><br>
 
-        <strong>${t("六、判斷口訣", "6. Judgment memory rule")}</strong><br>
-        ${t("先找軸，再找胞；先分清胞類，再排工站流程；一軸一胞是單胞，一軸兩胞是雙胞；有彈片墊片先組立，鬆配可一次放；需要壓緊再壓合；轉軸注油為潤滑，壓旋後要扭測；有螺紋件要鎖緊；有標識要噴印或雷雕；有 CODE 要掃碼追溯；有油要清潔補油；最後一定包裝出貨。", "Find the shaft first, then the cell. Identify the cell type before arranging the station flow. One shaft with one cell is single-cell; one shaft with two cells is double-cell. Spring plates/washers are assembled first; loose-fit parts can be inserted together. Press-fit only when tightening or pressing is needed. Oiling lubricates the rotating shaft; torque test follows press-rotation. Threaded parts need tightening. Marking requires printing or laser engraving. Codes require traceability scanning. Oil requires cleaning and replenishment. The last station is always shipment packaging.")}<br><br>
+        <strong>${t("六、排版與編號規則", "6. Layout and numbering rules")}</strong><br>
+        ${t("圖面排版第 1 排放 1～5 站，第 2 排放 6～10 站；第 6 站放在第 1 站正下方，第 5 站與第 6 站之間不需畫箭頭。製程工站用藍框，檢測工站用紅框，前置準備 / 注油 / 備料可用綠框，前置工站群組背景可用黃色區塊。左件用 L1、L2、L3...；右件用 R1、R2、R3...；一般製程用 O1、O2、O3...；模組 / 主流程可用 M1、M2、M3...；出貨檢驗用 OQC1、OQC2...。每個工站需包含站別、工站名稱、對應零件名稱、設備名稱、必要時 CT、製程或檢測分類。", "Place stations 1-5 on the first row and 6-10 on the second row; station 6 sits below station 1, with no arrow needed between stations 5 and 6. Use blue frames for process stations, red for inspection, green for preparation/oiling/material preparation, and yellow background for preparation groups. Use L1/L2/L3... for left parts, R1/R2/R3... for right parts, O1/O2/O3... for general process, M1/M2/M3... for module/main flow, and OQC1/OQC2... for outgoing quality inspection. Each station should include station number, station name, corresponding part name, equipment, CT if needed, and process/inspection classification.")}<br><br>
+
+        <strong>${t("七、新人判斷口訣", "7. Judgment memory rule")}</strong><br>
+        ${t("先找軸，再找胞；一軸兩胞是雙胞；雙胞可在軸兩側，也可在軸同側；有彈片墊片先組立，鬆配可一次放；需要壓緊再壓合；轉軸注油為潤滑，壓旋後要扭測；有螺紋件要鎖緊；有標識要噴印或雷雕；有 CODE 要掃碼追溯；有油要清潔補油；最後一定包裝出貨。", "Find the shaft first, then the cell. One shaft with two cells is double-cell; double-cell can be on both sides of the shaft or on the same side. Assemble spring plates/washers first; loose-fit parts can be inserted together. Press-fit only when tightening or pressing is needed. Oiling lubricates the rotating shaft; torque test follows press-rotation. Threaded parts need tightening. Marking requires printing or laser engraving. Codes require traceability scanning. Oil requires cleaning and replenishment. The last station is always shipment packaging.")}<br><br>
         ${getDfmMediaAttachmentHtml()}
       `;
     }
@@ -9593,7 +9596,7 @@
         mim_advantages: ["MIM 有哪些應用", "MIM 產品範例", "MIM 製程"],
         mim_applications: ["MIM 技術優點", "MIM 產品範例", "金屬射出成型"],
         hinges: ["樞紐製件的應用", "樞紐製件的優勢", "樞紐製件的特點"],
-        dfm_hinge: ["胞類樞紐工站製作流程", "轉軸處標準流程", "DFM 最後一站是什麼", "胞類判斷方式"],
+        dfm_hinge: ["雙胞樞紐工站製作流程", "轉軸處標準流程", "DFM 最後一站是什麼", "雙胞判斷方式"],
         springs: ["彈簧製件的應用", "彈簧製件的優勢", "彈簧客製化"],
         stamping: ["沖壓製件的應用", "沖壓製件的優勢", "沖壓製件的特點"],
         lathe: ["車銑製件的應用", "車銑製件的優勢", "車銑製件"],
