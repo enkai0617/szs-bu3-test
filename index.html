@@ -4984,6 +4984,29 @@
       .nav-actions { gap: 8px !important; }
     }
 
+
+
+    /* === SZS_FIX_HOME_HERO_SCHEME_B_20260518: remove empty blue glow, keep clean gradient === */
+    body {
+      background:
+        linear-gradient(135deg, #f8fbff 0%, #eef6ff 52%, #f8fbff 100%) !important;
+    }
+
+    #homePage .hero {
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.78) 0%, rgba(239,247,255,.62) 58%, rgba(248,251,255,.86) 100%) !important;
+    }
+
+    #homePage .hero::before,
+    #homePage .hero::after {
+      display: none !important;
+      content: none !important;
+    }
+
+    body::before {
+      opacity: .72;
+    }
+
 </style>
 </head>
 <body class="sidebar-collapsed">
