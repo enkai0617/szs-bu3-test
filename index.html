@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+<!-- SZS_FIX_TOPBAR_MEMBERS_ADMIN_SETTINGS_20260518 -->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -4666,6 +4667,244 @@
       }
     }
 
+
+
+    /* === SZS FIX 20260518: top online members + admin in settings === */
+    .top-members-wrap {
+      position: relative;
+      display: none;
+      flex: 0 0 auto;
+    }
+
+    .top-members-btn {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 16px;
+      padding: 8px 12px;
+      background: rgba(224,242,254,.75);
+      color: #075985;
+      border: 1px solid rgba(125,211,252,.6);
+      box-shadow: none;
+      white-space: nowrap;
+    }
+
+    .top-members-btn strong {
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.78);
+      color: #0284c7;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .top-members-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(14,165,233,.12);
+      color: #0284c7;
+      font-weight: 950;
+    }
+
+    .top-members-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 10px);
+      width: 360px;
+      max-height: 560px;
+      overflow: auto;
+      display: none;
+      z-index: 125;
+      padding: 12px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.98);
+      border: 1px solid #dbe7f5;
+      box-shadow: 0 24px 70px rgba(15,23,42,.18);
+      backdrop-filter: blur(18px);
+    }
+
+    .top-members-menu.open { display: block; }
+
+    .top-members-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 6px 10px;
+      border-bottom: 1px solid #e5eef8;
+      margin-bottom: 10px;
+    }
+
+    .top-members-head strong {
+      color: #0f172a;
+      font-size: 17px;
+      font-weight: 950;
+    }
+
+    .top-members-head small {
+      color: #2563eb;
+      background: rgba(59,130,246,.10);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-weight: 900;
+    }
+
+    .top-status-control {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 8px 6px 12px;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .top-members-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 4px 2px;
+    }
+
+    .top-member-row {
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 10px;
+      border-radius: 14px;
+      background: rgba(248,251,255,.92);
+      border: 1px solid #e5eef8;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .top-member-row:hover { background: #eff6ff; }
+
+    .top-member-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #60a5fa, #2563eb);
+      color: white;
+      font-weight: 950;
+    }
+
+    .top-member-meta { min-width: 0; }
+    .top-member-meta strong {
+      display: block;
+      color: #0f172a;
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .top-member-meta span {
+      display: block;
+      color: #64748b;
+      font-size: 11px;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .top-members-more {
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 14px;
+      background: #fff;
+      color: #0284c7;
+      border: 1px solid #dbe7f5;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .settings-card {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+      padding: 22px;
+      background: rgba(255,255,255,.86);
+      border: 1px solid #dbe7f5;
+      border-radius: 22px;
+      box-shadow: 0 20px 50px rgba(15,23,42,.08);
+    }
+
+    .settings-card h2 {
+      margin: 0 0 8px;
+      color: #0f172a;
+      font-size: 20px;
+      font-weight: 950;
+    }
+
+    .settings-card p {
+      margin: 0 0 16px;
+      color: #64748b;
+      line-height: 1.65;
+      font-weight: 800;
+    }
+
+    .settings-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg,#60a5fa,#2563eb);
+      color: white;
+      font-size: 22px;
+      font-weight: 950;
+    }
+
+    .home-quick-members { display: none !important; }
+    .home-main-layout { grid-template-columns: 1fr !important; }
+
+    body.dark .top-members-menu,
+    body.dark .top-member-row,
+    body.dark .settings-card {
+      background: rgba(15,23,42,.94) !important;
+      border-color: rgba(56,189,248,.18) !important;
+    }
+
+    body.dark .top-members-head strong,
+    body.dark .top-member-meta strong,
+    body.dark .settings-card h2 {
+      color: #e2e8f0 !important;
+    }
+
+    body.dark .top-member-meta span,
+    body.dark .settings-card p {
+      color: #94a3b8 !important;
+    }
+
+    @media (max-width: 1180px) {
+      .top-members-btn span:not(.top-members-icon),
+      .top-members-btn strong { display: none; }
+      .top-members-menu { right: -80px; }
+      .settings-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 820px) {
+      .top-members-wrap { order: 98; }
+      .top-members-menu { right: auto; left: 0; width: calc(100vw - 28px); }
+    }
+
 </style>
 </head>
 <body class="sidebar-collapsed">
@@ -4685,6 +4924,29 @@
         <span>⌕</span>
         <input id="topSearchInput" placeholder="搜尋文件、分類或標籤..." onkeydown="handleTopSearch(event)" />
         <kbd>⌘ K</kbd>
+      </div>
+
+      <div class="top-members-wrap" id="topMembersWrap">
+        <button class="top-members-btn" id="topMembersBtn" type="button" onclick="toggleTopMembers(event)">
+          <span class="top-members-icon">☷</span>
+          <span data-zh="線上成員" data-en="Members">線上成員</span>
+          <strong id="topMembersCount">0 人</strong>
+          <span>⌄</span>
+        </button>
+        <div class="top-members-menu" id="topMembersMenu">
+          <div class="top-members-head">
+            <strong data-zh="線上成員" data-en="Online Members">線上成員</strong>
+            <small id="topMembersSummary">0 人</small>
+          </div>
+          <div class="top-status-control">
+            <span data-zh="我的狀態" data-en="My Status">我的狀態</span>
+            <button id="topPresenceOnlineBtn" class="status-btn online" type="button" onclick="setMyPresence('online')" data-zh="線上" data-en="Online">線上</button>
+            <button id="topPresenceAwayBtn" class="status-btn away" type="button" onclick="setMyPresence('away')" data-zh="離開" data-en="Away">離開</button>
+            <button id="topPresenceOfflineBtn" class="status-btn offline" type="button" onclick="setMyPresence('offline')" data-zh="離線" data-en="Offline">離線</button>
+          </div>
+          <div class="top-members-list" id="topMembersList"></div>
+          <button class="top-members-more" type="button" onclick="openMembersSection(); closeTopMembersMenu();" data-zh="查看全部成員" data-en="View All Members">查看全部成員</button>
+        </div>
       </div>
 
       <span class="user-pill" id="userPill"></span>
@@ -4717,7 +4979,6 @@
       <button id="loginBtn" onclick="openAuthModal('login')" data-zh="登入" data-en="Login">登入</button>
       <button id="registerBtn" class="primary" onclick="openAuthModal('register')" data-zh="註冊" data-en="Sign Up">註冊</button>
       <button id="logoutBtn" style="display:none;" onclick="logout()" data-zh="登出" data-en="Logout">登出</button>
-      <button onclick="openAdmin()" data-zh="後台管理" data-en="Admin Panel">後台管理</button>
     </div>
   </header>
   <div class="notification-panel" id="notificationPanel">
@@ -4760,7 +5021,7 @@
       <button class="side-item" onclick="openMembersSection()" data-side="members" title="線上成員">
         <span class="side-icon">☷</span><span class="side-label" data-zh="線上成員" data-en="Members">線上成員</span><span class="side-badge" id="sideMemberCount">13</span>
       </button>
-      <button class="side-item" onclick="updateSideNav('settings'); document.body.classList.add('sidebar-collapsed'); toggleTheme();" data-side="settings" title="系統設定">
+      <button class="side-item" onclick="openSystemSettings()" data-side="settings" title="系統設定">
         <span class="side-icon">⚙</span><span class="side-label" data-zh="系統設定" data-en="Settings">系統設定</span>
       </button>
     </div>
@@ -4985,6 +5246,49 @@
     <section class="doc-table" id="searchResultList"></section>
   </main>
 
+
+  <main id="systemSettingsPage" class="page">
+    <section class="detail-top">
+      <div class="detail-title-area">
+        <div class="detail-label">SYSTEM SETTINGS</div>
+        <h1 data-zh="系統設定" data-en="System Settings">系統設定</h1>
+        <p data-zh="這裡集中放置系統相關入口。後台管理已移到這裡，頂部工具列不再顯示後台管理按鈕。"
+           data-en="System-related entries are placed here. The Admin Panel has been moved here and is no longer shown in the top bar.">
+          這裡集中放置系統相關入口。後台管理已移到這裡，頂部工具列不再顯示後台管理按鈕。
+        </p>
+      </div>
+      <div class="detail-actions">
+        <button onclick="showHome()" data-zh="← 返回首頁" data-en="← Back Home">← 返回首頁</button>
+      </div>
+    </section>
+
+    <section class="settings-grid">
+      <div class="settings-card primary-entry">
+        <div class="settings-icon">▤</div>
+        <div>
+          <h2 data-zh="後台管理" data-en="Admin Panel">後台管理</h2>
+          <p data-zh="管理文件、資料庫分類、會員權限與操作紀錄。" data-en="Manage documents, database categories, member permissions, and activity logs.">管理文件、資料庫分類、會員權限與操作紀錄。</p>
+          <button class="primary" onclick="openAdmin()" data-zh="進入後台管理" data-en="Open Admin Panel">進入後台管理</button>
+        </div>
+      </div>
+      <div class="settings-card">
+        <div class="settings-icon">☷</div>
+        <div>
+          <h2 data-zh="線上成員" data-en="Online Members">線上成員</h2>
+          <p data-zh="線上成員與狀態切換已移到最上方搜尋列旁。" data-en="Online members and status controls are now next to the top search bar.">線上成員與狀態切換已移到最上方搜尋列旁。</p>
+          <button onclick="openMembersSection()" data-zh="查看線上成員" data-en="View Online Members">查看線上成員</button>
+        </div>
+      </div>
+      <div class="settings-card">
+        <div class="settings-icon">◐</div>
+        <div>
+          <h2 data-zh="外觀模式" data-en="Appearance">外觀模式</h2>
+          <p data-zh="黑白頁面切換保留在頂部月亮按鈕，不再由左側系統設定觸發。" data-en="Theme switching remains on the moon button in the top bar and is no longer triggered by System Settings.">黑白頁面切換保留在頂部月亮按鈕，不再由左側系統設定觸發。</p>
+          <button onclick="toggleTheme()" data-zh="切換外觀" data-en="Toggle Appearance">切換外觀</button>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <main id="adminPage" class="page">
     <section class="detail-top">
@@ -6147,6 +6451,7 @@
         const btn = document.getElementById(`presence${status.charAt(0).toUpperCase() + status.slice(1)}Btn`);
         if (btn) btn.classList.toggle("active", currentStatus === status);
       });
+      renderTopOnlineMembers();
 
       if (totalCountEl) totalCountEl.textContent = `${members.length} ${currentLang === 'zh' ? '人' : 'members'}`;
 
@@ -6470,6 +6775,69 @@
       closeAuthModal();
       closeAssistant();
       showPage("loginLandingPage");
+    }
+
+
+
+    function closeTopMembersMenu() {
+      document.getElementById("topMembersMenu")?.classList.remove("open");
+    }
+
+    function toggleTopMembers(event) {
+      if (event) event.stopPropagation();
+      const menu = document.getElementById("topMembersMenu");
+      if (!menu) return;
+      if (!currentUser) {
+        openAuthModal("login");
+        return;
+      }
+      renderTopOnlineMembers();
+      menu.classList.toggle("open");
+    }
+
+    function renderTopOnlineMembers() {
+      const wrap = document.getElementById("topMembersWrap");
+      const countEl = document.getElementById("topMembersCount");
+      const summaryEl = document.getElementById("topMembersSummary");
+      const listEl = document.getElementById("topMembersList");
+      if (!wrap || !countEl || !summaryEl || !listEl) return;
+
+      wrap.style.display = currentUser ? "block" : "none";
+      if (!currentUser) return;
+
+      const members = getAllDisplayMembers();
+      const presence = ensurePresenceForMembers(members);
+      const currentStatus = getCurrentPresenceStatus();
+      ["online", "away", "offline"].forEach(status => {
+        const id = `topPresence${status.charAt(0).toUpperCase() + status.slice(1)}Btn`;
+        const btn = document.getElementById(id);
+        if (btn) btn.classList.toggle("active", currentStatus === status);
+      });
+
+      const onlineCount = members.filter(member => (presence[member.companyId]?.status || "offline") === "online").length;
+      countEl.textContent = currentLang === "zh" ? `${members.length} 人` : `${members.length} members`;
+      summaryEl.textContent = currentLang === "zh" ? `${onlineCount} 位線上 / 共 ${members.length} 人` : `${onlineCount} online / ${members.length} total`;
+
+      listEl.innerHTML = members.slice(0, 8).map(member => {
+        const status = presence[member.companyId]?.status || "offline";
+        return `
+          <button class="top-member-row" type="button" onclick="openMemberChat('${member.companyId}'); closeTopMembersMenu();">
+            <span class="top-member-avatar">${(member.name || "U").slice(0,1)}</span>
+            <span class="top-member-meta"><strong>${member.name}</strong><span>${member.companyId} · ${member.department || ""}</span></span>
+            <span class="quick-status-label ${status}">${getPresenceLabel(status)}</span>
+          </button>`;
+      }).join("");
+    }
+
+    function openSystemSettings() {
+      if (!currentUser) {
+        showLoginLanding();
+        return;
+      }
+      closeMembersSection();
+      updateSideNav("settings");
+      document.body.classList.add("sidebar-collapsed");
+      showPage("systemSettingsPage");
     }
 
     function closeMembersSection() {
@@ -7798,6 +8166,7 @@
       }
 
       renderNotifications();
+      renderTopOnlineMembers();
     }
 
     function closeFloatingMenus() {
@@ -9437,6 +9806,11 @@
       appendMessageToBody("chatBody", "message bot", html, true);
       appendMessageToBody("fullChatBody", "message bot", html, true);
     }
+
+    document.addEventListener("click", (event) => {
+      const topMembersWrap = document.getElementById("topMembersWrap");
+      if (topMembersWrap && !topMembersWrap.contains(event.target)) closeTopMembersMenu();
+    });
 
     init();
   </script>
