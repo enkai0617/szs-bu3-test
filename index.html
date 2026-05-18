@@ -4873,6 +4873,104 @@
       }
     }
 
+
+    /* === STATUS VISUAL + HEADER SEARCH OVERFLOW FIX 20260518 === */
+    html, body { overflow-x: hidden !important; }
+
+    header {
+      max-width: 100vw !important;
+      overflow: visible !important;
+    }
+
+    .nav-actions {
+      min-width: 0 !important;
+      flex: 1 1 auto !important;
+      max-width: calc(100vw - 360px) !important;
+    }
+
+    .top-search {
+      flex: 1 1 300px !important;
+      min-width: 220px !important;
+      width: auto !important;
+      max-width: 520px !important;
+    }
+
+    .top-search:focus-within {
+      width: auto !important;
+      max-width: 560px !important;
+      flex-basis: 360px !important;
+    }
+
+    .top-presence-control {
+      transition: background .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .top-presence-control.presence-online {
+      background: rgba(220, 252, 231, .72) !important;
+      border-color: rgba(34, 197, 94, .36) !important;
+      box-shadow: inset 0 0 0 1px rgba(34, 197, 94, .08), 0 10px 24px rgba(22, 163, 74, .08);
+    }
+
+    .top-presence-control.presence-away {
+      background: rgba(254, 226, 226, .72) !important;
+      border-color: rgba(239, 68, 68, .34) !important;
+      box-shadow: inset 0 0 0 1px rgba(239, 68, 68, .08), 0 10px 24px rgba(239, 68, 68, .08);
+    }
+
+    .top-presence-control.presence-offline {
+      background: rgba(241, 245, 249, .82) !important;
+      border-color: rgba(148, 163, 184, .42) !important;
+      box-shadow: inset 0 0 0 1px rgba(100, 116, 139, .06), 0 10px 24px rgba(100, 116, 139, .06);
+    }
+
+    .top-presence-control.presence-online .status-btn.online.active,
+    .top-presence-control.presence-away .status-btn.away.active,
+    .top-presence-control.presence-offline .status-btn.offline.active {
+      color: #fff !important;
+      border-color: transparent !important;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, .12) !important;
+    }
+
+    .top-presence-control.presence-online .status-btn.online.active { background: #16a34a !important; }
+    .top-presence-control.presence-away .status-btn.away.active { background: #dc2626 !important; }
+    .top-presence-control.presence-offline .status-btn.offline.active { background: #64748b !important; }
+
+    .profile-avatar { position: relative; }
+
+    .profile-wrap .profile-avatar::after {
+      content: "";
+      position: absolute;
+      right: -2px;
+      bottom: -2px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      background: #94a3b8;
+      box-shadow: 0 0 0 2px rgba(15, 23, 42, .04);
+    }
+
+    .profile-wrap.presence-online .profile-avatar::after { background: #22c55e; }
+    .profile-wrap.presence-away .profile-avatar::after { background: #ef4444; }
+    .profile-wrap.presence-offline .profile-avatar::after { background: #94a3b8; }
+
+    body.dark .profile-wrap .profile-avatar::after { border-color: #0f172a; }
+
+    @media (max-width: 1380px) {
+      .nav-actions { max-width: calc(100vw - 300px) !important; }
+      .top-search { max-width: 420px !important; flex-basis: 250px !important; }
+      .top-search:focus-within { max-width: 460px !important; flex-basis: 300px !important; }
+      .profile-name, .profile-role { display: none !important; }
+      .profile-btn { grid-template-columns: 34px auto !important; }
+    }
+
+    @media (max-width: 1160px) {
+      .top-presence-label { display: none !important; }
+      .top-search { max-width: 340px !important; min-width: 180px !important; }
+      .top-search:focus-within { max-width: 360px !important; }
+      .nav-actions { gap: 8px !important; }
+    }
+
 </style>
 </head>
 <body class="sidebar-collapsed">
@@ -5925,6 +6023,10 @@
       let moved = false;
       const edgeBottom = 28;
       const topSafeGap = 86;
+      const savedBottom = parseFloat(localStorage.getItem("szs_assistant_launcher_bottom") || "");
+      if (Number.isFinite(savedBottom)) {
+        requestAnimationFrame(() => applyBottom(savedBottom));
+      }
 
       function clampLauncherBottom(value) {
         const launcherHeight = launcher.offsetHeight || 72;
@@ -5963,6 +6065,8 @@
         launcher.releasePointerCapture?.(event.pointerId);
         window.__assistantLauncherDragged = moved;
         if (moved) {
+          const currentBottom = parseFloat(getComputedStyle(launcher).bottom);
+          if (Number.isFinite(currentBottom)) localStorage.setItem("szs_assistant_launcher_bottom", String(clampLauncherBottom(currentBottom)));
           setTimeout(() => { window.__assistantLauncherDragged = false; }, 0);
         }
       }
@@ -6429,6 +6533,21 @@ function init() {
       return t("離線", "Offline");
     }
 
+    function updatePresenceVisual(status) {
+      const normalized = ["online", "away", "offline"].includes(status) ? status : "offline";
+      const topPresenceControl = document.getElementById("topPresenceControl");
+      if (topPresenceControl) {
+        topPresenceControl.classList.remove("presence-online", "presence-away", "presence-offline");
+        topPresenceControl.classList.add(`presence-${normalized}`);
+      }
+
+      const profileWrap = document.getElementById("profileWrap");
+      if (profileWrap) {
+        profileWrap.classList.remove("presence-online", "presence-away", "presence-offline");
+        profileWrap.classList.add(`presence-${normalized}`);
+      }
+    }
+
     function setMyPresence(status) {
       if (!currentUser) {
         openAuthModal("login");
@@ -6444,7 +6563,7 @@ function init() {
       savePresence(presence);
       renderOnlineMembers();
       updateAuthUI();
-      showToast(t(`狀態已更新為：${getPresenceLabel(status)}`, `Status updated: ${getPresenceLabel(status)}`));
+      updatePresenceVisual(status);
     }
 
     function renderOnlineMembers() {
@@ -6458,6 +6577,7 @@ function init() {
       const presence = ensurePresenceForMembers(allMembers);
       const groups = buildMemberGroups(members, presence);
       const currentStatus = getCurrentPresenceStatus();
+      updatePresenceVisual(currentStatus);
 
       ["online", "away", "offline"].forEach(status => {
         const suffix = status.charAt(0).toUpperCase() + status.slice(1);
@@ -6789,7 +6909,7 @@ function showPage(pageId) {
       document.body.classList.toggle("auth-landing", pageId === "loginLandingPage");
       document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
       document.getElementById(pageId).classList.add("active");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }
 
     function showLoginLanding() {
@@ -8147,6 +8267,7 @@ function showPage(pageId) {
         enforceHeaderStatusOnly();
 
         const status = getCurrentPresenceStatus();
+        updatePresenceVisual(status);
         ["online", "away", "offline"].forEach(item => {
           const suffix = item.charAt(0).toUpperCase() + item.slice(1);
           const btn = document.getElementById(`topPresence${suffix}Btn`);
@@ -8175,7 +8296,12 @@ function showPage(pageId) {
         if (profileWrap) profileWrap.style.display = "none";
         if (notificationBtn) notificationBtn.style.display = "none";
         const topPresenceControl = document.getElementById("topPresenceControl");
-        if (topPresenceControl) topPresenceControl.style.display = "none";
+        if (topPresenceControl) {
+          topPresenceControl.style.display = "none";
+          topPresenceControl.classList.remove("presence-online", "presence-away", "presence-offline");
+        }
+        const profileWrapLoggedOut = document.getElementById("profileWrap");
+        if (profileWrapLoggedOut) profileWrapLoggedOut.classList.remove("presence-online", "presence-away", "presence-offline");
       }
 
       renderNotifications();
