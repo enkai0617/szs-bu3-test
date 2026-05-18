@@ -5200,7 +5200,7 @@
       { id: "sample-5", databaseId: "04", titleZh: "一般研發測試報告", titleEn: "General R&D Test Report", descriptionZh: "一般研發測試資料範例。", descriptionEn: "Sample general R&D test data.", type: "PDF", updatedAt: "2026-02-18", keywords: "R&D test report 測試 報告 研發", isDefault: true },
       { id: "sample-6", databaseId: "05", titleZh: "製程參數範例表", titleEn: "Process Parameter Sample Sheet", descriptionZh: "測試用製程參數表。", descriptionEn: "Sample process parameter sheet.", type: "XLSX", updatedAt: "2026-01-30", keywords: "process parameter 製程 參數", isDefault: true },
       { id: "sample-7", databaseId: "06", titleZh: "品質異常紀錄", titleEn: "Quality Issue Record", descriptionZh: "品質異常與改善追蹤範例。", descriptionEn: "Sample quality issue and improvement tracking.", type: "PDF", updatedAt: "2026-02-10", keywords: "quality issue 品質 異常", isDefault: true },
-      { id: "dfm-hinge-single-cell", databaseId: "05", titleZh: "樞紐製件 DFM 生成規範", titleEn: "Hinge DFM Generation Standard", descriptionZh: "單胞 / 雙胞樞紐製件 DFM 製程流程、工站判斷、注油、壓旋、扭測、清潔補油、掃 CODE 與包裝出貨規範。", descriptionEn: "DFM process flow rules for single-cell and double-cell hinge products, including assembly, oiling, press-rotation, torque test, cleaning, oil replenishment, code scanning, and shipment packaging.", type: "PDF", updatedAt: "2026-05-15", keywords: "DFM 樞紐 製件 單胞 雙胞 工站 製作流程 製程流程圖 注油 壓旋 扭測 清潔 補油 掃CODE Barcode 包裝出貨 hinge single cell double cell process", tags: ["DFM", "樞紐", "製程", "單胞"], isDefault: true }
+      { id: "dfm-hinge-single-cell", databaseId: "05", titleZh: "樞紐製件 DFM 生成規範", titleEn: "Hinge DFM Generation Standard", descriptionZh: "胞類樞紐製件 DFM 製程流程、工站判斷、注油、壓旋、扭測、清潔補油、掃 CODE 與包裝出貨規範。", descriptionEn: "DFM process flow rules for single-cell and double-cell hinge products, including assembly, oiling, press-rotation, torque test, cleaning, oil replenishment, code scanning, and shipment packaging.", type: "PDF", updatedAt: "2026-05-15", keywords: "DFM 樞紐 製件 胞類 單胞 雙胞 工站 製作流程 製程流程圖 注油 壓旋 扭測 清潔 補油 掃CODE Barcode 包裝出貨 hinge cell type single cell double cell process", tags: ["DFM", "樞紐", "製程", "胞類"], isDefault: true }
     ];
 
     let databases = [];
@@ -7123,7 +7123,7 @@
 
     function getAssistantWelcomeMessage() {
       return t(
-        "嗨，我是 SZS 小幫手。你可以問我公司官網資訊、產品、認證、投資人資訊，也可以搜尋目前知識庫文件；現在也能回答單胞樞紐 DFM 工站製作流程。",
+        "嗨，我是 SZS 小幫手。你可以問我公司官網資訊、產品、認證、投資人資訊，也可以搜尋目前知識庫文件；現在也能回答胞類樞紐 DFM 工站製作流程。",
         "Hi, I am the SZS assistant. You can ask about company website information, products, certifications, investor information, search the current knowledge base, and ask for the single-cell hinge DFM station process."
       );
     }
@@ -8860,23 +8860,24 @@
       const hasDfm = text.includes("dfm") || text.includes("製程流程") || text.includes("工站") || text.includes("製作流程") || text.includes("製造流程");
       const hasHinge = text.includes("樞紐") || text.includes("轉軸") || text.includes("hinge");
       const hasSingleCell = text.includes("單胞") || text.includes("一軸一胞") || text.includes("singlecell") || text.includes("single-cell");
+      const hasCellType = text.includes("胞類") || text.includes("celltype") || text.includes("cell-type");
       const hasDfmDoc = text.includes("dfm生成規範") || text.includes("dfm規範") || text.includes("dfm文件");
-      return hasDfmDoc || (hasDfm && hasHinge) || (hasSingleCell && hasHinge) || (hasSingleCell && hasDfm);
+      return hasDfmDoc || (hasDfm && hasHinge) || (hasSingleCell && hasHinge) || (hasSingleCell && hasDfm) || (hasCellType && hasHinge) || (hasCellType && hasDfm);
     }
 
     function getSingleCellHingeDfmAnswer() {
       return `
         <div class="source-badge">${t("來源分類：內部文件 · 樞紐製件 DFM 生成規範", "Source: Internal Document · Hinge DFM Generation Standard")}</div>
-        <strong>${t("單胞樞紐工站製作流程 DFM", "Single-cell hinge station process DFM")}</strong><br>
+        <strong>${t("胞類樞紐工站製作流程 DFM", "Cell-type hinge station process DFM")}</strong><br>
         ${t("DFM 在這份規範中等同於製程流程圖；拿到機種後，要先研究如何利用設備進行組裝，並且每站都要寫出零件如何被組裝、檢測與出貨。", "In this standard, DFM means the process flow chart. After receiving a model, the process should explain how parts are assembled, inspected, and shipped.")}<br><br>
 
-        <strong>${t("一、單胞樞紐判斷", "1. Single-cell hinge judgment")}</strong><br>
-        ${t("單胞係指同一轉軸結構中，只有一個胞與軸產生配合。新人判斷口訣是：先找軸，再找胞；一支軸配一個胞，就是單胞。L/R 只是產品方向或裝機方向，不能和單胞 / 雙胞混淆。", "A single-cell hinge means one shaft is matched with one cell structure. First find the shaft, then find the cell. L/R only indicates product direction and must not be confused with single-cell / double-cell structure.")}<br><br>
+        <strong>${t("一、胞類樞紐判斷", "1. Cell-type hinge judgment")}</strong><br>
+        ${t("胞類判斷是先確認同一轉軸結構中，胞與軸的配合數量與位置，再區分為單胞、雙胞、軸兩側雙胞或軸同側雙胞。新人判斷口訣是：先找軸，再找胞；再確認是一軸一胞、還是一軸兩胞。L/R 只是產品方向或裝機方向，不能和胞類混淆。", "Cell-type judgment starts by confirming how many cells and what positions are matched with the shaft in the same hinge structure, then classifying it as single-cell, double-cell, double-cell on both shaft sides, or double-cell on the same shaft side. First find the shaft, then find the cell, and confirm whether it is one shaft with one cell or one shaft with two cells. L/R only indicates product direction and must not be confused with the cell type.")}<br><br>
 
         <strong>${t("二、標準分析順序", "2. Standard analysis order")}</strong><br>
         <ol>
           <li>${t("判斷是否有特殊材料或特殊結構。", "Check whether there are special materials or special structures.")}</li>
-          <li>${t("判斷產品為單胞、雙胞、軸兩側雙胞或軸同側雙胞。", "Judge whether the product is single-cell, double-cell, double-cell on both shaft sides, or double-cell on the same shaft side.")}</li>
+          <li>${t("判斷產品屬於哪一種胞類：單胞、雙胞、軸兩側雙胞或軸同側雙胞。", "Judge which cell type the product belongs to: single-cell, double-cell, double-cell on both shaft sides, or double-cell on the same shaft side.")}</li>
           <li>${t("判斷是否有左右件；左件使用 L1、L2...，右件使用 R1、R2...。", "Check whether there are left/right parts; use L1, L2... for left parts and R1, R2... for right parts.")}</li>
           <li>${t("判斷是否需要前置零件準備、組立、壓合、鉚合或鎖緊。", "Check whether part preparation, assembly, press-fit, riveting, or tightening is needed.")}</li>
           <li>${t("判斷是否需要注油、壓旋、搖擺或扭測。", "Check whether oiling, press-rotation, swing operation, or torque test is needed.")}</li>
@@ -8885,7 +8886,7 @@
           <li>${t("最後固定安排包裝出貨。", "Always place shipment packaging as the final station.")}</li>
         </ol>
 
-        <strong>${t("三、單胞樞紐建議主流程", "3. Recommended main flow for a single-cell hinge")}</strong><br>
+        <strong>${t("三、胞類樞紐建議主流程", "3. Recommended main flow for a cell-type hinge")}</strong><br>
         <div class="chat-result-card">
           <table style="width:100%;border-collapse:collapse;font-size:14px;line-height:1.7;">
             <thead>
@@ -8925,8 +8926,8 @@
         <strong>${t("五、排版規則", "5. Layout rules")}</strong><br>
         ${t("圖面排版第 1 排放 1～5 站，第 2 排放 6～10 站；第 6 站放在第 1 站正下方，第 5 站與第 6 站之間不需畫箭頭。製程工站用藍框，檢測工站用紅框，前置準備 / 注油 / 備料可用綠框，前置工站群組背景可用黃色區塊。", "Place stations 1-5 on the first row and stations 6-10 on the second row; station 6 sits below station 1, with no arrow needed between station 5 and station 6. Use blue frames for process stations, red for inspection, green for preparation/oiling/material preparation, and yellow background for preparation groups.")}<br><br>
 
-        <strong>${t("六、口訣", "6. Memory rule")}</strong><br>
-        ${t("先找軸，再找胞；一軸一胞是單胞，一軸兩胞是雙胞；有彈片墊片先組立，鬆配可一次放；需要壓緊再壓合；轉軸注油為潤滑，壓旋後要扭測；有螺紋件要鎖緊；有標識要噴印或雷雕；有 CODE 要掃碼追溯；有油要清潔補油；最後一定包裝出貨。", "Find the shaft first, then the cell. One shaft with one cell is single-cell; one shaft with two cells is double-cell. Spring plates/washers are assembled first; loose-fit parts can be inserted together. Press-fit only when tightening or pressing is needed. Oiling lubricates the rotating shaft; torque test follows press-rotation. Threaded parts need tightening. Marking requires printing or laser engraving. Codes require traceability scanning. Oil requires cleaning and replenishment. The last station is always shipment packaging.")}
+        <strong>${t("六、判斷口訣", "6. Judgment memory rule")}</strong><br>
+        ${t("先找軸，再找胞；先分清胞類，再排工站流程；一軸一胞是單胞，一軸兩胞是雙胞；有彈片墊片先組立，鬆配可一次放；需要壓緊再壓合；轉軸注油為潤滑，壓旋後要扭測；有螺紋件要鎖緊；有標識要噴印或雷雕；有 CODE 要掃碼追溯；有油要清潔補油；最後一定包裝出貨。", "Find the shaft first, then the cell. Identify the cell type before arranging the station flow. One shaft with one cell is single-cell; one shaft with two cells is double-cell. Spring plates/washers are assembled first; loose-fit parts can be inserted together. Press-fit only when tightening or pressing is needed. Oiling lubricates the rotating shaft; torque test follows press-rotation. Threaded parts need tightening. Marking requires printing or laser engraving. Codes require traceability scanning. Oil requires cleaning and replenishment. The last station is always shipment packaging.")}
       `;
     }
 
@@ -9002,7 +9003,7 @@
         mim_advantages: ["MIM 有哪些應用", "MIM 產品範例", "MIM 製程"],
         mim_applications: ["MIM 技術優點", "MIM 產品範例", "金屬射出成型"],
         hinges: ["樞紐製件的應用", "樞紐製件的優勢", "樞紐製件的特點"],
-        dfm_hinge: ["單胞樞紐工站製作流程", "轉軸處標準流程", "DFM 最後一站是什麼"],
+        dfm_hinge: ["胞類樞紐工站製作流程", "轉軸處標準流程", "DFM 最後一站是什麼", "胞類判斷方式"],
         springs: ["彈簧製件的應用", "彈簧製件的優勢", "彈簧客製化"],
         stamping: ["沖壓製件的應用", "沖壓製件的優勢", "沖壓製件的特點"],
         lathe: ["車銑製件的應用", "車銑製件的優勢", "車銑製件"],
