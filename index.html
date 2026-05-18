@@ -301,7 +301,7 @@
     .admin-section.active { display: block; }
 
 
-    .admin-overview-shell { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.72fr); gap: 22px; align-items: start; }
+    .admin-overview-shell { display: grid; grid-template-columns: 1fr; gap: 22px; align-items: start; }
     .admin-overview-main, .admin-overview-aside { display: grid; gap: 22px; }
     .admin-overview-card { padding: 24px; }
     .admin-panel-heading { margin-bottom: 18px; }
@@ -8074,46 +8074,6 @@ function showPage(pageId) {
             </div>
           </div>
 
-          <div class="admin-overview-aside">
-            <div class="admin-box admin-aside-box">
-              <h3>🧭 ${t('總覽區域說明', 'Overview Notes')}</h3>
-              <ul class="admin-bullet-list">
-                <li>${t('僅提供系統概況，無法直接編輯。', 'Provides a system summary only and does not allow direct editing.')}</li>
-                <li>${t('點選左側功能選單或入口卡片，進入各管理頁進行維護。', 'Use the left menu or entry cards to open each management page.')}</li>
-              </ul>
-            </div>
-            <div class="admin-box admin-aside-box">
-              <h3>✅ ${t('設計重點', 'Design Focus')}</h3>
-              <ul class="admin-check-list">
-                <li>${t('避免在首頁直接修改，降低誤操作風險。', 'Avoid direct editing on the home screen to reduce risk.')}</li>
-                <li>${t('所有調整集中在對應功能頁面，權責更清楚。', 'Keep edits inside dedicated management pages for clearer ownership.')}</li>
-                <li>${t('資訊清晰、快速掌握系統狀態。', 'Make the admin status easier to understand at a glance.')}</li>
-              </ul>
-            </div>
-            <div class="admin-box admin-aside-box">
-              <h3>🛡️ ${t('安全機制', 'Safety Control')}</h3>
-              <ul class="admin-check-list">
-                <li>${t('所有修改操作都會寫入操作紀錄。', 'All edit actions are written into activity logs.')}</li>
-                <li>${t('重要刪除操作需二次確認。', 'Important delete operations require confirmation.')}</li>
-                <li>${t('操作追蹤集中在操作紀錄區中。', 'Action tracing is centralized in the activity log area.')}</li>
-              </ul>
-            </div>
-            <div class="admin-box admin-aside-box">
-              <h3>↪️ ${t('頁面導覽流程', 'Navigation Flow')}</h3>
-              <div class="admin-flow">
-                <div class="admin-flow-step main">${t('總覽首頁', 'Overview')}</div>
-                <div class="admin-flow-row">
-                  <div class="admin-flow-step">${t('文件管理', 'Documents')}</div>
-                  <div class="admin-flow-step">${t('分類管理', 'Categories')}</div>
-                </div>
-                <div class="admin-flow-row">
-                  <div class="admin-flow-step">${t('權限管理', 'Permissions')}</div>
-                  <div class="admin-flow-step">${t('操作紀錄', 'Logs')}</div>
-                </div>
-              </div>
-              <div style="margin-top:14px;color:var(--muted);line-height:1.7;font-size:13px;">${t('點擊功能入口後，進入對應頁面進行管理；完成後可透過上方分頁或返回首頁回到其他頁面。', 'After opening a function, manage items in that page. Use the tabs above or the back button to return.')}</div>
-            </div>
-          </div>
         </div>`;
     }
 
