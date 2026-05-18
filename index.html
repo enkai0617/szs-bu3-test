@@ -3909,6 +3909,17 @@
 
     body.members-open .home-main-layout {
       grid-template-columns: 1fr;
+      margin-top: 0;
+    }
+
+    body.members-open #homePage .hero,
+    body.members-open #homePage .dashboard-overview,
+    body.members-open #homeSmartDashboard {
+      display: none !important;
+    }
+
+    body.members-open #homePage {
+      padding-top: 28px;
     }
 
     body:not(.members-open) #onlineMembersPanel {
