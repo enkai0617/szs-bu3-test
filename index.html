@@ -4532,7 +4532,7 @@
       <button class="side-item active" onclick="showHome()" data-side="home" title="首頁">
         <span class="side-icon">⌂</span><span class="side-label" data-zh="首頁" data-en="Home">首頁</span>
       </button>
-      <button class="side-item" onclick="closeMembersSection(); updateSideNav('databases'); document.getElementById('databaseSection')?.scrollIntoView({behavior:'smooth'});" data-side="databases" title="資料庫分類">
+      <button class="side-item" onclick="openDatabaseSection()" data-side="databases" title="資料庫分類">
         <span class="side-icon">▦</span><span class="side-label" data-zh="資料庫分類" data-en="Databases">資料庫分類</span><span class="side-badge" id="sideDatabaseCount">6</span>
       </button>
       <button class="side-item" onclick="openAssistantPage()" data-side="assistant" title="小幫手">
@@ -4558,7 +4558,7 @@
       <button class="side-item" onclick="openMembersSection()" data-side="members" title="線上成員">
         <span class="side-icon">☷</span><span class="side-label" data-zh="線上成員" data-en="Members">線上成員</span><span class="side-badge" id="sideMemberCount">13</span>
       </button>
-      <button class="side-item" onclick="toggleTheme()" data-side="settings" title="系統設定">
+      <button class="side-item" onclick="updateSideNav('settings'); document.body.classList.add('sidebar-collapsed'); toggleTheme();" data-side="settings" title="系統設定">
         <span class="side-icon">⚙</span><span class="side-label" data-zh="系統設定" data-en="Settings">系統設定</span>
       </button>
     </div>
@@ -6153,6 +6153,24 @@
       document.querySelectorAll(".side-item").forEach(item => {
         item.classList.toggle("active", item.dataset.side === active);
       });
+      if (active) document.body.classList.add("sidebar-collapsed");
+    }
+
+    function openDatabaseSection() {
+      if (!currentUser) {
+        showLoginLanding();
+        return;
+      }
+      selectedDatabaseId = null;
+      databaseHomeView = "cards";
+      closeMembersSection();
+      renderDatabases();
+      renderOnlineMembers();
+      updateSideNav("databases");
+      showPage("homePage");
+      setTimeout(() => {
+        document.getElementById("databaseSection")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 80);
     }
 
     function renderDatabases() {
@@ -6342,6 +6360,11 @@
       document.getElementById("adminDocTab").classList.toggle("active", tab === "documents");
       document.getElementById("adminDbTab").classList.toggle("active", tab === "databases");
       document.getElementById("adminUserTab").classList.toggle("active", tab === "users");
+      document.getElementById("adminLogTab").classList.toggle("active", tab === "logs");
+
+      if (tab === "users") updateSideNav("users");
+      else if (tab === "logs") updateSideNav("logs");
+      else updateSideNav("documents");
     }
 
     function quickEditSelectedDatabase() {
