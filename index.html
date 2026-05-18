@@ -4844,6 +4844,20 @@
       display: block;
     }
 
+
+    /* === Assistant launcher Y-axis drag: keep X fixed on the right === */
+    .assistant-launcher {
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: grab !important;
+    }
+
+    .assistant-launcher.dragging {
+      cursor: grabbing !important;
+      transition: none !important;
+    }
+
     @media (max-width: 760px) {
       .dfm-file-card {
         grid-template-columns: 48px minmax(0, 1fr);
@@ -5501,7 +5515,7 @@
     </div>
   </div>
 
-  <div class="assistant-launcher" onclick="toggleAssistant()">?</div>
+  <div class="assistant-launcher" id="assistantLauncher" onclick="if(!window.__assistantLauncherDragged) toggleAssistant()">?</div>
 
   <div class="chat-box" id="chatBox">
     <div class="chat-header">
@@ -5899,7 +5913,70 @@
       return "User";
     }
 
-    function init() {
+    
+    function initAssistantLauncherDrag() {
+      const launcher = document.getElementById("assistantLauncher");
+      if (!launcher || launcher.dataset.dragReady === "true") return;
+      launcher.dataset.dragReady = "true";
+
+      let dragging = false;
+      let startY = 0;
+      let startBottom = 0;
+      let moved = false;
+      const edgeBottom = 28;
+      const topSafeGap = 86;
+
+      function clampLauncherBottom(value) {
+        const launcherHeight = launcher.offsetHeight || 72;
+        const maxBottom = Math.max(edgeBottom, window.innerHeight - launcherHeight - topSafeGap);
+        return Math.min(Math.max(value, edgeBottom), maxBottom);
+      }
+
+      function applyBottom(value) {
+        launcher.style.right = "28px";
+        launcher.style.left = "auto";
+        launcher.style.bottom = `${clampLauncherBottom(value)}px`;
+      }
+
+      launcher.addEventListener("pointerdown", (event) => {
+        if (event.button !== undefined && event.button !== 0) return;
+        dragging = true;
+        moved = false;
+        startY = event.clientY;
+        const currentBottom = parseFloat(getComputedStyle(launcher).bottom);
+        startBottom = Number.isFinite(currentBottom) ? currentBottom : edgeBottom;
+        launcher.classList.add("dragging");
+        launcher.setPointerCapture?.(event.pointerId);
+      });
+
+      launcher.addEventListener("pointermove", (event) => {
+        if (!dragging) return;
+        const deltaY = event.clientY - startY;
+        if (Math.abs(deltaY) > 4) moved = true;
+        applyBottom(startBottom - deltaY);
+      });
+
+      function endDrag(event) {
+        if (!dragging) return;
+        dragging = false;
+        launcher.classList.remove("dragging");
+        launcher.releasePointerCapture?.(event.pointerId);
+        window.__assistantLauncherDragged = moved;
+        if (moved) {
+          setTimeout(() => { window.__assistantLauncherDragged = false; }, 0);
+        }
+      }
+
+      launcher.addEventListener("pointerup", endDrag);
+      launcher.addEventListener("pointercancel", endDrag);
+
+      window.addEventListener("resize", () => {
+        const currentBottom = parseFloat(getComputedStyle(launcher).bottom);
+        applyBottom(Number.isFinite(currentBottom) ? currentBottom : edgeBottom);
+      });
+    }
+
+function init() {
       loadDatabases();
       loadDocuments();
       loadUsers();
@@ -5917,6 +5994,7 @@
       updateSystemOverview();
       renderOnlineMembers();
       updateAuthUI();
+      initAssistantLauncherDrag();
       closeAssistant();
       setTimeout(retrofitDfmMediaInVisibleChats, 0);
       if (currentUser) {
@@ -6696,8 +6774,18 @@
       updateBadge();
     }
 
-    function showPage(pageId) {
+    
+    function clearSearchInputs() {
+      currentSearchKeyword = "";
+      const topInput = document.getElementById("topSearchInput");
+      const pageInput = document.getElementById("searchPageInput");
+      if (topInput) topInput.value = "";
+      if (pageInput) pageInput.value = "";
+    }
+
+function showPage(pageId) {
       closeAssistant();
+      if (pageId !== "searchPage") clearSearchInputs();
       document.body.classList.toggle("auth-landing", pageId === "loginLandingPage");
       document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
       document.getElementById(pageId).classList.add("active");
