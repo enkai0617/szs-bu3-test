@@ -300,6 +300,62 @@
     .admin-section { display: none; }
     .admin-section.active { display: block; }
 
+
+    .admin-overview-shell { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.72fr); gap: 22px; align-items: start; }
+    .admin-overview-main, .admin-overview-aside { display: grid; gap: 22px; }
+    .admin-overview-card { padding: 24px; }
+    .admin-panel-heading { margin-bottom: 18px; }
+    .admin-panel-heading h2 { margin: 0 0 8px; font-size: 24px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .admin-panel-heading p { margin: 0; color: var(--muted); line-height: 1.7; }
+    .admin-subtle-tag { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; background: color-mix(in srgb, var(--soft) 70%, white); color: var(--primary); border: 1px solid var(--line); font-size: 12px; font-weight: 900; }
+    .admin-stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+    .admin-stat-card { border: 1px solid var(--line); border-radius: 20px; background: color-mix(in srgb, var(--panel-solid) 92%, white); padding: 18px 18px 16px; display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; }
+    .admin-stat-icon { width: 56px; height: 56px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 25px; font-weight: 900; color: white; }
+    .admin-stat-icon.docs { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+    .admin-stat-icon.db { background: linear-gradient(135deg, #22c55e, #16a34a); }
+    .admin-stat-icon.members { background: linear-gradient(135deg, #a855f7, #8b5cf6); }
+    .admin-stat-icon.recent { background: linear-gradient(135deg, #f59e0b, #f97316); }
+    .admin-stat-label { color: var(--muted); font-size: 13px; font-weight: 900; margin-bottom: 4px; }
+    .admin-stat-value { font-size: 22px; font-weight: 900; line-height: 1.2; }
+    .admin-stat-meta { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .admin-overview-note { margin-top: 18px; border: 1px solid var(--line); background: color-mix(in srgb, var(--soft) 72%, white); border-radius: 16px; padding: 14px 16px; color: var(--primary); font-size: 14px; font-weight: 800; line-height: 1.7; }
+    .admin-entry-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+    .admin-entry-card { border: 1px solid var(--line); border-radius: 20px; background: color-mix(in srgb, var(--panel-solid) 96%, white); padding: 18px; display: flex; flex-direction: column; gap: 12px; min-height: 168px; }
+    .admin-entry-head { display: flex; align-items: center; gap: 12px; }
+    .admin-entry-icon { width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; font-weight: 900; }
+    .admin-entry-icon.files { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+    .admin-entry-icon.db { background: linear-gradient(135deg, #22c55e, #16a34a); }
+    .admin-entry-icon.members { background: linear-gradient(135deg, #a855f7, #8b5cf6); }
+    .admin-entry-icon.logs { background: linear-gradient(135deg, #f59e0b, #f97316); }
+    .admin-entry-card h3 { margin: 0; font-size: 20px; }
+    .admin-entry-card p { margin: 0; color: var(--muted); line-height: 1.7; font-size: 14px; }
+    .admin-entry-card .small-note { margin-top: auto; color: var(--muted); font-size: 12px; font-weight: 800; }
+    .admin-entry-card button { margin-top: auto; align-self: flex-start; }
+    .admin-entry-card.disabled { opacity: 0.7; }
+    .admin-preview-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr); gap: 22px; }
+    .admin-preview-list { display: grid; gap: 12px; }
+    .admin-preview-row { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; padding: 14px 16px; border: 1px solid var(--line); border-radius: 18px; background: color-mix(in srgb, var(--panel-solid) 96%, white); }
+    .admin-preview-row.compact { grid-template-columns: auto 1fr; }
+    .admin-file-badge, .admin-log-badge { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 13px; }
+    .admin-file-badge { background: linear-gradient(135deg, #fb7185, #ef4444); }
+    .admin-log-badge { background: linear-gradient(135deg, #60a5fa, #2563eb); }
+    .admin-preview-title { font-weight: 900; font-size: 16px; line-height: 1.4; }
+    .admin-preview-meta { color: var(--muted); font-size: 13px; margin-top: 4px; line-height: 1.6; }
+    .admin-preview-pill { padding: 7px 12px; border-radius: 999px; font-size: 12px; font-weight: 900; border: 1px solid var(--line); }
+    .admin-preview-pill.latest { color: #16a34a; background: #dcfce7; border-color: #bbf7d0; }
+    .admin-preview-pill.log { color: var(--primary); background: color-mix(in srgb, var(--soft) 75%, white); }
+    .admin-empty-note { color: var(--muted); border: 1px dashed var(--line); border-radius: 18px; padding: 20px; line-height: 1.7; }
+    .admin-aside-box { padding: 22px; }
+    .admin-aside-box h3 { margin: 0 0 14px; font-size: 21px; display: flex; align-items: center; gap: 10px; }
+    .admin-check-list, .admin-bullet-list { margin: 0; padding-left: 20px; display: grid; gap: 10px; color: var(--text); line-height: 1.7; }
+    .admin-check-list li::marker { color: var(--primary); }
+    .admin-flow { display: grid; gap: 12px; }
+    .admin-flow-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .admin-flow-step { border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; text-align: center; font-weight: 900; background: color-mix(in srgb, var(--panel-solid) 96%, white); }
+    .admin-flow-step.main { color: var(--primary); }
+    .admin-inline-link { background: none; border: none; color: var(--primary); font-weight: 900; cursor: pointer; padding: 0; }
+
+
     .assistant-launcher {
       position: fixed;
       right: 28px;
@@ -756,6 +812,8 @@
       .detail-top { flex-direction: column; }
       .detail-actions { justify-content: flex-start; }
       .admin-layout { grid-template-columns: 1fr; }
+      .admin-overview-shell, .admin-preview-split { grid-template-columns: 1fr; }
+      .admin-stat-grid, .admin-entry-grid { grid-template-columns: 1fr 1fr; }
     }
 
     @media (max-width: 760px) {
@@ -5949,22 +6007,22 @@
       <div class="detail-title-area">
         <div class="detail-label">ADMIN PROTOTYPE</div>
         <h1 data-zh="後台管理" data-en="Admin Panel">後台管理</h1>
-        <p data-zh="Manager 可以新增、修改、刪除資料庫與文件；Owner 可以額外管理會員權限與查看操作紀錄。"
-           data-en="Managers can add, edit, and delete database categories and documents. Owners can also manage member permissions and review activity logs.">
-          Manager 可以新增、修改、刪除資料庫與文件；Owner 可以額外管理會員權限與查看操作紀錄。
+        <p data-zh="這裡是部門資料維護中心。總覽首頁僅供查看，真正的新增、修改與刪除請進入對應管理頁面操作。"
+           data-en="This is the department data maintenance center. The overview page is view-only, and actual add/edit/delete actions should be done inside the corresponding management page.">
+          這裡是部門資料維護中心。總覽首頁僅供查看，真正的新增、修改與刪除請進入對應管理頁面操作。
         </p>
         <div class="role-guide">
           <div class="role-card">
             <strong>Owner</strong>
-            <span data-zh="最高權限：可管理資料、會員權限與操作紀錄。" data-en="Highest permission: manage data, member roles, and activity logs.">最高權限：可管理資料、會員權限與操作紀錄。</span>
+            <span data-zh="部門維護權限：可管理資料、會員權限與操作紀錄。" data-en="Department maintenance permission: manage data, member permissions, and activity logs.">部門維護權限：可管理資料、會員權限與操作紀錄。</span>
           </div>
           <div class="role-card">
             <strong>Manager</strong>
-            <span data-zh="管理權限：可新增、修改、刪除資料庫與文件。" data-en="Management permission: add, edit, and delete databases and documents.">管理權限：可新增、修改、刪除資料庫與文件。</span>
+            <span data-zh="資料維護權限：可新增、修改、刪除資料庫與文件。" data-en="Data maintenance permission: add, edit, and delete databases and documents.">資料維護權限：可新增、修改、刪除資料庫與文件。</span>
           </div>
           <div class="role-card">
             <strong>User</strong>
-            <span data-zh="查詢權限：可登入、查詢資料與使用小幫手。" data-en="Search permission: log in, search data, and use the assistant.">查詢權限：可登入、查詢資料與使用小幫手。</span>
+            <span data-zh="使用權限：可登入、查詢資料與使用小幫手。" data-en="Usage permission: log in, search data, and use the assistant.">使用權限：可登入、查詢資料與使用小幫手。</span>
           </div>
         </div>
       </div>
@@ -5974,13 +6032,18 @@
     </section>
 
     <div class="admin-tabs">
-      <button id="adminDocTab" class="admin-tab-button active" onclick="switchAdminTab('documents')" data-zh="文件管理" data-en="Document Manager">文件管理</button>
+      <button id="adminOverviewTab" class="admin-tab-button active" onclick="switchAdminTab('overview')" data-zh="總覽首頁" data-en="Overview">總覽首頁</button>
+      <button id="adminDocTab" class="admin-tab-button" onclick="switchAdminTab('documents')" data-zh="文件管理" data-en="Document Manager">文件管理</button>
       <button id="adminDbTab" class="admin-tab-button" onclick="switchAdminTab('databases')" data-zh="資料庫分類管理" data-en="Database Manager">資料庫分類管理</button>
       <button id="adminUserTab" class="admin-tab-button" onclick="switchAdminTab('users')" data-zh="會員權限管理" data-en="Member Permissions">會員權限管理</button>
       <button id="adminLogTab" class="admin-tab-button" onclick="switchAdminTab('logs')" data-zh="操作紀錄" data-en="Activity Logs">操作紀錄</button>
     </div>
 
-    <section id="adminDocumentsSection" class="admin-section active">
+    <section id="adminOverviewSection" class="admin-section active">
+      <div id="adminOverviewContent"></div>
+    </section>
+
+    <section id="adminDocumentsSection" class="admin-section">
       <div class="admin-layout">
         <div class="admin-box">
           <h2 id="documentFormTitle" data-zh="新增測試文件" data-en="Add Sample Document">新增測試文件</h2>
@@ -6451,6 +6514,7 @@
       });
       saveActivityLogs(logs.slice(0, 120));
       renderAdminLogs();
+      renderAdminOverview();
     }
 
     function renderAdminLogs() {
@@ -6483,6 +6547,7 @@
       if (!confirm(t("確定要清除操作紀錄嗎？", "Are you sure you want to clear activity logs?"))) return;
       saveActivityLogs([]);
       renderAdminLogs();
+      renderAdminOverview();
       showToast(t("操作紀錄已清除。", "Activity logs cleared."));
     }
 
@@ -7816,7 +7881,8 @@ function showPage(pageId) {
       renderAdminDatabases();
       renderAdminUsers();
       renderAdminLogs();
-      switchAdminTab("documents");
+      renderAdminOverview();
+      switchAdminTab("overview");
       updateSideNav("documents");
       showPage("adminPage");
     }
@@ -7824,12 +7890,18 @@ function showPage(pageId) {
     function switchAdminTab(tab) {
       if (tab === "users" && !canManageUsers()) {
         alert(t("權限不足：只有 Owner 可以管理會員權限。", "Permission denied: Only the Owner can manage member permissions."));
-        tab = "documents";
+        tab = "overview";
       }
 
+      if (tab === "overview") renderAdminOverview();
+
+      document.getElementById("adminOverviewSection").classList.toggle("active", tab === "overview");
       document.getElementById("adminDocumentsSection").classList.toggle("active", tab === "documents");
       document.getElementById("adminDatabasesSection").classList.toggle("active", tab === "databases");
       document.getElementById("adminUsersSection").classList.toggle("active", tab === "users");
+      document.getElementById("adminLogsSection").classList.toggle("active", tab === "logs");
+
+      document.getElementById("adminOverviewTab").classList.toggle("active", tab === "overview");
       document.getElementById("adminDocTab").classList.toggle("active", tab === "documents");
       document.getElementById("adminDbTab").classList.toggle("active", tab === "databases");
       document.getElementById("adminUserTab").classList.toggle("active", tab === "users");
@@ -7838,6 +7910,220 @@ function showPage(pageId) {
       if (tab === "users") updateSideNav("users");
       else if (tab === "logs") updateSideNav("logs");
       else updateSideNav("documents");
+    }
+
+    function renderAdminOverview() {
+      const container = document.getElementById("adminOverviewContent");
+      if (!container) return;
+
+      const users = loadUsers();
+      const logs = loadActivityLogs();
+      const recentDocuments = [...documents].sort((a, b) => String(b.updatedAt || "").localeCompare(String(a.updatedAt || ""))).slice(0, 4);
+      const recentLogs = logs.slice(0, 4);
+      const activeUserCount = users.filter(user => String(user.presence || "").toLowerCase() === "online").length;
+      const recentDocumentCount = recentDocuments.filter(doc => isWithinDays(doc.updatedAt, 7)).length;
+      const canUseUserManagement = canManageUsers();
+
+      const renderDocRows = recentDocuments.length
+        ? recentDocuments.map((doc, index) => {
+            const db = databases.find(item => item.id === doc.databaseId);
+            return `
+              <div class="admin-preview-row">
+                <div class="admin-file-badge">${escapeAttr((doc.type || 'FILE').slice(0, 4).toUpperCase())}</div>
+                <div>
+                  <div class="admin-preview-title">${escapeAttr(t(doc.titleZh, doc.titleEn))}</div>
+                  <div class="admin-preview-meta">${escapeAttr(t(db?.titleZh || '-', db?.titleEn || '-'))} · ${escapeAttr(doc.updatedAt || '-')}</div>
+                </div>
+                ${index === 0 ? `<span class="admin-preview-pill latest">${t('最新', 'Latest')}</span>` : `<span class="admin-preview-pill log">${escapeAttr(doc.type || '-')}</span>`}
+              </div>`;
+          }).join("")
+        : `<div class="admin-empty-note">${t('目前沒有文件資料。請前往「文件管理」頁面新增或整理。', 'No document data yet. Go to the document manager to add or organize files.')}</div>`;
+
+      const renderLogRows = recentLogs.length
+        ? recentLogs.map(log => `
+            <div class="admin-preview-row compact">
+              <div class="admin-log-badge">${escapeAttr((currentLang === 'zh' ? (log.actionZh || '操作') : (log.actionEn || 'Action')).slice(0, 1))}</div>
+              <div>
+                <div class="admin-preview-title">${escapeAttr(currentLang === 'zh' ? (log.actionZh || '-') : (log.actionEn || '-'))}</div>
+                <div class="admin-preview-meta">${escapeAttr(log.target || '-')} · ${escapeAttr(log.time || '-')}</div>
+              </div>
+            </div>`).join("")
+        : `<div class="admin-empty-note">${t('目前沒有操作紀錄。後續有新增、修改或刪除時，這裡會自動顯示。', 'No activity logs yet. Future add/edit/delete actions will appear here automatically.')}</div>`;
+
+      const memberManageCard = canUseUserManagement
+        ? `
+          <div class="admin-entry-card">
+            <div class="admin-entry-head">
+              <div class="admin-entry-icon members">👥</div>
+              <div>
+                <h3>${t('會員權限管理', 'Member Permissions')}</h3>
+              </div>
+            </div>
+            <p>${t('調整會員角色、維護部門群組名稱，停用不需要的帳號。', 'Adjust roles, maintain department group names, and disable accounts when needed.')}</p>
+            <div class="small-note">${t('僅 Owner 可使用完整權限', 'Full access for Owner only')}</div>
+            <button onclick="switchAdminTab('users')">${t('進入管理', 'Open')}</button>
+          </div>`
+        : `
+          <div class="admin-entry-card disabled">
+            <div class="admin-entry-head">
+              <div class="admin-entry-icon members">👥</div>
+              <div>
+                <h3>${t('會員權限管理', 'Member Permissions')}</h3>
+              </div>
+            </div>
+            <p>${t('此功能保留給 Owner。你目前可以查看總覽，但不能進行會員權限調整。', 'This area is reserved for the Owner. You can view the overview but cannot change member permissions.')}</p>
+            <div class="small-note">${t('目前帳號不可操作', 'Current account cannot access')}</div>
+            <button disabled>${t('僅供檢視', 'View Only')}</button>
+          </div>`;
+
+      container.innerHTML = `
+        <div class="admin-overview-shell">
+          <div class="admin-overview-main">
+            <div class="admin-box admin-overview-card">
+              <div class="admin-panel-heading">
+                <h2>${t('系統使用概況', 'System Overview')} <span class="admin-subtle-tag">${t('僅供查看', 'View Only')}</span></h2>
+                <p>${t('提供系統目前狀態的概要，點選下方功能入口後再進入對應管理頁進行維護。', 'This area summarizes the current system status. Use the function cards below to open the corresponding management page for actual maintenance.')}</p>
+              </div>
+              <div class="admin-stat-grid">
+                <div class="admin-stat-card">
+                  <div class="admin-stat-icon docs">📄</div>
+                  <div>
+                    <div class="admin-stat-label">${t('總文件數', 'Total Documents')}</div>
+                    <div class="admin-stat-value">${documents.length} ${t('份', 'files')}</div>
+                    <div class="admin-stat-meta">${t('本週新增', 'Added this week')} ${recentDocumentCount} ${t('份', 'files')}</div>
+                  </div>
+                </div>
+                <div class="admin-stat-card">
+                  <div class="admin-stat-icon db">🗂️</div>
+                  <div>
+                    <div class="admin-stat-label">${t('資料庫分類數', 'Database Categories')}</div>
+                    <div class="admin-stat-value">${databases.length} ${t('個', 'categories')}</div>
+                    <div class="admin-stat-meta">${t('啟用中', 'Active')} ${databases.length} ${t('個', 'categories')}</div>
+                  </div>
+                </div>
+                <div class="admin-stat-card">
+                  <div class="admin-stat-icon members">👤</div>
+                  <div>
+                    <div class="admin-stat-label">${t('會員數', 'Members')}</div>
+                    <div class="admin-stat-value">${users.length} ${t('人', 'members')}</div>
+                    <div class="admin-stat-meta">${t('目前在線', 'Currently online')} ${activeUserCount} ${t('人', 'online')}</div>
+                  </div>
+                </div>
+                <div class="admin-stat-card">
+                  <div class="admin-stat-icon recent">↻</div>
+                  <div>
+                    <div class="admin-stat-label">${t('本週更新文件', 'Updated This Week')}</div>
+                    <div class="admin-stat-value">${recentDocumentCount} ${t('份', 'files')}</div>
+                    <div class="admin-stat-meta">${recentDocuments[0] ? `${t('較上週', 'Compared to last week')} ↑` : t('尚無更新', 'No updates yet')}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="admin-overview-note">${t('此區為概覽頁面，若需調整內容，請進入對應管理頁面進行操作，避免在首頁直接修改造成風險。', 'This is an overview page. Please enter the corresponding management page for changes to avoid risks caused by direct editing on the home screen.')}</div>
+            </div>
+
+            <div class="admin-box admin-overview-card">
+              <div class="admin-panel-heading">
+                <h2>${t('管理功能入口', 'Management Entry')}</h2>
+                <p>${t('請選擇要進行的管理項目。總覽首頁不提供直接編輯。', 'Choose the management area you want to work on. Direct editing is not available on the overview page.')}</p>
+              </div>
+              <div class="admin-entry-grid">
+                <div class="admin-entry-card">
+                  <div class="admin-entry-head">
+                    <div class="admin-entry-icon files">📄</div>
+                    <div><h3>${t('文件管理', 'Document Manager')}</h3></div>
+                  </div>
+                  <p>${t('新增、修改、隱藏或刪除文件，管理文件屬性與所屬資料庫。', 'Add, edit, hide, or delete documents and manage their properties and database assignment.')}</p>
+                  <div class="small-note">${t('適合維護測試文件與規範文件', 'Best for maintaining documents and standards')}</div>
+                  <button onclick="switchAdminTab('documents')">${t('進入管理', 'Open')}</button>
+                </div>
+                <div class="admin-entry-card">
+                  <div class="admin-entry-head">
+                    <div class="admin-entry-icon db">🗃️</div>
+                    <div><h3>${t('資料庫分類管理', 'Database Categories')}</h3></div>
+                  </div>
+                  <p>${t('新增、修改、隱藏或刪除資料庫分類，管理顯示名稱與說明。', 'Add, edit, hide, or delete database categories and maintain display names and descriptions.')}</p>
+                  <div class="small-note">${t('集中整理資料入口結構', 'Used to maintain the entry structure')}</div>
+                  <button onclick="switchAdminTab('databases')">${t('進入管理', 'Open')}</button>
+                </div>
+                ${memberManageCard}
+                <div class="admin-entry-card">
+                  <div class="admin-entry-head">
+                    <div class="admin-entry-icon logs">🕘</div>
+                    <div><h3>${t('操作紀錄', 'Activity Logs')}</h3></div>
+                  </div>
+                  <p>${t('查看系統操作歷史，追蹤誰在什麼時間做了什麼變更。', 'Review system history and trace who changed what and when.')}</p>
+                  <div class="small-note">${t('重要資料異動可追溯', 'Important changes remain traceable')}</div>
+                  <button onclick="switchAdminTab('logs')">${t('進入查看', 'Open')}</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="admin-preview-split">
+              <div class="admin-box admin-overview-card">
+                <div class="admin-panel-heading">
+                  <h2>${t('最近更新文件', 'Recently Updated Files')} <span class="admin-subtle-tag">${t('僅供查看', 'View Only')}</span></h2>
+                </div>
+                <div class="admin-preview-list">${renderDocRows}</div>
+              </div>
+              <div class="admin-box admin-overview-card">
+                <div class="admin-panel-heading">
+                  <h2>${t('最近操作紀錄', 'Recent Activity Logs')} <span class="admin-subtle-tag">${t('僅供查看', 'View Only')}</span></h2>
+                </div>
+                <div class="admin-preview-list">${renderLogRows}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-overview-aside">
+            <div class="admin-box admin-aside-box">
+              <h3>🧭 ${t('總覽區域說明', 'Overview Notes')}</h3>
+              <ul class="admin-bullet-list">
+                <li>${t('僅提供系統概況，無法直接編輯。', 'Provides a system summary only and does not allow direct editing.')}</li>
+                <li>${t('點選左側功能選單或入口卡片，進入各管理頁進行維護。', 'Use the left menu or entry cards to open each management page.')}</li>
+              </ul>
+            </div>
+            <div class="admin-box admin-aside-box">
+              <h3>✅ ${t('設計重點', 'Design Focus')}</h3>
+              <ul class="admin-check-list">
+                <li>${t('避免在首頁直接修改，降低誤操作風險。', 'Avoid direct editing on the home screen to reduce risk.')}</li>
+                <li>${t('所有調整集中在對應功能頁面，權責更清楚。', 'Keep edits inside dedicated management pages for clearer ownership.')}</li>
+                <li>${t('資訊清晰、快速掌握系統狀態。', 'Make the admin status easier to understand at a glance.')}</li>
+              </ul>
+            </div>
+            <div class="admin-box admin-aside-box">
+              <h3>🛡️ ${t('安全機制', 'Safety Control')}</h3>
+              <ul class="admin-check-list">
+                <li>${t('所有修改操作都會寫入操作紀錄。', 'All edit actions are written into activity logs.')}</li>
+                <li>${t('重要刪除操作需二次確認。', 'Important delete operations require confirmation.')}</li>
+                <li>${t('操作追蹤集中在操作紀錄區中。', 'Action tracing is centralized in the activity log area.')}</li>
+              </ul>
+            </div>
+            <div class="admin-box admin-aside-box">
+              <h3>↪️ ${t('頁面導覽流程', 'Navigation Flow')}</h3>
+              <div class="admin-flow">
+                <div class="admin-flow-step main">${t('總覽首頁', 'Overview')}</div>
+                <div class="admin-flow-row">
+                  <div class="admin-flow-step">${t('文件管理', 'Documents')}</div>
+                  <div class="admin-flow-step">${t('分類管理', 'Categories')}</div>
+                </div>
+                <div class="admin-flow-row">
+                  <div class="admin-flow-step">${t('權限管理', 'Permissions')}</div>
+                  <div class="admin-flow-step">${t('操作紀錄', 'Logs')}</div>
+                </div>
+              </div>
+              <div style="margin-top:14px;color:var(--muted);line-height:1.7;font-size:13px;">${t('點擊功能入口後，進入對應頁面進行管理；完成後可透過上方分頁或返回首頁回到其他頁面。', 'After opening a function, manage items in that page. Use the tabs above or the back button to return.')}</div>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function isWithinDays(dateString, days) {
+      if (!dateString) return false;
+      const target = new Date(dateString);
+      if (Number.isNaN(target.getTime())) return false;
+      const now = new Date();
+      const diff = now.getTime() - target.getTime();
+      return diff <= days * 24 * 60 * 60 * 1000 && diff >= 0;
     }
 
     function quickEditSelectedDatabase() {
@@ -8571,6 +8857,7 @@ function showPage(pageId) {
       renderAdminDatabases();
       renderAdminUsers();
       renderAdminLogs();
+      renderAdminOverview();
       if (document.getElementById('searchPage')?.classList.contains('active')) renderSearchResults();
       if (selectedDatabaseId) {
         const db = databases.find(item => item.id === selectedDatabaseId);
