@@ -1,3 +1,4 @@
+<!-- SZS_FIX_SETTINGS_ADMIN_ENTRY_20260518 -->
 <!DOCTYPE html>
 <!-- SZS_FIX_TOP_STATUS_ONLY_20260518 -->
 <html lang="zh-Hant">
@@ -4566,6 +4567,68 @@
       display: none !important;
     }
 
+
+
+    /* === SZS_FIX_SETTINGS_ADMIN_ENTRY_20260518: settings page + admin moved from header === */
+    .settings-panel {
+      background: rgba(255,255,255,.86);
+      border: 1px solid #dbe7f5;
+      border-radius: 24px;
+      box-shadow: 0 22px 60px rgba(15,23,42,.08);
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .settings-card {
+      border: 1px solid #dbe7f5;
+      background: rgba(248,251,255,.88);
+      border-radius: 20px;
+      padding: 20px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .settings-card h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 950;
+      color: #0f172a;
+    }
+
+    .settings-card p {
+      margin: 0;
+      color: #64748b;
+      line-height: 1.7;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .settings-card .primary,
+    .settings-card button {
+      width: fit-content;
+    }
+
+    body.dark .settings-panel,
+    body.dark .settings-card {
+      background: rgba(15, 23, 42, 0.86) !important;
+      border-color: rgba(56,189,248,.18) !important;
+    }
+
+    body.dark .settings-card h3 {
+      color: #e2e8f0 !important;
+    }
+
+    @media (max-width: 760px) {
+      .settings-grid { grid-template-columns: 1fr; }
+    }
+
 </style>
 </head>
 <body class="sidebar-collapsed">
@@ -4624,7 +4687,7 @@
       <button id="loginBtn" onclick="openAuthModal('login')" data-zh="登入" data-en="Login">登入</button>
       <button id="registerBtn" class="primary" onclick="openAuthModal('register')" data-zh="註冊" data-en="Sign Up">註冊</button>
       <button id="logoutBtn" style="display:none;" onclick="logout()" data-zh="登出" data-en="Logout">登出</button>
-      <button onclick="openAdmin()" data-zh="後台管理" data-en="Admin Panel">後台管理</button>
+      <!-- 後台管理已移至系統設定頁 -->
     </div>
   </header>
   <div class="notification-panel" id="notificationPanel">
@@ -4667,7 +4730,7 @@
       <button class="side-item" onclick="openMembersSection()" data-side="members" title="線上成員">
         <span class="side-icon">☷</span><span class="side-label" data-zh="線上成員" data-en="Members">線上成員</span><span class="side-badge" id="sideMemberCount">13</span>
       </button>
-      <button class="side-item" onclick="updateSideNav('settings'); document.body.classList.add('sidebar-collapsed'); toggleTheme();" data-side="settings" title="系統設定">
+      <button class="side-item" onclick="openSystemSettings()" data-side="settings" title="系統設定">
         <span class="side-icon">⚙</span><span class="side-label" data-zh="系統設定" data-en="Settings">系統設定</span>
       </button>
     </div>
@@ -4890,6 +4953,47 @@
     </section>
 
     <section class="doc-table" id="searchResultList"></section>
+  </main>
+
+
+
+
+  <main id="settingsPage" class="page">
+    <section class="detail-top">
+      <div class="detail-title-area">
+        <div class="detail-label">SYSTEM SETTINGS</div>
+        <h1 data-zh="系統設定" data-en="System Settings">系統設定</h1>
+        <p data-zh="這裡集中放置系統相關入口。後台管理已移到此頁，不再放在最上方工具列。" data-en="System-related entries are collected here. The admin panel has been moved here and removed from the top toolbar.">這裡集中放置系統相關入口。後台管理已移到此頁，不再放在最上方工具列。</p>
+      </div>
+      <div class="detail-actions">
+        <button onclick="showHome()" data-zh="← 返回首頁" data-en="← Back Home">← 返回首頁</button>
+      </div>
+    </section>
+
+    <section class="settings-panel">
+      <div class="settings-grid">
+        <div class="settings-card">
+          <h3 data-zh="後台管理" data-en="Admin Panel">後台管理</h3>
+          <p data-zh="管理資料庫分類、文件、會員權限與操作紀錄。Manager 可管理資料，Owner 可管理會員權限。" data-en="Manage database categories, documents, member permissions, and activity logs. Managers can manage data; Owners can manage member permissions.">管理資料庫分類、文件、會員權限與操作紀錄。Manager 可管理資料，Owner 可管理會員權限。</p>
+          <button class="primary" onclick="openAdmin()" data-zh="進入後台管理" data-en="Open Admin Panel">進入後台管理</button>
+        </div>
+        <div class="settings-card">
+          <h3 data-zh="系統資訊" data-en="System Info">系統資訊</h3>
+          <p data-zh="查看目前原型狀態、資料庫分類數與文件數。" data-en="View current prototype status, database category count, and document count.">查看目前原型狀態、資料庫分類數與文件數。</p>
+          <button onclick="showSystemInfo()" data-zh="查看系統資訊" data-en="View System Info">查看系統資訊</button>
+        </div>
+        <div class="settings-card">
+          <h3 data-zh="我的設定" data-en="My Settings">我的設定</h3>
+          <p data-zh="個人設定目前為原型展示項目，正式版可擴充語言、通知與偏好設定。" data-en="Personal settings are prototype items and can later include language, notifications, and preferences.">個人設定目前為原型展示項目，正式版可擴充語言、通知與偏好設定。</p>
+          <button onclick="showToast(t('我的設定為原型展示項目。','My settings is a prototype item.'))" data-zh="查看我的設定" data-en="View My Settings">查看我的設定</button>
+        </div>
+        <div class="settings-card">
+          <h3 data-zh="外觀模式" data-en="Appearance">外觀模式</h3>
+          <p data-zh="黑白模式保留在這裡手動切換，不再由左側系統設定按鈕直接切換。" data-en="Theme switching is kept here manually; the sidebar Settings button no longer toggles it directly.">黑白模式保留在這裡手動切換，不再由左側系統設定按鈕直接切換。</p>
+          <button onclick="toggleTheme()" data-zh="切換黑白模式" data-en="Toggle Theme">切換黑白模式</button>
+        </div>
+      </div>
+    </section>
   </main>
 
 
@@ -6436,6 +6540,19 @@
         </div>`).join("");
     }
 
+
+    function openSystemSettings() {
+      if (!currentUser) {
+        showLoginLanding();
+        return;
+      }
+      closeMembersSection();
+      selectedDatabaseId = null;
+      updateSideNav("settings");
+      document.body.classList.add("sidebar-collapsed");
+      showPage("settingsPage");
+    }
+
     function openAdmin() {
       if (!currentUser) {
         openAuthModal("login");
@@ -7654,7 +7771,8 @@
         if (!el || el.id === "topPresenceControl") return;
         const text = (el.textContent || "").replace(/\s+/g, " ");
         const isHeaderOnlineMembers = text.includes("線上成員") || text.toLowerCase().includes("online members");
-        if (isHeaderOnlineMembers) {
+        const isHeaderAdmin = text.includes("後台管理") || text.toLowerCase().includes("admin panel");
+        if (isHeaderOnlineMembers || isHeaderAdmin) {
           el.remove();
         }
       });
