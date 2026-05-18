@@ -9406,7 +9406,6 @@
     function getDfmMediaAttachmentHtml() {
       return `
         <div class="dfm-media-section dfm-media-section-visible" data-dfm-media="true">
-          <div class="dfm-media-title">${t("相關圖片與檔案（文字 → 圖片 → PPT 檔案）", "Related image and file (Text -> Image -> PPT)")}</div>
           <button type="button" class="dfm-image-card" onclick="openMediaPreview(DFM_PROCESS_IMAGE_DATA_URI, '${t("胞類 DFM 大概圖", "Cell-type DFM overview")}')">
             <img class="dfm-preview-image" src="${DFM_PROCESS_IMAGE_DATA_URI}" alt="${t("胞類 DFM 大概圖", "Cell-type DFM overview")}" />
             <span>${t("點擊圖片可放大預覽", "Click image to enlarge")}</span>
