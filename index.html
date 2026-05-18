@@ -4851,6 +4851,19 @@
       user-select: none;
       -webkit-user-select: none;
       cursor: grab !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    .assistant-launcher::before {
+      font-size: 31px !important;
+      line-height: 1 !important;
+    }
+
+    .assistant-launcher::after {
+      display: none !important;
+      content: none !important;
     }
 
     .assistant-launcher.dragging {
@@ -6035,13 +6048,14 @@
       }
 
       function applyBottom(value) {
-        launcher.style.right = "28px";
-        launcher.style.left = "auto";
-        launcher.style.bottom = `${clampLauncherBottom(value)}px`;
+        launcher.style.setProperty("right", "28px", "important");
+        launcher.style.setProperty("left", "auto", "important");
+        launcher.style.setProperty("bottom", `${clampLauncherBottom(value)}px`, "important");
       }
 
       launcher.addEventListener("pointerdown", (event) => {
         if (event.button !== undefined && event.button !== 0) return;
+        event.preventDefault();
         dragging = true;
         moved = false;
         startY = event.clientY;
@@ -6053,6 +6067,7 @@
 
       launcher.addEventListener("pointermove", (event) => {
         if (!dragging) return;
+        event.preventDefault();
         const deltaY = event.clientY - startY;
         if (Math.abs(deltaY) > 4) moved = true;
         applyBottom(startBottom - deltaY);
