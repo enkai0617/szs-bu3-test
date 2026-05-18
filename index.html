@@ -4275,6 +4275,195 @@
         text-align: right;
       }
     }
+
+
+    /* === B+C grouped sidebar fix: preserve homepage/login, group menu, icon collapsed === */
+    .app-sidebar {
+      gap: 14px !important;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .side-section {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .side-section-title {
+      margin: 12px 10px 4px;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .12em;
+    }
+
+    .side-item {
+      position: relative;
+      display: grid !important;
+      grid-template-columns: 34px 1fr auto !important;
+      gap: 8px;
+      align-items: center;
+      min-height: 48px !important;
+      padding: 0 12px !important;
+      border-radius: 14px !important;
+      font-size: 15px !important;
+      font-weight: 950 !important;
+      white-space: nowrap;
+    }
+
+    .side-icon {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      font-size: 16px !important;
+      background: rgba(226, 239, 255, .62);
+      color: #475569;
+    }
+
+    .side-item.active .side-icon {
+      background: rgba(255,255,255,.22);
+      color: #fff;
+    }
+
+    .side-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .side-badge {
+      min-width: 24px;
+      height: 24px;
+      padding: 0 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      color: #0284c7;
+      font-size: 12px;
+      font-weight: 950;
+      line-height: 1;
+    }
+
+    .side-badge-new {
+      background: #eef2ff;
+      border-color: #c7d2fe;
+      color: #4f46e5;
+      font-size: 10px;
+      letter-spacing: .04em;
+    }
+
+    .compact-side-card {
+      margin-top: auto !important;
+      padding: 14px !important;
+      border-radius: 18px !important;
+    }
+
+    .compact-side-card .side-card-art {
+      font-size: 26px !important;
+      margin-bottom: 8px !important;
+    }
+
+    .compact-side-card p {
+      font-size: 12px !important;
+      line-height: 1.55 !important;
+      margin-bottom: 10px !important;
+    }
+
+    .compact-side-card button {
+      min-height: 34px !important;
+      padding: 8px 10px !important;
+      font-size: 12px !important;
+    }
+
+    body:not(.sidebar-collapsed) .app-sidebar {
+      transform: translateX(0) !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      width: 246px !important;
+      padding: 28px 18px !important;
+    }
+
+    body.sidebar-collapsed:not(.auth-landing) .app-sidebar {
+      transform: translateX(0) !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      width: 74px !important;
+      padding: 18px 10px !important;
+      display: flex !important;
+    }
+
+    body.sidebar-collapsed .side-section-title,
+    body.sidebar-collapsed .side-label,
+    body.sidebar-collapsed .side-badge,
+    body.sidebar-collapsed .compact-side-card strong,
+    body.sidebar-collapsed .compact-side-card p,
+    body.sidebar-collapsed .compact-side-card button {
+      display: none !important;
+    }
+
+    body.sidebar-collapsed .side-section {
+      align-items: center;
+      gap: 10px;
+    }
+
+    body.sidebar-collapsed .side-item {
+      width: 52px !important;
+      height: 52px !important;
+      min-height: 52px !important;
+      padding: 0 !important;
+      grid-template-columns: 1fr !important;
+      justify-items: center;
+    }
+
+    body.sidebar-collapsed .side-icon {
+      width: 34px;
+      height: 34px;
+      font-size: 17px !important;
+    }
+
+    body.sidebar-collapsed .compact-side-card {
+      width: 52px !important;
+      height: 52px !important;
+      padding: 0 !important;
+      display: grid;
+      place-items: center;
+      margin-top: auto !important;
+    }
+
+    body.sidebar-collapsed .compact-side-card .side-card-art {
+      margin: 0 !important;
+      font-size: 22px !important;
+    }
+
+    body.sidebar-collapsed:not(.auth-landing) main.page {
+      margin-left: 92px !important;
+    }
+
+    body:not(.sidebar-collapsed):not(.auth-landing) main.page {
+      margin-left: 274px !important;
+    }
+
+    body.auth-landing .app-sidebar {
+      display: none !important;
+    }
+
+    @media (max-width: 900px) {
+      body.sidebar-collapsed:not(.auth-landing) .app-sidebar {
+        transform: translateX(-100%) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+      body.sidebar-collapsed main.page,
+      body:not(.sidebar-collapsed) main.page {
+        margin-left: 0 !important;
+      }
+    }
+
 </style>
 </head>
 <body class="sidebar-collapsed">
@@ -4338,32 +4527,43 @@
   </div>
 
   <aside class="app-sidebar" aria-label="main navigation">
-    <button class="side-item active" onclick="showHome()" data-side="home">
-      <span class="side-icon">⌂</span><span data-zh="首頁" data-en="Home">首頁</span>
-    </button>
-    <button class="side-item" onclick="openMembersSection()" data-side="members">
-      <span class="side-icon">☷</span><span data-zh="線上成員" data-en="Members">線上成員</span>
-    </button>
-    <button class="side-item" onclick="closeMembersSection(); updateSideNav('databases'); document.getElementById('databaseSection')?.scrollIntoView({behavior:'smooth'});" data-side="databases">
-      <span class="side-icon">▦</span><span data-zh="資料庫分類" data-en="Databases">資料庫分類</span>
-    </button>
-    <button class="side-item" onclick="openAdmin(); setTimeout(()=>switchAdminTab('documents'), 0);" data-side="documents">
-      <span class="side-icon">▤</span><span data-zh="文件管理" data-en="Documents">文件管理</span>
-    </button>
-    <button class="side-item" onclick="openAdmin(); setTimeout(()=>switchAdminTab('logs'), 0);" data-side="logs">
-      <span class="side-icon">◷</span><span data-zh="操作紀錄" data-en="Logs">操作紀錄</span>
-    </button>
-    <button class="side-item" onclick="openAdmin(); setTimeout(()=>switchAdminTab('users'), 0);" data-side="users">
-      <span class="side-icon">♙</span><span data-zh="會員權限" data-en="Members">會員權限</span>
-    </button>
-    <button class="side-item" onclick="openAssistantPage()" data-side="assistant">
-      <span class="side-icon">✦</span><span data-zh="小幫手" data-en="Assistant">小幫手</span>
-    </button>
-    <button class="side-item" onclick="toggleTheme()" data-side="settings">
-      <span class="side-icon">⚙</span><span data-zh="系統設定" data-en="Settings">系統設定</span>
-    </button>
+    <div class="side-section side-section-primary">
+      <div class="side-section-title" data-zh="主要功能" data-en="Main">主要功能</div>
+      <button class="side-item active" onclick="showHome()" data-side="home" title="首頁">
+        <span class="side-icon">⌂</span><span class="side-label" data-zh="首頁" data-en="Home">首頁</span>
+      </button>
+      <button class="side-item" onclick="closeMembersSection(); updateSideNav('databases'); document.getElementById('databaseSection')?.scrollIntoView({behavior:'smooth'});" data-side="databases" title="資料庫分類">
+        <span class="side-icon">▦</span><span class="side-label" data-zh="資料庫分類" data-en="Databases">資料庫分類</span><span class="side-badge" id="sideDatabaseCount">6</span>
+      </button>
+      <button class="side-item" onclick="openAssistantPage()" data-side="assistant" title="小幫手">
+        <span class="side-icon">✦</span><span class="side-label" data-zh="小幫手" data-en="Assistant">小幫手</span><span class="side-badge side-badge-new">NEW</span>
+      </button>
+    </div>
 
-    <div class="side-card">
+    <div class="side-section side-section-admin">
+      <div class="side-section-title" data-zh="管理功能" data-en="Admin">管理功能</div>
+      <button class="side-item" onclick="openAdmin(); setTimeout(()=>switchAdminTab('documents'), 0);" data-side="documents" title="文件管理">
+        <span class="side-icon">▤</span><span class="side-label" data-zh="文件管理" data-en="Documents">文件管理</span><span class="side-badge" id="sideDocumentCount">8</span>
+      </button>
+      <button class="side-item" onclick="openAdmin(); setTimeout(()=>switchAdminTab('users'), 0);" data-side="users" title="會員權限">
+        <span class="side-icon">♙</span><span class="side-label" data-zh="會員權限" data-en="Members">會員權限</span>
+      </button>
+      <button class="side-item" onclick="openAdmin(); setTimeout(()=>switchAdminTab('logs'), 0);" data-side="logs" title="操作紀錄">
+        <span class="side-icon">◷</span><span class="side-label" data-zh="操作紀錄" data-en="Logs">操作紀錄</span>
+      </button>
+    </div>
+
+    <div class="side-section side-section-system">
+      <div class="side-section-title" data-zh="系統" data-en="System">系統</div>
+      <button class="side-item" onclick="openMembersSection()" data-side="members" title="線上成員">
+        <span class="side-icon">☷</span><span class="side-label" data-zh="線上成員" data-en="Members">線上成員</span><span class="side-badge" id="sideMemberCount">13</span>
+      </button>
+      <button class="side-item" onclick="toggleTheme()" data-side="settings" title="系統設定">
+        <span class="side-icon">⚙</span><span class="side-label" data-zh="系統設定" data-en="Settings">系統設定</span>
+      </button>
+    </div>
+
+    <div class="side-card compact-side-card">
       <div class="side-card-art">🔐</div>
       <strong data-zh="安全・可靠・共享" data-en="Secure · Reliable · Shared">安全・可靠・共享</strong>
       <p data-zh="建立標準化文件，讓知識成為團隊的力量。" data-en="Standardize files and turn knowledge into team power.">建立標準化文件，讓知識成為團隊的力量。</p>
