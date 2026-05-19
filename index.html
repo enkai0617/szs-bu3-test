@@ -301,7 +301,44 @@
     .admin-section.active { display: block; }
 
 
-    .admin-overview-shell { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.72fr); gap: 22px; align-items: start; }
+    .document-admin-layout { display: grid; grid-template-columns: minmax(420px, 0.78fr) minmax(640px, 1.22fr); gap: 22px; align-items: start; }
+    .document-form-card, .document-list-card { padding: 24px; }
+    .document-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+    .document-card-head h2 { margin: 0; font-size: 24px; display: flex; align-items: center; gap: 10px; }
+    .document-card-head p { margin: 8px 0 0; color: var(--muted); line-height: 1.7; }
+    .doc-mode-badge { display: inline-flex; align-items: center; justify-content: center; padding: 7px 12px; border-radius: 999px; border: 1px solid var(--line); background: color-mix(in srgb, var(--soft) 76%, white); color: var(--primary); font-size: 12px; font-weight: 900; white-space: nowrap; }
+    .form-section { border: 1px solid var(--line); border-radius: 18px; background: color-mix(in srgb, var(--panel-solid) 95%, white); padding: 16px; display: grid; gap: 14px; }
+    .form-section-title { display: flex; align-items: center; gap: 10px; margin: 0 0 2px; font-size: 16px; font-weight: 900; color: var(--primary); }
+    .form-step { width: 26px; height: 26px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; color: #fff; background: linear-gradient(135deg, var(--primary), var(--primary2)); font-size: 13px; }
+    .document-form-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 2px; }
+    .document-form-actions button { min-width: 138px; }
+    .check-row { display: flex; align-items: center; gap: 10px; font-weight: 900; color: var(--text); }
+    .check-row input { width: 18px; height: 18px; accent-color: var(--primary); }
+    .document-toolbar { display: grid; grid-template-columns: minmax(220px, 1fr) minmax(150px, 0.5fr) minmax(130px, 0.42fr) minmax(150px, 0.5fr) auto; gap: 12px; align-items: center; margin: 0 0 16px; }
+    .document-table-wrap { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: color-mix(in srgb, var(--panel-solid) 96%, white); }
+    .document-table { width: 100%; border-collapse: collapse; }
+    .document-table th, .document-table td { padding: 14px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+    .document-table tr:last-child td { border-bottom: none; }
+    .document-table th { color: var(--muted); font-size: 12px; font-weight: 900; background: rgba(248,251,255,.82); white-space: nowrap; }
+    .document-name-cell { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; min-width: 220px; }
+    .file-type-badge { width: 38px; height: 42px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 900; }
+    .file-type-badge.pdf { background: linear-gradient(135deg, #fb7185, #ef4444); }
+    .file-type-badge.xlsx { background: linear-gradient(135deg, #4ade80, #16a34a); }
+    .file-type-badge.docx { background: linear-gradient(135deg, #60a5fa, #2563eb); }
+    .file-type-badge.pptx { background: linear-gradient(135deg, #f97316, #ea580c); }
+    .file-type-badge.other { background: linear-gradient(135deg, #94a3b8, #64748b); }
+    .document-row-title { font-weight: 900; line-height: 1.4; }
+    .document-row-sub { color: var(--muted); font-size: 12px; margin-top: 4px; line-height: 1.5; }
+    .status-pill { display: inline-flex; align-items: center; justify-content: center; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 900; white-space: nowrap; }
+    .status-pill.published { background: #dcfce7; color: #16a34a; border: 1px solid #bbf7d0; }
+    .status-pill.hidden { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+    .document-action-row { display: flex; gap: 8px; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
+    .document-action-row .small { padding: 9px 12px; }
+    .document-list-footer { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-top: 14px; color: var(--muted); font-size: 13px; font-weight: 800; }
+
+
+
+    .admin-overview-shell { display: grid; grid-template-columns: 1fr; gap: 22px; align-items: start; }
     .admin-overview-main, .admin-overview-aside { display: grid; gap: 22px; }
     .admin-overview-card { padding: 24px; }
     .admin-panel-heading { margin-bottom: 18px; }
@@ -812,6 +849,8 @@
       .detail-top { flex-direction: column; }
       .detail-actions { justify-content: flex-start; }
       .admin-layout { grid-template-columns: 1fr; }
+      .document-admin-layout { grid-template-columns: 1fr; }
+      .document-toolbar { grid-template-columns: 1fr 1fr; }
       .admin-overview-shell, .admin-preview-split { grid-template-columns: 1fr; }
       .admin-stat-grid, .admin-entry-grid { grid-template-columns: 1fr 1fr; }
     }
@@ -825,6 +864,8 @@
       .section-hint { text-align: left; }
       .detail-toolbar { flex-direction: column; align-items: stretch; }
       .two-col { grid-template-columns: 1fr; }
+      .document-toolbar { grid-template-columns: 1fr; }
+      .document-table-wrap { overflow-x: auto; }
       .chat-box { left: 16px; right: 16px; width: auto; height: 560px; }
       .assistant-launcher { right: 18px; bottom: 18px; }
       .assistant-full-layout { grid-template-columns: 1fr; }
@@ -6044,30 +6085,36 @@
     </section>
 
     <section id="adminDocumentsSection" class="admin-section">
-      <div class="admin-layout">
-        <div class="admin-box">
-          <h2 id="documentFormTitle" data-zh="新增測試文件" data-en="Add Sample Document">新增測試文件</h2>
-          <input id="editingDocumentId" type="hidden" />
-          <p style="color:var(--muted);line-height:1.7;margin:0 0 14px;" data-zh="可新增文件、修改文件、移動所屬資料庫、設定標籤，並會寫入操作紀錄。" data-en="You can add documents, edit documents, move them between databases, set tags, and record activity logs.">可新增文件、修改文件、移動所屬資料庫、設定標籤，並會寫入操作紀錄。</p>
-          <div class="form-grid">
+      <div class="document-admin-layout">
+        <div class="admin-box document-form-card">
+          <div class="document-card-head">
             <div>
-              <label data-zh="所屬資料庫" data-en="Database">所屬資料庫</label>
-              <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;">
-                <select id="adminDatabase"></select>
-                <button type="button" onclick="quickEditSelectedDatabase()" data-zh="修改目前資料庫" data-en="Edit Current Database">修改目前資料庫</button>
-              </div>
+              <h2 id="documentFormTitle" data-zh="新增文件" data-en="Add Document">新增文件</h2>
+              <p id="documentFormHint" data-zh="依照步驟填寫文件基本資料、搜尋資訊與管理設定。" data-en="Fill in basic information, search metadata, and management settings step by step.">依照步驟填寫文件基本資料、搜尋資訊與管理設定。</p>
             </div>
-            <div class="two-col">
+            <span id="documentModeBadge" class="doc-mode-badge" data-zh="新增模式" data-en="Add Mode">新增模式</span>
+          </div>
+          <input id="editingDocumentId" type="hidden" />
+          <div class="form-grid">
+            <div class="form-section">
+              <div class="form-section-title"><span class="form-step">1</span><span data-zh="基本資料" data-en="Basic Information">基本資料</span></div>
               <div>
-                <label data-zh="中文文件名稱" data-en="Chinese Title">中文文件名稱</label>
-                <input id="adminTitleZh" placeholder="例如：測試規格書" />
+                <label data-zh="所屬資料庫" data-en="Database">所屬資料庫</label>
+                <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;">
+                  <select id="adminDatabase"></select>
+                  <button type="button" onclick="quickEditSelectedDatabase()" data-zh="修改目前資料庫" data-en="Edit Current Database">修改目前資料庫</button>
+                </div>
               </div>
-              <div>
-                <label data-zh="英文文件名稱" data-en="English Title">英文文件名稱</label>
-                <input id="adminTitleEn" placeholder="Example: Test Specification" />
+              <div class="two-col">
+                <div>
+                  <label data-zh="中文文件名稱" data-en="Chinese Title">中文文件名稱</label>
+                  <input id="adminTitleZh" placeholder="例如：測試規格書" />
+                </div>
+                <div>
+                  <label data-zh="英文文件名稱" data-en="English Title">英文文件名稱</label>
+                  <input id="adminTitleEn" placeholder="Example: Test Specification" />
+                </div>
               </div>
-            </div>
-            <div class="two-col">
               <div>
                 <label data-zh="文件類型" data-en="File Type">文件類型</label>
                 <select id="adminType">
@@ -6085,31 +6132,93 @@
                   <option value="STP">STP</option>
                   <option value="IGES">IGES</option>
                   <option value="IGS">IGS</option>
+                  <option value="ZIP">ZIP</option>
+                  <option value="RAR">RAR</option>
+                  <option value="7Z">7Z</option>
                 </select>
               </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title"><span class="form-step">2</span><span data-zh="搜尋資訊" data-en="Search Metadata">搜尋資訊</span></div>
+              <div class="two-col">
+                <div>
+                  <label data-zh="關鍵字" data-en="Keywords">關鍵字</label>
+                  <input id="adminKeywords" placeholder="例如：規格 測試 PE" />
+                </div>
+                <div>
+                  <label data-zh="標籤" data-en="Tags">標籤</label>
+                  <input id="adminTags" placeholder="例如：SOP, 規格書, 測試報告" />
+                </div>
+              </div>
               <div>
-                <label data-zh="關鍵字" data-en="Keywords">關鍵字</label>
-                <input id="adminKeywords" placeholder="例如：規格 測試 PE" />
+                <label data-zh="中文說明" data-en="Chinese Description">中文說明</label>
+                <textarea id="adminDescZh" placeholder="請輸入文件中文說明"></textarea>
+              </div>
+              <div>
+                <label data-zh="英文說明" data-en="English Description">英文說明</label>
+                <textarea id="adminDescEn" placeholder="Enter document description"></textarea>
               </div>
             </div>
-            <div>
-              <label data-zh="標籤" data-en="Tags">標籤</label>
-              <input id="adminTags" placeholder="例如：SOP, 規格書, 測試報告" />
+
+            <div class="form-section">
+              <div class="form-section-title"><span class="form-step">3</span><span data-zh="管理設定" data-en="Management Settings">管理設定</span></div>
+              <div class="two-col">
+                <label class="check-row"><input id="adminShowRecent" type="checkbox" checked /> <span data-zh="顯示於首頁最近更新" data-en="Show in recent updates">顯示於首頁最近更新</span></label>
+                <label class="check-row"><input id="adminFavorite" type="checkbox" /> <span data-zh="加入常用 / 收藏" data-en="Add to favorites">加入常用 / 收藏</span></label>
+              </div>
+              <div>
+                <label data-zh="更新日期" data-en="Updated Date">更新日期</label>
+                <input id="adminUpdatedAt" type="date" />
+              </div>
             </div>
-            <div>
-              <label data-zh="中文說明" data-en="Chinese Description">中文說明</label>
-              <textarea id="adminDescZh" placeholder="請輸入測試文件說明"></textarea>
+
+            <div class="document-form-actions">
+              <button id="documentSaveButton" class="primary" onclick="addAdminDocument()" data-zh="儲存新增" data-en="Save New">儲存新增</button>
+              <button id="documentCancelButton" style="display:none;" onclick="cancelDocumentEdit()" data-zh="取消修改" data-en="Cancel Edit">取消修改</button>
+              <button type="button" onclick="resetDocumentForm()" data-zh="清空" data-en="Clear">清空</button>
             </div>
-            <div>
-              <label data-zh="英文說明" data-en="English Description">英文說明</label>
-              <textarea id="adminDescEn" placeholder="Enter sample document description"></textarea>
-            </div>
-            <button id="documentSaveButton" class="primary" onclick="addAdminDocument()" data-zh="新增文件" data-en="Add Document">新增文件</button>
-            <button id="documentCancelButton" style="display:none;" onclick="cancelDocumentEdit()" data-zh="取消修改" data-en="Cancel Edit">取消修改</button>
           </div>
         </div>
-        <div class="admin-box">
-          <h2 data-zh="目前測試文件" data-en="Current Sample Documents">目前測試文件</h2>
+
+        <div class="admin-box document-list-card">
+          <div class="document-card-head">
+            <div>
+              <h2 data-zh="文件清單" data-en="Document List">文件清單</h2>
+              <p data-zh="可搜尋、篩選、修改、隱藏或刪除文件。" data-en="Search, filter, edit, hide, or delete documents.">可搜尋、篩選、修改、隱藏或刪除文件。</p>
+            </div>
+            <button class="primary" onclick="cancelDocumentEdit();document.getElementById('adminTitleZh')?.focus();" data-zh="＋ 新增文件" data-en="＋ Add Document">＋ 新增文件</button>
+          </div>
+          <div class="document-toolbar">
+            <input id="adminDocumentSearch" placeholder="搜尋文件名稱、關鍵字、標籤..." oninput="renderAdminDocuments()" />
+            <select id="adminDocumentDbFilter" onchange="renderAdminDocuments()"></select>
+            <select id="adminDocumentTypeFilter" onchange="renderAdminDocuments()">
+              <option value="all" data-zh="所有類型" data-en="All Types">所有類型</option>
+              <option value="PDF">PDF</option>
+              <option value="DOCX">DOCX</option>
+              <option value="XLSX">XLSX / Excel</option>
+              <option value="XLS">XLS / Excel</option>
+              <option value="CSV">CSV</option>
+              <option value="PPTX">PPTX</option>
+              <option value="TXT">TXT</option>
+              <option value="ASM">ASM / Pro/E</option>
+              <option value="PRT">PRT / Pro/E</option>
+              <option value="DRW">DRW / Pro/E</option>
+              <option value="STEP">STEP</option>
+              <option value="STP">STP</option>
+              <option value="IGES">IGES</option>
+              <option value="IGS">IGS</option>
+              <option value="ZIP">ZIP</option>
+              <option value="RAR">RAR</option>
+              <option value="7Z">7Z</option>
+            </select>
+            <select id="adminDocumentSort" onchange="renderAdminDocuments()">
+              <option value="newest" data-zh="更新日期（新到舊）" data-en="Date Newest">更新日期（新到舊）</option>
+              <option value="oldest" data-zh="更新日期（舊到新）" data-en="Date Oldest">更新日期（舊到新）</option>
+              <option value="name" data-zh="文件名稱" data-en="Title">文件名稱</option>
+            </select>
+            <button onclick="clearAdminDocumentFilters()" data-zh="清除" data-en="Clear">清除</button>
+          </div>
           <div id="adminDocumentList"></div>
         </div>
       </div>
@@ -6775,6 +6884,7 @@ function init() {
       enforceSingleOwnerAccount();
       renderDatabases();
       renderAdminDatabaseOptions();
+      resetDocumentForm();
       renderAdminDocuments();
       renderAdminDatabases();
       renderAdminUsers();
@@ -6794,7 +6904,7 @@ function init() {
       }
     }
 
-    function getDocumentsByDatabase(id) { return documents.filter(doc => doc.databaseId === id); }
+    function getDocumentsByDatabase(id) { return documents.filter(doc => doc.databaseId === id && doc.status !== "hidden"); }
 
     function updateBadge() {
       const badge = document.getElementById("activeBadge");
@@ -6803,7 +6913,7 @@ function init() {
 
 
     function getDatabaseDocuments(databaseId) {
-      return documents.filter(doc => doc.databaseId === databaseId);
+      return documents.filter(doc => doc.databaseId === databaseId && doc.status !== "hidden");
     }
 
     function getDatabaseLastUpdated(databaseId) {
@@ -8087,46 +8197,6 @@ function showPage(pageId) {
             </div>
           </div>
 
-          <div class="admin-overview-aside">
-            <div class="admin-box admin-aside-box">
-              <h3>🧭 ${t('總覽區域說明', 'Overview Notes')}</h3>
-              <ul class="admin-bullet-list">
-                <li>${t('僅提供系統概況，無法直接編輯。', 'Provides a system summary only and does not allow direct editing.')}</li>
-                <li>${t('點選左側功能選單或入口卡片，進入各管理頁進行維護。', 'Use the left menu or entry cards to open each management page.')}</li>
-              </ul>
-            </div>
-            <div class="admin-box admin-aside-box">
-              <h3>✅ ${t('設計重點', 'Design Focus')}</h3>
-              <ul class="admin-check-list">
-                <li>${t('避免在首頁直接修改，降低誤操作風險。', 'Avoid direct editing on the home screen to reduce risk.')}</li>
-                <li>${t('所有調整集中在對應功能頁面，權責更清楚。', 'Keep edits inside dedicated management pages for clearer ownership.')}</li>
-                <li>${t('資訊清晰、快速掌握系統狀態。', 'Make the admin status easier to understand at a glance.')}</li>
-              </ul>
-            </div>
-            <div class="admin-box admin-aside-box">
-              <h3>🛡️ ${t('安全機制', 'Safety Control')}</h3>
-              <ul class="admin-check-list">
-                <li>${t('所有修改操作都會寫入操作紀錄。', 'All edit actions are written into activity logs.')}</li>
-                <li>${t('重要刪除操作需二次確認。', 'Important delete operations require confirmation.')}</li>
-                <li>${t('操作追蹤集中在操作紀錄區中。', 'Action tracing is centralized in the activity log area.')}</li>
-              </ul>
-            </div>
-            <div class="admin-box admin-aside-box">
-              <h3>↪️ ${t('頁面導覽流程', 'Navigation Flow')}</h3>
-              <div class="admin-flow">
-                <div class="admin-flow-step main">${t('總覽首頁', 'Overview')}</div>
-                <div class="admin-flow-row">
-                  <div class="admin-flow-step">${t('文件管理', 'Documents')}</div>
-                  <div class="admin-flow-step">${t('分類管理', 'Categories')}</div>
-                </div>
-                <div class="admin-flow-row">
-                  <div class="admin-flow-step">${t('權限管理', 'Permissions')}</div>
-                  <div class="admin-flow-step">${t('操作紀錄', 'Logs')}</div>
-                </div>
-              </div>
-              <div style="margin-top:14px;color:var(--muted);line-height:1.7;font-size:13px;">${t('點擊功能入口後，進入對應頁面進行管理；完成後可透過上方分頁或返回首頁回到其他頁面。', 'After opening a function, manage items in that page. Use the tabs above or the back button to return.')}</div>
-            </div>
-          </div>
         </div>`;
     }
 
@@ -8320,35 +8390,54 @@ function showPage(pageId) {
       renderAdminDatabases();
     }
 
+    function getTodayString() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function setDocumentFormMode(mode, docTitle = "") {
+      const title = document.getElementById("documentFormTitle");
+      const hint = document.getElementById("documentFormHint");
+      const badge = document.getElementById("documentModeBadge");
+      const saveButton = document.getElementById("documentSaveButton");
+      const cancelButton = document.getElementById("documentCancelButton");
+      const isEdit = mode === "edit";
+
+      if (title) {
+        title.textContent = isEdit ? `${t("修改文件", "Edit Document")}：${docTitle}` : t("新增文件", "Add Document");
+        title.dataset.zh = isEdit ? `修改文件：${docTitle}` : "新增文件";
+        title.dataset.en = isEdit ? `Edit Document: ${docTitle}` : "Add Document";
+      }
+      if (hint) {
+        hint.textContent = isEdit ? t("目前正在修改既有文件，完成後請按儲存修改。", "You are editing an existing document. Save changes when done.") : t("依照步驟填寫文件基本資料、搜尋資訊與管理設定。", "Fill in basic information, search metadata, and management settings step by step.");
+      }
+      if (badge) {
+        badge.textContent = isEdit ? t("修改模式", "Edit Mode") : t("新增模式", "Add Mode");
+        badge.dataset.zh = isEdit ? "修改模式" : "新增模式";
+        badge.dataset.en = isEdit ? "Edit Mode" : "Add Mode";
+      }
+      if (saveButton) {
+        saveButton.textContent = isEdit ? t("儲存修改", "Save Changes") : t("儲存新增", "Save New");
+        saveButton.dataset.zh = isEdit ? "儲存修改" : "儲存新增";
+        saveButton.dataset.en = isEdit ? "Save Changes" : "Save New";
+      }
+      if (cancelButton) cancelButton.style.display = isEdit ? "inline-block" : "none";
+    }
+
     function resetDocumentForm() {
       const editingInput = document.getElementById("editingDocumentId");
       if (editingInput) editingInput.value = "";
 
-      document.getElementById("adminTitleZh").value = "";
-      document.getElementById("adminTitleEn").value = "";
-      document.getElementById("adminKeywords").value = "";
-      const tagsInput = document.getElementById("adminTags");
-      if (tagsInput) tagsInput.value = "";
-      document.getElementById("adminDescZh").value = "";
-      document.getElementById("adminDescEn").value = "";
-
-      const title = document.getElementById("documentFormTitle");
-      const saveButton = document.getElementById("documentSaveButton");
-      const cancelButton = document.getElementById("documentCancelButton");
-
-      if (title) {
-        title.textContent = t("新增測試文件", "Add Sample Document");
-        title.dataset.zh = "新增測試文件";
-        title.dataset.en = "Add Sample Document";
-      }
-
-      if (saveButton) {
-        saveButton.textContent = t("新增文件", "Add Document");
-        saveButton.dataset.zh = "新增文件";
-        saveButton.dataset.en = "Add Document";
-      }
-
-      if (cancelButton) cancelButton.style.display = "none";
+      const fields = ["adminTitleZh", "adminTitleEn", "adminKeywords", "adminTags", "adminDescZh", "adminDescEn"];
+      fields.forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+      const typeEl = document.getElementById("adminType");
+      if (typeEl) typeEl.value = "PDF";
+      const recentEl = document.getElementById("adminShowRecent");
+      if (recentEl) recentEl.checked = true;
+      const favoriteEl = document.getElementById("adminFavorite");
+      if (favoriteEl) favoriteEl.checked = false;
+      const dateEl = document.getElementById("adminUpdatedAt");
+      if (dateEl) dateEl.value = getTodayString();
+      setDocumentFormMode("add");
     }
 
     function cancelDocumentEdit() {
@@ -8362,33 +8451,22 @@ function showPage(pageId) {
 
       document.getElementById("editingDocumentId").value = id;
       document.getElementById("adminDatabase").value = doc.databaseId;
-      document.getElementById("adminTitleZh").value = doc.titleZh;
-      document.getElementById("adminTitleEn").value = doc.titleEn;
-      document.getElementById("adminType").value = doc.type;
+      document.getElementById("adminTitleZh").value = doc.titleZh || "";
+      document.getElementById("adminTitleEn").value = doc.titleEn || "";
+      document.getElementById("adminType").value = doc.type || "PDF";
       document.getElementById("adminKeywords").value = doc.keywords || "";
       const tagsInput = document.getElementById("adminTags");
       if (tagsInput) tagsInput.value = (doc.tags || []).join(", ");
-      document.getElementById("adminDescZh").value = doc.descriptionZh;
-      document.getElementById("adminDescEn").value = doc.descriptionEn;
+      document.getElementById("adminDescZh").value = doc.descriptionZh || "";
+      document.getElementById("adminDescEn").value = doc.descriptionEn || "";
+      const recentEl = document.getElementById("adminShowRecent");
+      if (recentEl) recentEl.checked = doc.showRecent !== false;
+      const favoriteEl = document.getElementById("adminFavorite");
+      if (favoriteEl) favoriteEl.checked = !!doc.favorite;
+      const dateEl = document.getElementById("adminUpdatedAt");
+      if (dateEl) dateEl.value = doc.updatedAt || getTodayString();
 
-      const title = document.getElementById("documentFormTitle");
-      const saveButton = document.getElementById("documentSaveButton");
-      const cancelButton = document.getElementById("documentCancelButton");
-
-      if (title) {
-        title.textContent = t("修改測試文件", "Edit Sample Document");
-        title.dataset.zh = "修改測試文件";
-        title.dataset.en = "Edit Sample Document";
-      }
-
-      if (saveButton) {
-        saveButton.textContent = t("儲存修改", "Save Changes");
-        saveButton.dataset.zh = "儲存修改";
-        saveButton.dataset.en = "Save Changes";
-      }
-
-      if (cancelButton) cancelButton.style.display = "inline-block";
-
+      setDocumentFormMode("edit", t(doc.titleZh, doc.titleEn));
       document.getElementById("adminTitleZh").focus();
     }
 
@@ -8411,13 +8489,14 @@ function showPage(pageId) {
       const tags = parseTags(document.getElementById("adminTags") ? document.getElementById("adminTags").value : "");
       const descriptionZh = document.getElementById("adminDescZh").value.trim();
       const descriptionEn = document.getElementById("adminDescEn").value.trim();
+      const showRecent = document.getElementById("adminShowRecent") ? document.getElementById("adminShowRecent").checked : true;
+      const favorite = document.getElementById("adminFavorite") ? document.getElementById("adminFavorite").checked : false;
+      const updatedAt = document.getElementById("adminUpdatedAt")?.value || getTodayString();
 
       if (!titleZh || !titleEn) {
         alert(t("請至少輸入中文與英文文件名稱。", "Please enter both Chinese and English document titles."));
         return;
       }
-
-      const today = new Date().toISOString().slice(0, 10);
 
       if (editingId) {
         documents = documents.map(doc => {
@@ -8427,12 +8506,15 @@ function showPage(pageId) {
             databaseId,
             titleZh,
             titleEn,
-            descriptionZh: descriptionZh || "測試文件說明。",
-            descriptionEn: descriptionEn || "Sample document description.",
+            descriptionZh: descriptionZh || "文件說明。",
+            descriptionEn: descriptionEn || "Document description.",
             type,
-            updatedAt: today,
+            updatedAt,
             keywords: keywords || `${titleZh} ${titleEn} ${tags.join(" ")}`,
             tags,
+            showRecent,
+            favorite,
+            status: doc.status || "published",
             isDefault: doc.isDefault || false
           };
         });
@@ -8451,7 +8533,7 @@ function showPage(pageId) {
           titleZh,
           `${t("所屬資料庫", "Database")}: ${editedDb ? t(editedDb.titleZh, editedDb.titleEn) : databaseId} · Type: ${type} · ${t("標籤", "Tags")}: ${tagText}`
         );
-        alert(t("測試文件已更新。", "Sample document updated."));
+        alert(t("文件已更新。", "Document updated."));
         return;
       }
 
@@ -8460,12 +8542,15 @@ function showPage(pageId) {
         databaseId,
         titleZh,
         titleEn,
-        descriptionZh: descriptionZh || "測試文件說明。",
-        descriptionEn: descriptionEn || "Sample document description.",
+        descriptionZh: descriptionZh || "文件說明。",
+        descriptionEn: descriptionEn || "Document description.",
         type,
-        updatedAt: today,
+        updatedAt,
         keywords: keywords || `${titleZh} ${titleEn} ${tags.join(" ")}`,
         tags,
+        showRecent,
+        favorite,
+        status: "published",
         isDefault: false
       });
 
@@ -8483,45 +8568,143 @@ function showPage(pageId) {
         titleZh,
         `${t("所屬資料庫", "Database")}: ${addedDb ? t(addedDb.titleZh, addedDb.titleEn) : databaseId} · Type: ${type} · ${t("標籤", "Tags")}: ${tagText}`
       );
-      alert(t("測試文件已新增。", "Sample document added."));
+      alert(t("文件已新增。", "Document added."));
     }
 
     function renderTagChips(tags) {
       if (!tags || !tags.length) return "";
-      return `<div class="tag-list">${tags.map(tag => `<span class="tag-chip">${tag}</span>`).join("")}</div>`;
+      return `<div class="tag-list">${tags.map(tag => `<span class="tag-chip">${escapeAttr(tag)}</span>`).join("")}</div>`;
+    }
+
+    function getFileTypeClass(type) {
+      const value = String(type || "").toLowerCase();
+      if (["pdf", "xlsx", "docx", "pptx"].includes(value)) return value;
+      return "other";
+    }
+
+    function updateAdminDocumentFilters() {
+      const dbFilter = document.getElementById("adminDocumentDbFilter");
+      if (!dbFilter) return;
+      const current = dbFilter.value || "all";
+      dbFilter.innerHTML = `<option value="all">${t("所有資料庫", "All Databases")}</option>` + databases.map(db => `<option value="${escapeAttr(db.id)}">${escapeAttr(t(db.titleZh, db.titleEn))}</option>`).join("");
+      if (["all", ...databases.map(db => db.id)].includes(current)) dbFilter.value = current;
+    }
+
+    function clearAdminDocumentFilters() {
+      const search = document.getElementById("adminDocumentSearch");
+      const dbFilter = document.getElementById("adminDocumentDbFilter");
+      const typeFilter = document.getElementById("adminDocumentTypeFilter");
+      const sort = document.getElementById("adminDocumentSort");
+      if (search) search.value = "";
+      if (dbFilter) dbFilter.value = "all";
+      if (typeFilter) typeFilter.value = "all";
+      if (sort) sort.value = "newest";
+      renderAdminDocuments();
     }
 
     function renderAdminDocuments() {
       const box = document.getElementById("adminDocumentList");
       if (!box) return;
+      updateAdminDocumentFilters();
+      const query = (document.getElementById("adminDocumentSearch")?.value || "").trim().toLowerCase();
+      const dbValue = document.getElementById("adminDocumentDbFilter")?.value || "all";
+      const typeValue = document.getElementById("adminDocumentTypeFilter")?.value || "all";
+      const sortValue = document.getElementById("adminDocumentSort")?.value || "newest";
+
+      let list = documents.filter(doc => {
+        const db = databases.find(item => item.id === doc.databaseId);
+        const searchText = [doc.titleZh, doc.titleEn, doc.descriptionZh, doc.descriptionEn, doc.type, doc.keywords, (doc.tags || []).join(" "), db?.titleZh, db?.titleEn].join(" ").toLowerCase();
+        const matchesSearch = !query || searchText.includes(query);
+        const matchesDb = dbValue === "all" || doc.databaseId === dbValue;
+        const matchesType = typeValue === "all" || doc.type === typeValue;
+        return matchesSearch && matchesDb && matchesType;
+      });
+
+      list.sort((a, b) => {
+        if (sortValue === "oldest") return String(a.updatedAt || "").localeCompare(String(b.updatedAt || ""));
+        if (sortValue === "name") return t(a.titleZh, a.titleEn).localeCompare(t(b.titleZh, b.titleEn), currentLang === "zh" ? "zh-Hant" : "en");
+        return String(b.updatedAt || "").localeCompare(String(a.updatedAt || ""));
+      });
 
       if (documents.length === 0) {
-        box.innerHTML = `<div class="empty-state"><strong>${t("目前沒有文件", "No documents yet")}</strong>${t("請在左側新增第一份測試文件。", "Please add the first sample document on the left.")}</div>`;
+        box.innerHTML = `<div class="empty-state"><strong>${t("目前沒有文件", "No documents yet")}</strong>${t("請在左側新增第一份文件。", "Please add the first document on the left.")}</div>`;
         return;
       }
 
-      box.innerHTML = documents.map(doc => {
-        const db = databases.find(item => item.id === doc.databaseId);
-        return `
-          <div class="doc-row" style="grid-template-columns:1fr auto;">
-            <div>
-              <div class="doc-title">${t(doc.titleZh, doc.titleEn)}</div>
-              <div class="doc-desc">${t("分類", "Category")}: ${db ? t(db.titleZh, db.titleEn) : doc.databaseId} · ${doc.type} · ${doc.updatedAt}</div>
-              ${renderTagChips(doc.tags || [])}
-            </div>
-            <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">
-              <button class="small" onclick="editDocument('${doc.id}')">${t("修改", "Edit")}</button>
-              <button class="small danger" onclick="deleteDocument('${doc.id}')">${t("刪除", "Delete")}</button>
-            </div>
-          </div>`;
-      }).join("");
+      if (list.length === 0) {
+        box.innerHTML = `<div class="empty-state"><strong>${t("找不到符合條件的文件", "No matching documents")}</strong>${t("請調整搜尋關鍵字或篩選條件。", "Adjust the keyword or filters.")}</div>`;
+        return;
+      }
+
+      box.innerHTML = `
+        <div class="document-table-wrap">
+          <table class="document-table">
+            <thead>
+              <tr>
+                <th>${t("文件名稱", "Document")}</th>
+                <th>${t("類型", "Type")}</th>
+                <th>${t("所屬資料庫", "Database")}</th>
+                <th>${t("更新日期", "Updated")}</th>
+                <th>${t("狀態", "Status")}</th>
+                <th style="text-align:right;">${t("操作", "Actions")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${list.map(doc => {
+                const db = databases.find(item => item.id === doc.databaseId);
+                const isHidden = doc.status === "hidden";
+                return `
+                  <tr>
+                    <td>
+                      <div class="document-name-cell">
+                        <span class="file-type-badge ${getFileTypeClass(doc.type)}">${escapeAttr(doc.type || "FILE")}</span>
+                        <div>
+                          <div class="document-row-title">${escapeAttr(t(doc.titleZh, doc.titleEn))}</div>
+                          <div class="document-row-sub">${renderTagChips(doc.tags || []) || escapeAttr(t(doc.descriptionZh || "", doc.descriptionEn || ""))}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="doc-type">${escapeAttr(doc.type || "-")}</span></td>
+                    <td>${escapeAttr(db ? t(db.titleZh, db.titleEn) : doc.databaseId)}</td>
+                    <td>${escapeAttr(doc.updatedAt || "-")}</td>
+                    <td><span class="status-pill ${isHidden ? "hidden" : "published"}">${isHidden ? t("已隱藏", "Hidden") : t("已發布", "Published")}</span></td>
+                    <td>
+                      <div class="document-action-row">
+                        <button class="small" onclick="editDocument('${doc.id}')">${t("修改", "Edit")}</button>
+                        <button class="small" onclick="toggleDocumentVisibility('${doc.id}')">${isHidden ? t("顯示", "Show") : t("隱藏", "Hide")}</button>
+                        <button class="small danger" onclick="deleteDocument('${doc.id}')">${t("刪除", "Delete")}</button>
+                      </div>
+                    </td>
+                  </tr>`;
+              }).join("")}
+            </tbody>
+          </table>
+        </div>
+        <div class="document-list-footer">
+          <span>${t("顯示", "Showing")} ${list.length} / ${documents.length} ${t("筆文件", "documents")}</span>
+          <span>${t("文件異動會寫入操作紀錄", "Document changes are recorded in activity logs")}</span>
+        </div>`;
+    }
+
+    function toggleDocumentVisibility(id) {
+      if (!canManageData()) { alert(t("權限不足。", "Permission denied.")); return; }
+      const doc = documents.find(item => item.id === id);
+      if (!doc) return;
+      const nextStatus = doc.status === "hidden" ? "published" : "hidden";
+      documents = documents.map(item => item.id === id ? { ...item, status: nextStatus } : item);
+      saveDocuments();
+      addActivityLog(nextStatus === "hidden" ? "隱藏文件" : "顯示文件", nextStatus === "hidden" ? "Document hidden" : "Document published", doc.titleZh, "");
+      renderAdminDocuments();
+      renderDatabases();
+      if (selectedDatabaseId) renderDetailDocuments();
     }
 
     function deleteDocument(id) {
       if (!canManageData()) { alert(t("權限不足。", "Permission denied.")); return; }
-      if (!confirm(t("確定要刪除此測試文件嗎？", "Are you sure you want to delete this sample document?"))) return;
-
       const deletedDoc = documents.find(doc => doc.id === id);
+      const title = deletedDoc ? t(deletedDoc.titleZh, deletedDoc.titleEn) : id;
+      if (!confirm(t(`確定要刪除「${title}」嗎？\n此操作會寫入操作紀錄。`, `Are you sure you want to delete "${title}"?\nThis action will be recorded.`))) return;
+
       documents = documents.filter(doc => doc.id !== id);
       saveDocuments();
       addActivityLog("刪除文件", "Document deleted", deletedDoc ? deletedDoc.titleZh : id, "");
