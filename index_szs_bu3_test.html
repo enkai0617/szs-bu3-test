@@ -1,0 +1,1078 @@
+<!-- SZS_FIX_DFM_MEDIA_RENDER_PIPELINE_20260518 -->
+<!-- SZS_FIX_DFM_MEDIA_AFTER_FULL_TEXT_AND_AUTO_INJECT_20260518 -->
+<!-- SZS_FIX_DFM_MEDIA_VISIBLE_AFTER_INTRO_20260518 -->
+<!-- SZS_FIX_DFM_MEDIA_EMBED_FROM_UPLOAD_20260518 -->
+<!-- SZS_FIX_RESTORE_DFM_MEDIA_20260518 -->
+<!-- SZS_FIX_SETTINGS_ADMIN_ENTRY_20260518 -->
+<!DOCTYPE html>
+<!-- SZS_FIX_TOP_STATUS_ONLY_20260518 -->
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SZS PE知識庫</title>
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="shortcut icon" type="image/png" href="logo.png" />
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body class="sidebar-collapsed">
+  <header>
+    <button id="sidebarToggleBtn" class="sidebar-toggle" onclick="toggleSidebar(event)">☰</button>
+    <div class="brand" onclick="showHome()">
+      <img src="logo.png" alt="SZS Logo" class="logo" onerror="this.style.display=\'none\'; const f=this.parentElement.querySelector(\'.logo-fallback\'); if(f){f.classList.add(\'show\');}">
+      <div>
+        <div class="brand-title" data-zh="SZS PE知識庫" data-en="SZS PE Knowledge Base">SZS PE知識庫</div>
+        <div class="brand-subtitle" data-zh="內部資料搜尋系統" data-en="INTERNAL DATABASE SYSTEM">內部資料搜尋系統</div>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+
+      <div class="top-search">
+        <span>⌕</span>
+        <input id="topSearchInput" placeholder="搜尋文件、分類或標籤..." onkeydown="handleTopSearch(event)" />
+        <kbd>⌘ K</kbd>
+      </div>
+
+      <div class="top-presence-control" id="topPresenceControl" aria-label="presence status">
+        <span class="top-presence-label" data-zh="我的狀態" data-en="My Status">我的狀態</span>
+        <button id="topPresenceOnlineBtn" class="status-btn online" type="button" onclick="setMyPresence('online')" data-zh="線上" data-en="Online">線上</button>
+        <button id="topPresenceAwayBtn" class="status-btn away" type="button" onclick="setMyPresence('away')" data-zh="離開" data-en="Away">離開</button>
+        <button id="topPresenceOfflineBtn" class="status-btn offline" type="button" onclick="setMyPresence('offline')" data-zh="離線" data-en="Offline">離線</button>
+      </div>
+
+      <span class="user-pill" id="userPill"></span>
+      <button class="ghost" onclick="switchLanguage()" id="langBtn">English</button>
+      <button onclick="toggleTheme()" id="themeBtn">🌙</button>
+      <button id="notificationBtn" class="icon-btn" onclick="toggleNotifications(event)" title="通知">🔔<span id="notificationDot"></span></button>
+      <div class="profile-wrap" id="profileWrap">
+        <button id="profileBtn" class="profile-btn" onclick="toggleProfileMenu(event)">
+          <span class="profile-avatar" id="profileAvatar">U</span>
+          <span class="profile-name" id="profileName">User</span>
+          <span class="profile-role" id="profileRole">User</span>
+          <span>⌄</span>
+        </button>
+        <div class="profile-menu" id="profileMenu">
+          <div class="profile-menu-head">
+            <span class="profile-avatar large" id="profileAvatarLarge">U</span>
+            <div>
+              <strong id="profileMenuName">User</strong>
+              <p id="profileMenuMeta">User · 離線</p>
+            </div>
+          </div>
+          <button onclick="switchLanguage(); closeProfileMenu();" data-zh="語言 / Language" data-en="Language / 語言">語言 / Language</button>
+          <button onclick="openSystemInfoDialog(); closeProfileMenu();" data-zh="系統資訊" data-en="System Info">系統資訊</button>
+          <button onclick="openProfileSettingsDialog(); closeProfileMenu();" data-zh="我的設定" data-en="My Settings">我的設定</button>
+          <button onclick="openMyMessagesDialog(); closeProfileMenu();" data-zh="我的訊息" data-en="My Messages">我的訊息</button>
+          <button onclick="openFeedbackDialog(); closeProfileMenu();" data-zh="意見回饋" data-en="Feedback">意見回饋</button>
+          <button class="danger-text" onclick="closeProfileMenu(); logout();" data-zh="登出" data-en="Logout">登出</button>
+        </div>
+      </div>
+      <button id="loginBtn" onclick="openAuthModal('login')" data-zh="登入" data-en="Login">登入</button>
+      <button id="registerBtn" class="primary" onclick="openAuthModal('register')" data-zh="註冊" data-en="Sign Up">註冊</button>
+      <button id="logoutBtn" style="display:none;" onclick="logout()" data-zh="登出" data-en="Logout">登出</button>
+      <!-- 後台管理已移至系統設定頁 -->
+    </div>
+  </header>
+  <div class="notification-panel" id="notificationPanel">
+    <div class="notification-head">
+      <strong data-zh="通知中心" data-en="Notifications">通知中心</strong>
+      <button onclick="toggleNotifications(event)">×</button>
+    </div>
+    <div id="notificationList"></div>
+  </div>
+
+  <aside class="app-sidebar" aria-label="main navigation">
+    <div class="side-section side-section-primary">
+      <div class="side-section-title" data-zh="主要功能" data-en="Main">主要功能</div>
+      <button class="side-item active" onclick="showHome()" data-side="home" title="首頁">
+        <span class="side-icon">⌂</span><span class="side-label" data-zh="首頁" data-en="Home">首頁</span>
+      </button>
+      <button class="side-item" onclick="openDatabaseSection()" data-side="databases" title="資料庫分類">
+        <span class="side-icon">▦</span><span class="side-label" data-zh="資料庫分類" data-en="Databases">資料庫分類</span><span class="side-badge" id="sideDatabaseCount">6</span>
+      </button>
+      <button class="side-item" onclick="openAssistantPage()" data-side="assistant" title="小幫手">
+        <span class="side-icon">✦</span><span class="side-label" data-zh="小幫手" data-en="Assistant">小幫手</span><span class="side-badge side-badge-new">NEW</span>
+      </button>
+    </div>
+
+    <div class="side-section side-section-admin">
+      <div class="side-section-title" data-zh="管理功能" data-en="Admin">管理功能</div>
+      <button class="side-item" onclick="openAdmin(); setTimeout(()=>switchAdminTab('documents'), 0);" data-side="documents" title="文件管理">
+        <span class="side-icon">▤</span><span class="side-label" data-zh="文件管理" data-en="Documents">文件管理</span><span class="side-badge" id="sideDocumentCount">8</span>
+      </button>
+      <button class="side-item" onclick="openAdmin(); setTimeout(()=>switchAdminTab('users'), 0);" data-side="users" title="會員權限">
+        <span class="side-icon">♙</span><span class="side-label" data-zh="會員權限" data-en="Members">會員權限</span>
+      </button>
+      <button class="side-item" onclick="openAdmin(); setTimeout(()=>switchAdminTab('logs'), 0);" data-side="logs" title="操作紀錄">
+        <span class="side-icon">◷</span><span class="side-label" data-zh="操作紀錄" data-en="Logs">操作紀錄</span>
+      </button>
+    </div>
+
+    <div class="side-section side-section-system">
+      <div class="side-section-title" data-zh="系統" data-en="System">系統</div>
+      <button class="side-item" onclick="openMembersSection()" data-side="members" title="線上成員">
+        <span class="side-icon">☷</span><span class="side-label" data-zh="成員狀態" data-en="Member Status">成員狀態</span><span class="side-badge" id="sideMemberCount">13</span>
+      </button>
+      <button class="side-item" onclick="openSystemSettings()" data-side="settings" title="系統設定">
+        <span class="side-icon">⚙</span><span class="side-label" data-zh="系統設定" data-en="Settings">系統設定</span>
+      </button>
+    </div>
+
+    <div class="side-card compact-side-card">
+      <div class="side-card-art">🔐</div>
+      <strong data-zh="安全・可靠・共享" data-en="Secure · Reliable · Shared">安全・可靠・共享</strong>
+      <p data-zh="建立標準化文件，讓知識成為團隊的力量。" data-en="Standardize files and turn knowledge into team power.">建立標準化文件，讓知識成為團隊的力量。</p>
+      <button onclick="openAssistant()" data-zh="了解更多 ↗" data-en="Learn More ↗">了解更多 ↗</button>
+    </div>
+  </aside>
+
+
+  <div class="warning-banner" data-zh="原型提醒：此版本資料只會暫存在目前瀏覽器 localStorage，請勿放入公司機密、真實帳密、客戶資料或正式文件。"
+       data-en="Prototype reminder: Data is stored only in this browser localStorage. Do not enter confidential data or real passwords. ">
+    原型提醒：此版本資料只會暫存在目前瀏覽器 localStorage，請勿放入公司機密、真實帳密、客戶資料或正式文件。
+  </div>
+
+
+  <main id="loginLandingPage" class="page login-landing-page active">
+    <section class="template-b-shell">
+      <div class="template-b-panel">
+        <div class="template-b-visual" aria-label="SZS PE Knowledge Base Login Illustration">
+          <div class="kb-art">
+            <div class="kb-float search">⌕</div>
+            <div class="kb-float cloud">↕</div>
+            <div class="kb-float lock">🔒</div>
+            <div class="kb-doc-stack"><span></span><span></span><span></span></div>
+            <div class="kb-art-laptop"><div class="kb-search-icon"></div></div>
+            <div class="kb-art-base"></div>
+            <div class="kb-magnifier"></div>
+          </div>
+          <div class="template-b-copy">
+            <h1 data-zh="SZS PE 知識庫" data-en="SZS PE Knowledge Base">SZS PE 知識庫</h1>
+            <h2 data-zh="內部資料搜尋系統" data-en="Internal Data Search System">內部資料搜尋系統</h2>
+            <p data-zh="整合公司內部知識，讓資料搜尋更快速、更簡單。" data-en="Integrate internal knowledge and make data search faster and easier.">整合公司內部知識，<br>讓資料搜尋更快速、更簡單。</p>
+            <div class="template-b-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+
+        <div class="template-b-card">
+          <div class="template-b-logo">
+            <img src="logo.png" alt="SZS Logo" onerror="this.style.display='none';">
+          </div>
+          <h2 data-zh="歡迎登入" data-en="Welcome Back">歡迎登入</h2>
+          <div class="template-b-error" id="landingLoginError"></div>
+          <div class="template-b-field">
+            <span>♙</span>
+            <input id="landingLoginId" autocomplete="username" placeholder="工號" onkeydown="handleLandingLoginEnter(event)" />
+          </div>
+          <div class="template-b-field template-b-password">
+            <span>▣</span>
+            <input id="landingLoginPassword" type="password" autocomplete="current-password" placeholder="密碼" onkeydown="handleLandingLoginEnter(event)" />
+            <button type="button" class="template-b-eye" onclick="toggleLandingPassword()" aria-label="show password">◉</button>
+          </div>
+          <div class="template-b-row">
+            <label class="template-b-check"><input type="checkbox" id="landingRememberMe"> <span data-zh="記住我" data-en="Remember me">記住我</span></label>
+            <button type="button" class="template-b-link" onclick="forgotFromLanding()" data-zh="忘記密碼？" data-en="Forgot Password?">忘記密碼？</button>
+          </div>
+          <button class="template-b-submit" onclick="loginFromLanding()" data-zh="登入" data-en="Login">登入</button>
+          <div class="template-b-register">
+            <span data-zh="沒有帳號？" data-en="No account?">沒有帳號？</span>
+            <button type="button" onclick="openAuthModal('register')" data-zh="立即註冊" data-en="Sign Up">立即註冊</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <main id="homePage" class="page">
+    <section class="hero">
+      <div class="hero-label">SZS · PE KNOWLEDGE SYSTEM</div>
+      <h1 data-zh="SZS PE知識庫" data-en="SZS PE Knowledge Base">SZS PE知識庫</h1>
+      <p data-zh="請選擇資料庫分類進行查詢，或使用右下角小幫手搜尋你需要的文件。此版本為非機密原型展示，所有資料皆為測試資料。"
+         data-en="Select a database category or use the assistant in the lower-right corner to search for documents. This is a non-confidential prototype using sample data only.">
+        請選擇資料庫分類進行查詢，或使用右下角小幫手搜尋你需要的文件。此版本為非機密原型展示，所有資料皆為測試資料。
+      </p>
+    </section>
+
+    <section class="dashboard-overview" aria-label="dashboard overview">
+      <div class="dash-stat clickable" onclick="closeMembersSection(); document.getElementById('databaseSection')?.scrollIntoView({behavior:'smooth'}); databaseHomeView='cards'; renderDatabases();">
+        <div class="dash-icon blue">▣</div>
+        <div>
+          <div class="dash-label" data-zh="資料庫分類" data-en="Database Categories">資料庫分類</div>
+          <div class="dash-value"><span id="overviewDatabaseCount">0</span><small data-zh=" 個" data-en=" categories"> 個</small></div>
+          <div class="dash-link" data-zh="" data-en=""></div>
+        </div>
+      </div>
+      <div class="dash-stat clickable" onclick="databaseHomeView='list'; renderDatabases(); document.getElementById('databaseSection')?.scrollIntoView({behavior:'smooth'});">
+        <div class="dash-icon cyan">▤</div>
+        <div>
+          <div class="dash-label" data-zh="總文件數" data-en="Total Documents">總文件數</div>
+          <div class="dash-value"><span id="overviewDocumentCount">0</span><small data-zh=" 份" data-en=" docs"> 份</small></div>
+          <div class="dash-link" data-zh="" data-en=""></div>
+        </div>
+      </div>
+      <div class="dash-stat clickable" onclick="openMembersSection()">
+        <div class="dash-icon purple">♙</div>
+        <div>
+          <div class="dash-label" data-zh="總人數" data-en="Total Members">總人數</div>
+          <div class="dash-value"><span id="overviewUserRole">0</span><small data-zh=" 人" data-en=" members"> 人</small></div>
+          <div class="dash-link" data-zh="" data-en=""></div>
+        </div>
+      </div>
+      <div class="dash-stat clickable" onclick="openAdmin(); setTimeout(()=>switchAdminTab('logs'), 0);">
+        <div class="dash-icon green">✓</div>
+        <div>
+          <div class="dash-label" data-zh="系統狀態" data-en="System Status">系統狀態</div>
+          <div class="dash-value"><span data-zh="正常" data-en="OK">正常</span></div>
+          <div class="dash-link" data-zh="" data-en=""></div>
+        </div>
+      </div>
+    </section>
+
+    
+
+    <div class="home-main-layout">
+      <div class="home-main-column">
+
+        <section class="home-productivity-panels" id="homeSmartDashboard" aria-label="home smart dashboard">
+          <div class="home-panel recent-doc-panel">
+            <div class="home-panel-head">
+              <div class="home-panel-title"><span class="num-dot">1</span><span data-zh="最近更新文件" data-en="Recently Updated Files">最近更新文件</span></div>
+              <button class="home-panel-action" onclick="showSearchResults('DFM')" data-zh="查看全部" data-en="View All">查看全部</button>
+            </div>
+            <div class="recent-doc-list" id="homeRecentDocuments"></div>
+          </div>
+
+          <div class="home-panel favorite-db-panel">
+            <div class="home-panel-head">
+              <div class="home-panel-title"><span class="num-dot">2</span><span data-zh="常用 / 收藏" data-en="Frequent / Favorites">常用 / 收藏</span></div>
+              <button class="home-panel-action" onclick="manageFavoriteDatabases()" data-zh="管理" data-en="Manage">管理</button>
+            </div>
+            <div class="favorite-db-list" id="homeFavoriteDatabases"></div>
+          </div>
+        </section>
+
+        <!-- Home optional feature panels 3-5 removed per request; keep only recent files and favorites. -->
+
+        <section class="online-members-panel" id="onlineMembersPanel">
+      <div class="online-members-head">
+        <div>
+          <h2 data-zh="成員狀態總覽" data-en="Member Status Overview">成員狀態總覽</h2>
+          <p data-zh="查看所有成員狀態與所屬群組，快速掌握團隊可用性；點選成員即可開啟對話框。" data-en="View every member status and group, quickly understand team availability, and click a member to open a chat dialog.">查看所有成員狀態與所屬群組，快速掌握團隊可用性；點選成員即可開啟對話框。</p>
+        </div>
+        <div class="my-status-control">
+          <span data-zh="我的狀態" data-en="My Status">我的狀態</span>
+          <button id="presenceOnlineBtn" class="status-btn online" onclick="setMyPresence('online')" data-zh="線上" data-en="Online">線上</button>
+          <button id="presenceAwayBtn" class="status-btn away" onclick="setMyPresence('away')" data-zh="離開" data-en="Away">離開</button>
+          <button id="presenceOfflineBtn" class="status-btn offline" onclick="setMyPresence('offline')" data-zh="離線" data-en="Offline">離線</button>
+        </div>
+      </div>
+      <div class="member-status-dashboard" id="memberStatusDashboard"></div>
+      <div class="member-status-toolbar">
+        <div class="member-status-search">
+          <span>⌕</span>
+          <input id="memberStatusSearch" placeholder="搜尋成員姓名、工號或部門..." oninput="syncMemberSearch('memberStatus')" />
+        </div>
+        <div class="member-status-filters" id="memberStatusFilters"></div>
+        <div class="member-status-actions" id="memberStatusActions"></div>
+      </div>
+      <div class="members-hybrid-grid">
+        <div class="online-members-list" id="onlineMembersList"></div>
+
+      </div>
+        </section>
+
+        <section id="databaseSection" class="view-cards">
+      <div class="section-head">
+        <div class="section-title">
+          <h2 data-zh="資料庫分類" data-en="DATA STREAMS">資料庫分類</h2>
+          <span class="badge" id="activeBadge">0 個分類</span>
+        </div>
+        <div class="section-hint database-view-actions">
+          <span data-zh="你可以到後台管理自行新增資料庫分類與測試文件。" data-en="You can add database categories and sample documents in the admin panel.">你可以到後台管理自行新增資料庫分類與測試文件。</span>
+          <button id="databaseViewToggle" onclick="toggleDatabaseView()" data-zh="查看全部分類" data-en="View All Categories">查看全部分類</button>
+        </div>
+      </div>
+      <div class="database-grid" id="databaseGrid"></div>
+      <div class="database-list-panel" id="databaseListPanel" style="display:none;"><div id="databaseList"></div></div>
+        </section>
+      </div>
+        <aside class="quick-members-sidebar home-quick-members">
+          <div class="quick-members-head">
+            <h3 data-zh="成員狀態" data-en="Member Status">成員狀態</h3>
+            <span id="quickMemberCount">0</span>
+          </div>
+          <div class="quick-member-search">
+            <input id="quickMemberSearch" placeholder="搜尋成員..." oninput="syncMemberSearch('quick')" />
+          </div>
+          <div class="quick-member-groups" id="quickMembersSidebar"></div>
+          <div class="quick-members-footer">
+            <button onclick="scrollToAllMemberGroups()" data-zh="展開更多" data-en="Expand More">展開更多</button>
+          </div>
+        </aside>
+    </div>
+    <div class="member-chat-modal" id="memberChatModal"></div>
+  </main>
+
+  <main id="detailPage" class="page">
+    <section class="detail-top">
+      <div class="detail-title-area">
+        <div class="detail-label">DATABASE DETAIL</div>
+        <h1 id="detailTitle">資料庫</h1>
+        <p id="detailDescription">資料庫說明</p>
+      </div>
+      <div class="detail-actions">
+        <button onclick="showHome()" data-zh="← 返回首頁" data-en="← Back Home">← 返回首頁</button>
+        <button class="primary" onclick="openAssistant()" data-zh="詢問小幫手" data-en="Ask Assistant">詢問小幫手</button>
+      </div>
+    </section>
+
+    <section class="detail-toolbar">
+      <div class="search-box">
+        <input id="detailSearch" placeholder="在此資料庫搜尋文件..." oninput="renderDetailDocuments()" />
+      </div>
+      <span class="badge" id="detailCount">0 documents</span>
+    </section>
+
+    <section class="doc-table" id="detailDocumentList"></section>
+  </main>
+
+
+  <main id="searchPage" class="page">
+    <section class="detail-top search-result-top">
+      <div class="detail-title-area">
+        <div class="detail-label" data-zh="SEARCH RESULT" data-en="SEARCH RESULT">SEARCH RESULT</div>
+        <h1 data-zh="搜尋結果" data-en="Search Results">搜尋結果</h1>
+        <p id="searchResultSummary">請輸入關鍵字搜尋文件、分類或標籤。</p>
+      </div>
+      <div class="detail-actions">
+        <button onclick="showHome()" data-zh="← 返回首頁" data-en="← Back Home">← 返回首頁</button>
+        <button class="primary" onclick="openAssistant()" data-zh="詢問小幫手" data-en="Ask Assistant">詢問小幫手</button>
+      </div>
+    </section>
+
+    <section class="detail-toolbar">
+      <div class="google-search-large">
+        <span>⌕</span>
+        <input id="searchPageInput" placeholder="搜尋文件、分類或標籤..." onkeydown="handleSearchPageEnter(event)" />
+        <button onclick="runSearchFromPage()" data-zh="搜尋" data-en="Search">搜尋</button>
+      </div>
+      <span class="badge" id="searchResultCount">0 documents</span>
+    </section>
+
+    <section class="search-tabs" id="searchResultTabs">
+      <button id="searchTabFiles" class="active" onclick="setSearchResultView('files')" data-zh="文件" data-en="Files">文件</button>
+      <button id="searchTabCategories" onclick="setSearchResultView('categories')" data-zh="資料庫分類" data-en="Categories">資料庫分類</button>
+      <button id="searchTabAll" onclick="setSearchResultView('all')" data-zh="全部" data-en="All">全部</button>
+    </section>
+
+    <section class="doc-table" id="searchResultList"></section>
+  </main>
+
+
+
+
+  <main id="settingsPage" class="page">
+    <section class="detail-top">
+      <div class="detail-title-area">
+        <div class="detail-label">SYSTEM SETTINGS</div>
+        <h1 data-zh="系統設定" data-en="System Settings">系統設定</h1>
+        <p data-zh="這裡集中放置系統相關入口。後台管理已移到此頁，不再放在最上方工具列。" data-en="System-related entries are collected here. The admin panel has been moved here and removed from the top toolbar.">這裡集中放置系統相關入口。後台管理已移到此頁，不再放在最上方工具列。</p>
+      </div>
+      <div class="detail-actions">
+        <button onclick="showHome()" data-zh="← 返回首頁" data-en="← Back Home">← 返回首頁</button>
+      </div>
+    </section>
+
+    <section class="settings-panel">
+      <div class="settings-grid">
+        <div class="settings-card">
+          <h3 data-zh="後台管理" data-en="Admin Panel">後台管理</h3>
+          <p data-zh="管理資料庫分類、文件、會員權限與操作紀錄。Manager 可管理資料，Owner 可管理會員權限。" data-en="Manage database categories, documents, member permissions, and activity logs. Managers can manage data; Owners can manage member permissions.">管理資料庫分類、文件、會員權限與操作紀錄。Manager 可管理資料，Owner 可管理會員權限。</p>
+          <button class="primary" onclick="openAdmin()" data-zh="進入後台管理" data-en="Open Admin Panel">進入後台管理</button>
+        </div>
+        <div class="settings-card">
+          <h3 data-zh="系統資訊" data-en="System Info">系統資訊</h3>
+          <p data-zh="查看目前原型狀態、資料庫分類數與文件數。" data-en="View current prototype status, database category count, and document count.">查看目前原型狀態、資料庫分類數與文件數。</p>
+          <button onclick="showSystemInfo()" data-zh="查看系統資訊" data-en="View System Info">查看系統資訊</button>
+        </div>
+        <div class="settings-card">
+          <h3 data-zh="我的設定" data-en="My Settings">我的設定</h3>
+          <p data-zh="個人設定目前為原型展示項目，正式版可擴充語言、通知與偏好設定。" data-en="Personal settings are prototype items and can later include language, notifications, and preferences.">個人設定目前為原型展示項目，正式版可擴充語言、通知與偏好設定。</p>
+          <button onclick="showToast(t('我的設定為原型展示項目。','My settings is a prototype item.'))" data-zh="查看我的設定" data-en="View My Settings">查看我的設定</button>
+        </div>
+        <div class="settings-card">
+          <h3 data-zh="外觀模式" data-en="Appearance">外觀模式</h3>
+          <p data-zh="黑白模式保留在這裡手動切換，不再由左側系統設定按鈕直接切換。" data-en="Theme switching is kept here manually; the sidebar Settings button no longer toggles it directly.">黑白模式保留在這裡手動切換，不再由左側系統設定按鈕直接切換。</p>
+          <button onclick="toggleTheme()" data-zh="切換黑白模式" data-en="Toggle Theme">切換黑白模式</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <main id="adminPage" class="page">
+    <section class="detail-top">
+      <div class="detail-title-area">
+        <div class="detail-label">ADMIN PROTOTYPE</div>
+        <h1 data-zh="後台管理" data-en="Admin Panel">後台管理</h1>
+        <p data-zh="這裡是部門資料維護中心。總覽首頁僅供查看，真正的新增、修改與刪除請進入對應管理頁面操作。"
+           data-en="This is the department data maintenance center. The overview page is view-only, and actual add/edit/delete actions should be done inside the corresponding management page.">
+          這裡是部門資料維護中心。總覽首頁僅供查看，真正的新增、修改與刪除請進入對應管理頁面操作。
+        </p>
+        <div class="role-guide">
+          <div class="role-card">
+            <strong>Owner</strong>
+            <span data-zh="部門維護權限：可管理資料、會員權限與操作紀錄。" data-en="Department maintenance permission: manage data, member permissions, and activity logs.">部門維護權限：可管理資料、會員權限與操作紀錄。</span>
+          </div>
+          <div class="role-card">
+            <strong>Manager</strong>
+            <span data-zh="資料維護權限：可新增、修改、刪除資料庫與文件。" data-en="Data maintenance permission: add, edit, and delete databases and documents.">資料維護權限：可新增、修改、刪除資料庫與文件。</span>
+          </div>
+          <div class="role-card">
+            <strong>User</strong>
+            <span data-zh="使用權限：可登入、查詢資料與使用小幫手。" data-en="Usage permission: log in, search data, and use the assistant.">使用權限：可登入、查詢資料與使用小幫手。</span>
+          </div>
+        </div>
+      </div>
+      <div class="detail-actions">
+        <button onclick="showHome()" data-zh="← 返回首頁" data-en="← Back Home">← 返回首頁</button>
+      </div>
+    </section>
+
+    <div class="admin-tabs">
+      <button id="adminOverviewTab" class="admin-tab-button active" onclick="switchAdminTab('overview')" data-zh="總覽首頁" data-en="Overview">總覽首頁</button>
+      <button id="adminDocTab" class="admin-tab-button" onclick="switchAdminTab('documents')" data-zh="文件管理" data-en="Document Manager">文件管理</button>
+      <button id="adminDbTab" class="admin-tab-button" onclick="switchAdminTab('databases')" data-zh="資料庫分類管理" data-en="Database Manager">資料庫分類管理</button>
+      <button id="adminUserTab" class="admin-tab-button" onclick="switchAdminTab('users')" data-zh="會員權限管理" data-en="Member Permissions">會員權限管理</button>
+      <button id="adminLogTab" class="admin-tab-button" onclick="switchAdminTab('logs')" data-zh="操作紀錄" data-en="Activity Logs">操作紀錄</button>
+    </div>
+
+    <section id="adminOverviewSection" class="admin-section active">
+      <div id="adminOverviewContent"></div>
+    </section>
+
+    <section id="adminDocumentsSection" class="admin-section">
+      <div class="document-admin-layout">
+        <div class="admin-box document-form-card">
+          <div class="document-card-head">
+            <div>
+              <h2 id="documentFormTitle" data-zh="新增文件" data-en="Add Document">新增文件</h2>
+              <p id="documentFormHint" data-zh="依照步驟填寫文件基本資料、搜尋資訊與管理設定。" data-en="Fill in basic information, search metadata, and management settings step by step.">依照步驟填寫文件基本資料、搜尋資訊與管理設定。</p>
+            </div>
+            <span id="documentModeBadge" class="doc-mode-badge" data-zh="新增模式" data-en="Add Mode">新增模式</span>
+          </div>
+          <input id="editingDocumentId" type="hidden" />
+          <div class="form-grid">
+            <div class="form-section">
+              <div class="form-section-title"><span class="form-step">1</span><span data-zh="基本資料" data-en="Basic Information">基本資料</span></div>
+              <div>
+                <label data-zh="所屬資料庫" data-en="Database">所屬資料庫</label>
+                <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;">
+                  <select id="adminDatabase"></select>
+                  <button type="button" onclick="quickEditSelectedDatabase()" data-zh="修改目前資料庫" data-en="Edit Current Database">修改目前資料庫</button>
+                </div>
+              </div>
+              <div class="two-col">
+                <div>
+                  <label data-zh="中文文件名稱" data-en="Chinese Title">中文文件名稱</label>
+                  <input id="adminTitleZh" placeholder="例如：測試規格書" />
+                </div>
+                <div>
+                  <label data-zh="英文文件名稱" data-en="English Title">英文文件名稱</label>
+                  <input id="adminTitleEn" placeholder="Example: Test Specification" />
+                </div>
+              </div>
+              <div>
+                <label data-zh="文件類型" data-en="File Type">文件類型</label>
+                <select id="adminType">
+                  <option value="PDF">PDF</option>
+                  <option value="DOCX">DOCX</option>
+                  <option value="XLSX">XLSX / Excel</option>
+                  <option value="XLS">XLS / Excel</option>
+                  <option value="CSV">CSV</option>
+                  <option value="PPTX">PPTX</option>
+                  <option value="TXT">TXT</option>
+                  <option value="ASM">ASM / Pro/E</option>
+                  <option value="PRT">PRT / Pro/E</option>
+                  <option value="DRW">DRW / Pro/E</option>
+                  <option value="STEP">STEP</option>
+                  <option value="STP">STP</option>
+                  <option value="IGES">IGES</option>
+                  <option value="IGS">IGS</option>
+                  <option value="ZIP">ZIP</option>
+                  <option value="RAR">RAR</option>
+                  <option value="7Z">7Z</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title"><span class="form-step">2</span><span data-zh="搜尋資訊" data-en="Search Metadata">搜尋資訊</span></div>
+              <div class="two-col">
+                <div>
+                  <label data-zh="關鍵字" data-en="Keywords">關鍵字</label>
+                  <input id="adminKeywords" placeholder="例如：規格 測試 PE" />
+                </div>
+                <div>
+                  <label data-zh="標籤" data-en="Tags">標籤</label>
+                  <input id="adminTags" placeholder="例如：SOP, 規格書, 測試報告" />
+                </div>
+              </div>
+              <div>
+                <label data-zh="中文說明" data-en="Chinese Description">中文說明</label>
+                <textarea id="adminDescZh" placeholder="請輸入文件中文說明"></textarea>
+              </div>
+              <div>
+                <label data-zh="英文說明" data-en="English Description">英文說明</label>
+                <textarea id="adminDescEn" placeholder="Enter document description"></textarea>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title"><span class="form-step">3</span><span data-zh="管理設定" data-en="Management Settings">管理設定</span></div>
+              <div class="two-col">
+                <label class="check-row"><input id="adminShowRecent" type="checkbox" checked /> <span data-zh="顯示於首頁最近更新" data-en="Show in recent updates">顯示於首頁最近更新</span></label>
+                <label class="check-row"><input id="adminFavorite" type="checkbox" /> <span data-zh="加入常用 / 收藏" data-en="Add to favorites">加入常用 / 收藏</span></label>
+              </div>
+              <div>
+                <label data-zh="更新日期" data-en="Updated Date">更新日期</label>
+                <input id="adminUpdatedAt" type="date" />
+              </div>
+            </div>
+
+            <div class="document-form-actions">
+              <button id="documentSaveButton" class="primary" onclick="addAdminDocument()" data-zh="儲存新增" data-en="Save New">儲存新增</button>
+              <button id="documentCancelButton" style="display:none;" onclick="cancelDocumentEdit()" data-zh="取消修改" data-en="Cancel Edit">取消修改</button>
+              <button type="button" onclick="resetDocumentForm()" data-zh="清空" data-en="Clear">清空</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-box document-list-card">
+          <div class="document-card-head">
+            <div>
+              <h2 data-zh="文件清單" data-en="Document List">文件清單</h2>
+              <p data-zh="可搜尋、篩選、修改、隱藏或刪除文件。" data-en="Search, filter, edit, hide, or delete documents.">可搜尋、篩選、修改、隱藏或刪除文件。</p>
+            </div>
+            <button class="primary" onclick="cancelDocumentEdit();document.getElementById('adminTitleZh')?.focus();" data-zh="＋ 新增文件" data-en="＋ Add Document">＋ 新增文件</button>
+          </div>
+          <div class="document-toolbar">
+            <input id="adminDocumentSearch" placeholder="搜尋文件名稱、關鍵字、標籤..." oninput="renderAdminDocuments()" />
+            <select id="adminDocumentDbFilter" onchange="renderAdminDocuments()"></select>
+            <select id="adminDocumentTypeFilter" onchange="renderAdminDocuments()">
+              <option value="all" data-zh="所有類型" data-en="All Types">所有類型</option>
+              <option value="PDF">PDF</option>
+              <option value="DOCX">DOCX</option>
+              <option value="XLSX">XLSX / Excel</option>
+              <option value="XLS">XLS / Excel</option>
+              <option value="CSV">CSV</option>
+              <option value="PPTX">PPTX</option>
+              <option value="TXT">TXT</option>
+              <option value="ASM">ASM / Pro/E</option>
+              <option value="PRT">PRT / Pro/E</option>
+              <option value="DRW">DRW / Pro/E</option>
+              <option value="STEP">STEP</option>
+              <option value="STP">STP</option>
+              <option value="IGES">IGES</option>
+              <option value="IGS">IGS</option>
+              <option value="ZIP">ZIP</option>
+              <option value="RAR">RAR</option>
+              <option value="7Z">7Z</option>
+            </select>
+            <select id="adminDocumentSort" onchange="renderAdminDocuments()">
+              <option value="newest" data-zh="更新日期（新到舊）" data-en="Date Newest">更新日期（新到舊）</option>
+              <option value="oldest" data-zh="更新日期（舊到新）" data-en="Date Oldest">更新日期（舊到新）</option>
+              <option value="name" data-zh="文件名稱" data-en="Title">文件名稱</option>
+            </select>
+            <button onclick="clearAdminDocumentFilters()" data-zh="清除" data-en="Clear">清除</button>
+          </div>
+          <div id="adminDocumentList"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="adminDatabasesSection" class="admin-section">
+      <div class="database-admin-layout">
+        <div class="admin-box database-form-card">
+          <div class="document-card-head">
+            <div>
+              <h2 id="dbFormTitle" data-zh="新增資料庫分類" data-en="Add Database Category">新增資料庫分類</h2>
+              <p id="dbFormHint" data-zh="依照步驟填寫分類基本資料、說明與管理設定。" data-en="Fill in category basics, descriptions, and management settings step by step.">依照步驟填寫分類基本資料、說明與管理設定。</p>
+            </div>
+            <span id="dbModeBadge" class="doc-mode-badge" data-zh="新增模式" data-en="Add Mode">新增模式</span>
+          </div>
+          <input id="editingDatabaseId" type="hidden" />
+          <div class="form-grid">
+            <div class="form-section">
+              <div class="form-section-title"><span class="form-step">1</span><span data-zh="基本資料" data-en="Basic Info">基本資料</span></div>
+              <div class="two-col">
+                <div>
+                  <label data-zh="中文名稱" data-en="Chinese Name">中文名稱</label>
+                  <input id="dbTitleZh" placeholder="例如：設備資料庫" />
+                </div>
+                <div>
+                  <label data-zh="英文名稱" data-en="English Name">英文名稱</label>
+                  <input id="dbTitleEn" placeholder="Example: Equipment Database" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title"><span class="form-step">2</span><span data-zh="分類說明" data-en="Category Description">分類說明</span></div>
+              <div>
+                <label data-zh="中文說明" data-en="Chinese Description">中文說明</label>
+                <textarea id="dbDescZh" placeholder="請輸入資料庫分類說明"></textarea>
+              </div>
+              <div>
+                <label data-zh="英文說明" data-en="English Description">英文說明</label>
+                <textarea id="dbDescEn" placeholder="Enter category description"></textarea>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title"><span class="form-step">3</span><span data-zh="管理設定" data-en="Management Settings">管理設定</span></div>
+              <div class="two-col">
+                <label class="check-row"><input id="dbShowHome" type="checkbox" checked disabled /> <span data-zh="顯示於首頁分類" data-en="Show on home page">顯示於首頁分類</span></label>
+              </div>
+              <div class="auth-note" data-zh="分類編號會由系統自動產生；刪除分類前，請先確認分類內沒有文件。" data-en="Category ID is generated automatically. Before deleting a category, make sure it contains no documents.">分類編號會由系統自動產生；刪除分類前，請先確認分類內沒有文件。</div>
+            </div>
+
+            <div class="document-form-actions">
+              <button id="dbSaveButton" class="primary" onclick="addDatabaseCategory()" data-zh="儲存新增" data-en="Save Category">儲存新增</button>
+              <button id="dbCancelButton" style="display:none;" onclick="cancelDatabaseEdit()" data-zh="取消修改" data-en="Cancel Edit">取消修改</button>
+              <button type="button" onclick="resetDatabaseForm()" data-zh="清空" data-en="Clear">清空</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-box database-list-card">
+          <div class="document-card-head">
+            <div>
+              <h2 data-zh="資料庫分類清單" data-en="Database Category List">資料庫分類清單</h2>
+              <p data-zh="可搜尋、篩選、排序、修改或刪除自訂分類。" data-en="Search, filter, sort, edit, or delete custom categories.">可搜尋、篩選、排序、修改或刪除自訂分類。</p>
+            </div>
+            <button class="primary" onclick="cancelDatabaseEdit(); document.getElementById('dbTitleZh')?.focus();" data-zh="＋ 新增分類" data-en="+ Add Category">＋ 新增分類</button>
+          </div>
+
+          <div class="database-toolbar">
+            <input id="adminDatabaseSearch" placeholder="搜尋分類名稱、說明..." oninput="renderAdminDatabases()" />
+            <select id="adminDatabaseStatusFilter" onchange="renderAdminDatabases()">
+              <option value="all" data-zh="所有分類" data-en="All Categories">所有分類</option>
+            </select>
+            <select id="adminDatabaseSort" onchange="renderAdminDatabases()">
+              <option value="id" data-zh="分類編號" data-en="Category ID">分類編號</option>
+              <option value="name" data-zh="分類名稱" data-en="Category Name">分類名稱</option>
+              <option value="docs" data-zh="文件數量" data-en="Document Count">文件數量</option>
+            </select>
+            <button onclick="clearAdminDatabaseFilters()" data-zh="清除" data-en="Clear">清除</button>
+          </div>
+
+          <div id="adminDatabaseList"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="adminUsersSection" class="admin-section">
+      <div class="admin-box">
+        <h2 data-zh="會員權限管理" data-en="Member Permission Manager">會員權限管理</h2>
+        <p style="color:var(--muted);line-height:1.7;" data-zh="只有 Owner 可以調整會員角色。AB 開頭部門註冊者預設為 Manager，其他註冊者預設為 User。"
+           data-en="Only the Owner can change member roles. Departments starting with AB are Managers by default; all others are Users.">
+          只有 Owner 可以調整會員角色。AB 開頭部門註冊者預設為 Manager，其他註冊者預設為 User。
+        </p>
+        <div class="admin-search">
+          <input id="adminUserSearch" placeholder="搜尋工號、姓名、部門或信箱" oninput="renderAdminUsers()" />
+          <button onclick="document.getElementById('adminUserSearch').value='';renderAdminUsers();" data-zh="清除" data-en="Clear">清除</button>
+        </div>
+        <div id="adminGroupNameManager" style="margin:14px 0 18px;"></div>
+        <div id="adminUserList"></div>
+      </div>
+    </section>
+
+    <section id="adminLogsSection" class="admin-section">
+      <div class="admin-box">
+        <h2 data-zh="操作紀錄" data-en="Activity Logs">操作紀錄</h2>
+        <p style="color:var(--muted);line-height:1.7;" data-zh="此處會記錄原型版中的新增、修改、刪除與權限異動。正式版會寫入公司 Server 資料庫。"
+           data-en="This area records prototype add, edit, delete, and permission changes. The official version will store logs in the company server database.">
+          此處會記錄原型版中的新增、修改、刪除與權限異動。正式版會寫入公司 Server 資料庫。
+        </p>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-bottom:12px;">
+          <button onclick="clearActivityLogs()" data-zh="清除紀錄" data-en="Clear Logs">清除紀錄</button>
+        </div>
+        <div id="adminLogList"></div>
+      </div>
+    </section>
+  </main>
+
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <div class="modal-backdrop" id="logoutConfirmModal">
+    <div class="confirm-card">
+      <h2 data-zh="確認登出" data-en="Confirm Logout">確認登出</h2>
+      <p data-zh="確定要登出目前帳號嗎？" data-en="Are you sure you want to log out of this account?">確定要登出目前帳號嗎？</p>
+      <div class="confirm-actions">
+        <button onclick="closeLogoutConfirm()" data-zh="取消" data-en="Cancel">取消</button>
+        <button class="primary" onclick="confirmLogout()" data-zh="確定登出" data-en="Log Out">確定登出</button>
+      </div>
+    </div>
+  </div>
+
+
+  <main id="assistantPage" class="page">
+    <section class="detail-top">
+      <div class="detail-title-area">
+        <div class="detail-label">RIZEN · FULL ASSISTANT</div>
+        <h1 data-zh="SZS人工智慧小幫手" data-en="SZS AI Assistant">SZS人工智慧小幫手</h1>
+        <p data-zh="這裡是全頁模式，適合比較長的查詢、整理與新人閱讀。右下角小幫手仍然保留，切換頁面時會自動收合。"
+           data-en="This full-page mode is useful for longer searches, summaries, and onboarding reading. The floating assistant remains available and will close automatically when changing pages.">
+          這裡是全頁模式，適合比較長的查詢、整理與新人閱讀。右下角小幫手仍然保留，切換頁面時會自動收合。
+        </p>
+      </div>
+      <div class="detail-actions">
+        <button onclick="showHome()" data-zh="← 返回首頁" data-en="← Back Home">← 返回首頁</button>
+      </div>
+    </section>
+
+    <section class="assistant-full-layout">
+      <div class="assistant-full-panel">
+        <div class="assistant-full-header">
+          <div>
+            <div class="chat-title" data-zh="SZS人工智慧小幫手" data-en="SZS AI Assistant">SZS人工智慧小幫手</div>
+            <div class="chat-status">● RIZEN · FULL PAGE</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end;">
+            <button class="small" onclick="clearFullChat()" data-zh="清除對話" data-en="Clear Chat">清除對話</button>
+            <span class="badge" data-zh="全頁模式" data-en="Full Page Mode">全頁模式</span>
+          </div>
+        </div>
+        <div class="assistant-tools">
+          <div class="assistant-mode-row">
+            <span class="assistant-mode-label" data-zh="搜尋模式" data-en="Search Mode">搜尋模式</span>
+            <button id="fullModeAllBtn" class="assistant-mode-btn active" onclick="setAssistantMode('all')" data-zh="全部搜尋" data-en="All">全部搜尋</button>
+            <button id="fullModeWebsiteBtn" class="assistant-mode-btn" onclick="setAssistantMode('website')" data-zh="官網資訊" data-en="Website">官網資訊</button>
+            <button id="fullModeDocsBtn" class="assistant-mode-btn" onclick="setAssistantMode('docs')" data-zh="內部文件" data-en="Internal Docs">內部文件</button>
+          </div>
+          <div class="assistant-mode-hint" id="fullAssistantModeHint">目前模式：全部搜尋。會同時查詢官網知識與內部文件。</div>
+          <div class="suggestion-row">
+            <button class="suggestion-chip" onclick="askAssistantQuestion('SZS 有哪些產品')">SZS 有哪些產品？</button>
+            <button class="suggestion-chip" onclick="askAssistantQuestion('MIM 是什麼')">MIM 是什麼？</button>
+            <button class="suggestion-chip" onclick="askAssistantQuestion('法人說明會是什麼')">法人說明會是什麼？</button>
+            <button class="suggestion-chip" onclick="askAssistantQuestion('品質檢驗設備有哪些')">品質檢驗設備有哪些？</button>
+          </div>
+        </div>
+        <div class="assistant-full-body" id="fullChatBody">
+          <div class="message bot" data-zh="嗨，我是 SZS 小幫手。你可以問我公司官網資訊、產品、認證、投資人資訊，也可以搜尋目前知識庫文件。"
+               data-en="Hi, I am the SZS assistant. You can ask about company website information, products, certifications, investor information, or search the current knowledge base.">
+            嗨，我是 SZS 小幫手。你可以問我公司官網資訊、產品、認證、投資人資訊，也可以搜尋目前知識庫文件。
+          </div>
+        </div>
+        <div class="assistant-full-footer">
+          <input class="chat-input" id="fullChatInput" placeholder="請輸入您的問題..." onkeydown="handleFullEnter(event)" />
+          <button class="primary" onclick="sendFullMessage()" data-zh="傳送" data-en="Send">傳送</button>
+        </div>
+      </div>
+
+      <aside class="assistant-side-card">
+        <h3 data-zh="你可以這樣問" data-en="Try asking">你可以這樣問</h3>
+        <p data-zh="以下是幾個常見問題，點一下可以直接帶入小幫手。" data-en="Here are some common questions. Click one to send it to the assistant.">以下是幾個常見問題，點一下可以直接帶入小幫手。</p>
+        <button class="quick-question" onclick="askQuickQuestion('樞紐製件是什麼')">樞紐製件是什麼</button>
+        <button class="quick-question" onclick="askQuickQuestion('SZS 有哪些產品')">SZS 有哪些產品</button>
+        <button class="quick-question" onclick="askQuickQuestion('法人說明會是什麼')">法人說明會是什麼</button>
+        <button class="quick-question" onclick="askQuickQuestion('SZS 有哪些認證')">SZS 有哪些認證</button>
+        <button class="quick-question" onclick="askQuickQuestion('SZS 有哪些社群網站')">SZS 有哪些社群網站</button>
+      </aside>
+    </section>
+  </main>
+
+
+
+
+  <div class="member-dialog-backdrop" id="appDialog" aria-hidden="true">
+    <div class="member-dialog-card" role="dialog" aria-modal="true" aria-labelledby="appDialogTitle">
+      <div class="member-dialog-head">
+        <div>
+          <h2 class="member-dialog-title" id="appDialogTitle">確認操作</h2>
+          <p class="member-dialog-desc" id="appDialogDesc">請確認後再繼續。</p>
+        </div>
+        <button class="member-dialog-close" type="button" onclick="closeAppDialog(false)">×</button>
+      </div>
+      <div class="app-dialog-message">
+        <div class="app-dialog-icon" id="appDialogIcon">?</div>
+        <div>
+          <p class="app-dialog-message-text" id="appDialogMessage">請確認此操作。</p>
+          <div class="app-dialog-detail" id="appDialogDetail"></div>
+        </div>
+      </div>
+      <div class="member-dialog-actions app-dialog-actions">
+        <button type="button" class="small" id="appDialogCancelBtn" onclick="closeAppDialog(false)" data-zh="取消" data-en="Cancel">取消</button>
+        <button type="button" class="primary" id="appDialogConfirmBtn" onclick="closeAppDialog(true)" data-zh="確定" data-en="OK">確定</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="member-dialog-backdrop profile-feature-dialog" id="profileSettingsDialog" aria-hidden="true">
+    <div class="member-dialog-card profile-feature-card" role="dialog" aria-modal="true" aria-labelledby="profileSettingsTitle">
+      <div class="member-dialog-head">
+        <div>
+          <h2 class="member-dialog-title" id="profileSettingsTitle" data-zh="我的設定" data-en="My Settings">我的設定</h2>
+          <p class="member-dialog-desc" data-zh="調整個人使用偏好，設定會先儲存在目前瀏覽器。" data-en="Adjust personal preferences. Settings are stored in this browser for now.">調整個人使用偏好，設定會先儲存在目前瀏覽器。</p>
+        </div>
+        <button class="member-dialog-close" type="button" onclick="closeProfileFeatureDialog('profileSettingsDialog')">×</button>
+      </div>
+      <div class="profile-feature-body">
+        <div class="profile-setting-grid">
+          <label>
+            <span data-zh="顯示模式" data-en="Appearance">顯示模式</span>
+            <select id="profileSettingTheme">
+              <option value="light" data-zh="淺色模式" data-en="Light Mode">淺色模式</option>
+              <option value="dark" data-zh="深色模式" data-en="Dark Mode">深色模式</option>
+            </select>
+          </label>
+          <label>
+            <span data-zh="語言偏好" data-en="Language">語言偏好</span>
+            <select id="profileSettingLanguage">
+              <option value="zh">中文</option>
+              <option value="en">English</option>
+            </select>
+          </label>
+          <label>
+            <span data-zh="預設開啟頁面" data-en="Default Page">預設開啟頁面</span>
+            <select id="profileSettingDefaultPage">
+              <option value="home" data-zh="首頁" data-en="Home">首頁</option>
+              <option value="assistant" data-zh="小幫手" data-en="Assistant">小幫手</option>
+              <option value="databases" data-zh="資料庫分類" data-en="Databases">資料庫分類</option>
+              <option value="documents" data-zh="文件管理" data-en="Documents">文件管理</option>
+              <option value="settings" data-zh="系統設定" data-en="Settings">系統設定</option>
+            </select>
+          </label>
+          <label>
+            <span data-zh="小幫手預設模式" data-en="Assistant Default Mode">小幫手預設模式</span>
+            <select id="profileSettingAssistantMode">
+              <option value="all" data-zh="全部搜尋" data-en="All Search">全部搜尋</option>
+              <option value="docs" data-zh="內部文件" data-en="Internal Docs">內部文件</option>
+              <option value="website" data-zh="官網資訊" data-en="Website">官網資訊</option>
+            </select>
+          </label>
+        </div>
+        <label class="profile-toggle-row">
+          <input type="checkbox" id="profileSettingNotifications">
+          <span data-zh="開啟通知提示" data-en="Enable notifications">開啟通知提示</span>
+        </label>
+      </div>
+      <div class="member-dialog-actions app-dialog-actions">
+        <button type="button" class="small" onclick="closeProfileFeatureDialog('profileSettingsDialog')" data-zh="取消" data-en="Cancel">取消</button>
+        <button type="button" class="primary" onclick="saveProfileSettings()" data-zh="儲存設定" data-en="Save Settings">儲存設定</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="member-dialog-backdrop profile-feature-dialog" id="systemInfoDialog" aria-hidden="true">
+    <div class="member-dialog-card profile-feature-card" role="dialog" aria-modal="true" aria-labelledby="systemInfoTitle">
+      <div class="member-dialog-head">
+        <div>
+          <h2 class="member-dialog-title" id="systemInfoTitle" data-zh="系統資訊" data-en="System Info">系統資訊</h2>
+          <p class="member-dialog-desc" data-zh="目前原型版本與資料狀態。" data-en="Current prototype version and data status.">目前原型版本與資料狀態。</p>
+        </div>
+        <button class="member-dialog-close" type="button" onclick="closeProfileFeatureDialog('systemInfoDialog')">×</button>
+      </div>
+      <div class="profile-feature-body">
+        <div class="profile-info-list" id="systemInfoContent"></div>
+      </div>
+      <div class="member-dialog-actions app-dialog-actions">
+        <button type="button" class="primary" onclick="closeProfileFeatureDialog('systemInfoDialog')" data-zh="我知道了" data-en="OK">我知道了</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="member-dialog-backdrop profile-feature-dialog" id="myMessagesDialog" aria-hidden="true">
+    <div class="member-dialog-card profile-feature-card" role="dialog" aria-modal="true" aria-labelledby="myMessagesTitle">
+      <div class="member-dialog-head">
+        <div>
+          <h2 class="member-dialog-title" id="myMessagesTitle" data-zh="我的訊息" data-en="My Messages">我的訊息</h2>
+          <p class="member-dialog-desc" data-zh="最近系統通知與個人提醒。" data-en="Recent system notifications and personal reminders.">最近系統通知與個人提醒。</p>
+        </div>
+        <button class="member-dialog-close" type="button" onclick="closeProfileFeatureDialog('myMessagesDialog')">×</button>
+      </div>
+      <div class="profile-feature-body">
+        <div class="profile-message-list" id="myMessagesContent"></div>
+      </div>
+      <div class="member-dialog-actions app-dialog-actions">
+        <button type="button" class="primary" onclick="closeProfileFeatureDialog('myMessagesDialog')" data-zh="關閉" data-en="Close">關閉</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="member-dialog-backdrop profile-feature-dialog" id="feedbackDialog" aria-hidden="true">
+    <div class="member-dialog-card profile-feature-card" role="dialog" aria-modal="true" aria-labelledby="feedbackTitle">
+      <div class="member-dialog-head">
+        <div>
+          <h2 class="member-dialog-title" id="feedbackTitle" data-zh="意見回饋" data-en="Feedback">意見回饋</h2>
+          <p class="member-dialog-desc" data-zh="先暫存在目前瀏覽器，正式版可改成送給管理者。" data-en="Stored in this browser for now. Official version can send it to admins.">先暫存在目前瀏覽器，正式版可改成送給管理者。</p>
+        </div>
+        <button class="member-dialog-close" type="button" onclick="closeProfileFeatureDialog('feedbackDialog')">×</button>
+      </div>
+      <div class="profile-feature-body">
+        <label>
+          <span data-zh="回饋內容" data-en="Feedback">回饋內容</span>
+          <textarea id="feedbackText" placeholder="請輸入你的建議或遇到的問題..."></textarea>
+        </label>
+      </div>
+      <div class="member-dialog-actions app-dialog-actions">
+        <button type="button" class="small" onclick="closeProfileFeatureDialog('feedbackDialog')" data-zh="取消" data-en="Cancel">取消</button>
+        <button type="button" class="primary" onclick="saveFeedback()" data-zh="送出回饋" data-en="Submit">送出回饋</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="member-dialog-backdrop" id="memberFormDialog" aria-hidden="true">
+    <div class="member-dialog-card" role="dialog" aria-modal="true" aria-labelledby="memberDialogTitle">
+      <div class="member-dialog-head">
+        <div>
+          <h2 class="member-dialog-title" id="memberDialogTitle">編輯資料</h2>
+          <p class="member-dialog-desc" id="memberDialogDesc">請確認後再儲存。</p>
+        </div>
+        <button class="member-dialog-close" type="button" onclick="closeMemberFormDialog(false)">×</button>
+      </div>
+      <div class="member-dialog-body" id="memberDialogBody"></div>
+      <div class="member-dialog-actions">
+        <button type="button" class="small" onclick="closeMemberFormDialog(false)" data-zh="取消" data-en="Cancel">取消</button>
+        <button type="button" class="primary" id="memberDialogConfirmBtn" onclick="closeMemberFormDialog(true)" data-zh="儲存" data-en="Save">儲存</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="media-preview-backdrop" id="mediaPreviewModal" onclick="closeMediaPreview(event)" aria-hidden="true">
+    <div class="media-preview-card" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="mediaPreviewTitle">
+      <div class="media-preview-head">
+        <strong id="mediaPreviewTitle">圖片預覽</strong>
+        <button type="button" onclick="closeMediaPreview()">×</button>
+      </div>
+      <div class="media-preview-body">
+        <img id="mediaPreviewImage" alt="DFM 圖片預覽" />
+      </div>
+    </div>
+  </div>
+
+  <div class="assistant-launcher" id="assistantLauncher" onclick="if(!window.__assistantLauncherDragged) toggleAssistant()">?</div>
+
+  <div class="chat-box" id="chatBox">
+    <div class="chat-header">
+      <div>
+        <div class="chat-title" data-zh="SZS人工智慧小幫手" data-en="SZS AI Assistant">SZS人工智慧小幫手</div>
+        <div class="chat-status">● RIZEN · ONLINE</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="small" onclick="openAssistantPage()" data-zh="全頁模式" data-en="Full Page">全頁模式</button>
+        <div class="chat-close" onclick="closeAssistant()">×</div>
+      </div>
+    </div>
+    <div class="assistant-tools">
+      <div class="assistant-mode-row">
+        <span class="assistant-mode-label" data-zh="搜尋模式" data-en="Search Mode">搜尋模式</span>
+        <button id="modeAllBtn" class="assistant-mode-btn active" onclick="setAssistantMode('all')" data-zh="全部搜尋" data-en="All">全部搜尋</button>
+        <button id="modeWebsiteBtn" class="assistant-mode-btn" onclick="setAssistantMode('website')" data-zh="官網資訊" data-en="Website">官網資訊</button>
+        <button id="modeDocsBtn" class="assistant-mode-btn" onclick="setAssistantMode('docs')" data-zh="內部文件" data-en="Internal Docs">內部文件</button>
+      </div>
+      <div class="assistant-mode-hint" id="assistantModeHint">目前模式：全部搜尋。會同時查詢官網知識與內部文件。</div>
+      <div class="suggestion-row">
+        <button class="suggestion-chip" onclick="askAssistantQuestion('SZS 有哪些產品')">SZS 有哪些產品？</button>
+        <button class="suggestion-chip" onclick="askAssistantQuestion('MIM 是什麼')">MIM 是什麼？</button>
+        <button class="suggestion-chip" onclick="askAssistantQuestion('法人說明會是什麼')">法人說明會是什麼？</button>
+        <button class="suggestion-chip" onclick="askAssistantQuestion('品質檢驗設備有哪些')">品質檢驗設備有哪些？</button>
+      </div>
+    </div>
+    <div class="chat-body" id="chatBody">
+      <div class="message bot" data-zh="嗨，我是 SZS 小幫手。你可以直接告訴我想找什麼文件，例如：產品規格書、測試報告、SOP。"
+           data-en="Hi, I am the SZS assistant. You can tell me what document you need, such as product specification, test report, or SOP.">
+        嗨，我是 SZS 小幫手。你可以直接告訴我想找什麼文件，例如：產品規格書、測試報告、SOP。
+      </div>
+    </div>
+    <div class="chat-footer">
+      <input class="chat-input" id="chatInput" placeholder="請輸入您的問題..." onkeydown="handleEnter(event)" />
+      <button class="primary" onclick="sendMessage()" data-zh="傳送" data-en="Send">傳送</button>
+    </div>
+    <div class="note" data-zh="原型版使用 localStorage；正式版會連接公司 Server、資料庫與權限系統。" data-en="This prototype uses localStorage. The official version will connect to the company server, database, and permission system.">
+      原型版使用 localStorage；正式版會連接公司 Server、資料庫與權限系統。
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="authModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 data-zh="認證" data-en="Authentication">認證</h2>
+        <div class="modal-close" onclick="closeAuthModal()">×</div>
+      </div>
+      <div class="tabs">
+        <div class="tab active" id="loginTab" onclick="switchAuthTab('login')" data-zh="登入" data-en="Login">登入</div>
+        <div class="tab" id="registerTab" onclick="switchAuthTab('register')" data-zh="註冊" data-en="Sign Up">註冊</div>
+      </div>
+      <div class="form" id="loginForm">
+        <div class="form-error-box" id="loginFormError"></div>
+        <div class="field">
+          <label data-zh="工號" data-en="Employee ID">工號</label>
+          <input id="loginId" />
+          <div class="error-message" id="loginIdError"></div>
+        </div>
+        <div class="field">
+          <label data-zh="密碼" data-en="Password">密碼</label>
+          <div class="password-wrapper">
+            <input id="loginPassword" type="password" />
+            <button type="button" onclick="togglePassword('loginPassword', this)" data-show-zh="顯示" data-hide-zh="隱藏" data-show-en="Show" data-hide-en="Hide">顯示</button>
+          </div>
+          <div class="error-message" id="loginPasswordError"></div>
+        </div>
+        <button class="primary" onclick="login()" data-zh="登入" data-en="Login">登入</button>
+        <button type="button" onclick="forgotPassword()" data-zh="忘記密碼" data-en="Forgot Password">忘記密碼</button>
+        <div class="auth-note" data-zh="原型版登入與註冊資料暫存在目前瀏覽器 localStorage。" data-en="Prototype login and registration data are saved in this browser localStorage.">原型版登入與註冊資料暫存在目前瀏覽器 localStorage。</div>
+        <div class="form-hint" data-zh="請輸入你的工號與密碼登入。"
+             data-en="Please enter your employee ID and password to log in.">
+          請輸入你的工號與密碼登入。
+        </div>
+      </div>
+      <div class="form" id="registerForm" style="display:none;">
+        <div class="field">
+          <label data-zh="工號" data-en="Employee ID">工號</label>
+          <input id="registerId" placeholder="例如：1011470" />
+          <div class="error-message" id="registerIdError"></div>
+        </div>
+        <div class="field">
+          <label data-zh="部門" data-en="Department">部門</label>
+          <input id="registerDepartment" placeholder="例如：RDPE-BU3" />
+          <div class="error-message" id="registerDepartmentError"></div>
+        </div>
+        <div class="field">
+          <label data-zh="姓名" data-en="Name">姓名</label>
+          <input id="registerName" />
+          <div class="error-message" id="registerNameError"></div>
+        </div>
+        <div class="field">
+          <label data-zh="公司信箱" data-en="Company Email">公司信箱</label>
+          <input id="registerEmail" type="email" placeholder="name@szs.com.tw" />
+          <div class="error-message" id="registerEmailError"></div>
+        </div>
+        <div class="field">
+          <label data-zh="密碼" data-en="Password">密碼</label>
+          <div class="password-wrapper">
+            <input id="registerPassword" type="password" />
+            <button type="button" onclick="togglePassword('registerPassword', this)" data-show-zh="顯示" data-hide-zh="隱藏" data-show-en="Show" data-hide-en="Hide">顯示</button>
+          </div>
+          <div class="error-message" id="registerPasswordError"></div>
+        </div>
+        <button class="primary" onclick="register()" data-zh="註冊" data-en="Sign Up">註冊</button>
+        <div class="form-hint" data-zh="註冊規則：工號 5～10 位數字、信箱必須是 @szs.com.tw；AB 開頭部門預設為 Manager，其餘為 User。"
+             data-en="Rules: Employee ID must be 5-10 digits, email must end with @szs.com.tw. Departments starting with AB become Manager; others become User.">
+          註冊規則：工號 5～10 位數字、信箱必須是 @szs.com.tw；AB 開頭部門預設為 Manager，其餘為 User。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>SZS PE Knowledge Base Prototype · Sample Data Only · No Confidential Information</footer>
+
+  <script src="script.js" defer></script>
+  
+</body>
+</html>
