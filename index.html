@@ -5707,6 +5707,105 @@
       .home-secondary-grid { grid-template-columns: 1fr; }
     }
 
+
+    /* === SZS_FIX_DIALOG_BUTTON_TEXT_CENTER_20260519 === */
+    .confirm-actions button,
+    .member-dialog-actions button,
+    .app-dialog-actions button,
+    .modal-actions button,
+    .document-action-row button,
+    .forgot-actions button {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-align: center !important;
+      line-height: 1.2 !important;
+      white-space: nowrap;
+    }
+
+    .confirm-actions button,
+    .member-dialog-actions button,
+    .app-dialog-actions button {
+      min-height: 42px;
+    }
+
+
+
+    /* === DATABASE CATEGORY MANAGER: align with document manager UI === */
+    .database-admin-layout {
+      display: grid;
+      grid-template-columns: minmax(420px, 0.78fr) minmax(640px, 1.22fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .database-form-card,
+    .database-list-card {
+      padding: 24px;
+    }
+
+    .database-toolbar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(145px, .46fr) minmax(150px, .48fr) auto;
+      gap: 12px;
+      align-items: center;
+      margin: 0 0 16px;
+    }
+
+    .database-icon-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 950;
+      background: linear-gradient(135deg, #22d3ee, #0284c7);
+      box-shadow: 0 14px 30px rgba(2, 132, 199, .14);
+    }
+
+    .database-icon-badge.custom {
+      background: linear-gradient(135deg, #60a5fa, #2563eb);
+    }
+
+    .database-row-title {
+      font-weight: 950;
+      line-height: 1.4;
+      color: var(--text);
+    }
+
+    .database-row-sub {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+      line-height: 1.6;
+    }
+
+    .database-protect-note {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .database-list-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    @media (max-width: 1000px) {
+      .database-admin-layout { grid-template-columns: 1fr; }
+      .database-toolbar { grid-template-columns: 1fr; }
+    }
+
 </style>
 </head>
 <body class="sidebar-collapsed">
@@ -6287,35 +6386,84 @@
     </section>
 
     <section id="adminDatabasesSection" class="admin-section">
-      <div class="admin-layout">
-        <div class="admin-box">
-          <h2 id="dbFormTitle" data-zh="新增資料庫分類" data-en="Add Database Category">新增資料庫分類</h2>
+      <div class="database-admin-layout">
+        <div class="admin-box database-form-card">
+          <div class="document-card-head">
+            <div>
+              <h2 id="dbFormTitle" data-zh="新增資料庫分類" data-en="Add Database Category">新增資料庫分類</h2>
+              <p id="dbFormHint" data-zh="依照步驟填寫分類基本資料、說明與管理設定。" data-en="Fill in category basics, descriptions, and management settings step by step.">依照步驟填寫分類基本資料、說明與管理設定。</p>
+            </div>
+            <span id="dbModeBadge" class="doc-mode-badge" data-zh="新增模式" data-en="Add Mode">新增模式</span>
+          </div>
           <input id="editingDatabaseId" type="hidden" />
           <div class="form-grid">
-            <div class="two-col">
+            <div class="form-section">
+              <div class="form-section-title"><span class="form-step">1</span><span data-zh="基本資料" data-en="Basic Info">基本資料</span></div>
+              <div class="two-col">
+                <div>
+                  <label data-zh="中文名稱" data-en="Chinese Name">中文名稱</label>
+                  <input id="dbTitleZh" placeholder="例如：設備資料庫" />
+                </div>
+                <div>
+                  <label data-zh="英文名稱" data-en="English Name">英文名稱</label>
+                  <input id="dbTitleEn" placeholder="Example: Equipment Database" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title"><span class="form-step">2</span><span data-zh="分類說明" data-en="Category Description">分類說明</span></div>
               <div>
-                <label data-zh="中文名稱" data-en="Chinese Name">中文名稱</label>
-                <input id="dbTitleZh" placeholder="例如：設備資料庫" />
+                <label data-zh="中文說明" data-en="Chinese Description">中文說明</label>
+                <textarea id="dbDescZh" placeholder="請輸入資料庫分類說明"></textarea>
               </div>
               <div>
-                <label data-zh="英文名稱" data-en="English Name">英文名稱</label>
-                <input id="dbTitleEn" placeholder="Example: Equipment Database" />
+                <label data-zh="英文說明" data-en="English Description">英文說明</label>
+                <textarea id="dbDescEn" placeholder="Enter category description"></textarea>
               </div>
             </div>
-            <div>
-              <label data-zh="中文說明" data-en="Chinese Description">中文說明</label>
-              <textarea id="dbDescZh" placeholder="請輸入資料庫分類說明"></textarea>
+
+            <div class="form-section">
+              <div class="form-section-title"><span class="form-step">3</span><span data-zh="管理設定" data-en="Management Settings">管理設定</span></div>
+              <div class="two-col">
+                <label class="check-row"><input id="dbShowHome" type="checkbox" checked disabled /> <span data-zh="顯示於首頁分類" data-en="Show on home page">顯示於首頁分類</span></label>
+                <label class="check-row"><input id="dbProtectedDefault" type="checkbox" disabled /> <span data-zh="預設分類不可刪除" data-en="Default categories are protected">預設分類不可刪除</span></label>
+              </div>
+              <div class="auth-note" data-zh="分類編號會由系統自動產生；預設分類只能修改名稱與說明，不能刪除。" data-en="Category ID is generated automatically. Default categories can be edited but cannot be deleted.">分類編號會由系統自動產生；預設分類只能修改名稱與說明，不能刪除。</div>
             </div>
-            <div>
-              <label data-zh="英文說明" data-en="English Description">英文說明</label>
-              <textarea id="dbDescEn" placeholder="Enter category description"></textarea>
+
+            <div class="document-form-actions">
+              <button id="dbSaveButton" class="primary" onclick="addDatabaseCategory()" data-zh="儲存新增" data-en="Save Category">儲存新增</button>
+              <button id="dbCancelButton" style="display:none;" onclick="cancelDatabaseEdit()" data-zh="取消修改" data-en="Cancel Edit">取消修改</button>
+              <button type="button" onclick="resetDatabaseForm()" data-zh="清空" data-en="Clear">清空</button>
             </div>
-            <button id="dbSaveButton" class="primary" onclick="addDatabaseCategory()" data-zh="新增資料庫分類" data-en="Add Database Category">新增資料庫分類</button>
-            <button id="dbCancelButton" style="display:none;" onclick="cancelDatabaseEdit()" data-zh="取消修改" data-en="Cancel Edit">取消修改</button>
           </div>
         </div>
-        <div class="admin-box">
-          <h2 data-zh="目前資料庫分類" data-en="Current Database Categories">目前資料庫分類</h2>
+
+        <div class="admin-box database-list-card">
+          <div class="document-card-head">
+            <div>
+              <h2 data-zh="資料庫分類清單" data-en="Database Category List">資料庫分類清單</h2>
+              <p data-zh="可搜尋、篩選、排序、修改或刪除自訂分類。" data-en="Search, filter, sort, edit, or delete custom categories.">可搜尋、篩選、排序、修改或刪除自訂分類。</p>
+            </div>
+            <button class="primary" onclick="cancelDatabaseEdit(); document.getElementById('dbTitleZh')?.focus();" data-zh="＋ 新增分類" data-en="+ Add Category">＋ 新增分類</button>
+          </div>
+
+          <div class="database-toolbar">
+            <input id="adminDatabaseSearch" placeholder="搜尋分類名稱、說明..." oninput="renderAdminDatabases()" />
+            <select id="adminDatabaseStatusFilter" onchange="renderAdminDatabases()">
+              <option value="all" data-zh="所有分類" data-en="All Categories">所有分類</option>
+              <option value="default" data-zh="預設分類" data-en="Default Categories">預設分類</option>
+              <option value="custom" data-zh="自訂分類" data-en="Custom Categories">自訂分類</option>
+            </select>
+            <select id="adminDatabaseSort" onchange="renderAdminDatabases()">
+              <option value="id" data-zh="分類編號" data-en="Category ID">分類編號</option>
+              <option value="name" data-zh="分類名稱" data-en="Category Name">分類名稱</option>
+              <option value="docs" data-zh="文件數量" data-en="Document Count">文件數量</option>
+            </select>
+            <button onclick="clearAdminDatabaseFilters()" data-zh="清除" data-en="Clear">清除</button>
+          </div>
+
           <div id="adminDatabaseList"></div>
         </div>
       </div>
@@ -8400,22 +8548,36 @@ function showPage(pageId) {
       document.getElementById("dbDescEn").value = "";
 
       const title = document.getElementById("dbFormTitle");
+      const hint = document.getElementById("dbFormHint");
+      const badge = document.getElementById("dbModeBadge");
       const saveButton = document.getElementById("dbSaveButton");
       const cancelButton = document.getElementById("dbCancelButton");
+      const protectedInput = document.getElementById("dbProtectedDefault");
 
       if (title) {
         title.textContent = t("新增資料庫分類", "Add Database Category");
         title.dataset.zh = "新增資料庫分類";
         title.dataset.en = "Add Database Category";
       }
+      if (hint) {
+        hint.textContent = t("依照步驟填寫分類基本資料、說明與管理設定。", "Fill in category basics, descriptions, and management settings step by step.");
+        hint.dataset.zh = "依照步驟填寫分類基本資料、說明與管理設定。";
+        hint.dataset.en = "Fill in category basics, descriptions, and management settings step by step.";
+      }
+      if (badge) {
+        badge.textContent = t("新增模式", "Add Mode");
+        badge.dataset.zh = "新增模式";
+        badge.dataset.en = "Add Mode";
+      }
 
       if (saveButton) {
-        saveButton.textContent = t("新增資料庫分類", "Add Database Category");
-        saveButton.dataset.zh = "新增資料庫分類";
-        saveButton.dataset.en = "Add Database Category";
+        saveButton.textContent = t("儲存新增", "Save Category");
+        saveButton.dataset.zh = "儲存新增";
+        saveButton.dataset.en = "Save Category";
       }
 
       if (cancelButton) cancelButton.style.display = "none";
+      if (protectedInput) protectedInput.checked = false;
     }
 
     function cancelDatabaseEdit() {
@@ -8423,24 +8585,37 @@ function showPage(pageId) {
     }
 
     function editDatabaseCategory(id) {
-      if (!canManageData()) { appAlert(t("權限不足。", "Permission denied."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" }); return; }
       const db = databases.find(item => item.id === id);
       if (!db) return;
-
-      document.getElementById("editingDatabaseId").value = id;
-      document.getElementById("dbTitleZh").value = db.titleZh;
-      document.getElementById("dbTitleEn").value = db.titleEn;
-      document.getElementById("dbDescZh").value = db.descriptionZh;
-      document.getElementById("dbDescEn").value = db.descriptionEn;
+      const editingInput = document.getElementById("editingDatabaseId");
+      if (editingInput) editingInput.value = id;
+      document.getElementById("dbTitleZh").value = db.titleZh || "";
+      document.getElementById("dbTitleEn").value = db.titleEn || "";
+      document.getElementById("dbDescZh").value = db.descriptionZh || "";
+      document.getElementById("dbDescEn").value = db.descriptionEn || "";
 
       const title = document.getElementById("dbFormTitle");
+      const hint = document.getElementById("dbFormHint");
+      const badge = document.getElementById("dbModeBadge");
       const saveButton = document.getElementById("dbSaveButton");
       const cancelButton = document.getElementById("dbCancelButton");
+      const protectedInput = document.getElementById("dbProtectedDefault");
+      const currentName = t(db.titleZh, db.titleEn);
 
       if (title) {
-        title.textContent = t("修改資料庫分類", "Edit Database Category");
-        title.dataset.zh = "修改資料庫分類";
-        title.dataset.en = "Edit Database Category";
+        title.textContent = t(`修改資料庫分類：${currentName}`, `Edit Category: ${currentName}`);
+        title.dataset.zh = `修改資料庫分類：${db.titleZh || currentName}`;
+        title.dataset.en = `Edit Category: ${db.titleEn || currentName}`;
+      }
+      if (hint) {
+        hint.textContent = t("正在修改既有分類，儲存後首頁與文件清單會同步更新。", "Editing an existing category. Home page and document lists will update after saving.");
+        hint.dataset.zh = "正在修改既有分類，儲存後首頁與文件清單會同步更新。";
+        hint.dataset.en = "Editing an existing category. Home page and document lists will update after saving.";
+      }
+      if (badge) {
+        badge.textContent = t("修改模式", "Edit Mode");
+        badge.dataset.zh = "修改模式";
+        badge.dataset.en = "Edit Mode";
       }
 
       if (saveButton) {
@@ -8449,105 +8624,175 @@ function showPage(pageId) {
         saveButton.dataset.en = "Save Changes";
       }
 
-      if (cancelButton) cancelButton.style.display = "inline-block";
-
-      document.getElementById("dbTitleZh").focus();
+      if (cancelButton) cancelButton.style.display = "inline-flex";
+      if (protectedInput) protectedInput.checked = Boolean(db.isDefault);
+      document.getElementById("dbTitleZh")?.focus();
     }
 
     function addDatabaseCategory() {
-      if (!canManageData()) { appAlert(t("權限不足。", "Permission denied."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" }); return; }
-
-      const editingId = document.getElementById("editingDatabaseId").value;
+      const editingId = document.getElementById("editingDatabaseId")?.value || "";
       const titleZh = document.getElementById("dbTitleZh").value.trim();
       const titleEn = document.getElementById("dbTitleEn").value.trim();
       const descriptionZh = document.getElementById("dbDescZh").value.trim();
       const descriptionEn = document.getElementById("dbDescEn").value.trim();
 
       if (!titleZh || !titleEn) {
-        appAlert(t("請至少輸入中文與英文資料庫名稱。", "Please enter both Chinese and English database names."), { title: t("資料未完成", "Incomplete Data"), tone: "warning", icon: "!" });
+        showToast(t("請輸入資料庫分類中文與英文名稱。", "Please enter both Chinese and English category names."), "error");
         return;
       }
 
       if (editingId) {
-        databases = databases.map(db => {
-          if (db.id !== editingId) return db;
-          return {
-            ...db,
-            titleZh,
-            titleEn,
-            descriptionZh: descriptionZh || "測試資料庫分類說明。",
-            descriptionEn: descriptionEn || "Sample database category description."
-          };
-        });
-
+        const db = databases.find(item => item.id === editingId);
+        if (!db) return;
+        db.titleZh = titleZh;
+        db.titleEn = titleEn;
+        db.descriptionZh = descriptionZh || titleZh;
+        db.descriptionEn = descriptionEn || titleEn;
         saveDatabases();
+        addLog("edit", t("修改資料庫分類", "Edited database category"), `${editingId} · ${titleZh}`);
         resetDatabaseForm();
         renderDatabases();
         renderAdminDatabaseOptions();
         renderAdminDatabases();
-
-        if (selectedDatabaseId === editingId) {
-          const db = databases.find(item => item.id === editingId);
-          document.getElementById("detailTitle").textContent = t(db.titleZh, db.titleEn);
-          document.getElementById("detailDescription").textContent = t(db.descriptionZh, db.descriptionEn);
-          renderDetailDocuments();
-        }
-
-        addActivityLog("修改資料庫分類", "Database category edited", titleZh, "");
-        showToast(t("資料庫分類已更新。", "Database category updated."));
+        renderAdminOverview();
+        showToast(t("資料庫分類已更新。", "Database category updated."), "success");
         return;
       }
 
-      databases.push({
+      const newDb = {
         id: getNextDatabaseId(),
         titleZh,
         titleEn,
-        descriptionZh: descriptionZh || "測試資料庫分類說明。",
-        descriptionEn: descriptionEn || "Sample database category description.",
+        descriptionZh: descriptionZh || titleZh,
+        descriptionEn: descriptionEn || titleEn,
         isDefault: false
-      });
-
+      };
+      databases.push(newDb);
       saveDatabases();
+      addLog("add", t("新增資料庫分類", "Added database category"), `${newDb.id} · ${titleZh}`);
       resetDatabaseForm();
       renderDatabases();
       renderAdminDatabaseOptions();
       renderAdminDatabases();
-      addActivityLog("新增資料庫分類", "Database category added", titleZh, "");
-      showToast(t("資料庫分類已新增。", "Database category added."));
+      renderAdminOverview();
+      showToast(t("資料庫分類已新增。", "Database category added."), "success");
+    }
+
+    function clearAdminDatabaseFilters() {
+      const search = document.getElementById("adminDatabaseSearch");
+      const status = document.getElementById("adminDatabaseStatusFilter");
+      const sort = document.getElementById("adminDatabaseSort");
+      if (search) search.value = "";
+      if (status) status.value = "all";
+      if (sort) sort.value = "id";
+      renderAdminDatabases();
     }
 
     function renderAdminDatabases() {
       const box = document.getElementById("adminDatabaseList");
       if (!box) return;
-      box.innerHTML = databases.map(db => {
-        const count = getDocumentsByDatabase(db.id).length;
+      const keyword = (document.getElementById("adminDatabaseSearch")?.value || "").trim().toLowerCase();
+      const statusFilter = document.getElementById("adminDatabaseStatusFilter")?.value || "all";
+      const sortMode = document.getElementById("adminDatabaseSort")?.value || "id";
+
+      let rows = databases.map(db => ({ ...db, docCount: getDocumentsByDatabase(db.id).length }));
+      rows = rows.filter(db => {
+        const searchText = [db.id, db.titleZh, db.titleEn, db.descriptionZh, db.descriptionEn].join(" ").toLowerCase();
+        const matchesKeyword = !keyword || searchText.includes(keyword);
+        const matchesStatus = statusFilter === "all" || (statusFilter === "default" && db.isDefault) || (statusFilter === "custom" && !db.isDefault);
+        return matchesKeyword && matchesStatus;
+      });
+
+      rows.sort((a, b) => {
+        if (sortMode === "name") return t(a.titleZh, a.titleEn).localeCompare(t(b.titleZh, b.titleEn), currentLang === "zh" ? "zh-Hant" : "en");
+        if (sortMode === "docs") return b.docCount - a.docCount;
+        return Number(String(a.id).replace(/\D/g, "")) - Number(String(b.id).replace(/\D/g, ""));
+      });
+
+      if (!rows.length) {
+        box.innerHTML = `<div class="empty-state mini"><strong>${t("沒有符合條件的分類", "No matching categories")}</strong>${t("請調整搜尋或篩選條件。", "Adjust the search or filters.")}</div>`;
+        return;
+      }
+
+      const header = `
+        <div class="document-table-wrap">
+          <table class="document-table">
+            <thead>
+              <tr>
+                <th>${t("分類名稱", "Category")}</th>
+                <th>${t("類型", "Type")}</th>
+                <th>${t("文件數", "Docs")}</th>
+                <th>${t("狀態", "Status")}</th>
+                <th style="text-align:right;">${t("操作", "Actions")}</th>
+              </tr>
+            </thead>
+            <tbody>`;
+
+      const body = rows.map(db => {
         const editButton = `<button class="small" onclick="editDatabaseCategory('${db.id}')">${t("修改", "Edit")}</button>`;
-        const deleteButton = db.isDefault ? "" : `<button class="small danger" onclick="deleteDatabaseCategory('${db.id}')">${t("刪除", "Delete")}</button>`;
+        const deleteButton = db.isDefault
+          ? `<span class="database-protect-note">${t("預設保護", "Protected")}</span>`
+          : `<button class="small danger" onclick="deleteDatabaseCategory('${db.id}')">${t("刪除", "Delete")}</button>`;
+        const statusText = db.isDefault ? t("預設分類", "Default") : t("自訂分類", "Custom");
+        const statusClass = db.isDefault ? "published" : "hidden";
         return `
-          <div class="doc-row" style="grid-template-columns:1fr auto;">
-            <div>
-              <div class="doc-title">${db.id} · ${t(db.titleZh, db.titleEn)}</div>
-              <div class="doc-desc">${t(db.descriptionZh, db.descriptionEn)} · ${count} ${t("份文件", "docs")}</div>
-            </div>
-            <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">${editButton}${deleteButton}</div>
-          </div>`;
+          <tr>
+            <td>
+              <div class="database-name-cell document-name-cell">
+                <span class="database-icon-badge ${db.isDefault ? "" : "custom"}">${db.isDefault ? "DB" : "NEW"}</span>
+                <div>
+                  <div class="database-row-title">${db.id} · ${t(db.titleZh, db.titleEn)}</div>
+                  <div class="database-row-sub">${t(db.descriptionZh, db.descriptionEn)}</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="doc-type">${statusText}</span></td>
+            <td><strong>${db.docCount}</strong> ${t("份", "docs")}</td>
+            <td><span class="status-pill ${statusClass}">${db.isDefault ? t("受保護", "Protected") : t("可管理", "Editable")}</span></td>
+            <td><div class="document-action-row">${editButton}${deleteButton}</div></td>
+          </tr>`;
       }).join("");
+
+      const footer = `
+            </tbody>
+          </table>
+        </div>
+        <div class="database-list-footer">
+          <span>${t("目前顯示", "Showing")} ${rows.length} / ${databases.length} ${t("個分類", "categories")}</span>
+          <span>${t("預設分類不可刪除，自訂分類若仍有文件會先阻擋刪除。", "Default categories cannot be deleted. Custom categories with documents are blocked from deletion.")}</span>
+        </div>`;
+
+      box.innerHTML = header + body + footer;
     }
 
     async function deleteDatabaseCategory(id) {
-      if (!canManageData()) { appAlert(t("權限不足。", "Permission denied."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" }); return; }
-      if (getDocumentsByDatabase(id).length > 0) {
-        appAlert(t("此資料庫分類仍有文件，請先刪除或移動文件。", "This database category still has documents. Delete or move the documents first."), { title: t("無法刪除", "Cannot Delete"), tone: "warning", icon: "!" });
+      const db = databases.find(item => item.id === id);
+      if (!db) return;
+      if (db.isDefault) {
+        showToast(t("預設資料庫分類不可刪除。", "Default database categories cannot be deleted."), "error");
         return;
       }
-      if (!(await appConfirm(t("確定要刪除此資料庫分類嗎？", "Are you sure you want to delete this database category?"), { title: t("刪除資料庫分類", "Delete Database Category"), tone: "danger", confirmText: t("確認刪除", "Delete") }))) return;
-      const deletedDb = databases.find(db => db.id === id);
-      databases = databases.filter(db => db.id !== id);
+      const count = getDocumentsByDatabase(id).length;
+      if (count > 0) {
+        showToast(t("此資料庫分類仍有文件，請先移動或刪除文件。", "This category still contains documents. Move or delete documents first."), "error");
+        return;
+      }
+      const confirmed = await showConfirmDialog({
+        title: t("刪除資料庫分類", "Delete Database Category"),
+        message: t(`確定要刪除「${t(db.titleZh, db.titleEn)}」嗎？`, `Delete ${t(db.titleZh, db.titleEn)}?`),
+        detail: t("此操作會寫入操作紀錄。", "This action will be written to the operation log."),
+        confirmText: t("確認刪除", "Delete"),
+        variant: "danger"
+      });
+      if (!confirmed) return;
+      databases = databases.filter(item => item.id !== id);
       saveDatabases();
-      addActivityLog("刪除資料庫分類", "Database category deleted", deletedDb ? deletedDb.titleZh : id, "");
+      addLog("delete", t("刪除資料庫分類", "Deleted database category"), `${id} · ${t(db.titleZh, db.titleEn)}`);
       renderDatabases();
       renderAdminDatabaseOptions();
       renderAdminDatabases();
+      renderAdminOverview();
+      showToast(t("資料庫分類已刪除。", "Database category deleted."), "success");
     }
 
     function getTodayString() {
