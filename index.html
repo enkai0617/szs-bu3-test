@@ -4409,6 +4409,68 @@
       min-width: 96px;
     }
 
+
+    .app-dialog-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      color: white;
+      font-size: 24px;
+      font-weight: 950;
+      box-shadow: 0 18px 40px rgba(37, 99, 235, .22);
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+    }
+
+    .app-dialog-icon.danger {
+      background: linear-gradient(135deg, #fb7185, #ef4444);
+      box-shadow: 0 18px 40px rgba(239, 68, 68, .24);
+    }
+
+    .app-dialog-icon.warning {
+      background: linear-gradient(135deg, #fbbf24, #f97316);
+      box-shadow: 0 18px 40px rgba(249, 115, 22, .24);
+    }
+
+    .app-dialog-icon.success {
+      background: linear-gradient(135deg, #34d399, #16a34a);
+      box-shadow: 0 18px 40px rgba(22, 163, 74, .22);
+    }
+
+    .app-dialog-message {
+      padding: 22px 26px 4px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .app-dialog-message-text {
+      margin: 2px 0 0;
+      color: var(--text);
+      line-height: 1.75;
+      font-weight: 800;
+      white-space: pre-line;
+    }
+
+    .app-dialog-detail {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+      font-weight: 700;
+      white-space: pre-line;
+    }
+
+    .app-dialog-actions .danger {
+      background: #ef4444;
+      border-color: #ef4444;
+      color: white;
+    }
+
+
     @media (max-width: 760px) {
       #assistantPage.page {
         padding: 16px 12px 28px !important;
@@ -6374,6 +6436,29 @@
 
 
 
+  <div class="member-dialog-backdrop" id="appDialog" aria-hidden="true">
+    <div class="member-dialog-card" role="dialog" aria-modal="true" aria-labelledby="appDialogTitle">
+      <div class="member-dialog-head">
+        <div>
+          <h2 class="member-dialog-title" id="appDialogTitle">確認操作</h2>
+          <p class="member-dialog-desc" id="appDialogDesc">請確認後再繼續。</p>
+        </div>
+        <button class="member-dialog-close" type="button" onclick="closeAppDialog(false)">×</button>
+      </div>
+      <div class="app-dialog-message">
+        <div class="app-dialog-icon" id="appDialogIcon">?</div>
+        <div>
+          <p class="app-dialog-message-text" id="appDialogMessage">請確認此操作。</p>
+          <div class="app-dialog-detail" id="appDialogDetail"></div>
+        </div>
+      </div>
+      <div class="member-dialog-actions app-dialog-actions">
+        <button type="button" class="small" id="appDialogCancelBtn" onclick="closeAppDialog(false)" data-zh="取消" data-en="Cancel">取消</button>
+        <button type="button" class="primary" id="appDialogConfirmBtn" onclick="closeAppDialog(true)" data-zh="確定" data-en="OK">確定</button>
+      </div>
+    </div>
+  </div>
+
   <div class="member-dialog-backdrop" id="memberFormDialog" aria-hidden="true">
     <div class="member-dialog-card" role="dialog" aria-modal="true" aria-labelledby="memberDialogTitle">
       <div class="member-dialog-head">
@@ -6665,8 +6750,83 @@
       }).join("");
     }
 
-    function clearActivityLogs() {
-      if (!confirm(t("確定要清除操作紀錄嗎？", "Are you sure you want to clear activity logs?"))) return;
+    let appDialogResolver = null;
+
+    function openAppDialog(config = {}) {
+      return new Promise(resolve => {
+        appDialogResolver = resolve;
+        const dialog = document.getElementById("appDialog");
+        const title = document.getElementById("appDialogTitle");
+        const desc = document.getElementById("appDialogDesc");
+        const message = document.getElementById("appDialogMessage");
+        const detail = document.getElementById("appDialogDetail");
+        const icon = document.getElementById("appDialogIcon");
+        const cancelBtn = document.getElementById("appDialogCancelBtn");
+        const confirmBtn = document.getElementById("appDialogConfirmBtn");
+        if (!dialog || !title || !desc || !message || !detail || !icon || !cancelBtn || !confirmBtn) {
+          resolve(Boolean(config.alertOnly));
+          return;
+        }
+
+        const tone = config.tone || "info";
+        title.textContent = config.title || (config.alertOnly ? t("系統訊息", "System Message") : t("確認操作", "Confirm Action"));
+        desc.textContent = config.description || (config.alertOnly ? t("請閱讀以下訊息。", "Please review the message below.") : t("此操作需要確認，請確認後再繼續。", "This action requires confirmation. Please confirm before continuing."));
+        message.textContent = config.message || "";
+        detail.textContent = config.detail || "";
+        detail.style.display = config.detail ? "block" : "none";
+        icon.className = `app-dialog-icon ${tone}`;
+        icon.textContent = config.icon || (tone === "danger" ? "!" : tone === "warning" ? "!" : tone === "success" ? "✓" : "i");
+        cancelBtn.textContent = config.cancelText || t("取消", "Cancel");
+        confirmBtn.textContent = config.confirmText || t("確定", "OK");
+        confirmBtn.classList.toggle("danger", tone === "danger");
+        cancelBtn.style.display = config.alertOnly ? "none" : "inline-flex";
+
+        dialog.classList.add("open");
+        dialog.setAttribute("aria-hidden", "false");
+        setTimeout(() => confirmBtn.focus(), 60);
+      });
+    }
+
+    function closeAppDialog(result) {
+      const dialog = document.getElementById("appDialog");
+      if (dialog) {
+        dialog.classList.remove("open");
+        dialog.setAttribute("aria-hidden", "true");
+      }
+      if (appDialogResolver) {
+        appDialogResolver(Boolean(result));
+        appDialogResolver = null;
+      }
+    }
+
+    function appAlert(message, options = {}) {
+      return openAppDialog({
+        alertOnly: true,
+        title: options.title || t("系統訊息", "System Message"),
+        description: options.description || t("請閱讀以下訊息。", "Please review the message below."),
+        message,
+        detail: options.detail || "",
+        tone: options.tone || "info",
+        icon: options.icon || "i",
+        confirmText: options.confirmText || t("知道了", "OK")
+      });
+    }
+
+    function appConfirm(message, options = {}) {
+      return openAppDialog({
+        title: options.title || t("確認操作", "Confirm Action"),
+        description: options.description || t("此操作需要確認，請確認後再繼續。", "This action requires confirmation. Please confirm before continuing."),
+        message,
+        detail: options.detail || "",
+        tone: options.tone || "warning",
+        icon: options.icon || "!",
+        confirmText: options.confirmText || t("確認", "Confirm"),
+        cancelText: options.cancelText || t("取消", "Cancel")
+      });
+    }
+
+    async function clearActivityLogs() {
+      if (!(await appConfirm(t("確定要清除操作紀錄嗎？", "Are you sure you want to clear activity logs?"), { title: t("清除操作紀錄", "Clear Activity Logs"), tone: "danger", confirmText: t("確認清除", "Clear") }))) return;
       saveActivityLogs([]);
       renderAdminLogs();
       renderAdminOverview();
@@ -8012,7 +8172,7 @@ function showPage(pageId) {
 
     function switchAdminTab(tab) {
       if (tab === "users" && !canManageUsers()) {
-        alert(t("權限不足：只有 Owner 可以管理會員權限。", "Permission denied: Only the Owner can manage member permissions."));
+        appAlert(t("權限不足：只有 Owner 可以管理會員權限。", "Permission denied: Only the Owner can manage member permissions."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" });
         tab = "overview";
       }
 
@@ -8212,7 +8372,7 @@ function showPage(pageId) {
     function quickEditSelectedDatabase() {
       const select = document.getElementById("adminDatabase");
       if (!select || !select.value) {
-        alert(t("請先選擇要修改的資料庫。", "Please select a database to edit first."));
+        appAlert(t("請先選擇要修改的資料庫。", "Please select a database to edit first."), { title: t("缺少選擇", "Selection Required"), tone: "warning", icon: "!" });
         return;
       }
 
@@ -8263,7 +8423,7 @@ function showPage(pageId) {
     }
 
     function editDatabaseCategory(id) {
-      if (!canManageData()) { alert(t("權限不足。", "Permission denied.")); return; }
+      if (!canManageData()) { appAlert(t("權限不足。", "Permission denied."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" }); return; }
       const db = databases.find(item => item.id === id);
       if (!db) return;
 
@@ -8295,7 +8455,7 @@ function showPage(pageId) {
     }
 
     function addDatabaseCategory() {
-      if (!canManageData()) { alert(t("權限不足。", "Permission denied.")); return; }
+      if (!canManageData()) { appAlert(t("權限不足。", "Permission denied."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" }); return; }
 
       const editingId = document.getElementById("editingDatabaseId").value;
       const titleZh = document.getElementById("dbTitleZh").value.trim();
@@ -8304,7 +8464,7 @@ function showPage(pageId) {
       const descriptionEn = document.getElementById("dbDescEn").value.trim();
 
       if (!titleZh || !titleEn) {
-        alert(t("請至少輸入中文與英文資料庫名稱。", "Please enter both Chinese and English database names."));
+        appAlert(t("請至少輸入中文與英文資料庫名稱。", "Please enter both Chinese and English database names."), { title: t("資料未完成", "Incomplete Data"), tone: "warning", icon: "!" });
         return;
       }
 
@@ -8334,7 +8494,7 @@ function showPage(pageId) {
         }
 
         addActivityLog("修改資料庫分類", "Database category edited", titleZh, "");
-        alert(t("資料庫分類已更新。", "Database category updated."));
+        showToast(t("資料庫分類已更新。", "Database category updated."));
         return;
       }
 
@@ -8353,7 +8513,7 @@ function showPage(pageId) {
       renderAdminDatabaseOptions();
       renderAdminDatabases();
       addActivityLog("新增資料庫分類", "Database category added", titleZh, "");
-      alert(t("資料庫分類已新增。", "Database category added."));
+      showToast(t("資料庫分類已新增。", "Database category added."));
     }
 
     function renderAdminDatabases() {
@@ -8374,13 +8534,13 @@ function showPage(pageId) {
       }).join("");
     }
 
-    function deleteDatabaseCategory(id) {
-      if (!canManageData()) { alert(t("權限不足。", "Permission denied.")); return; }
+    async function deleteDatabaseCategory(id) {
+      if (!canManageData()) { appAlert(t("權限不足。", "Permission denied."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" }); return; }
       if (getDocumentsByDatabase(id).length > 0) {
-        alert(t("此資料庫分類仍有文件，請先刪除或移動文件。", "This database category still has documents. Delete or move the documents first."));
+        appAlert(t("此資料庫分類仍有文件，請先刪除或移動文件。", "This database category still has documents. Delete or move the documents first."), { title: t("無法刪除", "Cannot Delete"), tone: "warning", icon: "!" });
         return;
       }
-      if (!confirm(t("確定要刪除此資料庫分類嗎？", "Are you sure you want to delete this database category?"))) return;
+      if (!(await appConfirm(t("確定要刪除此資料庫分類嗎？", "Are you sure you want to delete this database category?"), { title: t("刪除資料庫分類", "Delete Database Category"), tone: "danger", confirmText: t("確認刪除", "Delete") }))) return;
       const deletedDb = databases.find(db => db.id === id);
       databases = databases.filter(db => db.id !== id);
       saveDatabases();
@@ -8445,7 +8605,7 @@ function showPage(pageId) {
     }
 
     function editDocument(id) {
-      if (!canManageData()) { alert(t("權限不足。", "Permission denied.")); return; }
+      if (!canManageData()) { appAlert(t("權限不足。", "Permission denied."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" }); return; }
       const doc = documents.find(item => item.id === id);
       if (!doc) return;
 
@@ -8478,7 +8638,7 @@ function showPage(pageId) {
     }
 
     function addAdminDocument() {
-      if (!canManageData()) { alert(t("權限不足。", "Permission denied.")); return; }
+      if (!canManageData()) { appAlert(t("權限不足。", "Permission denied."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" }); return; }
 
       const editingId = document.getElementById("editingDocumentId").value;
       const databaseId = document.getElementById("adminDatabase").value;
@@ -8494,7 +8654,7 @@ function showPage(pageId) {
       const updatedAt = document.getElementById("adminUpdatedAt")?.value || getTodayString();
 
       if (!titleZh || !titleEn) {
-        alert(t("請至少輸入中文與英文文件名稱。", "Please enter both Chinese and English document titles."));
+        appAlert(t("請至少輸入中文與英文文件名稱。", "Please enter both Chinese and English document titles."), { title: t("資料未完成", "Incomplete Data"), tone: "warning", icon: "!" });
         return;
       }
 
@@ -8533,7 +8693,7 @@ function showPage(pageId) {
           titleZh,
           `${t("所屬資料庫", "Database")}: ${editedDb ? t(editedDb.titleZh, editedDb.titleEn) : databaseId} · Type: ${type} · ${t("標籤", "Tags")}: ${tagText}`
         );
-        alert(t("文件已更新。", "Document updated."));
+        showToast(t("文件已更新。", "Document updated."));
         return;
       }
 
@@ -8568,7 +8728,7 @@ function showPage(pageId) {
         titleZh,
         `${t("所屬資料庫", "Database")}: ${addedDb ? t(addedDb.titleZh, addedDb.titleEn) : databaseId} · Type: ${type} · ${t("標籤", "Tags")}: ${tagText}`
       );
-      alert(t("文件已新增。", "Document added."));
+      showToast(t("文件已新增。", "Document added."));
     }
 
     function renderTagChips(tags) {
@@ -8687,7 +8847,7 @@ function showPage(pageId) {
     }
 
     function toggleDocumentVisibility(id) {
-      if (!canManageData()) { alert(t("權限不足。", "Permission denied.")); return; }
+      if (!canManageData()) { appAlert(t("權限不足。", "Permission denied."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" }); return; }
       const doc = documents.find(item => item.id === id);
       if (!doc) return;
       const nextStatus = doc.status === "hidden" ? "published" : "hidden";
@@ -8699,11 +8859,11 @@ function showPage(pageId) {
       if (selectedDatabaseId) renderDetailDocuments();
     }
 
-    function deleteDocument(id) {
-      if (!canManageData()) { alert(t("權限不足。", "Permission denied.")); return; }
+    async function deleteDocument(id) {
+      if (!canManageData()) { appAlert(t("權限不足。", "Permission denied."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" }); return; }
       const deletedDoc = documents.find(doc => doc.id === id);
       const title = deletedDoc ? t(deletedDoc.titleZh, deletedDoc.titleEn) : id;
-      if (!confirm(t(`確定要刪除「${title}」嗎？\n此操作會寫入操作紀錄。`, `Are you sure you want to delete "${title}"?\nThis action will be recorded.`))) return;
+      if (!(await appConfirm(t(`確定要刪除「${title}」嗎？\n此操作會寫入操作紀錄。`, `Are you sure you want to delete "${title}"?\nThis action will be recorded.`), { title: t("刪除文件", "Delete Document"), tone: "danger", confirmText: t("確認刪除", "Delete") }))) return;
 
       documents = documents.filter(doc => doc.id !== id);
       saveDocuments();
@@ -8818,29 +8978,29 @@ function showPage(pageId) {
 
     function setUserRole(companyId, role) {
       if (!canManageUsers()) {
-        alert(t("權限不足：只有 Owner 可以管理會員權限。", "Permission denied: Only the Owner can manage member permissions."));
+        appAlert(t("權限不足：只有 Owner 可以管理會員權限。", "Permission denied: Only the Owner can manage member permissions."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" });
         return;
       }
       const member = getAllDisplayMembers().find(user => user.companyId === companyId);
       if (!member || companyId === OWNER_ACCOUNT.companyId) {
-        alert(t("Owner 帳號不可變更。", "Owner accounts cannot be changed."));
+        appAlert(t("Owner 帳號不可變更。", "Owner accounts cannot be changed."), { title: t("不可變更", "Cannot Change"), tone: "warning", icon: "!" });
         return;
       }
       updateMemberRecord(companyId, { role });
       const changedUser = getAllDisplayMembers().find(user => user.companyId === companyId);
       addActivityLog("會員權限異動", "Member role changed", changedUser ? `${changedUser.name} / ${companyId}` : companyId, `Role: ${role}`);
       refreshMemberViews();
-      alert(t("會員權限已更新。", "Member permission updated."));
+      showToast(t("會員權限已更新。", "Member permission updated."));
     }
 
     async function editMemberAccount(companyId) {
       if (!canManageUsers()) {
-        alert(t("權限不足：只有 Owner 可以編輯會員。", "Permission denied: Only the Owner can edit members."));
+        appAlert(t("權限不足：只有 Owner 可以編輯會員。", "Permission denied: Only the Owner can edit members."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" });
         return;
       }
       const member = getAllDisplayMembers().find(user => user.companyId === companyId);
       if (!member || companyId === OWNER_ACCOUNT.companyId) {
-        alert(t("Owner 帳號不可編輯。", "Owner accounts cannot be edited."));
+        appAlert(t("Owner 帳號不可編輯。", "Owner accounts cannot be edited."), { title: t("不可編輯", "Cannot Edit"), tone: "warning", icon: "!" });
         return;
       }
 
@@ -8866,17 +9026,17 @@ function showPage(pageId) {
       showToast(t("會員資料已更新。", "Member profile updated."));
     }
 
-    function deleteMemberAccount(companyId) {
+    async function deleteMemberAccount(companyId) {
       if (!canManageUsers()) {
-        alert(t("權限不足：只有 Owner 可以刪除會員。", "Permission denied: Only the Owner can delete members."));
+        appAlert(t("權限不足：只有 Owner 可以刪除會員。", "Permission denied: Only the Owner can delete members."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" });
         return;
       }
       const member = getAllDisplayMembers().find(user => user.companyId === companyId);
       if (!member || member.role === "owner" || companyId === OWNER_ACCOUNT.companyId || (currentUser && currentUser.companyId === companyId)) {
-        alert(t("Owner 或目前登入帳號不可刪除。", "Owner or current login account cannot be deleted."));
+        appAlert(t("Owner 或目前登入帳號不可刪除。", "Owner or current login account cannot be deleted."), { title: t("不可刪除", "Cannot Delete"), tone: "warning", icon: "!" });
         return;
       }
-      if (!confirm(t("確定要刪除此會員帳號嗎？", "Are you sure you want to delete this member account?"))) return;
+      if (!(await appConfirm(t("確定要刪除此會員帳號嗎？", "Are you sure you want to delete this member account?"), { title: t("刪除會員帳號", "Delete Member Account"), tone: "danger", confirmText: t("確認刪除", "Delete") }))) return;
       let users = loadUsers().map(normalizeUser);
       const before = users.length;
       users = users.filter(user => user.companyId !== companyId);
@@ -8889,12 +9049,12 @@ function showPage(pageId) {
       saveDeletedMemberIds(deleted);
       addActivityLog("刪除會員", "Member deleted", `${member.name} / ${companyId}`, "");
       refreshMemberViews();
-      alert(t("會員帳號已刪除。", "Member account deleted."));
+      showToast(t("會員帳號已刪除。", "Member account deleted."));
     }
 
     async function addMemberGroup() {
       if (!canManageUsers()) {
-        alert(t("權限不足：只有 Owner 可以新增群組。", "Permission denied: Only the Owner can add groups."));
+        appAlert(t("權限不足：只有 Owner 可以新增群組。", "Permission denied: Only the Owner can add groups."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" });
         return;
       }
       const values = await openMemberFormDialog({
@@ -8924,9 +9084,9 @@ function showPage(pageId) {
       showToast(t("群組已新增。", "Group added."));
     }
 
-    function deleteMemberGroup(groupKey) {
+    async function deleteMemberGroup(groupKey) {
       if (!canManageUsers()) {
-        alert(t("權限不足：只有 Owner 可以刪除群組。", "Permission denied: Only the Owner can delete groups."));
+        appAlert(t("權限不足：只有 Owner 可以刪除群組。", "Permission denied: Only the Owner can delete groups."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" });
         return;
       }
       const group = getMemberGroupDefinitions().find(item => item.key === groupKey);
@@ -8938,7 +9098,7 @@ function showPage(pageId) {
       const message = hasMembers
         ? t("此群組目前仍有成員，刪除後這些成員將不再顯示於成員狀態總覽。確定刪除？", "This group still has members. After deleting, those members will no longer appear in Member Status. Delete it?")
         : t("確定要刪除此群組嗎？", "Delete this group?");
-      if (!confirm(message)) return;
+      if (!(await appConfirm(message, { title: t("刪除成員群組", "Delete Member Group"), tone: "danger", confirmText: t("確認刪除", "Delete") }))) return;
       saveCustomMemberGroups(loadCustomMemberGroups().filter(item => item.key !== groupKey));
       const names = loadMemberGroupNames();
       delete names[groupKey];
@@ -8952,7 +9112,7 @@ function showPage(pageId) {
 
     async function editMemberGroupName(groupKey) {
       if (!canManageUsers()) {
-        alert(t("權限不足：只有 Owner 可以更改群組名稱。", "Permission denied: Only the Owner can rename groups."));
+        appAlert(t("權限不足：只有 Owner 可以更改群組名稱。", "Permission denied: Only the Owner can rename groups."), { title: t("權限不足", "Permission Denied"), tone: "warning", icon: "!" });
         return;
       }
       const labels = getMemberGroupLabels(groupKey);
@@ -9040,7 +9200,7 @@ function showPage(pageId) {
     }
 
     function viewFile() {
-      alert(t("這是原型版，尚未連接正式檔案。正式版會從公司 Server 或內部檔案系統開啟文件。", "This is a prototype and is not connected to real files yet. The official version will open files from the company server or internal file system."));
+      appAlert(t("這是原型版，尚未連接正式檔案。正式版會從公司 Server 或內部檔案系統開啟文件。", "This is a prototype and is not connected to real files yet. The official version will open files from the company server or internal file system."), { title: t("原型版提示", "Prototype Notice"), tone: "info", icon: "i" });
     }
 
     function switchLanguage() {
