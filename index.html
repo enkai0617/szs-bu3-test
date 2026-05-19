@@ -6427,9 +6427,8 @@
               <div class="form-section-title"><span class="form-step">3</span><span data-zh="管理設定" data-en="Management Settings">管理設定</span></div>
               <div class="two-col">
                 <label class="check-row"><input id="dbShowHome" type="checkbox" checked disabled /> <span data-zh="顯示於首頁分類" data-en="Show on home page">顯示於首頁分類</span></label>
-                <label class="check-row"><input id="dbProtectedDefault" type="checkbox" disabled /> <span data-zh="預設分類不可刪除" data-en="Default categories are protected">預設分類不可刪除</span></label>
               </div>
-              <div class="auth-note" data-zh="分類編號會由系統自動產生；預設分類只能修改名稱與說明，不能刪除。" data-en="Category ID is generated automatically. Default categories can be edited but cannot be deleted.">分類編號會由系統自動產生；預設分類只能修改名稱與說明，不能刪除。</div>
+              <div class="auth-note" data-zh="分類編號會由系統自動產生；刪除分類前，請先確認分類內沒有文件。" data-en="Category ID is generated automatically. Before deleting a category, make sure it contains no documents.">分類編號會由系統自動產生；刪除分類前，請先確認分類內沒有文件。</div>
             </div>
 
             <div class="document-form-actions">
@@ -6453,8 +6452,6 @@
             <input id="adminDatabaseSearch" placeholder="搜尋分類名稱、說明..." oninput="renderAdminDatabases()" />
             <select id="adminDatabaseStatusFilter" onchange="renderAdminDatabases()">
               <option value="all" data-zh="所有分類" data-en="All Categories">所有分類</option>
-              <option value="default" data-zh="預設分類" data-en="Default Categories">預設分類</option>
-              <option value="custom" data-zh="自訂分類" data-en="Custom Categories">自訂分類</option>
             </select>
             <select id="adminDatabaseSort" onchange="renderAdminDatabases()">
               <option value="id" data-zh="分類編號" data-en="Category ID">分類編號</option>
@@ -8720,7 +8717,6 @@ function showPage(pageId) {
             <thead>
               <tr>
                 <th>${t("分類名稱", "Category")}</th>
-                <th>${t("類型", "Type")}</th>
                 <th>${t("文件數", "Docs")}</th>
                 <th>${t("狀態", "Status")}</th>
                 <th style="text-align:right;">${t("操作", "Actions")}</th>
@@ -8730,25 +8726,17 @@ function showPage(pageId) {
 
       const body = rows.map(db => {
         const editButton = `<button class="small" onclick="editDatabaseCategory('${db.id}')">${t("修改", "Edit")}</button>`;
-        const deleteButton = db.isDefault
-          ? `<span class="database-protect-note">${t("預設保護", "Protected")}</span>`
-          : `<button class="small danger" onclick="deleteDatabaseCategory('${db.id}')">${t("刪除", "Delete")}</button>`;
-        const statusText = db.isDefault ? t("預設分類", "Default") : t("自訂分類", "Custom");
-        const statusClass = db.isDefault ? "published" : "hidden";
+        const deleteButton = `<button class="small danger" onclick="deleteDatabaseCategory('${db.id}')">${t("刪除", "Delete")}</button>`;
         return `
           <tr>
             <td>
-              <div class="database-name-cell document-name-cell">
-                <span class="database-icon-badge ${db.isDefault ? "" : "custom"}">${db.isDefault ? "DB" : "NEW"}</span>
-                <div>
-                  <div class="database-row-title">${db.id} · ${t(db.titleZh, db.titleEn)}</div>
-                  <div class="database-row-sub">${t(db.descriptionZh, db.descriptionEn)}</div>
-                </div>
+              <div>
+                <div class="database-row-title">${db.id} · ${t(db.titleZh, db.titleEn)}</div>
+                <div class="database-row-sub">${t(db.descriptionZh, db.descriptionEn)}</div>
               </div>
             </td>
-            <td><span class="doc-type">${statusText}</span></td>
             <td><strong>${db.docCount}</strong> ${t("份", "docs")}</td>
-            <td><span class="status-pill ${statusClass}">${db.isDefault ? t("受保護", "Protected") : t("可管理", "Editable")}</span></td>
+            <td><span class="status-pill published">${t("可管理", "Editable")}</span></td>
             <td><div class="document-action-row">${editButton}${deleteButton}</div></td>
           </tr>`;
       }).join("");
@@ -8759,7 +8747,7 @@ function showPage(pageId) {
         </div>
         <div class="database-list-footer">
           <span>${t("目前顯示", "Showing")} ${rows.length} / ${databases.length} ${t("個分類", "categories")}</span>
-          <span>${t("預設分類不可刪除，自訂分類若仍有文件會先阻擋刪除。", "Default categories cannot be deleted. Custom categories with documents are blocked from deletion.")}</span>
+          <span>${t("分類內若仍有文件，會先阻擋刪除。", "Categories with documents are blocked from deletion.")}</span>
         </div>`;
 
       box.innerHTML = header + body + footer;
@@ -8768,10 +8756,6 @@ function showPage(pageId) {
     async function deleteDatabaseCategory(id) {
       const db = databases.find(item => item.id === id);
       if (!db) return;
-      if (db.isDefault) {
-        showToast(t("預設資料庫分類不可刪除。", "Default database categories cannot be deleted."), "error");
-        return;
-      }
       const count = getDocumentsByDatabase(id).length;
       if (count > 0) {
         showToast(t("此資料庫分類仍有文件，請先移動或刪除文件。", "This category still contains documents. Move or delete documents first."), "error");
