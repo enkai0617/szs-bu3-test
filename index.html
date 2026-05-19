@@ -5806,6 +5806,133 @@
       .database-toolbar { grid-template-columns: 1fr; }
     }
 
+
+
+    /* === PROFILE CENTER FIRST VERSION 20260519 === */
+    .profile-feature-card {
+      width: min(620px, 100%);
+    }
+
+    .profile-feature-body {
+      padding: 22px 26px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .profile-setting-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .profile-setting-grid label,
+    .profile-feature-body label {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+    }
+
+    .profile-setting-grid span,
+    .profile-feature-body label > span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .profile-toggle-row {
+      display: flex !important;
+      align-items: center;
+      gap: 10px !important;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--panel-solid) 92%, var(--soft));
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .profile-toggle-row input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+    }
+
+    .profile-info-list,
+    .profile-message-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .profile-info-row {
+      display: grid;
+      grid-template-columns: 160px minmax(0, 1fr);
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--panel-solid) 92%, var(--soft));
+    }
+
+    .profile-info-row span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .profile-info-row strong {
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 950;
+      overflow-wrap: anywhere;
+    }
+
+    .profile-message-item {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--panel-solid) 94%, var(--soft));
+    }
+
+    .profile-message-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--chip);
+      color: var(--primary);
+      font-size: 18px;
+      font-weight: 950;
+    }
+
+    .profile-message-item strong {
+      display: block;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 950;
+      margin-bottom: 4px;
+    }
+
+    .profile-message-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      font-weight: 800;
+    }
+
+    @media (max-width: 640px) {
+      .profile-setting-grid,
+      .profile-info-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
 </style>
 </head>
 <body class="sidebar-collapsed">
@@ -5854,10 +5981,10 @@
             </div>
           </div>
           <button onclick="switchLanguage(); closeProfileMenu();" data-zh="語言 / Language" data-en="Language / 語言">語言 / Language</button>
-          <button onclick="showSystemInfo(); closeProfileMenu();" data-zh="系統資訊" data-en="System Info">系統資訊</button>
-          <button onclick="showToast(t('我的設定為原型展示項目。','My settings is a prototype item.')); closeProfileMenu();" data-zh="我的設定" data-en="My Settings">我的設定</button>
-          <button onclick="showMyMessages(); closeProfileMenu();" data-zh="我的訊息" data-en="My Messages">我的訊息</button>
-          <button onclick="showFeedbackBox(); closeProfileMenu();" data-zh="意見回饋" data-en="Feedback">意見回饋</button>
+          <button onclick="openSystemInfoDialog(); closeProfileMenu();" data-zh="系統資訊" data-en="System Info">系統資訊</button>
+          <button onclick="openProfileSettingsDialog(); closeProfileMenu();" data-zh="我的設定" data-en="My Settings">我的設定</button>
+          <button onclick="openMyMessagesDialog(); closeProfileMenu();" data-zh="我的訊息" data-en="My Messages">我的訊息</button>
+          <button onclick="openFeedbackDialog(); closeProfileMenu();" data-zh="意見回饋" data-en="Feedback">意見回饋</button>
           <button class="danger-text" onclick="closeProfileMenu(); logout();" data-zh="登出" data-en="Logout">登出</button>
         </div>
       </div>
@@ -6604,6 +6731,120 @@
     </div>
   </div>
 
+  <div class="member-dialog-backdrop profile-feature-dialog" id="profileSettingsDialog" aria-hidden="true">
+    <div class="member-dialog-card profile-feature-card" role="dialog" aria-modal="true" aria-labelledby="profileSettingsTitle">
+      <div class="member-dialog-head">
+        <div>
+          <h2 class="member-dialog-title" id="profileSettingsTitle" data-zh="我的設定" data-en="My Settings">我的設定</h2>
+          <p class="member-dialog-desc" data-zh="調整個人使用偏好，設定會先儲存在目前瀏覽器。" data-en="Adjust personal preferences. Settings are stored in this browser for now.">調整個人使用偏好，設定會先儲存在目前瀏覽器。</p>
+        </div>
+        <button class="member-dialog-close" type="button" onclick="closeProfileFeatureDialog('profileSettingsDialog')">×</button>
+      </div>
+      <div class="profile-feature-body">
+        <div class="profile-setting-grid">
+          <label>
+            <span data-zh="顯示模式" data-en="Appearance">顯示模式</span>
+            <select id="profileSettingTheme">
+              <option value="light" data-zh="淺色模式" data-en="Light Mode">淺色模式</option>
+              <option value="dark" data-zh="深色模式" data-en="Dark Mode">深色模式</option>
+            </select>
+          </label>
+          <label>
+            <span data-zh="語言偏好" data-en="Language">語言偏好</span>
+            <select id="profileSettingLanguage">
+              <option value="zh">中文</option>
+              <option value="en">English</option>
+            </select>
+          </label>
+          <label>
+            <span data-zh="預設開啟頁面" data-en="Default Page">預設開啟頁面</span>
+            <select id="profileSettingDefaultPage">
+              <option value="home" data-zh="首頁" data-en="Home">首頁</option>
+              <option value="assistant" data-zh="小幫手" data-en="Assistant">小幫手</option>
+              <option value="databases" data-zh="資料庫分類" data-en="Databases">資料庫分類</option>
+              <option value="documents" data-zh="文件管理" data-en="Documents">文件管理</option>
+              <option value="settings" data-zh="系統設定" data-en="Settings">系統設定</option>
+            </select>
+          </label>
+          <label>
+            <span data-zh="小幫手預設模式" data-en="Assistant Default Mode">小幫手預設模式</span>
+            <select id="profileSettingAssistantMode">
+              <option value="all" data-zh="全部搜尋" data-en="All Search">全部搜尋</option>
+              <option value="docs" data-zh="內部文件" data-en="Internal Docs">內部文件</option>
+              <option value="website" data-zh="官網資訊" data-en="Website">官網資訊</option>
+            </select>
+          </label>
+        </div>
+        <label class="profile-toggle-row">
+          <input type="checkbox" id="profileSettingNotifications">
+          <span data-zh="開啟通知提示" data-en="Enable notifications">開啟通知提示</span>
+        </label>
+      </div>
+      <div class="member-dialog-actions app-dialog-actions">
+        <button type="button" class="small" onclick="closeProfileFeatureDialog('profileSettingsDialog')" data-zh="取消" data-en="Cancel">取消</button>
+        <button type="button" class="primary" onclick="saveProfileSettings()" data-zh="儲存設定" data-en="Save Settings">儲存設定</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="member-dialog-backdrop profile-feature-dialog" id="systemInfoDialog" aria-hidden="true">
+    <div class="member-dialog-card profile-feature-card" role="dialog" aria-modal="true" aria-labelledby="systemInfoTitle">
+      <div class="member-dialog-head">
+        <div>
+          <h2 class="member-dialog-title" id="systemInfoTitle" data-zh="系統資訊" data-en="System Info">系統資訊</h2>
+          <p class="member-dialog-desc" data-zh="目前原型版本與資料狀態。" data-en="Current prototype version and data status.">目前原型版本與資料狀態。</p>
+        </div>
+        <button class="member-dialog-close" type="button" onclick="closeProfileFeatureDialog('systemInfoDialog')">×</button>
+      </div>
+      <div class="profile-feature-body">
+        <div class="profile-info-list" id="systemInfoContent"></div>
+      </div>
+      <div class="member-dialog-actions app-dialog-actions">
+        <button type="button" class="primary" onclick="closeProfileFeatureDialog('systemInfoDialog')" data-zh="我知道了" data-en="OK">我知道了</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="member-dialog-backdrop profile-feature-dialog" id="myMessagesDialog" aria-hidden="true">
+    <div class="member-dialog-card profile-feature-card" role="dialog" aria-modal="true" aria-labelledby="myMessagesTitle">
+      <div class="member-dialog-head">
+        <div>
+          <h2 class="member-dialog-title" id="myMessagesTitle" data-zh="我的訊息" data-en="My Messages">我的訊息</h2>
+          <p class="member-dialog-desc" data-zh="最近系統通知與個人提醒。" data-en="Recent system notifications and personal reminders.">最近系統通知與個人提醒。</p>
+        </div>
+        <button class="member-dialog-close" type="button" onclick="closeProfileFeatureDialog('myMessagesDialog')">×</button>
+      </div>
+      <div class="profile-feature-body">
+        <div class="profile-message-list" id="myMessagesContent"></div>
+      </div>
+      <div class="member-dialog-actions app-dialog-actions">
+        <button type="button" class="primary" onclick="closeProfileFeatureDialog('myMessagesDialog')" data-zh="關閉" data-en="Close">關閉</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="member-dialog-backdrop profile-feature-dialog" id="feedbackDialog" aria-hidden="true">
+    <div class="member-dialog-card profile-feature-card" role="dialog" aria-modal="true" aria-labelledby="feedbackTitle">
+      <div class="member-dialog-head">
+        <div>
+          <h2 class="member-dialog-title" id="feedbackTitle" data-zh="意見回饋" data-en="Feedback">意見回饋</h2>
+          <p class="member-dialog-desc" data-zh="先暫存在目前瀏覽器，正式版可改成送給管理者。" data-en="Stored in this browser for now. Official version can send it to admins.">先暫存在目前瀏覽器，正式版可改成送給管理者。</p>
+        </div>
+        <button class="member-dialog-close" type="button" onclick="closeProfileFeatureDialog('feedbackDialog')">×</button>
+      </div>
+      <div class="profile-feature-body">
+        <label>
+          <span data-zh="回饋內容" data-en="Feedback">回饋內容</span>
+          <textarea id="feedbackText" placeholder="請輸入你的建議或遇到的問題..."></textarea>
+        </label>
+      </div>
+      <div class="member-dialog-actions app-dialog-actions">
+        <button type="button" class="small" onclick="closeProfileFeatureDialog('feedbackDialog')" data-zh="取消" data-en="Cancel">取消</button>
+        <button type="button" class="primary" onclick="saveFeedback()" data-zh="送出回饋" data-en="Submit">送出回饋</button>
+      </div>
+    </div>
+  </div>
+
   <div class="member-dialog-backdrop" id="memberFormDialog" aria-hidden="true">
     <div class="member-dialog-card" role="dialog" aria-modal="true" aria-labelledby="memberDialogTitle">
       <div class="member-dialog-head">
@@ -7186,6 +7427,7 @@ function init() {
       loadUsers();
       loadCurrentUser();
       if (currentUser) currentUser = normalizeUser(currentUser);
+      applyProfilePreferences();
       enforceSingleOwnerAccount();
       renderDatabases();
       renderAdminDatabaseOptions();
@@ -7203,7 +7445,7 @@ function init() {
       closeAssistant();
       setTimeout(retrofitDfmMediaInVisibleChats, 0);
       if (currentUser) {
-        showHome();
+        openPreferredDefaultPage();
       } else {
         showLoginLanding();
       }
@@ -9434,6 +9676,7 @@ function showPage(pageId) {
 
     function switchLanguage() {
       currentLang = currentLang === "zh" ? "en" : "zh";
+      localStorage.setItem("szs_profile_language", currentLang);
       updateLanguageText();
       updateBadge();
       renderDatabases();
@@ -9478,7 +9721,9 @@ function showPage(pageId) {
 
     function toggleTheme() {
       document.body.classList.toggle("dark");
-      document.getElementById("themeBtn").textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+      const isDark = document.body.classList.contains("dark");
+      localStorage.setItem("szs_profile_theme", isDark ? "dark" : "light");
+      document.getElementById("themeBtn").textContent = isDark ? "☀️" : "🌙";
     }
 
 
@@ -9907,7 +10152,17 @@ function showPage(pageId) {
 
     function renderNotifications() {
       const list = document.getElementById("notificationList");
+      const prefs = getProfilePreferences();
+      const dot = document.getElementById("notificationDot");
+      const notificationBtn = document.getElementById("notificationBtn");
+      if (notificationBtn) notificationBtn.style.opacity = prefs.notificationsEnabled ? "1" : ".55";
       if (!list) return;
+
+      if (!prefs.notificationsEnabled) {
+        list.innerHTML = `<div class="notification-item"><div class="notification-icon">🔕</div><div><strong>${t("通知已關閉", "Notifications Off")}</strong><p>${t("可到「我的設定」重新開啟通知提示。", "Turn notifications back on in My Settings.")}</p></div></div>`;
+        if (dot) dot.style.display = "none";
+        return;
+      }
 
       const notifications = getNotifications();
       list.innerHTML = notifications.map(item => `
@@ -9920,21 +10175,207 @@ function showPage(pageId) {
         </div>
       `).join("");
 
-      const dot = document.getElementById("notificationDot");
       if (dot) dot.style.display = notifications.length ? "block" : "none";
     }
 
+    function getProfilePreferences() {
+      return {
+        theme: localStorage.getItem("szs_profile_theme") || (document.body.classList.contains("dark") ? "dark" : "light"),
+        language: localStorage.getItem("szs_profile_language") || currentLang || "zh",
+        defaultPage: localStorage.getItem("szs_profile_default_page") || "home",
+        assistantMode: localStorage.getItem("szs_profile_assistant_mode") || assistantMode || "all",
+        notificationsEnabled: localStorage.getItem("szs_profile_notifications") !== "off"
+      };
+    }
+
+    function saveProfilePreferenceValue(key, value) {
+      localStorage.setItem(`szs_profile_${key}`, value);
+    }
+
+    function applyProfilePreferences() {
+      const prefs = getProfilePreferences();
+
+      if (prefs.language && prefs.language !== currentLang) {
+        currentLang = prefs.language;
+      }
+
+      const shouldDark = prefs.theme === "dark";
+      document.body.classList.toggle("dark", shouldDark);
+      const themeBtn = document.getElementById("themeBtn");
+      if (themeBtn) themeBtn.textContent = shouldDark ? "☀️" : "🌙";
+
+      if (prefs.assistantMode && ["all", "docs", "website"].includes(prefs.assistantMode)) {
+        assistantMode = prefs.assistantMode;
+        updateAssistantModeUI();
+      }
+
+      renderNotifications();
+    }
+
+    function openPreferredDefaultPage() {
+      const prefs = getProfilePreferences();
+      if (prefs.defaultPage === "assistant") {
+        openAssistantPage();
+      } else if (prefs.defaultPage === "documents") {
+        openAdmin();
+        setTimeout(() => switchAdminTab("documents"), 0);
+      } else if (prefs.defaultPage === "databases") {
+        showHome();
+        setTimeout(() => openDatabaseSection(), 0);
+      } else if (prefs.defaultPage === "settings") {
+        openSystemSettings();
+      } else {
+        showHome();
+      }
+    }
+
+    function openProfileSettingsDialog() {
+      const prefs = getProfilePreferences();
+      const theme = document.getElementById("profileSettingTheme");
+      const language = document.getElementById("profileSettingLanguage");
+      const defaultPage = document.getElementById("profileSettingDefaultPage");
+      const assistant = document.getElementById("profileSettingAssistantMode");
+      const notifications = document.getElementById("profileSettingNotifications");
+
+      if (theme) theme.value = prefs.theme;
+      if (language) language.value = prefs.language;
+      if (defaultPage) defaultPage.value = prefs.defaultPage;
+      if (assistant) assistant.value = prefs.assistantMode;
+      if (notifications) notifications.checked = prefs.notificationsEnabled;
+
+      updateLanguageText();
+      openProfileFeatureDialog("profileSettingsDialog");
+    }
+
+    function saveProfileSettings() {
+      const theme = document.getElementById("profileSettingTheme")?.value || "light";
+      const language = document.getElementById("profileSettingLanguage")?.value || "zh";
+      const defaultPage = document.getElementById("profileSettingDefaultPage")?.value || "home";
+      const nextAssistantMode = document.getElementById("profileSettingAssistantMode")?.value || "all";
+      const notifications = document.getElementById("profileSettingNotifications")?.checked ? "on" : "off";
+
+      saveProfilePreferenceValue("theme", theme);
+      saveProfilePreferenceValue("language", language);
+      saveProfilePreferenceValue("default_page", defaultPage);
+      saveProfilePreferenceValue("assistant_mode", nextAssistantMode);
+      saveProfilePreferenceValue("notifications", notifications);
+
+      currentLang = language;
+      assistantMode = nextAssistantMode;
+      applyProfilePreferences();
+      updateLanguageText();
+      updateAuthUI();
+      renderDatabases();
+      renderAdminDatabaseOptions();
+      renderAdminDocuments();
+      renderAdminDatabases();
+      renderAdminUsers();
+      renderAdminLogs();
+      renderAdminOverview();
+      if (document.getElementById("searchPage")?.classList.contains("active")) renderSearchResults();
+      closeProfileFeatureDialog("profileSettingsDialog");
+      showToast(t("設定已儲存。", "Settings saved."), "success");
+    }
+
+    function openSystemInfoDialog() {
+      const content = document.getElementById("systemInfoContent");
+      if (content) {
+        const prefs = getProfilePreferences();
+        const rows = [
+          [t("系統名稱", "System Name"), "SZS PE 知識庫"],
+          [t("目前版本", "Version"), "Prototype"],
+          [t("登入身分", "Login Role"), currentUser ? `${getRoleLabel(currentUser.role)} / ${currentUser.companyId}` : t("尚未登入", "Not logged in")],
+          [t("資料庫分類", "Database Categories"), `${databases.length}`],
+          [t("文件數量", "Documents"), `${documents.length}`],
+          [t("資料儲存", "Storage"), "Browser localStorage"],
+          [t("語言", "Language"), prefs.language === "zh" ? "中文" : "English"],
+          [t("通知", "Notifications"), prefs.notificationsEnabled ? t("開啟", "On") : t("關閉", "Off")]
+        ];
+        content.innerHTML = rows.map(([label, value]) => `
+          <div class="profile-info-row">
+            <span>${escapeProfileHtml(label)}</span>
+            <strong>${escapeProfileHtml(value)}</strong>
+          </div>
+        `).join("");
+      }
+      updateLanguageText();
+      openProfileFeatureDialog("systemInfoDialog");
+    }
+
+    function openMyMessagesDialog() {
+      const content = document.getElementById("myMessagesContent");
+      if (content) {
+        const messages = getNotifications();
+        content.innerHTML = messages.map(item => `
+          <div class="profile-message-item">
+            <div class="profile-message-icon">${item.type === "file" ? "📄" : item.type === "role" ? "🔐" : item.type === "chat" ? "💬" : "🔔"}</div>
+            <div>
+              <strong>${escapeProfileHtml(t(item.titleZh, item.titleEn))}</strong>
+              <p>${escapeProfileHtml(t(item.textZh, item.textEn))}</p>
+            </div>
+          </div>
+        `).join("");
+      }
+      updateLanguageText();
+      openProfileFeatureDialog("myMessagesDialog");
+    }
+
+    function openFeedbackDialog() {
+      const input = document.getElementById("feedbackText");
+      if (input) {
+        input.value = "";
+        input.placeholder = t("請輸入你的建議或遇到的問題...", "Enter your suggestion or issue...");
+      }
+      updateLanguageText();
+      openProfileFeatureDialog("feedbackDialog");
+    }
+
+    function saveFeedback() {
+      const input = document.getElementById("feedbackText");
+      const text = (input?.value || "").trim();
+      if (!text) {
+        showToast(t("請先輸入回饋內容。", "Please enter feedback first."), "error");
+        return;
+      }
+      const feedback = safeJsonParse(localStorage.getItem("szs_feedback_items"), []);
+      feedback.unshift({
+        text,
+        user: currentUser ? `${currentUser.name} / ${currentUser.companyId}` : "-",
+        time: new Date().toLocaleString()
+      });
+      localStorage.setItem("szs_feedback_items", JSON.stringify(feedback.slice(0, 30)));
+      addLog("edit", t("新增意見回饋", "Added feedback"), text.slice(0, 80));
+      closeProfileFeatureDialog("feedbackDialog");
+      showToast(t("回饋已暫存。正式版可改為送給管理者。", "Feedback saved locally. Official version can send it to admins."), "success");
+    }
+
+    function openProfileFeatureDialog(id) {
+      document.getElementById(id)?.classList.add("open");
+    }
+
+    function closeProfileFeatureDialog(id) {
+      document.getElementById(id)?.classList.remove("open");
+    }
+
+    function escapeProfileHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
     function showSystemInfo() {
-      showToast(t(`系統狀態：Prototype。資料庫 ${databases.length} 個，文件 ${documents.length} 份。`, `System: Prototype. ${databases.length} databases, ${documents.length} documents.`));
+      openSystemInfoDialog();
     }
 
     function showMyMessages() {
-      document.getElementById("onlineMembersPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
-      showToast(t("我的訊息功能已連到線上成員與聊天室原型。", "My Messages is linked to the online members and chat prototype."));
+      openMyMessagesDialog();
     }
 
     function showFeedbackBox() {
-      showToast(t("意見回饋為原型展示項目，正式版可串接表單或 Email。", "Feedback is a prototype item. The official version can connect to a form or email."));
+      openFeedbackDialog();
     }
 
 
